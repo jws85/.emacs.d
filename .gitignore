@@ -1,0 +1,41 @@
+# site-specific .emacs.d customizations
+site-init.el
+
+# master emacs auto-generated directory -- all of the stuff
+# below should be getting shunted into this directory instead
+#
+# I did say *should* -- as of now (2013-11-22) there is a bug of
+# some ilk in projectile that prevents caching of its data between
+# emacs restarts unless the cache file is living in ~/.emacs.d
+# toplevel.  Ugh.  I like projectile too much to change.
+.cache/
+
+# I shouldn't need to block these anymore but I have them here
+# just in case.  Probably the biggest weakness of emacs IMHO is its
+# propensity to crap files everywhere; I am anal enough about it that
+# it really sticks in my craw.
+
+# auto-complete
+ac-comphist.dat
+
+# auto-save-list
+auto-save-list/
+
+# elpa installation
+elpa/
+
+# multiple-cursors
+.mc-lists.el
+
+# projectile
+projectile.cache
+projectile-bookmarks.eld
+
+# recentf
+recentf
+
+# tramp cache
+tramp
+
+# junk files
+*~
