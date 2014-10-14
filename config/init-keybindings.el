@@ -61,7 +61,6 @@
     (define-key evil-normal-state-map ";" 'smex)
     (define-key evil-visual-state-map ";" 'smex))
 
-
   ;; SPC to pick letter and jump to word beginning with letter
   ;; C-u SPC to pick a letter and jump to it
   ;; C-u C-u SPC to jump to a line
