@@ -1,5 +1,5 @@
 ;;;; jws' .emacs
-;; Time-stamp: <2014-10-13 20:28:34 jws>
+;; Time-stamp: <2014-10-13 20:45:11 jws>
 ;;
 ;; I used emacs for about four years, through most of college.  Then when
 ;; I finally got a job, I switched to vim.  90% of it was because nXhtml's
@@ -144,7 +144,7 @@
 
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-org-mode)
-(require 'init-w3m)
+(require 'init-eww)
 
 ;;;; Keybinds ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-keybindings)

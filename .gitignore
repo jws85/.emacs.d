@@ -24,8 +24,8 @@ auto-save-list/
 # elpa installation
 elpa/
 
-# emacs-w3m installation
-lisp/emacs-w3m/
+# eww installation
+url/
 
 # multiple-cursors
 .mc-lists.el
