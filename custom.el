@@ -1,5 +1,5 @@
 ;;;; custom.el
-;; Time-stamp: <2014-07-08 21:19:54 jws>
+;; Time-stamp: <2014-10-13 20:25:41 jws>
 ;;
 ;; 2013-11-05:  Note lazy-highlight and isearch-lazy-highlight-face
 ;;              These are set in my jellybeans-theme but also here because
@@ -16,7 +16,14 @@
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
    (quote
-    ((js-indent-level . 8)
+    ((eval define-key css-mode-map
+	   (kbd "TAB")
+	   (quote self-insert-command))
+     (eval define-key js-mode-map
+	   (kbd "TAB")
+	   (quote self-insert-command))
+     (web-mode-code-indent-offset . 4)
+     (js-indent-level . 8)
      (css-indent-offset . 8)
      (sgml-basic-offset . 8)
      (eval add-hook

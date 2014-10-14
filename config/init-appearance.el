@@ -17,8 +17,4 @@ wide (on a 16:9 screen) and maximized vertically as much as possible."
 ;; Actually run the positioning code
 (jws/my-emacs-frame-positioning)
 
-;; Line numbers
-(global-linum-mode 1)
-(setq-default linum-format "%4d")
-
 (provide 'init-appearance)

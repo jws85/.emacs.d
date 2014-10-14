@@ -2,6 +2,9 @@
 ;; Read 'GC Optimization' here:  https://github.com/lewang/flx
 (setq gc-cons-threshold 20000000)
 
+;; Site-specific customization file, loaded at the end of init.el
+(setq site-file (expand-file-name (concat user-emacs-directory "site-init.el")))
+
 ;; I hate having the machine-generated 'custom' values in init.el and
 ;; prefer them to be... anywhere else!  I try to migrate custom.el
 ;; settings into other files so I can have more control over it, but

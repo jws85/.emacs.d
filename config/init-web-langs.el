@@ -1,17 +1,6 @@
-(require 'php-mode)
+(require 'web-mode)
 
-(add-hook 'php-mode-hook
-	  (lambda () (c-set-style "linux")))
-
-(setq php-template-compatibility nil)
-
-(require 'multi-web-mode)
-
-(setq mweb-default-major-mode 'html-mode)
-(setq mweb-tags '((php-mode "<\\?php\\|<\\?\\|<\\?=" "\\?>")
-		  (js-mode "<script +\\(type=\"text/javascript\"\\|language=\"javascript\"\\)[^>]*>" "</script>")
-		  (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
-(setq mweb-filename-extensions '("php" "inc" "fnc" "ntk"))
-(multi-web-global-mode 1)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 
 (provide 'init-web-langs)

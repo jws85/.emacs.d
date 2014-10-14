@@ -1,5 +1,5 @@
 ;;;; jws' .emacs
-;; Time-stamp: <2014-07-16 18:11:24 jws>
+;; Time-stamp: <2014-10-13 20:28:34 jws>
 ;;
 ;; I used emacs for about four years, through most of college.  Then when
 ;; I finally got a job, I switched to vim.  90% of it was because nXhtml's
@@ -73,6 +73,9 @@
     smart-mode-line
     smex
 
+    helm
+    helm-dash
+
     js2-mode
     php-mode
     web-mode
@@ -81,9 +84,6 @@
   "A list of packages to ensure are installed on start")
 
 ;;;; Fundamental basic stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Adding ~/.emacs.d to load-path
-(add-to-list 'load-path user-emacs-directory)
 
 ;; Adding ~/.emacs.d/config
 (add-to-list 'load-path jws/emacs-config-dir)
@@ -136,15 +136,15 @@
 
 ;;;; Packages: Editor navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-ido)
-(require 'init-smex)
-(require 'init-projectile)
+;(require 'init-projectile)
+(require 'init-helm)
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;(require 'init-web-mode)
 (require 'init-web-langs)
 
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-org-mode)
+(require 'init-w3m)
 
 ;;;; Keybinds ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-keybindings)
@@ -153,7 +153,7 @@
 ;; I need certain settings at work, etc.
 ;; The T arg means to ignore not being able to find the file --
 ;; no need to barf if there's no site-init stuff.
-(load "site-init.el" t)
+(load site-file t)
 
 ;;;; Custom ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Remembered how to move that junk out of this file -- it's cluttered
