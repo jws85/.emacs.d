@@ -38,10 +38,6 @@
 ;; Feel free to steal from this, a lot of this was stolen as well (though
 ;; I try to give credit where due).
 
-;; FIXME This is now in massive need of restructuring after a week and a
-;; half of me hacking in stuff -- I really like what bling did with his
-;; .emacs at https://github.com/bling/dotemacs and might do the same thing.
-
 ;;;; Global variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defvar jws/emacs-backup-dir (expand-file-name (concat user-emacs-directory ".cache/backups"))
