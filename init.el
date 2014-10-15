@@ -1,5 +1,5 @@
 ;;;; jws' .emacs
-;; Time-stamp: <2014-10-14 21:42:36 jws>
+;; Time-stamp: <2014-10-14 21:43:20 jws>
 ;;
 ;; I used emacs for about four years, through most of college.  Then when
 ;; I finally got a job, I switched to vim.  90% of it was because nXhtml's
@@ -80,7 +80,6 @@
     js2-mode
     php-mode
     web-mode
-    multi-web-mode
     )
   "A list of packages to ensure are installed on start")
 
