@@ -1,5 +1,5 @@
 ;;;; jws' .emacs
-;; Time-stamp: <2014-10-14 20:27:44 jws>
+;; Time-stamp: <2014-10-14 21:41:34 jws>
 ;;
 ;; I used emacs for about four years, through most of college.  Then when
 ;; I finally got a job, I switched to vim.  90% of it was because nXhtml's
@@ -64,15 +64,16 @@
   '(evil            ; the best vim emulation EVAR
     evil-surround   ; emulates surround.vim -- depends on evil
 
-    ace-jump-mode
+    ; miscellaneous modes
+    ace-jump-mode    ; move quickly through documents
     ag
-    auto-complete
-    expand-region
-    flx-ido
-    magit
-    projectile
-    smart-mode-line
-    smex
+    auto-complete    ; Intellisense(TM)
+    expand-region    ; select logical parts of code
+    flx-ido          ; better matching in M-x
+    magit            ; convenient git operations
+    projectile       ; project navigation
+    smart-mode-line  ; pretty modeline
+    smex             ; M-x powered by ido
 
     helm
     helm-dash
