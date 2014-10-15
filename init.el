@@ -1,5 +1,5 @@
 ;;;; jws' .emacs
-;; Time-stamp: <2014-10-13 20:45:11 jws>
+;; Time-stamp: <2014-10-14 20:27:44 jws>
 ;;
 ;; I used emacs for about four years, through most of college.  Then when
 ;; I finally got a job, I switched to vim.  90% of it was because nXhtml's
@@ -69,6 +69,7 @@
     auto-complete
     expand-region
     flx-ido
+    magit
     projectile
     smart-mode-line
     smex
