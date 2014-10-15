@@ -1,5 +1,7 @@
-;; the following are from https://github.com/GriffinSchneider/emacs-config/blob/master/eww-customizations.el
+;; use eww to browse everything
+(setq browse-url-browser-function 'eww-browse-url)
 
+;; the following are from https://github.com/GriffinSchneider/emacs-config/blob/master/eww-customizations.el
 (eval-after-load "eww"
   '(progn
      ;; Use vim keybindings for searching
