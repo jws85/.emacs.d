@@ -1,42 +1,46 @@
 ;;;; jws' .emacs
 ;;
-;; I used emacs for about four years, through most of college.  Then when
-;; I finally got a job, I switched to vim.  90% of it was because nXhtml's
-;; auto-indentation was all too happy to muck up the awful indentation in
-;; our old PHP code, and I couldn't figure out how to disable it for certain
-;; file types.
+;; I used emacs for about four years, through most of college.  Then
+;; when I finally got a job, I switched to vim.  90% of it was because
+;; nXhtml's auto-indentation was all too happy to muck up the awful
+;; indentation in our old PHP code, and I couldn't figure out how to
+;; disable it for certain file types.
 ;;
-;; So I moved to the Dark Side and grew powerful there.  I found how amazing
-;; the keybindings were, how many great plugins there were, how many awesome
-;; colorschemes.
+;; So I moved to the Dark Side and grew powerful there.  I found how
+;; amazing the keybindings were, how many great plugins there were,
+;; how many awesome colorschemes.
 ;;
-;; But there was something missing.  I caught a glimmer of it every time a
-;; vim plugin needed to call something externally, or every time I tried to
-;; hack Lisp with vim[1].  I knew I needed to go back.
+;; But there was something missing.  I caught a glimmer of it every
+;; time a vim plugin needed to call something externally, or every
+;; time I tried to hack Lisp with vim[1].  I knew I needed to go back.
 ;;
-;; I followed the progress of the nice folks making Evil[2] happen, and when
-;; it seemed like it was emulating 99% of Vim (not that ratty old Vi junk
-;; that Viper does) I decided that I would try Emacs again.  So here I am.
+;; I followed the progress of the nice folks making Evil[2] happen,
+;; and when it seemed like it was emulating 99% of Vim (not that ratty
+;; old Vi junk that Viper does) I decided that I would try Emacs
+;; again.  So here I am.
 ;;
-;; [1] Note that Paul Graham of viaweb and ycombinator fame does use vim to
-;;     hack Common Lisp.  He's like one of a handful of people who do so.
+;; [1] Note that Paul Graham of viaweb and ycombinator fame does use
+;;     vim to hack Common Lisp.  He's like one of a handful of people
+;;     who do so.
+;;
 ;; [2] https://gitorious.org/evil/pages/Home
 ;;
 ;;; Warning:  Opinionated code follows! --------------------------------
 ;;
-;; It goes without saying that this file assumes you like Vim keybindings.
-;; If you don't like them, find another .emacs.  (Or strip out the evil stuff.)
+;; It goes without saying that this file assumes you like Vim
+;; keybindings.  If you don't like them, find another .emacs.  (Or
+;; strip out the evil stuff.)
 ;;
 ;; This file is intended to be crossplatform.  I use Linux at work and
-;; currently Windows at home (so I enjoy games!  quelle horror!) and I'd
-;; like this to function in both.
+;; currently Windows at home (so I enjoy games!  quelle horror!) and
+;; I'd like this to function in both.
 ;;
-;; All of the code I've cooked up for this is prefixed with jws/ as a way
-;; of crude C-style namespacing -- did elisp ever get namespacing while I
-;; was gone?
+;; All of the code I've cooked up for this is prefixed with jws/ as a
+;; way of crude C-style namespacing -- did elisp ever get namespacing
+;; while I was gone?
 ;;
-;; Feel free to steal from this, a lot of this was stolen as well (though
-;; I try to give credit where due).
+;; Feel free to steal from this, a lot of this was stolen as well
+;; (though I try to give credit where due).
 
 ;;;; Global variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
