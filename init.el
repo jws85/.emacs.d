@@ -1,5 +1,5 @@
 ;;;; jws' .emacs
-;; Time-stamp: <2014-10-14 21:41:34 jws>
+;; Time-stamp: <2014-10-14 21:42:36 jws>
 ;;
 ;; I used emacs for about four years, through most of college.  Then when
 ;; I finally got a job, I switched to vim.  90% of it was because nXhtml's
@@ -66,7 +66,6 @@
 
     ; miscellaneous modes
     ace-jump-mode    ; move quickly through documents
-    ag
     auto-complete    ; Intellisense(TM)
     expand-region    ; select logical parts of code
     flx-ido          ; better matching in M-x
