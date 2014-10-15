@@ -125,7 +125,6 @@
 (require 'init-evil)
 (require 'init-auto-complete)
 (require 'init-ace-jump-mode)
-;(require 'init-multiple-cursors)
 (require 'init-expand-region)
 (require 'init-smart-mode-line)
 
