@@ -59,29 +59,6 @@
 (defvar jws/emacs-color-dir (expand-file-name (concat user-emacs-directory "colors"))
   "The directory where deftheme color themes live")
 
-(defvar jws/packages-to-install
-  '(evil            ; the best vim emulation EVAR
-    evil-surround   ; emulates surround.vim -- depends on evil
-
-    ; miscellaneous modes
-    ace-jump-mode    ; move quickly through documents
-    auto-complete    ; Intellisense(TM)
-    expand-region    ; select logical parts of code
-    flx-ido          ; better matching in M-x
-    magit            ; convenient git operations
-    projectile       ; project navigation
-    smart-mode-line  ; pretty modeline
-    smex             ; M-x powered by ido
-
-    helm
-    helm-dash
-
-    js2-mode
-    php-mode
-    web-mode
-    )
-  "A list of packages to ensure are installed on start")
-
 ;;;; Fundamental basic stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Adding ~/.emacs.d/config
@@ -113,17 +90,6 @@
 
 ;; Enable packages
 (package-initialize)
-
-;; Ensure all packages are installed
-(unless (jws/all-packages-installed-p)
-  ; check for newest versions
-  (message "%s" "Emacs is now refreshing its package database...")
-  (package-refresh-contents)
-  (message "%s" " done.")
-  ; install anything missing
-  (dolist (p jws/packages-to-install)
-    (when (not (package-installed-p p))
-      (package-install p))))
 
 (add-hook 'css-mode-hook 'jws/hexcolor-add-to-font-lock)
 

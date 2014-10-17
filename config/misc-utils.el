@@ -44,15 +44,6 @@ percent-high:  Height of frame, in fraction of screen resolution"
 	     (set-frame-size (selected-frame) frame-cols-wide frame-rows-high))))) ; set all of this
 
 
-(defun jws/all-packages-installed-p ()
-  "T if all packages in jws/packages-to-install are installed, NIL otherwise"
-  (let ((all-installed-p t))
-    (mapcar (lambda (package)
-	      (if (not (package-installed-p package))
-		  (set 'all-installed-p nil)))
-	    jws/packages-to-install)
-    all-installed-p))
-
 (defun jws/switch-to-previous-buffer ()
   "Switches to the previous buffer."
   (interactive)
