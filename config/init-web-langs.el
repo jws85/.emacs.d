@@ -1,6 +1,7 @@
 (require 'web-mode)
 
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+(use-package web-mode
+  :mode (("\\.html?\\'" . web-mode)
+	 ("\\.php\\'" . web-mode)))
 
 (provide 'init-web-langs)

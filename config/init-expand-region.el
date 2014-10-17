@@ -1,3 +1,3 @@
-(require 'expand-region)
+(use-package expand-region)
 
 (provide 'init-expand-region)

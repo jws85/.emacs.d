@@ -1,6 +1,7 @@
-(require 'projectile)
-(projectile-global-mode)
-(setq projectile-enable-caching t) ; I like fast stuff, thank you very much
+(use-package projectile
+  :init (projectile-global-mode)
+  :config (progn
+	    (setq projectile-enable-caching t)))
 
 ; FIXME -- currently these are broken!  If I let projectile vomit into my
 ; .emacs.d the cache files are persistent across emacs restarts.  If I put

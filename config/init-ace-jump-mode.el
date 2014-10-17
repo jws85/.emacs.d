@@ -1,3 +1,3 @@
-(require 'ace-jump-mode)
+(use-package ace-jump-mode)
 
 (provide 'init-ace-jump-mode)
