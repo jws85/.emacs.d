@@ -81,7 +81,6 @@
 ;;;; Package management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; a.k.a. the best thing to ever happen to emacs
 (require 'package)
-
 (require 'use-package)
 
 ;; MELPA (forget Marmalade, it never worked for me)
