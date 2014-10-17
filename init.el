@@ -146,9 +146,6 @@
 (require 'init-org-mode)
 (require 'init-eww)
 
-;;;; Keybinds ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'init-keybindings)
-
 ;;;; Site-specific customizations ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; I need certain settings at work, etc.
 ;; The T arg means to ignore not being able to find the file --

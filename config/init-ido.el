@@ -1,16 +1,8 @@
 (require 'ido)
-(require 'flx-ido)
 
 ;; enables ido-mode in as many places as possible (smex enables it in M-x)
 (ido-mode t)
 (ido-everywhere t)
-
-;; enables a 'nicer' matching method (warning: possible performance killer)
-(flx-ido-mode t)
-(setq ido-use-faces nil)
-
-;; ido niceties in the M-x command interface
-(smex-initialize)
 
 ;; ido is super-automated.  This is awesome in a lot of ways, but it often
 ;; gets in the way of me actually doing work, e.g. creating new files.
@@ -24,5 +16,19 @@
 ;; require pressing enter to confirm the current directory
 (setq ido-confirm-unique-completion nil)
 (setq ido-enable-tramp-completion nil)
+
+;; enables a 'nicer' matching method (warning: possible performance killer)
+(use-package flx-ido
+  :init (flx-ido-mode t)
+  :config
+  (progn
+    (setq ido-use-faces nil)))
+
+;; ido niceties in the M-x command interface
+(use-package smex
+  :init (smex-initialize)
+  :config
+  (progn
+    (global-set-key (kbd "M-x") 'smex)))
 
 (provide 'init-ido)

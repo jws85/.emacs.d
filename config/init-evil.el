@@ -1,17 +1,69 @@
-(require 'evil)
-(evil-mode t)
-(setq evil-default-cursor t)
+(use-package evil
+  :init (evil-mode t)
 
-(setq lazy-highlight-cleanup nil)
-(setq lazy-highlight-max-at-a-time nil)
-(setq lazy-highlight-initial-delay 0)
+  :config
+  (progn
+    ;; artist-mode is allergic to evil
+    (after 'evil
+      (add-hook 'artist-mode-hook 'evil-emacs-state))
 
-;; artist-mode is allergic to evil
-(after 'evil
-  (add-hook 'artist-mode-hook 'evil-emacs-state))
+    ;; Emulates surround.vim plugin (https://github.com/tpope/vim-surround)
+    (use-package evil-surround
+      :init (global-evil-surround-mode 1))
 
-;; Emulates surround.vim plugin (https://github.com/tpope/vim-surround)
-(require 'evil-surround)
-(global-evil-surround-mode 1)
+    ;; when deleting a tab, delete the tab, do NOT turn it into spaces
+    (define-key evil-insert-state-map (kbd "<backspace>") 'backward-delete-char)
+
+    ;; Make escape work like in vim
+    (define-key evil-normal-state-map [escape] 'keyboard-quit)
+    (define-key evil-visual-state-map [escape] 'keyboard-quit)
+    (define-key minibuffer-local-map [escape] 'jws/minibuffer-keyboard-quit)
+    (define-key minibuffer-local-ns-map [escape] 'jws/minibuffer-keyboard-quit)
+    (define-key minibuffer-local-completion-map [escape] 'jws/minibuffer-keyboard-quit)
+    (define-key minibuffer-local-must-match-map [escape] 'jws/minibuffer-keyboard-quit)
+    (define-key minibuffer-local-isearch-map [escape] 'jws/minibuffer-keyboard-quit)
+
+    (define-key evil-normal-state-map (kbd ", j") 'jws/switch-to-previous-buffer)
+    (define-key evil-normal-state-map (kbd ", h") 'jws/describe-at-point)
+
+    (define-key evil-normal-state-map (kbd ", e") 'eval-region)
+
+    ;; keys to switch modes
+    (define-key evil-normal-state-map (kbd ", m w") 'web-mode)
+    (define-key evil-normal-state-map (kbd ", m p") 'php-mode)
+    (define-key evil-normal-state-map (kbd ", m j") 'js2-mode)
+    (define-key evil-normal-state-map (kbd ", m c") 'css-mode)
+
+    (define-key evil-normal-state-map (kbd "[ SPC") (bind (evil-insert-newline-above) (forward-line)))
+    (define-key evil-normal-state-map (kbd "] SPC") (bind (evil-insert-newline-below) (forward-line -1)))
+    (define-key evil-normal-state-map (kbd "[ e") (kbd "ddkP"))
+    (define-key evil-normal-state-map (kbd "] e") (kbd "ddp"))
+    (define-key evil-normal-state-map (kbd "[ b") 'previous-buffer)
+    (define-key evil-normal-state-map (kbd "] b") 'next-buffer)
+    (define-key evil-normal-state-map (kbd "[ q") 'previous-error)
+    (define-key evil-normal-state-map (kbd "] q") 'next-error)
+
+    (define-key evil-normal-state-map (kbd ", k") 'kill-this-buffer)
+
+    (after 'ido
+      (define-key evil-normal-state-map (kbd ", f") 'ido-find-file)
+      (define-key evil-normal-state-map (kbd ", b") 'ido-switch-buffer))
+
+    (after 'smex
+      (define-key evil-normal-state-map ";" 'smex)
+      (define-key evil-visual-state-map ";" 'smex))
+
+    (after 'ace-jump-mode
+      (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode))
+
+    (after 'projectile
+      (define-key evil-normal-state-map (kbd ", p") 'projectile-find-file)
+      (define-key evil-normal-state-map (kbd ", g") 'projectile-ag)
+      (define-key evil-normal-state-map (kbd ", t") 'projectile-regenerate-tags)))
+
+    (setq evil-default-cursor t
+	  lazy-highlight-cleanup nil
+	  lazy-highlight-max-at-a-time nil
+	  lazy-highlight-initial-delay 0))
 
 (provide 'init-evil)
