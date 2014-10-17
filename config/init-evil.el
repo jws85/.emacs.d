@@ -28,12 +28,6 @@
 
     (define-key evil-normal-state-map (kbd ", e") 'eval-region)
 
-    ;; keys to switch modes
-    (define-key evil-normal-state-map (kbd ", m w") 'web-mode)
-    (define-key evil-normal-state-map (kbd ", m p") 'php-mode)
-    (define-key evil-normal-state-map (kbd ", m j") 'js2-mode)
-    (define-key evil-normal-state-map (kbd ", m c") 'css-mode)
-
     (define-key evil-normal-state-map (kbd "[ SPC") (bind (evil-insert-newline-above) (forward-line)))
     (define-key evil-normal-state-map (kbd "] SPC") (bind (evil-insert-newline-below) (forward-line -1)))
     (define-key evil-normal-state-map (kbd "[ e") (kbd "ddkP"))
