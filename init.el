@@ -91,8 +91,6 @@
 ;; Enable packages
 (package-initialize)
 
-(add-hook 'css-mode-hook 'jws/hexcolor-add-to-font-lock)
-
 ;;;; Packages: Basic text editing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-evil)
 (require 'init-auto-complete)
