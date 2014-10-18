@@ -1,0 +1,8 @@
+use-package (included as a git subtree) is GPLed.
+
+Everything else in here can basically be considered public domain, with
+the caveat that I am not responsible if this code causes you monetary,
+physical, or other sorts of harm.
+
+Much of the code has been pretty much shamelessly copied from
+StackOverflow, Emacs Wiki, and other fine places anyways.
