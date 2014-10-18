@@ -109,6 +109,7 @@
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-org-mode)
 (require 'init-eww)
+(require 'init-git)
 
 ;;;; Site-specific customizations ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; I need certain settings at work, etc.
