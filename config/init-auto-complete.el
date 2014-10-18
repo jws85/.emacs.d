@@ -1,4 +1,5 @@
 (use-package auto-complete
+  :ensure t
   :init (progn
 	  (require 'auto-complete-config)
 	  (ac-config-default))
@@ -11,7 +12,5 @@
 	    (setq ac-show-menu-immediately-on-auto-complete t)
 
 	    (after 'linum (ac-linum-workaround))))
-
-;; FIXME Need auto-complete to show up everywhere.
 
 (provide 'init-auto-complete)

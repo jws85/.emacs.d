@@ -4,6 +4,7 @@
 ;; I need to rein in my tendency to make my emacs (ugh) 'lickable' as it were.
 ;; It's out of the 70s anyways, it should look like it!
 (use-package smart-mode-line
+  :ensure t
   :config (progn
 	    (column-number-mode)
 

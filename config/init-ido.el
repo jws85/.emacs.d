@@ -19,6 +19,7 @@
 
 ;; enables a 'nicer' matching method (warning: possible performance killer)
 (use-package flx-ido
+  :ensure t
   :init (flx-ido-mode t)
   :config
   (progn
@@ -26,6 +27,7 @@
 
 ;; ido niceties in the M-x command interface
 (use-package smex
+  :ensure t
   :init (smex-initialize)
   :config
   (progn

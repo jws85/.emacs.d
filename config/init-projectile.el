@@ -1,4 +1,5 @@
 (use-package projectile
+  :ensure t
   :init (projectile-global-mode)
   :config (progn
 	    (setq projectile-enable-caching t)))

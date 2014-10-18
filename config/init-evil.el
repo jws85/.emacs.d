@@ -1,5 +1,6 @@
 (use-package evil
   :init (evil-mode t)
+  :ensure t
 
   :config
   (progn
@@ -9,6 +10,7 @@
 
     ;; Emulates surround.vim plugin (https://github.com/tpope/vim-surround)
     (use-package evil-surround
+      :ensure t
       :init (global-evil-surround-mode 1))
 
     ;; when deleting a tab, delete the tab, do NOT turn it into spaces

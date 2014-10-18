@@ -80,14 +80,15 @@
 
 ;;;; Package management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; a.k.a. the best thing to ever happen to emacs
-(require 'package)
 (require 'use-package)
+(require 'package)
 
 ;; MELPA (forget Marmalade, it never worked for me)
 (add-to-list 'package-archives
 	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 ;; Enable packages
+(package-refresh-contents)
 (package-initialize)
 
 ;;;; Packages: Basic text editing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

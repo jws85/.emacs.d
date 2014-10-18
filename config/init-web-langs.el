@@ -1,4 +1,5 @@
 (use-package web-mode
+  :ensure t
   :mode (("\\.html?\\'" . web-mode)
 	 ("\\.php\\'" . web-mode))
   :config

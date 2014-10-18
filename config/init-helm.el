@@ -3,9 +3,11 @@
 ;; so w/e
 
 (use-package helm
+  :ensure t
   :config
   (progn
     (use-package helm-dash
+      :ensure t
       :config
       (progn
 	(setq helm-dash-common-docsets '("C" "JavaScript" "jQuery" "MySQL" "PHP"))))))
