@@ -99,7 +99,7 @@
 
 ;;;; Packages: Editor navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-ido)
-;(require 'init-projectile)
+(require 'init-projectile)
 (require 'init-helm)
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
