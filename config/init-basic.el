@@ -20,11 +20,11 @@
 
 ;; Create directory to back up to
 (if (not (file-exists-p jws/emacs-backup-dir))
-    (make-directory jws/emacs-backup-dir))
+    (make-directory jws/emacs-backup-dir t))
 
 ;; Create directory to autosave to
 (if (not (file-exists-p jws/emacs-auto-save-dir))
-    (make-directory jws/emacs-auto-save-dir))
+    (make-directory jws/emacs-auto-save-dir t))
 
 ;; Change where backups/auto-saves are done
 (setq backup-directory-alist `(("." . ,jws/emacs-backup-dir)))
