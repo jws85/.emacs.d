@@ -1,13 +1,10 @@
 ;;;; custom.el
-;; Time-stamp: <2014-10-13 20:25:41 jws>
+;; Time-stamp: <2014-10-18 00:21:27 jws>
 ;;
 ;; 2013-11-05:  Note lazy-highlight and isearch-lazy-highlight-face
 ;;              These are set in my jellybeans-theme but also here because
-;;              these faces are DUMBARSE FUTHERMUCKERS and do not want
-;;              to inherit their value like all sane faces.  So my nice
-;;              highlights are assaulted by hideous blue color that looks
-;;              like a UNC fratboy puked on a Duke fratboy unless I do
-;;              this.
+;;              these faces do not want to inherit their value like all
+;;              sane faces should...
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

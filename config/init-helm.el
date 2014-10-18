@@ -1,6 +1,5 @@
-;; I don't really like helm to navigate projects
-;; but helm-dash looks like the dank shit
-;; so w/e
+;; I don't really like helm to navigate projects, but helm-dash looks
+;; pretty awesome, so let's go ahead and use it
 
 (use-package helm
   :ensure t
