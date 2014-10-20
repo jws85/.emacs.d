@@ -55,11 +55,11 @@
     (after 'projectile
       (define-key evil-normal-state-map (kbd ", p") 'projectile-find-file)
       (define-key evil-normal-state-map (kbd ", g") 'projectile-ag)
-      (define-key evil-normal-state-map (kbd ", t") 'projectile-regenerate-tags)))
+      (define-key evil-normal-state-map (kbd ", t") 'projectile-regenerate-tags))
 
     (setq evil-default-cursor t
 	  lazy-highlight-cleanup nil
 	  lazy-highlight-max-at-a-time nil
-	  lazy-highlight-initial-delay 0))
+	  lazy-highlight-initial-delay 0)))
 
 (provide 'init-evil)
