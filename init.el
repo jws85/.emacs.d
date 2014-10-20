@@ -107,6 +107,7 @@
 (require 'init-web-langs)
 
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'init-guide-key)
 (require 'init-org-mode)
 (require 'init-eww)
 (require 'init-git)
