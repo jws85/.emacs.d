@@ -54,8 +54,11 @@
 
     (after 'projectile
       (define-key evil-normal-state-map (kbd ", p") 'projectile-find-file)
-      (define-key evil-normal-state-map (kbd ", g") 'projectile-ag)
+      (define-key evil-normal-state-map (kbd ", a") 'projectile-ag)
       (define-key evil-normal-state-map (kbd ", t") 'projectile-regenerate-tags))
+
+    (after 'magit
+      (define-key evil-normal-state-map (kbd ", g") 'magit-status))
 
     (setq evil-default-cursor t
 	  lazy-highlight-cleanup nil
