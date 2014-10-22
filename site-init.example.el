@@ -4,7 +4,7 @@
 ;; emacs' font, default size/position, and theme; and also if you want
 ;; to call external elisp or install new packages.
 
-;;;; appearance ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Appearance ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; font
 (set-face-attribute 'default nil :font "Consolas-11")
@@ -24,11 +24,12 @@ wide (on a 16:9 screen) and maximized vertically as much as possible."
 ;; actually run the above
 (jws/my-emacs-frame-positioning)
 
-;;;; common lisp ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; I like QuickLisp and I find its setup for SLIME easy
-
-;; load QuickLisp slime
-(load (expand-file-name "~/.quicklisp/slime-helper.el"))
-
-;; run Clozure CL
-(setq inferior-lisp-program (expand-file-name "~/Coding/sources/ccl/lx86cl64"))
+;;;; A note ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Please note that this file is not just for your appearance-related
+;; customization.  If you want to install packages of your own, stick them
+;; in this file using (use-package :ensure t).
+;;
+;; Or you could load external packages.  Quicklisp comes with a SLIME helper
+;; that installs it inside Quicklisp itself.  Easy, but not easy to keep
+;; consistent between environments.
