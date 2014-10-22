@@ -5,16 +5,19 @@
 ;; It's out of the 70s anyways, it should look like it!
 (use-package smart-mode-line
   :ensure t
-  :config (progn
-	    (column-number-mode)
+  :config
+  (progn
+    (use-package diminish :ensure t)
 
-	    (if after-init-time (sml/setup)
-	      (add-hook 'after-init-hook 'sml/setup))
+    (column-number-mode)
 
-	    ;; three places for column numbers
-	    (setq sml/col-number-format "%3c")
+    (if after-init-time (sml/setup)
+      (add-hook 'after-init-hook 'sml/setup))
 
-	    ;; right-align the list of minor-modes
-	    (setq sml/mode-width 'right)))
+    ;; three places for column numbers
+    (setq sml/col-number-format "%3c")
+
+    ;; right-align the list of minor-modes
+    (setq sml/mode-width 'right)))
 
 (provide 'init-smart-mode-line)

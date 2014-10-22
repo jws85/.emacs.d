@@ -4,6 +4,9 @@
 
   :config
   (progn
+    ;; evil requires undo-tree
+    (diminish 'undo-tree-mode)
+
     ;; artist-mode is allergic to evil
     (after 'evil
       (add-hook 'artist-mode-hook 'evil-emacs-state))
