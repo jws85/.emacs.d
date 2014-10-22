@@ -76,8 +76,6 @@
 
 (add-to-list 'custom-theme-load-path jws/emacs-color-dir)
 
-(require 'init-appearance)
-
 ;;;; Package management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; a.k.a. the best thing to ever happen to emacs
 (require 'use-package)

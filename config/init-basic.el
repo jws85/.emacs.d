@@ -67,4 +67,8 @@
 ;; deprecating the uses of something like this.
 (add-hook 'before-save-hook 'time-stamp)
 
+;; Treats all themes as safe to load.  I may need to play with this or move
+;; it into site-init.el
+(setq custom-safe-themes t)
+
 (provide 'init-basic)
