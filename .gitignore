@@ -1,4 +1,5 @@
 # site-specific .emacs.d customizations
+custom.el
 site-init.el
 
 # master emacs auto-generated directory -- all of the stuff
