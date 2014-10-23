@@ -86,8 +86,10 @@
 	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 ;; Enable packages
-(package-refresh-contents)
 (package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
 
 ;;;; Packages: Basic text editing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-evil)
