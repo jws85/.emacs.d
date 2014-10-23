@@ -71,4 +71,12 @@
 ;; it into site-init.el
 (setq custom-safe-themes t)
 
+;; I like being able to narrow the display.  This is considered an advanced
+;; "confusing" feature... so I'll explain.  You can highlight text and type
+;; C-x n n to only display that text e.g. to only search that bit.  I like
+;; it as a way to focus.  You can widen with C-x n w.  In Lisp code, C-x n d
+;; narrows to the current defun.
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-defun 'disabled nil)
+
 (provide 'init-basic)
