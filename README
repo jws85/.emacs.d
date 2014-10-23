@@ -2,3 +2,15 @@ Emacs configuration.
 
 Oriented around vim-style keybindings and PHP programming... for the
 moment.
+
+Warning: If you want a good easy Emacs starter pack, please go look at
+Emacs Prelude[1] or similar.  I've used Emacs in some form for more
+than five years (not counting my long torrid affair with Vim) and thus
+am not afraid to totally remap things and enable "scary" disabled
+commands[2] and the like.  This is really more for my own personal
+use.
+
+Do feel free to steal from it though.
+
+[1] https://github.com/bbatsov/prelude
+[2] http://www.emacswiki.org/emacs/DisabledCommands
