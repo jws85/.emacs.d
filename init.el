@@ -119,5 +119,5 @@
 ;;;; Custom ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Remembered how to move that junk out of this file -- it's cluttered
 ;; enough without machine-generated elisp junk lying around.
-(load custom-file)
+(load custom-file t)
 (put 'narrow-to-region 'disabled nil)
