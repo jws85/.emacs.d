@@ -6,7 +6,8 @@
     (ac-config-default))
   :config
   (progn
-    (diminish 'auto-complete-mode)
+    (after 'diminish
+      (diminish 'auto-complete-mode))
 
     (setq ac-comphist-file (concat user-emacs-directory ".cache/ac-comphist.dat"))
     (setq ac-delay 0.05) ; completion list delay

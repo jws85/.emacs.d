@@ -2,6 +2,7 @@
   :ensure t
   :config
   (progn
-    (diminish 'magit-auto-revert-mode)))
+    (after 'diminish
+      (diminish 'magit-auto-revert-mode))))
 
 (provide 'init-git)

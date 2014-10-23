@@ -8,7 +8,8 @@
   (progn
     (helm-mode 1)
 
-    (diminish 'helm-mode)
+    (after 'diminish
+      (diminish 'helm-mode))
 
     ;; swaps C-z and <tab> -- this makes helm-find-files INFINITELY more usable
     ;; cheers to http://tuhdo.github.io/helm-intro.html for this idea

@@ -7,7 +7,8 @@
   :ensure t
   :config
   (progn
-    (use-package diminish :ensure t)
+    (use-package diminish
+      :ensure t)
 
     (column-number-mode)
 
