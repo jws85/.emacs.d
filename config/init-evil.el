@@ -45,24 +45,7 @@
 
     (define-key evil-normal-state-map (kbd ", k") 'kill-this-buffer)
 
-    (after 'ido
-      (define-key evil-normal-state-map (kbd ", f") 'ido-find-file)
-      (define-key evil-normal-state-map (kbd ", b") 'ido-switch-buffer))
-
-    (after 'smex
-      (define-key evil-normal-state-map ";" 'smex)
-      (define-key evil-visual-state-map ";" 'smex))
-
-    (after 'ace-jump-mode
-      (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode))
-
-    (after 'projectile
-      (define-key evil-normal-state-map (kbd ", p") 'projectile-find-file)
-      (define-key evil-normal-state-map (kbd ", a") 'projectile-ag)
-      (define-key evil-normal-state-map (kbd ", t") 'projectile-regenerate-tags))
-
-    (after 'magit
-      (define-key evil-normal-state-map (kbd ", g") 'magit-status))
+    (define-key evil-normal-state-map (kbd ", d m") 'woman)
 
     (setq evil-default-cursor t
 	  lazy-highlight-cleanup nil
