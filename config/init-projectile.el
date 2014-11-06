@@ -4,9 +4,7 @@
   :config
   (progn
     (after 'evil
-      (define-key evil-normal-state-map (kbd ", p") 'projectile-find-file)
-      (define-key evil-normal-state-map (kbd ", a") 'projectile-ag)
-      (define-key evil-normal-state-map (kbd ", t") 'projectile-regenerate-tags))
+      (define-key evil-normal-state-map (kbd ", p t") 'projectile-regenerate-tags))
     (setq projectile-enable-caching t)))
 
 ; FIXME -- currently these are broken!  If I let projectile vomit into my
