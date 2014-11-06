@@ -105,6 +105,7 @@
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-web-langs)
+(require 'init-tex)
 
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-guide-key)
