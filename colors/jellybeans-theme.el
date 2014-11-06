@@ -51,6 +51,7 @@
  '(helm-source-header ((t (:inherit nil :height 1.2 :weight bold :background "#a4416f" :foreground "white"))))
  '(helm-selection ((t (:inherit nil :underline t :foreground "#fad07a"))))
  '(helm-separator ((t (:inherit nil :foreground "#f0a0c0"))))
+ '(helm-buffer-directory ((t (:inherit nil :background "#4c4c4c"))))
  '(helm-ff-file ((t (:inherit default))))
  '(helm-ff-directory ((t (:inherit nil :foreground "#8fbfdc"))))
  '(helm-ff-executable ((t (:inherit nil :foreground "#99ad6a"))))
@@ -64,16 +65,6 @@
  )
 
 (provide-theme 'jellybeans)
-
-
-
-
-
-
-
-
-
-
 
 
 
