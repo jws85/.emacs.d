@@ -15,8 +15,12 @@
     (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; terminal <tab>
     (define-key helm-map (kbd "C-z") 'helm-select-action)
 
-    ;; keybindings to initiate helm searches
+    ;; keybindings to initiate helm
     (global-set-key (kbd "M-x") 'helm-M-x)
+    (global-set-key (kbd "C-x C-f") 'helm-find-files)
+    (global-set-key (kbd "C-x b") 'helm-mini)
+
+    ;; evil keybindings to initiate helm
     (after 'evil
       (define-key evil-normal-state-map (kbd ";") 'helm-M-x)
       (define-key evil-visual-state-map (kbd ";") 'helm-M-x)
