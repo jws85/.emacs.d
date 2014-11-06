@@ -58,6 +58,36 @@
  '(helm-ff-symlink ((t (:inherit nil :foreground "#f0a0c0"))))
  '(helm-history-deleted ((t (:inherit (error)))))
  '(helm-history-remote ((t (:inherit nil :foreground "#cf6a4c"))))
+ 
+ '(diff-added ((t (:inherit diff-changed :foreground "#99ad6a"))))
+ '(diff-removed ((t (:inherit diff-changed :foreground "#cf6a4c"))))
  )
 
 (provide-theme 'jellybeans)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
