@@ -104,8 +104,9 @@
 (require 'init-helm)
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'init-web-langs)
+(require 'init-lisp)
 (require 'init-tex)
+(require 'init-web-langs)
 
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-guide-key)
