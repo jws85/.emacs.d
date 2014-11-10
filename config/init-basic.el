@@ -63,6 +63,9 @@
 ;; how to get help and all that. (coughgooglecough)
 (setq inhibit-startup-message t) ; hide startup screen
 
+;; Always put point in the help window
+(setq help-window-select t)
+
 ;; It's nice to just timestamp things, though git is increasingly
 ;; deprecating the uses of something like this.
 (add-hook 'before-save-hook 'time-stamp)
