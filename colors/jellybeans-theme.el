@@ -48,6 +48,19 @@
  '(query-replace ((t (:inherit (isearch)))))
  '(default ((t (:inherit nil :background "#151515" :foreground "#e8e8d3"))))
 
+ ;; company
+ '(company-tooltip ((t (:background "#606060"))))
+ '(company-tooltip-selection ((t (:background "#fad07a" :foreground "#353535"))))
+ '(company-scrollbar-bg ((t (:background "white"))))
+ '(company-scrollbar-fg ((t (:background "#808080"))))
+ '(company-preview ((t (:background "#a4416f"))))
+ '(company-preview-commmon ((t (:inherit company-preview :foreground "#d0d0d0"))))
+ '(company-preview-search ((t (:inherit company-preview :foreground "#fad07a"))))
+ '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "#d0d0d0"))))
+ '(company-tooltip-common ((t (:inherit company-tooltip :foreground "#8fbfdc"))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :foreground "#3c89b8"))))
+
+ ;; helm
  '(helm-source-header ((t (:inherit nil :height 1.2 :weight bold :background "#a4416f" :foreground "white"))))
  '(helm-selection ((t (:inherit nil :underline t :foreground "#fad07a"))))
  '(helm-separator ((t (:inherit nil :foreground "#f0a0c0"))))
@@ -59,26 +72,10 @@
  '(helm-ff-symlink ((t (:inherit nil :foreground "#f0a0c0"))))
  '(helm-history-deleted ((t (:inherit (error)))))
  '(helm-history-remote ((t (:inherit nil :foreground "#cf6a4c"))))
- 
+
+ ;; diff
  '(diff-added ((t (:inherit diff-changed :foreground "#99ad6a"))))
  '(diff-removed ((t (:inherit diff-changed :foreground "#cf6a4c"))))
  )
 
 (provide-theme 'jellybeans)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
