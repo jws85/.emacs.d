@@ -58,18 +58,4 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
     (abort-recursive-edit)))
 
-
-(defun jws/animate-string-center-oneline (string &optional row)
-  (let ((row (if row row (/ (frame-height) 2)))
-	(col (/ (- (frame-width) (length string)) 2)))
-    (animate-string string row col)))
-
-(defun jws/animate-string-center (string)
-  (let* ((lines (split-string string "\n"))
-	 (currow (/ (- (frame-height) (length lines)) 2)))
-    (dolist (line lines)
-      (jws/animate-string-center-oneline line currow)
-      (setq currow (+ currow 1)))))
-
-
 (provide 'misc-utils)
