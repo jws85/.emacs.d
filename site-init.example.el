@@ -14,6 +14,7 @@
 
 ;; positioning/sizing code
 ;; I define this in a defun so I can run it without rerunning the whole ~/.emacs
+(require 'jws/frame-size)
 (defun jws/my-emacs-frame-positioning ()
   "Positions the emacs frame to *my* personal specifications.  Interactive function.
 I personally like emacs to be in the top left corner, a bit more than half the screen
