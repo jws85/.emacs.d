@@ -11,11 +11,6 @@
      ,@commands))
 
 
-(defun jws/switch-to-previous-buffer ()
-  "Switches to the previous buffer."
-  (interactive)
-  (switch-to-buffer (other-buffer (current-buffer))))
-
 
 (defun jws/describe-at-point ()
   "Show the documentation of the Elisp function and variable near point.
@@ -45,17 +40,5 @@ Taken from http://www.sugarshark.com/elisp/init/lisp.el.html"
           ;; surrounding sexp for a function call.
           ((setq sym (function-at-point)) (describe-function sym)))))
 
-
-;; Quit recursive edit
-; from https://github.com/davvil/.emacs.d/blob/master/init.el
-(defun jws/minibuffer-keyboard-quit ()
-  "Abort recursive edit.
-In Delete Selection mode, if the mark is active, just deactivate it;
-then it takes a second \\[keyboard-quit] to abort the minibuffer."
-  (interactive)
-  (if (and delete-selection-mode transient-mark-mode mark-active)
-      (setq deactivate-mark t)
-    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
-    (abort-recursive-edit)))
 
 (provide 'misc-utils)
