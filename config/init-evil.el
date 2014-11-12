@@ -32,7 +32,6 @@
     (define-key minibuffer-local-isearch-map [escape] 'jws/minibuffer-keyboard-quit)
 
     (define-key evil-normal-state-map (kbd ", j") 'jws/switch-to-previous-buffer)
-    (define-key evil-normal-state-map (kbd ", h") 'jws/describe-at-point)
 
     (define-key evil-normal-state-map (kbd ", e") 'eval-region)
 
