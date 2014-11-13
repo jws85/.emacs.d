@@ -19,6 +19,8 @@
     (global-set-key (kbd "M-x") 'helm-M-x)
     (global-set-key (kbd "C-x C-f") 'helm-find-files)
     (global-set-key (kbd "C-x b") 'helm-mini)
+    (global-set-key (kbd "C-h a") 'helm-apropos)
+    (global-set-key (kbd "C-h i") 'helm-info-at-point)
 
     ;; evil keybindings to initiate helm
     (after 'evil
