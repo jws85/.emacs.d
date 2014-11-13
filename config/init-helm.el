@@ -29,6 +29,7 @@
       (define-key evil-normal-state-map (kbd ", f") 'helm-find-files)
       (define-key evil-normal-state-map (kbd ", b") 'helm-mini))
 
+    ;; download and search documentation
     (use-package helm-dash
       :ensure t
       :config
@@ -37,6 +38,15 @@
 	  (define-key evil-normal-state-map (kbd ", d h") 'helm-dash))
 	(setq helm-dash-common-docsets '("Emacs Lisp" "C" "JavaScript" "jQuery" "MySQL" "PHP"))))
 
+    ;; quickly hop around file (deprecates ace-jump-mode)
+    (use-package helm-swoop
+      :ensure t
+      :config
+      (progn
+	(after 'evil
+	  (define-key evil-normal-state-map (kbd "SPC") 'helm-swoop))))
+
+    ;; quickly hop around project
     (use-package helm-projectile
       :ensure t
       :config
