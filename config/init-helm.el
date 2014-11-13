@@ -47,7 +47,7 @@
       :config
       (progn
 	(after 'evil
-	  (define-key evil-normal-state-map (kbd "SPC") 'helm-swoop))))
+	  (define-key evil-normal-state-map (kbd ", s") 'helm-swoop))))
 
     ;; quickly hop around project
     (use-package helm-projectile
@@ -58,6 +58,7 @@
 	(helm-projectile-on)
 	(after 'evil
 	  (after 'projectile
+	    (define-key evil-normal-state-map (kbd "SPC") 'helm-projectile)
 	    (define-key evil-normal-state-map (kbd ", p p") 'helm-projectile)
 	    (define-key evil-normal-state-map (kbd ", p s") 'helm-projectile-switch-project)
 	    (define-key evil-normal-state-map (kbd ", p a") 'helm-projectile-ag)))))
