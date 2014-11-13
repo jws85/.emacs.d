@@ -5,6 +5,9 @@
   (progn
     (helm-mode 1)
 
+    (setq helm-ff-file-name-history-use-recentf t
+	  helm-buffers-fuzzy-matching t)
+
     (after 'diminish
       (diminish 'helm-mode))
 
