@@ -10,14 +10,20 @@
   :init (company-mode)
   :config
   (progn
+    (defun jws/company-abort-and-insert-newline ()
+      "Meant for binding to RET in company-active-map"
+      (interactive)
+      (company-abort)
+      (newline-and-indent))
+
     ;; with remapped keyboard, control is easier to hit than alt/meta
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)
-    (define-key company-active-map (kbd "C-n") #'company-select-next-or-abort)
-    (define-key company-active-map (kbd "C-p") #'company-select-previous-or-abort)
+    (define-key company-active-map (kbd "C-n") #'company-select-next)
+    (define-key company-active-map (kbd "C-p") #'company-select-previous)
 
     ;; ret-to-complete is problematic at end of lines
-    (define-key company-active-map (kbd "<return>") nil)
+    (define-key company-active-map (kbd "<return>") #'jws/company-abort-and-insert-newline)
     (define-key company-active-map (kbd "C-i") #'company-complete-selection)
     (define-key company-active-map (kbd "<tab>") #'company-complete-selection)
 
