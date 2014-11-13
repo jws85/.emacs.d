@@ -11,8 +11,7 @@
      (define-key eww-mode-map (kbd "N") 'evil-search-previous)
 
      ;; Use vim keybindings for scrolling
-     (define-key eww-mode-map (kbd "j") 'evil-next-line)
-     (define-key eww-mode-map (kbd "k") 'evil-previous-line)
+     (evil-add-hjkl-bindings eww-mode-map 'emacs)
 
      ;; Use sane keybindings for forward/back
      (define-key eww-mode-map (kbd "<backspace>") 'eww-back-url)
