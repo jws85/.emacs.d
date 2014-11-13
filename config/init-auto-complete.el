@@ -10,6 +10,9 @@
   :init (company-mode)
   :config
   (progn
+    (after 'diminish
+      (diminish 'company-mode))
+
     (defun jws/company-abort-and-insert-newline ()
       "Meant for binding to RET in company-active-map"
       (interactive)
