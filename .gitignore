@@ -44,3 +44,5 @@ tramp
 # junk files
 *~
 session.*
+tags
+TAGS
