@@ -69,10 +69,9 @@
     ;; anyone used to any other file finder is to recurse into that
     ;; directory with the file finder...
 
-    ;; The code is from https://github.com/emacs-helm/helm/issues/340
-    ;; and is working as of 2014-11-13.
+    ;; This code is working as of 2014-11-13.
 
-    ;; Expand the directory
+    ;; The two following defuns are from https://github.com/emacs-helm/helm/issues/340
     (defun helm-ff-expand-dir (candidate)
       (let* ((follow (buffer-local-value
 		      'helm-follow-mode
@@ -98,6 +97,23 @@
       (helm-attrset 'expand-dir 'helm-ff-expand-dir)
       (helm-execute-persistent-action 'expand-dir))
 
+    ;; And this one is from https://github.com/emacs-helm/helm/pull/327
+    ;; (which links to a merge that was later deleted from core) that I
+    ;; took and fixed a bit.
+    (defun helm-ff-backspace (&rest args)
+      "Call backspace or `helm-find-files-down-one-level'.
+If sitting at the end of a file directory, backspace goes up one
+level, like in `ido-find-file'. "
+      (interactive "P")
+      (let (backspace)
+	(cond
+	 ((looking-back "[/\\]")
+	  (call-interactively 'helm-find-files-up-one-level))
+	 (t
+	  (setq backspace (lookup-key (current-global-map) (read-kbd-macro "DEL")))
+	  (call-interactively backspace)))))
+
+    (define-key helm-find-files-map (kbd "<backspace>") 'helm-ff-backspace)
     (define-key helm-find-files-map (kbd "RET") 'helm-ff-persistent-expand-dir)))
 
 (provide 'init-helm)
