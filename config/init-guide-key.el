@@ -6,7 +6,7 @@
     (after 'diminish
       (diminish 'guide-key-mode))
 
-    (setq guide-key/guide-key-sequence '("C-x" ",")
+    (setq guide-key/guide-key-sequence '("C-x" "C-h" ",")
 	  guide-key/recursive-key-sequence-flag t
 	  guide-key/idle-delay 0.5)))
 
