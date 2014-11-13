@@ -48,6 +48,42 @@
 	    (define-key evil-normal-state-map (kbd ", p p") 'helm-projectile)
 	    (define-key evil-normal-state-map (kbd ", p s") 'helm-projectile-switch-project)
 	    (define-key evil-normal-state-map (kbd ", p a") 'helm-projectile-ag)))))
-    ))
+
+    ;; The rest of this is a giant chunk of code to get back ido-ish
+    ;; file navigation in helm-find-files.  helm wants to execute the
+    ;; persistent action (dired) while the "logical" thing to do for
+    ;; anyone used to any other file finder is to recurse into that
+    ;; directory with the file finder...
+
+    ;; The code is from https://github.com/emacs-helm/helm/issues/340
+    ;; and is working as of 2014-11-13.
+
+    ;; Expand the directory
+    (defun helm-ff-expand-dir (candidate)
+      (let* ((follow (buffer-local-value
+		      'helm-follow-mode
+		      (get-buffer-create helm-buffer)))
+	     (insert-in-minibuffer #'(lambda (fname)
+				       (with-selected-window (minibuffer-window)
+					 (unless follow
+					   (delete-minibuffer-contents)
+					   (set-text-properties 0 (length fname)
+								nil fname)
+					   (insert fname))))))
+	(if (file-directory-p candidate)
+	    (progn
+	      (when (string= (helm-basename candidate) "..")
+		(setq helm-ff-last-expanded helm-ff-default-directory))
+	      (funcall insert-in-minibuffer (file-name-as-directory
+					     (expand-file-name candidate))))
+	  (helm-exit-minibuffer))))
+
+    ;; Do the above directory expansion in helm as a persistent action
+    (defun helm-ff-persistent-expand-dir ()
+      (interactive)
+      (helm-attrset 'expand-dir 'helm-ff-expand-dir)
+      (helm-execute-persistent-action 'expand-dir))
+
+    (define-key helm-find-files-map (kbd "RET") 'helm-ff-persistent-expand-dir)))
 
 (provide 'init-helm)
