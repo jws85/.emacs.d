@@ -16,16 +16,18 @@
       (company-abort)
       (newline-and-indent))
 
-    ;; with remapped keyboard, control is easier to hit than alt/meta
+    ;; with properly remapped keyboard, control is easier to hit than alt/meta
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous)
 
-    ;; ret-to-complete is problematic at end of lines
-    (define-key company-active-map (kbd "<return>") #'jws/company-abort-and-insert-newline)
+    ;; complete with tab (C-i is the equivalent of tab in terminals)
     (define-key company-active-map (kbd "C-i") #'company-complete-selection)
     (define-key company-active-map (kbd "<tab>") #'company-complete-selection)
+    
+    ;; ret-to-complete is problematic at end of lines
+    (define-key company-active-map (kbd "<return>") #'jws/company-abort-and-insert-newline)
 
     ;; abort if ESC
     (define-key company-active-map (kbd "ESC") #'company-abort)
