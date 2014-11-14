@@ -37,7 +37,7 @@
     (define-key company-active-map (kbd "ESC") #'company-abort)
 
     (setq company-idle-delay 0.1
-	  company-minimum-prefix-length 1
+	  company-minimum-prefix-length 2
 	  company-tooltip-limit 20
 	  company-selection-wrap-around t)
 
