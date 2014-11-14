@@ -93,7 +93,7 @@
 
 ;;;; Packages: Basic text editing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-evil)
-(require 'init-auto-complete)
+(require 'init-completion)
 (require 'init-expand-region)
 (require 'init-smart-mode-line)
 

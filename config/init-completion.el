@@ -1,8 +1,9 @@
-;; originally named auto-complete because I used auto-complete mode;
-;; but now I use company because allegedly it's better maintained and
-;; it does have better support for some things I use
+;; Switched from auto-complete because ac is not really being actively
+;; developed anymore, and its nicer features could be kludgy (popup
+;; window would sometimes mess up the fontification elsewhere on
+;; screen).
 
-;; I really liked auto-complete and am trying to make this work a lot
+;; I really liked auto-complete and am trying to make company work a lot
 ;; more like that package.
 
 (use-package company
@@ -42,4 +43,4 @@
 
     (add-hook 'after-init-hook 'global-company-mode)))
 
-(provide 'init-auto-complete)
+(provide 'init-completion)
