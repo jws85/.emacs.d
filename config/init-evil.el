@@ -32,8 +32,7 @@
     (define-key minibuffer-local-isearch-map [escape] 'jws/minibuffer-keyboard-quit)
 
     (define-key evil-normal-state-map (kbd ", j") 'jws/switch-to-previous-buffer)
-
-    (define-key evil-normal-state-map (kbd ", e") 'eval-region)
+    (define-key evil-normal-state-map (kbd ", k") 'kill-this-buffer)
 
     (define-key evil-normal-state-map (kbd "[ SPC") (bind (evil-insert-newline-above) (forward-line)))
     (define-key evil-normal-state-map (kbd "] SPC") (bind (evil-insert-newline-below) (forward-line -1)))
@@ -43,10 +42,6 @@
     (define-key evil-normal-state-map (kbd "] b") 'next-buffer)
     (define-key evil-normal-state-map (kbd "[ q") 'previous-error)
     (define-key evil-normal-state-map (kbd "] q") 'next-error)
-
-    (define-key evil-normal-state-map (kbd ", k") 'kill-this-buffer)
-
-    (define-key evil-normal-state-map (kbd ", d m") 'woman)
 
     (setq evil-default-cursor t
 	  lazy-highlight-cleanup nil

@@ -12,5 +12,21 @@ use.
 
 Do feel free to steal from it though.
 
+
+Note about the keybindings:
+
+,f   Find files
+,b   Find buffers (open files)
+,j   Swap back to previous buffer
+,k   Kill buffer
+
+,g   Magit
+
+,e   Prefix key for editing/navigating code (e.g. ,ek brings up the
+     kill ring in helm)
+
+,d   Prefix key for searching documents/documentation (e.g. ,dw
+     searches the web; ,dm searches manpages)
+
 [1] https://github.com/bbatsov/prelude
 [2] http://www.emacswiki.org/emacs/DisabledCommands
