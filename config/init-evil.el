@@ -31,6 +31,7 @@
     (define-key minibuffer-local-must-match-map [escape] 'jws/minibuffer-keyboard-quit)
     (define-key minibuffer-local-isearch-map [escape] 'jws/minibuffer-keyboard-quit)
 
+    (define-key evil-normal-state-map (kbd ", c") 'calc)
     (define-key evil-normal-state-map (kbd ", j") 'jws/switch-to-previous-buffer)
     (define-key evil-normal-state-map (kbd ", k") 'kill-this-buffer)
 
