@@ -39,7 +39,9 @@
     (setq company-idle-delay 0.1
 	  company-minimum-prefix-length 2
 	  company-tooltip-limit 20
-	  company-selection-wrap-around t)
+	  company-selection-wrap-around t
+	  company-dabbrev-downcase nil
+	  company-dabbrev-ignore-case t)
 
     (add-hook 'after-init-hook 'global-company-mode)))
 
