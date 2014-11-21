@@ -12,9 +12,7 @@ use.
 
 Do feel free to steal from it though.
 
-------------------------------------------------------------------------
-
-Installation:
+# Installation
 
 If you already have a .emacs.d folder, move that out of the way and
 do not throw it away in case you don't want to use my stuff.
@@ -29,26 +27,19 @@ needs.
 Start up Emacs and pray that something isn't broken.  If it is, fix
 it.  Ain't the bleeding edge fun?
 
-------------------------------------------------------------------------
+# Keybindings
 
-Keybindings:
+Key | Does:
+--- | -----
+,f  | Find files
+,b  | Find buffers (open files)
+,j  | Swap back to previous buffer
+,k  | Kill buffer
+,g  | Magit
+,e  | Prefix key for editing/navigating code (e.g. ,ek brings up the  kill ring in helm)
+,d  | Prefix key for searching documents/documentation (e.g. ,dw searches the web; ,dm searches manpages)
 
-,f   Find files
-,b   Find buffers (open files)
-,j   Swap back to previous buffer
-,k   Kill buffer
-
-,g   Magit
-
-,e   Prefix key for editing/navigating code (e.g. ,ek brings up the
-     kill ring in helm)
-
-,d   Prefix key for searching documents/documentation (e.g. ,dw
-     searches the web; ,dm searches manpages)
-
-------------------------------------------------------------------------
-
-Customizing:
+# Customizing
 
 I have different needs between work and home (different paths,
 different packages); so I've built in the ability to customize the
@@ -60,8 +51,6 @@ install a package off MELPA, use use-package; look at the config/
 files for how to use this.  If you want some package that isn't on
 MELPA, stick it in lisp/ (it should be gitignored, except for the
 use-package and jws packages) and have at it.
-
-------------------------------------------------------------------------
 
 [1] https://github.com/bbatsov/prelude
 [2] http://www.emacswiki.org/emacs/DisabledCommands
