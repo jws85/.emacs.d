@@ -12,8 +12,26 @@ use.
 
 Do feel free to steal from it though.
 
+------------------------------------------------------------------------
 
-Note about the keybindings:
+Installation:
+
+If you already have a .emacs.d folder, move that out of the way and
+do not throw it away in case you don't want to use my stuff.
+
+Clone the repo into your home directory.  On *nix this should be
+obvious.  On Windows you can find it through Win+R and search for
+%appdata%.
+
+Copy site-init.example.el to site-init.el and hack it up to your
+needs.
+
+Start up Emacs and pray that something isn't broken.  If it is, fix
+it.  Ain't the bleeding edge fun?
+
+------------------------------------------------------------------------
+
+Keybindings:
 
 ,f   Find files
 ,b   Find buffers (open files)
@@ -27,6 +45,23 @@ Note about the keybindings:
 
 ,d   Prefix key for searching documents/documentation (e.g. ,dw
      searches the web; ,dm searches manpages)
+
+------------------------------------------------------------------------
+
+Customizing:
+
+I have different needs between work and home (different paths,
+different packages); so I've built in the ability to customize the
+setup.
+
+Stick any require calls or other customization in site-init.el (that
+you should have copied from site-init.example.el).  If you want to
+install a package off MELPA, use use-package; look at the config/
+files for how to use this.  If you want some package that isn't on
+MELPA, stick it in lisp/ (it should be gitignored, except for the
+use-package and jws packages) and have at it.
+
+------------------------------------------------------------------------
 
 [1] https://github.com/bbatsov/prelude
 [2] http://www.emacswiki.org/emacs/DisabledCommands

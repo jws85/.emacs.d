@@ -1,6 +1,9 @@
 # site-specific .emacs.d customizations
 custom.el
 site-init.el
+lisp/*
+!lisp/jws
+!lisp/use-package
 
 # master emacs auto-generated directory -- all of the stuff
 # below should be getting shunted into this directory instead
