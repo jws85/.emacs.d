@@ -104,6 +104,7 @@
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-lisp)
+(require 'init-markdown)
 (require 'init-tex)
 (require 'init-web-langs)
 
