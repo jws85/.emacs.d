@@ -25,11 +25,17 @@ ac-comphist.dat
 # auto-save-list
 auto-save-list/
 
+# emms installation
+emms/
+
 # elpa installation
 elpa/
 
 # eww installation
 url/
+
+# helm adaptive sort
+helm-adaptive-history
 
 # multiple-cursors
 .mc-lists.el
