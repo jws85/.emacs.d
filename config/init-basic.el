@@ -85,4 +85,7 @@
 ;; make dired more usable (lexicographic sort, human-readable sizes)
 (setq dired-listing-switches "-alhv")
 
+;; don't make me have to type out 'yes' or 'no'
+(fset 'yes-or-no-p 'y-or-n-p)
+
 (provide 'init-basic)
