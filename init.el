@@ -113,6 +113,7 @@
 (require 'init-org-mode)
 (require 'init-eww)
 (require 'init-git)
+(require 'init-popwin)
 
 ;;;; Site-specific customizations ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; I need certain settings at work, etc.
