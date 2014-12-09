@@ -4,6 +4,13 @@
 ;; emacs' font, default size/position, and theme; and also if you want
 ;; to call external elisp or install new packages.
 
+;;;; Location ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Needed to get the (require 'solar) functions working
+;; Not my real location, lol, unless I'm the High Rock Lake Monster :P
+
+(setq calendar-latitude [35 39 north])
+(setq calendar-longitude [80 18 west])
+
 ;;;; Appearance ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; font
