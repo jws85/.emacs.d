@@ -16,9 +16,7 @@
       :config
       (progn
 	;; otherwise the ordinary evil delete will happily eat your parens
-	(add-hook 'evil-paredit-mode-hook
-		  (lambda ()
-		    (define-key evil-insert-state-map (kbd "<backspace>") #'paredit-backward-delete)))
+	(evil-define-key 'insert evil-paredit-mode-map (kbd "<backspace>") #'paredit-backward-delete)
 
 	(defun jws/paredit-hook ()
 	  (enable-paredit-mode)
