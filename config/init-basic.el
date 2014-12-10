@@ -88,4 +88,6 @@
 ;; don't make me have to type out 'yes' or 'no'
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(setq calendar-date-style 'iso)
+
 (provide 'init-basic)
