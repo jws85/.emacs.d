@@ -88,6 +88,10 @@
 ;; don't make me have to type out 'yes' or 'no'
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; I prefer yyyy-mm-dd to mm/dd/yyyy
 (setq calendar-date-style 'iso)
+
+;; Make files with shebangs (#!) executable
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (provide 'init-basic)
