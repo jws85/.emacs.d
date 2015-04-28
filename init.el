@@ -100,7 +100,7 @@
 ;;;; Packages: Editor navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-ido)
 (require 'init-projectile)
-(require 'init-helm)
+;(require 'init-helm)
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'init-lisp)

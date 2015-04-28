@@ -16,6 +16,7 @@
   :config
   (progn
     (helm-mode 1)
+    (helm-adaptive-mode)
 
     (setq helm-ff-file-name-history-use-recentf t
 	  helm-buffers-fuzzy-matching t)
@@ -29,13 +30,6 @@
     (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
     (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; terminal <tab>
     (define-key helm-map (kbd "C-z") 'helm-select-action)
-
-    ;;; native-emacs bindings to initiate helm
-    ;; run emacs commands
-    (global-set-key (kbd "M-x") 'helm-M-x)
-
-    ;; find and open files
-    (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
     ;; switch buffers/open recently opened files
     (global-set-key (kbd "C-x b") 'helm-mini)
@@ -152,6 +146,13 @@ level, like in `ido-find-file'. "
 	  (setq backspace (lookup-key (current-global-map) (read-kbd-macro "DEL")))
 	  (call-interactively backspace)))))
 
+    (defun helm-ff-dired ()
+      (interactive)
+      (let ((input (file-name-directory (minibuffer-contents))))
+      	(exit-recursive-edit)
+      	(dired input)))
+
+    (define-key helm-find-files-map (kbd "C-d") 'helm-ff-dired)
     (define-key helm-find-files-map (kbd "<backspace>") 'helm-ff-backspace)
     (define-key helm-find-files-map (kbd "RET") 'helm-ff-persistent-expand-dir)))
 

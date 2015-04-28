@@ -17,6 +17,9 @@
 (setq ido-confirm-unique-completion nil)
 (setq ido-enable-tramp-completion nil)
 
+(define-key evil-normal-state-map (kbd ", f") 'ido-find-file)
+(define-key evil-normal-state-map (kbd ", b") 'ido-switch-buffer)
+
 ;; enables a 'nicer' matching method (warning: possible performance killer)
 (use-package flx-ido
   :ensure t
@@ -31,6 +34,7 @@
   :init (smex-initialize)
   :config
   (progn
-    (global-set-key (kbd "M-x") 'smex)))
+    (global-set-key (kbd "M-x") 'smex)
+    (define-key evil-normal-state-map (kbd ";") 'smex)))
 
 (provide 'init-ido)
