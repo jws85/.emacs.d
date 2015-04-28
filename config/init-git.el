@@ -2,6 +2,8 @@
   :ensure t
   :config
   (progn
+    (setq magit-last-seen-setup-instructions "1.4.0")
+    
     (after 'evil
       (evil-add-hjkl-bindings magit-status-mode-map 'emacs
 	"l" 'magit-key-mode-popup-logging)
