@@ -4,6 +4,21 @@
 (ido-mode t)
 (ido-everywhere t)
 
+;; display ido vertically
+(setq ido-decorations
+      (quote
+       ("\n-> "
+	""
+	"\n   "
+	"\n   ..."
+	"["
+	"]"
+	" [No match]"
+	" [Matched]"
+	" [Not readable]"
+	" [Too big]"
+	" [Confirm]")))
+
 ;; ido is super-automated.  This is awesome in a lot of ways, but it often
 ;; gets in the way of me actually doing work, e.g. creating new files.
 
