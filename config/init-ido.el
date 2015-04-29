@@ -50,6 +50,7 @@
   :config
   (progn
     (global-set-key (kbd "M-x") 'smex)
-    (define-key evil-normal-state-map (kbd ";") 'smex)))
+    (define-key evil-normal-state-map (kbd ";") 'smex)
+    (define-key evil-visual-state-map (kbd ";") 'smex)))
 
 (provide 'init-ido)
