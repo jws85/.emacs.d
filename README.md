@@ -36,8 +36,7 @@ Key | Does:
 ,j  | Swap back to previous buffer
 ,k  | Kill buffer
 ,g  | Magit
-,e  | Prefix key for editing/navigating code (e.g. ,ek brings up the  kill ring in helm)
-,d  | Prefix key for searching documents/documentation (e.g. ,dw searches the web; ,dm searches manpages)
+,e  | Prefix key for miscellaneous things (Helm)
 
 # Customizing
 
@@ -47,10 +46,10 @@ setup.
 
 Stick any require calls or other customization in site-init.el (that
 you should have copied from site-init.example.el).  If you want to
-install a package off MELPA, use use-package; look at the config/
+install a package off MELPA, use use-package; look at the lisp/config
 files for how to use this.  If you want some package that isn't on
 MELPA, stick it in lisp/ (it should be gitignored, except for the
-use-package and jws packages) and have at it.
+use-package, jws, and config packages) and have at it.
 
 [1] https://github.com/bbatsov/prelude
 [2] http://www.emacswiki.org/emacs/DisabledCommands
