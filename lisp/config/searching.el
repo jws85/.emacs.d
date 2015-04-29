@@ -53,4 +53,22 @@
     (define-key evil-normal-state-map (kbd ";") 'smex)
     (define-key evil-visual-state-map (kbd ";") 'smex)))
 
+;; I don't like helm-find-files, but I find a lot of the helm commands
+;; to be otherwise nifty
+(use-package helm
+  :ensure t
+  :init (require 'helm-config)
+  :config
+  (progn
+    (helm-mode 1)
+    (after 'diminish (diminish 'helm-mode))
+
+    (after 'evil
+      (define-key evil-normal-state-map (kbd ", e k") 'helm-show-kill-ring)
+      (define-key evil-normal-state-map (kbd ", e f") 'helm-semantic-or-imenu)
+      (define-key evil-normal-state-map (kbd ", e r") 'helm-regexp)
+      (define-key evil-normal-state-map (kbd ", e c") 'helm-colors)
+      (define-key evil-normal-state-map (kbd ", e w") 'helm-surfraw)
+      (define-key evil-normal-state-map (kbd ", e m") 'helm-man-woman))))
+
 (provide 'config/searching)
