@@ -156,4 +156,4 @@ level, like in `ido-find-file'. "
     (define-key helm-find-files-map (kbd "<backspace>") 'helm-ff-backspace)
     (define-key helm-find-files-map (kbd "RET") 'helm-ff-persistent-expand-dir)))
 
-(provide 'init-helm)
+(provide 'config/helm)

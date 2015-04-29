@@ -10,4 +10,4 @@
      (interactive)
      ,@commands))
 
-(provide 'misc-utils)
+(provide 'config/misc-utils)

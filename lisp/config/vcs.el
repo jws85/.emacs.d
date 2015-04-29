@@ -16,4 +16,4 @@
     (after 'diminish
       (diminish 'magit-auto-revert-mode))))
 
-(provide 'init-git)
+(provide 'config/vcs)

@@ -7,4 +7,4 @@
 (require 'jws/hexcolor)
 (add-hook 'css-mode-hook 'jws/hexcolor-add-to-font-lock)
 
-(provide 'init-web-langs)
+(provide 'config/web-langs)

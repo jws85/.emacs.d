@@ -2,6 +2,7 @@
 custom.el
 site-init.el
 lisp/*
+!lisp/config
 !lisp/jws
 !lisp/use-package
 

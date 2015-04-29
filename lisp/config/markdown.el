@@ -4,4 +4,4 @@
   (progn
     (add-to-list 'auto-mode-alist (cons "\\.md\\'" 'markdown-mode))))
 
-(provide 'init-markdown)
+(provide 'config/markdown)

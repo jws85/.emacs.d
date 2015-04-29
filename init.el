@@ -50,9 +50,6 @@
 (defvar jws/emacs-auto-save-dir (expand-file-name (concat user-emacs-directory ".cache/auto-save"))
   "The directory that emacs uses to store auto-save files to")
 
-(defvar jws/emacs-config-dir (expand-file-name (concat user-emacs-directory "config"))
-  "The directory where my .emacs configuration files live")
-
 (defvar jws/emacs-library-dir (expand-file-name (concat user-emacs-directory "lisp"))
   "The directory where various unpackaged libraries (some of which I may have written) are living")
 
@@ -61,18 +58,12 @@
 
 ;;;; Fundamental basic stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Adding ~/.emacs.d/config
-(add-to-list 'load-path jws/emacs-config-dir)
-
-;; Now that we have the config dir, we can load utilities (most of which
-;; I've just cribbed from elsewhere
-(require 'misc-utils)
-
 ;; Add library directory recursively
 (let ((default-directory jws/emacs-library-dir))
   (add-to-list 'load-path default-directory)
   (normal-top-level-add-subdirs-to-load-path))
-(require 'init-basic)
+(require 'config/misc-utils)
+(require 'config/basic)
 
 (add-to-list 'custom-theme-load-path jws/emacs-color-dir)
 
@@ -92,28 +83,28 @@
 
 
 ;;;; Packages: Basic text editing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'init-evil)
-(require 'init-completion)
-(require 'init-expand-region)
-(require 'init-smart-mode-line)
+(require 'config/vi)         ; Evil and other vi-style things
+(require 'config/movement)   ; Other plugins to help move around
+(require 'config/completion) ; Text completion
+(require 'config/modeline)   ; The bar at the bottom with data in it
 
 ;;;; Packages: Editor navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'init-ido)
-(require 'init-projectile)
-;(require 'init-helm)
+(require 'config/searching)  ; "Searching" UIs (ido/helm)
+(require 'config/project)    ; Project management
+;(require 'config/helm)
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'init-lisp)
-(require 'init-markdown)
-(require 'init-tex)
-(require 'init-web-langs)
+(require 'config/lisp)
+(require 'config/markdown)
+(require 'config/tex)
+(require 'config/web-langs)
 
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'init-guide-key)
-(require 'init-org-mode)
-(require 'init-eww)
-(require 'init-git)
-(require 'init-popwin)
+(require 'config/guide-key)
+(require 'config/org-mode)
+(require 'config/www)        ; web integration
+(require 'config/vcs)        ; version control integration
+(require 'config/popwin)
 
 ;;;; Site-specific customizations ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; I need certain settings at work, etc.

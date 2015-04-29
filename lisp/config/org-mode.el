@@ -5,4 +5,4 @@
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 
-(provide 'init-org-mode)
+(provide 'config/org-mode)

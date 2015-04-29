@@ -4,4 +4,4 @@
 (use-package slime
   :ensure t)
 
-(provide 'init-lisp)
+(provide 'config/lisp)

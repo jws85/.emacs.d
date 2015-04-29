@@ -49,4 +49,4 @@
 	  lazy-highlight-max-at-a-time nil
 	  lazy-highlight-initial-delay 0)))
 
-(provide 'init-evil)
+(provide 'config/vi)

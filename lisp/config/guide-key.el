@@ -10,4 +10,4 @@
 	  guide-key/recursive-key-sequence-flag t
 	  guide-key/idle-delay 0.5)))
 
-(provide 'init-guide-key)
+(provide 'config/guide-key)

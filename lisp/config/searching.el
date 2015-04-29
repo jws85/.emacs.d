@@ -53,4 +53,4 @@
     (define-key evil-normal-state-map (kbd ";") 'smex)
     (define-key evil-visual-state-map (kbd ";") 'smex)))
 
-(provide 'init-ido)
+(provide 'config/searching)
