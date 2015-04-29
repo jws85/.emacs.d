@@ -33,7 +33,6 @@
     (defun company-complete-dwim (&optional arg)
       (interactive "P")
       (let ((pos (point)))
-        (indent-according-to-mode)
         (when (and (= pos (point)) (looking-at "\\_>"))
           (if (eq last-command 'company-complete-dwim)
               (company-select-next)
