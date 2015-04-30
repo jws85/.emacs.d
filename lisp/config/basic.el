@@ -22,13 +22,8 @@
 (if (not (file-exists-p jws/emacs-backup-dir))
     (make-directory jws/emacs-backup-dir t))
 
-;; Create directory to autosave to
-(if (not (file-exists-p jws/emacs-auto-save-dir))
-    (make-directory jws/emacs-auto-save-dir t))
-
-;; Change where backups/auto-saves are done
+;; Change where backups are done
 (setq backup-directory-alist `(("." . ,jws/emacs-backup-dir)))
-(setq auto-save-file-name-transforms `((".*" ,jws/emacs-auto-save-dir t)))
 
 ;; Backup by copying files
 (setq backup-by-copying t)
@@ -45,6 +40,10 @@
 
 ;; Make backup files, even if the file's in version control
 (setq vc-make-backup-files t)
+
+;; Disable auto-save.  Sometimes I just want to not save my changes to a
+;; file.  This "feature" of emacs just frustrates that to all hell.
+(setq auto-save-default nil)
 
 ;; ring my bee-eeee-eeellll, ring my bell
 ;; how about no.  it's not 1979 anymore, we don't need this anymore

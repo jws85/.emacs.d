@@ -47,9 +47,6 @@
 (defvar jws/emacs-backup-dir (expand-file-name (concat user-emacs-directory ".cache/backups"))
   "The directory that emacs uses to store backup files to")
 
-(defvar jws/emacs-auto-save-dir (expand-file-name (concat user-emacs-directory ".cache/auto-save"))
-  "The directory that emacs uses to store auto-save files to")
-
 (defvar jws/emacs-library-dir (expand-file-name (concat user-emacs-directory "lisp"))
   "The directory where various unpackaged libraries (some of which I may have written) are living")
 
