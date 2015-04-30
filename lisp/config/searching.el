@@ -37,8 +37,10 @@
 (setq ido-confirm-unique-completion nil)
 (setq ido-enable-tramp-completion nil)
 
-(define-key evil-normal-state-map (kbd ", f") 'ido-find-file)
-(define-key evil-normal-state-map (kbd ", b") 'ido-switch-buffer)
+;; map find-file and switch-buffer to easier keys
+(after 'evil
+  (define-key evil-normal-state-map (kbd ", f") 'ido-find-file)
+  (define-key evil-normal-state-map (kbd ", b") 'ido-switch-buffer))
 
 ;; enables a 'nicer' matching method (warning: possible performance killer)
 (use-package flx-ido
@@ -55,8 +57,9 @@
   :config
   (progn
     (global-set-key (kbd "M-x") 'smex)
-    (define-key evil-normal-state-map (kbd ";") 'smex)
-    (define-key evil-visual-state-map (kbd ";") 'smex)))
+    (after 'evil
+      (define-key evil-normal-state-map (kbd ";") 'smex)
+      (define-key evil-visual-state-map (kbd ";") 'smex))))
 
 ;; I don't like helm-find-files, but I find a lot of the helm commands
 ;; to be otherwise nifty.  This is why I just do helm-config and don't
