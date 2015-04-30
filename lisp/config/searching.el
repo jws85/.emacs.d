@@ -1,8 +1,13 @@
 (require 'ido)
 
-;; enables ido-mode in as many places as possible (smex enables it in M-x)
+;; enables ido-mode in as many places as possible...
 (ido-mode t)
 (ido-everywhere t)
+
+;; including everywhere where there's completing-read
+(use-package ido-ubiquitous
+  :ensure t
+  :init (ido-ubiquitous-mode 1))
 
 ;; display ido vertically
 (setq ido-decorations
@@ -54,15 +59,13 @@
     (define-key evil-visual-state-map (kbd ";") 'smex)))
 
 ;; I don't like helm-find-files, but I find a lot of the helm commands
-;; to be otherwise nifty
+;; to be otherwise nifty.  This is why I just do helm-config and don't
+;; run the full helm-mode.
 (use-package helm
   :ensure t
   :init (require 'helm-config)
   :config
   (progn
-    (helm-mode 1)
-    (after 'diminish (diminish 'helm-mode))
-
     (after 'evil
       (define-key evil-normal-state-map (kbd ", e k") 'helm-show-kill-ring)
       (define-key evil-normal-state-map (kbd ", e f") 'helm-semantic-or-imenu)
