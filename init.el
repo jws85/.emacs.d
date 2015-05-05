@@ -82,6 +82,7 @@
 ;;;; Packages: Basic text editing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'config/vi)         ; Evil and other vi-style things
 (require 'config/movement)   ; Other plugins to help move around
+(require 'config/indent)     ; Indentation
 (require 'config/completion) ; Text completion
 (require 'config/modeline)   ; The bar at the bottom with data in it
 
