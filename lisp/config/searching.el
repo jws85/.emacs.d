@@ -42,7 +42,8 @@
   (define-key evil-normal-state-map (kbd ", f") 'ido-find-file)
   (define-key evil-normal-state-map (kbd ", b") 'ido-switch-buffer))
 
-;; enables a 'nicer' matching method (warning: possible performance killer)
+;; enables a 'nicer' matching method (warning: possible performance killer,
+;; but on this old AMD here, and my i5-3570k back home, it works fine)
 (use-package flx-ido
   :ensure t
   :init (flx-ido-mode t)
