@@ -5,6 +5,7 @@ lisp/*
 !lisp/config
 !lisp/jws
 !lisp/use-package
+!lisp/guess-style
 
 # master emacs auto-generated directory -- all of the stuff
 # below should be getting shunted into this directory instead
