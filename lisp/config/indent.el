@@ -13,7 +13,4 @@
 
 (add-hook 'c-mode-common-hook 'guess-style-guess-all)
 
-;; Display in modeline what has been guessed
-(global-guess-style-info-mode)
-
 (provide 'config/indent)
