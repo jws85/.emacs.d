@@ -20,8 +20,6 @@
       (company-abort)
       (newline-and-indent))
 
-    (setq company-show-numbers t)
-
     ;; with properly remapped keyboard, control is easier to hit than alt/meta
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)
@@ -44,7 +42,9 @@
 	  company-tooltip-limit 20
 	  company-selection-wrap-around t
 	  company-dabbrev-downcase nil
-	  company-dabbrev-ignore-case t)
+	  company-dabbrev-ignore-case t
+          company-show-numbers t)
+
 
     (add-hook 'after-init-hook 'global-company-mode)))
 
