@@ -14,6 +14,13 @@
 (add-hook 'c-mode-common-hook 'guess-style-guess-all)
 
 (use-package smart-tabs-mode
-  :ensure t)
+  :ensure t
+  :config
+  (progn
+    ;; remove space-after-tab and indentation spaces from whitespace-style
+    ;; as per http://www.emacswiki.org/emacs/SmartTabs
+    (require 'whitespace)
+    (setq whitespace-style (delete 'space-after-tab whitespace-style))
+    (setq whitespace-style (delete 'indentation whitespace-style))))
 
 (provide 'config/indent)
