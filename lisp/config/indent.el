@@ -13,4 +13,7 @@
 
 (add-hook 'c-mode-common-hook 'guess-style-guess-all)
 
+(use-package smart-tabs-mode
+  :ensure t)
+
 (provide 'config/indent)
