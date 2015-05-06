@@ -45,7 +45,6 @@
 	  company-dabbrev-ignore-case t
           company-show-numbers t)
 
-
     (add-hook 'after-init-hook 'global-company-mode)))
 
 (provide 'config/completion)
