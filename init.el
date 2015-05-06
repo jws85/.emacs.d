@@ -94,6 +94,7 @@
 (require 'config/lisp)
 (require 'config/markdown)
 (require 'config/tex)
+(require 'config/clangs)
 (require 'config/web-langs)
 
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
