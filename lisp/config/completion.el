@@ -20,27 +20,18 @@
       (company-abort)
       (newline-and-indent))
 
+    (setq company-show-numbers t)
+
     ;; with properly remapped keyboard, control is easier to hit than alt/meta
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous)
 
-    ;; complete with tab (C-i is the equivalent of tab in terminals)
-    ;; this code is largely taken from https://github.com/tungd/dotfiles emacs setup
-    ;; and is intended to replicate how I recall auto-complete working because I
-    ;; liked that a lot better...
-    (defun company-complete-dwim (&optional arg)
-      (interactive "P")
-      (let ((pos (point)))
-        (when (and (= pos (point)) (looking-at "\\_>"))
-          (if (eq last-command 'company-complete-dwim)
-              (company-select-next)
-            (company-complete-selection)))))
-    (define-key company-active-map (kbd "C-i") #'company-complete-dwim)
-    (define-key company-active-map (kbd "<tab>") #'company-complete-dwim)
-    (define-key company-active-map (kbd "<backtab>") #'company-select-previous)
-    (define-key company-active-map (kbd "C-j") #'company-complete)
+    (define-key company-active-map (kbd "<backtab>") #'company-complete-selection)
+    (define-key company-active-map (kbd "C-i") #'company-complete-common-or-cycle)
+    (define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
+    (define-key company-active-map (kbd "C-j") #'company-complete-selection)
 
     ;; ret-to-complete is problematic at end of lines
     (define-key company-active-map (kbd "<return>") #'jws/company-abort-and-insert-newline)
