@@ -6,7 +6,8 @@
     
     (after 'evil
       (evil-add-hjkl-bindings magit-status-mode-map 'emacs
-	"l" 'magit-key-mode-popup-logging)
+        "l" 'magit-key-mode-popup-logging
+        "v" 'set-mark-command)
       (evil-add-hjkl-bindings magit-log-mode-map 'emacs)
       (evil-add-hjkl-bindings magit-commit-mode-map 'emacs)
       (evil-add-hjkl-bindings magit-diff-mode-map 'emacs)
