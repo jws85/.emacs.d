@@ -93,4 +93,8 @@
 ;; Make files with shebangs (#!) executable
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
+;; Highlight matching paren
+(require 'paren)
+(show-paren-mode)
+
 (provide 'config/basic)
