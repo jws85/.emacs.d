@@ -21,12 +21,10 @@
       (newline-and-indent))
 
     ;; with properly remapped keyboard, control is easier to hit than alt/meta
-    (define-key company-active-map (kbd "M-n") nil)
-    (define-key company-active-map (kbd "M-p") nil)
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous)
 
-    (define-key company-active-map (kbd "<backtab>") #'company-complete-selection)
+    (define-key company-active-map (kbd "<backtab>") #'company-select-previous)
     (define-key company-active-map (kbd "C-i") #'company-complete-common-or-cycle)
     (define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
     (define-key company-active-map (kbd "C-j") #'company-complete-selection)
