@@ -42,6 +42,14 @@
   (define-key evil-normal-state-map (kbd ", f") 'ido-find-file)
   (define-key evil-normal-state-map (kbd ", b") 'ido-switch-buffer))
 
+(defun jws/ido-hook ()
+  (define-key ido-completion-map (kbd "<down>") 'ido-next-match)
+  (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
+  (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-completion-map (kbd "C-p") 'ido-prev-match))
+
+(add-hook 'ido-setup-hook 'jws/ido-hook)
+
 ;; enables a 'nicer' matching method (warning: possible performance killer,
 ;; but on this old AMD here, and my i5-3570k back home, it works fine)
 (use-package flx-ido
