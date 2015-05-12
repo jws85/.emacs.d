@@ -84,6 +84,12 @@
       (define-key evil-normal-state-map (kbd ", e r") 'helm-regexp)
       (define-key evil-normal-state-map (kbd ", e c") 'helm-colors)
       (define-key evil-normal-state-map (kbd ", e w") 'helm-surfraw)
-      (define-key evil-normal-state-map (kbd ", e m") 'helm-man-woman))))
+      (define-key evil-normal-state-map (kbd ", e m") 'helm-man-woman))
+
+    (use-package helm-ag
+      :ensure t
+      :config
+      (after 'evil
+        (define-key evil-normal-state-map (kbd ", e g") 'helm-ag)))))
 
 (provide 'config/searching)
