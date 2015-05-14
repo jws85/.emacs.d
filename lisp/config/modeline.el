@@ -11,7 +11,10 @@
     ;; Nyan~ ^_^ (in all seriousness, it's not a bad navigation indicator)
     (use-package nyan-mode
       :ensure t
-      :init (nyan-mode))
+      :init (nyan-mode)
+      :config
+      (progn
+        (setq nyan-bar-length 25)))
 
     (column-number-mode)
 
@@ -20,6 +23,12 @@
 
     ;; three places for column numbers
     (setq sml/col-number-format "%3c")
+
+    ;; hide buffer encoding type -- I just don't need it that much
+    (setq sml/mule-info "")
+
+    ;; make filename field less wide
+    (setq sml/name-width 38)
 
     ;; right-align the list of minor-modes
     (setq sml/mode-width 'right)))
