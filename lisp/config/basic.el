@@ -97,4 +97,8 @@
 (require 'paren)
 (show-paren-mode)
 
+;; Force the major-mode to refontify/rehighlight the text in the buffer
+;; Needed for complicated modes like web-mode
+(global-set-key (kbd "<f12>") 'font-lock-fontify-buffer)
+
 (provide 'config/basic)
