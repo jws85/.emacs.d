@@ -27,6 +27,9 @@ ac-comphist.dat
 # auto-save-list
 auto-save-list/
 
+# bookmarks file
+bookmarks
+
 # emms installation
 emms/
 
