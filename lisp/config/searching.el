@@ -9,20 +9,12 @@
   :ensure t
   :init (ido-ubiquitous-mode 1))
 
-;; display ido vertically
-(setq ido-decorations
-      (quote
-       ("\n-> "
-	""
-	"\n   "
-	"\n   ..."
-	"["
-	"]"
-	" [No match]"
-	" [Matched]"
-	" [Not readable]"
-	" [Too big]"
-	" [Confirm]")))
+(use-package ido-vertical-mode
+  :ensure t
+  :init
+  (progn
+    (ido-vertical-mode 1)
+    (setq ido-vertical-define-keys 'C-n-and-C-p-only)))
 
 ;; ido is super-automated.  This is awesome in a lot of ways, but it often
 ;; gets in the way of me actually doing work, e.g. creating new files.
@@ -44,9 +36,7 @@
 
 (defun jws/ido-hook ()
   (define-key ido-completion-map (kbd "<down>") 'ido-next-match)
-  (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
-  (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
-  (define-key ido-completion-map (kbd "C-p") 'ido-prev-match))
+  (define-key ido-completion-map (kbd "<up>") 'ido-prev-match))
 
 (add-hook 'ido-setup-hook 'jws/ido-hook)
 
