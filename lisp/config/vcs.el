@@ -12,9 +12,6 @@
       (evil-add-hjkl-bindings magit-commit-mode-map 'emacs)
       (evil-add-hjkl-bindings magit-diff-mode-map 'emacs)
 
-      (define-key evil-normal-state-map (kbd ", g") 'magit-status))
-
-    (after 'diminish
-      (diminish 'magit-auto-revert-mode))))
+      (define-key evil-normal-state-map (kbd ", g") 'magit-status))))
 
 (provide 'config/vcs)
