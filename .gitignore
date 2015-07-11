@@ -42,6 +42,10 @@ url/
 # helm adaptive sort
 helm-adaptive-history
 
+# ido cruft
+ido.last
+smex-items
+
 # multiple-cursors
 .mc-lists.el
 
