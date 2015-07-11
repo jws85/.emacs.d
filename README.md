@@ -27,6 +27,10 @@ needs.
 Start up Emacs and pray that something isn't broken.  If it is, fix
 it.  Ain't the bleeding edge fun?
 
+NOTE:  This is so oriented around vim keybindings that you may need
+to install evil through M-x package-list-packages before anything
+else will auto-install...
+
 # Keybindings
 
 Key | Does:
