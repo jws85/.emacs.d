@@ -1,3 +1,17 @@
+;; jellybeans-theme.el
+;; Author:   J. W. Smith
+;; License:  MIT
+
+;; The intent originally was to make a Emacs clone of Jellybeans:
+;; https://github.com/nanotech/jellybeans.vim
+;;
+;; This was my favorite theme in Vim.  It's still pretty close, I
+;; think, but there is probably some divergence from the original
+;; jellybeans.vim.
+;;
+;; It should color most (if not all) language elements, the mode line,
+;; and company-mode, ido-mode, and helm-mode.
+
 (deftheme jellybeans
   "Created 2013-11-05.")
 
