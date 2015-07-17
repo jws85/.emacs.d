@@ -44,10 +44,7 @@
 ;; but on this old AMD here, and my i5-3570k back home, it works fine)
 (use-package flx-ido
   :ensure t
-  :init (flx-ido-mode t)
-  :config
-  (progn
-    (setq ido-use-faces nil)))
+  :init (flx-ido-mode t))
 
 ;; ido niceties in the M-x command interface
 (use-package smex
@@ -60,23 +57,12 @@
       (define-key evil-normal-state-map (kbd ";") 'smex)
       (define-key evil-visual-state-map (kbd ";") 'smex))))
 
-;; colorize ido-vertical-mode
-(setq ido-use-faces t)
-(set-face-attribute 'ido-vertical-first-match-face nil
-                    :background nil
-                    :foreground "orange")
-(set-face-attribute 'ido-vertical-only-match-face nil
-                    :background nil
-                    :foreground "#f0a0c0")
-(set-face-attribute 'ido-vertical-match-face nil
-                    :foreground nil)
-(ido-vertical-mode 1)
-
 ;; I don't like helm-find-files, but I find a lot of the helm commands
 ;; to be otherwise nifty.  This is why I just do helm-config and don't
 ;; run the full helm-mode.
 (use-package helm
   :ensure t
+  :disabled
   :init (require 'helm-config)
   :config
   (progn

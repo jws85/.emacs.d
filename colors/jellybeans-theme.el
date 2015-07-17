@@ -73,6 +73,12 @@
  '(helm-history-deleted ((t (:inherit (error)))))
  '(helm-history-remote ((t (:inherit nil :foreground "#cf6a4c"))))
 
+ ;; ido
+ '(ido-subdir ((t (:inherit nil :foreground "#8197bf"))))
+ '(ido-first-match ((t (:inherit nil :foreground "orange" :weight bold))))
+ '(ido-only-match ((t (:inherit nil :foreground "#f0a0c0" :weight bold))))
+ '(ido-indicator ((t (:inherit nil :underline t))))
+
  ;; diff
  '(diff-added ((t (:inherit diff-changed :foreground "#99ad6a"))))
  '(diff-removed ((t (:inherit diff-changed :foreground "#cf6a4c"))))
