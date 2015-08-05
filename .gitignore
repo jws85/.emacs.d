@@ -7,6 +7,11 @@ lisp/*
 !lisp/use-package
 !lisp/guess-style
 
+# Where I put the source for Emacs itself; I'll often run long-term
+# support releases, but still want the latest stuff, which means self-
+# compiling
+src/*
+
 # master emacs auto-generated directory -- all of the stuff
 # below should be getting shunted into this directory instead
 #
