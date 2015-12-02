@@ -15,4 +15,11 @@
     (global-set-key (kbd "C-;") 'ace-jump-char-mode)
     (global-set-key (kbd "C-:") 'ace-jump-line-mode)))
 
+(use-package beacon
+  :init (beacon-mode 1)
+  :ensure t
+  :config
+  (progn
+    (setq beacon-color "#dfbfff")))
+
 (provide 'config/movement)
