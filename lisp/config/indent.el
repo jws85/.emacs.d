@@ -5,12 +5,13 @@
 ;; This was causing havoc with web-mode... 
 (setq-default indent-tabs-mode nil)
 
-(defun jws/indentation-settings ()
+(defun jws/show-indent ()
+  "Interactive command that displays the current tab settings."
   ;; I plan on making this more comprehensive eventually...
   (interactive)
   (message "Mode: %s | Tab width: %d" (if indent-tabs-mode "Tab" "Space") tab-width))
 
-(defun jws/force-indentation (width tabs-or-spaces)
+(defun jws/change-indent (width tabs-or-spaces)
   "Interactive command that sets tab width, and whether to
 indent by tabs or spaces."
   (interactive "nWidth of tabs: \nsTabs or spaces: \n")
@@ -21,7 +22,7 @@ indent by tabs or spaces."
     (setq indent-tabs-mode nil)))
   (setq c-basic-offset width)
   (setq tab-width width)
-  (jws/indentation-settings))
+  (jws/show-indent))
 
 ;; Add guess-style
 (require 'guess-style)
