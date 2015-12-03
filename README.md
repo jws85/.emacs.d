@@ -31,6 +31,11 @@ NOTE:  This is so oriented around vim keybindings that you may need
 to install evil through M-x package-list-packages before anything
 else will auto-install...
 
+NOTE:  If you're changing Emacs versions, especially if you're going
+backwards (e.g. trying out a development build, then going back to
+stable), you may need to blow away the elpa/ directory to get rid of
+.elc files built against the newer version.
+
 # Keybindings
 
 Key | Does:
