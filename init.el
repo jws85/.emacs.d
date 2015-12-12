@@ -86,13 +86,13 @@
 (require 'config/completion) ; Text completion
 (require 'config/modeline)   ; The bar at the bottom with data in it
 
-;;;; Packages: Editor navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Packages: Editor navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'config/searching)  ; "Searching" UIs (ido/helm)
-(require 'config/project)    ; Project management
+;(require 'config/project)    ; Project management
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'config/lisp)
-(require 'config/markdown)
+(require 'config/markup)
 (require 'config/tex)
 (require 'config/clangs)
 (require 'config/web-langs)
