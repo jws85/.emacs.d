@@ -104,6 +104,7 @@
 (require 'config/vcs)        ; version control integration
 (require 'config/popwin)
 (require 'config/package-mgmt)
+(require 'config/docs)
 
 ;;;; Site-specific customizations ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; I need certain settings at work, etc.
