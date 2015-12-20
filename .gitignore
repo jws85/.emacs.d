@@ -41,6 +41,9 @@ emms/
 # elpa installation
 elpa/
 
+# infodocs
+info/
+
 # eww installation
 url/
 
