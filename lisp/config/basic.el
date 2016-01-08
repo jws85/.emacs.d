@@ -101,4 +101,7 @@
 ;; Needed for complicated modes like web-mode
 (global-set-key (kbd "<f12>") 'font-lock-fontify-buffer)
 
+;; Disable C-x C-z; irritating keymap
+(global-unset-key (kbd "C-x C-z"))
+
 (provide 'config/basic)
