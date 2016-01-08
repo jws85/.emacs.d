@@ -62,7 +62,6 @@
 ;; run the full helm-mode.
 (use-package helm
   :ensure t
-  :disabled
   :init (require 'helm-config)
   :config
   (progn
