@@ -20,7 +20,7 @@
     ;; when deleting a tab, delete the tab, do NOT turn it into spaces
     (define-key evil-insert-state-map (kbd "<backspace>") 'backward-delete-char)
 
-    (require 'jws/keybinding-helpers)
+    (require 'jws-keybinding-helpers)
 
     ;; Make escape work like in vim
     (define-key evil-normal-state-map [escape] 'keyboard-quit)

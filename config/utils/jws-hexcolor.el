@@ -22,4 +22,4 @@
 							     "white" "black"))
 					   (:background ,color)))))))))
 
-(provide 'jws/hexcolor)
+(provide 'jws-hexcolor)

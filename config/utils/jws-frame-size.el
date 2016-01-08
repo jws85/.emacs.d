@@ -32,4 +32,4 @@ percent-high:  Height of frame, in fraction of screen resolution"
 	 (average-width (elt font-vector 7)))
     (cons average-height average-width)))
 
-(provide 'jws/frame-size)
+(provide 'jws-frame-size)

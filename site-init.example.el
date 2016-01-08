@@ -21,7 +21,7 @@
 
 ;; positioning/sizing code
 ;; I define this in a defun so I can run it without rerunning the whole ~/.emacs
-(require 'jws/frame-size)
+(require 'jws-frame-size)
 (defun jws/my-emacs-frame-positioning ()
   "Positions the emacs frame to *my* personal specifications.  Interactive function.
 I personally like emacs to be in the top left corner, a bit more than half the screen
@@ -45,6 +45,6 @@ wide (on a 16:9 screen) and maximized vertically as much as possible."
 ;; For instance:
 
 ;; Setting up org-agenda (could swap out ~/org for d:/org or whatever)
-(require 'jws/path-helpers)
+(require 'jws-path-helpers)
 (setq org-agenda-files
       (jws/expand-file-names (list "todo.org") "~/org"))

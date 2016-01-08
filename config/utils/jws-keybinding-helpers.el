@@ -22,4 +22,4 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer))))
 
-(provide 'jws/keybinding-helpers)
+(provide 'jws-keybinding-helpers)

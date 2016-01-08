@@ -4,4 +4,4 @@
 	    (expand-file-name fn path))
 	  files))
 
-(provide 'jws/path-helpers)
+(provide 'jws-path-helpers)

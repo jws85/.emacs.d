@@ -8,7 +8,7 @@
     (setq web-mode-enable-auto-pairing nil
           web-mode-enable-auto-quoting nil)))
 
-(require 'jws/hexcolor)
+(require 'jws-hexcolor)
 (add-hook 'css-mode-hook 'jws/hexcolor-add-to-font-lock)
 
 (provide 'jws-web-langs)

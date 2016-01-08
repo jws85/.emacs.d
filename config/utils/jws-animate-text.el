@@ -13,4 +13,4 @@
       (jws/animate-string-center-oneline line currow)
       (setq currow (+ currow 1)))))
 
-(provide 'jws/animate-text)
+(provide 'jws-animate-text)
