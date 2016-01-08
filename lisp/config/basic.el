@@ -54,9 +54,9 @@
 (setq scroll-conservatively 10000)
 
 ;; Remove all of these awful toolbars.  Emacs is made to be mouseless.
-(tool-bar-mode -1)    ; remove big-ass toolbar
-(scroll-bar-mode -1)  ; remove scrollbar
-(menu-bar-mode -1)    ; remove menu bar
+(if (functionp 'tool-bar-mode) (tool-bar-mode -1))
+(if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (functionp 'menu-bar-mode) (menu-bar-mode -1))
 
 ;; I've used emacs for probably the better part of a decade now.  I know
 ;; how to get help and all that. (coughgooglecough)
