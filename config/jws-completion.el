@@ -45,4 +45,4 @@
 
     (add-hook 'after-init-hook 'global-company-mode)))
 
-(provide 'config/completion)
+(provide 'jws-completion)

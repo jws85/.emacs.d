@@ -11,4 +11,4 @@
   (progn
     (add-to-list 'auto-mode-alist (cons "\\.md\\'" 'markdown-mode))))
 
-(provide 'config/markup)
+(provide 'jws-markup)

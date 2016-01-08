@@ -5,4 +5,4 @@
             (modify-syntax-entry ?_ "w")  ; underscore considered part of a "word"
 	    ))
 
-(provide 'config/clangs)
+(provide 'jws-clangs)

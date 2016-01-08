@@ -2,4 +2,4 @@
   :ensure t
   :init (popwin-mode 1))
 
-(provide 'config/popwin)
+(provide 'jws-popwin)

@@ -10,4 +10,4 @@
 	  guide-key/recursive-key-sequence-flag t
 	  guide-key/idle-delay 0.5)))
 
-(provide 'config/guide-key)
+(provide 'jws-guide-key)

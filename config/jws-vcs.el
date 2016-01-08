@@ -72,4 +72,4 @@
 
       (define-key evil-normal-state-map (kbd ", g") 'magit-status))))
 
-(provide 'config/vcs)
+(provide 'jws-vcs)

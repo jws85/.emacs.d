@@ -104,4 +104,4 @@
 ;; Disable C-x C-z; irritating keymap
 (global-unset-key (kbd "C-x C-z"))
 
-(provide 'config/basic)
+(provide 'jws-basic)

@@ -47,20 +47,28 @@
 (defvar jws/emacs-backup-dir (expand-file-name (concat user-emacs-directory ".cache/backups"))
   "The directory that emacs uses to store backup files to")
 
+(defvar jws/emacs-config-dir (expand-file-name (concat user-emacs-directory "config"))
+  "The directory where my Emacs config lives")
+
 (defvar jws/emacs-library-dir (expand-file-name (concat user-emacs-directory "lisp"))
-  "The directory where various unpackaged libraries (some of which I may have written) are living")
+  "The directory where various unpackaged libraries are living")
 
 (defvar jws/emacs-color-dir (expand-file-name (concat user-emacs-directory "colors"))
   "The directory where deftheme color themes live")
 
 ;;;; Fundamental basic stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Add config directory recursively
+(let ((default-directory jws/emacs-config-dir))
+  (add-to-list 'load-path default-directory)
+  (normal-top-level-add-subdirs-to-load-path))
+(require 'jws-misc-utils)
+(require 'jws-basic)
+
 ;; Add library directory recursively
 (let ((default-directory jws/emacs-library-dir))
   (add-to-list 'load-path default-directory)
   (normal-top-level-add-subdirs-to-load-path))
-(require 'config/misc-utils)
-(require 'config/basic)
 
 (add-to-list 'custom-theme-load-path jws/emacs-color-dir)
 
@@ -80,31 +88,31 @@
 
 
 ;;;; Packages: Basic text editing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'config/vi)         ; Evil and other vi-style things
-(require 'config/movement)   ; Other plugins to help move around
-(require 'config/indent)     ; Indentation
-(require 'config/completion) ; Text completion
-(require 'config/modeline)   ; The bar at the bottom with data in it
+(require 'jws-vi)         ; Evil and other vi-style things
+(require 'jws-movement)   ; Other plugins to help move around
+(require 'jws-indent)     ; Indentation
+(require 'jws-completion) ; Text completion
+(require 'jws-modeline)   ; The bar at the bottom with data in it
 
-;;; Packages: Editor navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'config/searching)  ; "Searching" UIs (ido/helm)
-(require 'config-project)    ; Project management
+;;;; Packages: Editor navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'jws-searching)  ; "Searching" UIs (ido/helm)
+(require 'jws-project)    ; Project management
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'config/lisp)
-(require 'config/markup)
-(require 'config/tex)
-(require 'config/clangs)
-(require 'config/web-langs)
+(require 'jws-lisp)
+(require 'jws-markup)
+(require 'jws-tex)
+(require 'jws-clangs)
+(require 'jws-web-langs)
 
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'config/guide-key)
-(require 'config/org-mode)
-(require 'config/www)        ; web integration
-(require 'config/vcs)        ; version control integration
-(require 'config/popwin)
-(require 'config/package-mgmt)
-(require 'config/docs)
+(require 'jws-guide-key)
+(require 'jws-org-mode)
+(require 'jws-www)        ; web integration
+(require 'jws-vcs)        ; version control integration
+(require 'jws-popwin)
+(require 'jws-package-mgmt)
+(require 'jws-docs)
 
 ;;;; Site-specific customizations ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; I need certain settings at work, etc.

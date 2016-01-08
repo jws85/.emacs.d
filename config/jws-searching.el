@@ -80,4 +80,4 @@
       (after 'evil
         (define-key evil-normal-state-map (kbd ", e g") 'helm-ag)))))
 
-(provide 'config/searching)
+(provide 'jws-searching)

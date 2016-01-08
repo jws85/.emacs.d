@@ -22,4 +22,4 @@
   (progn
     (setq beacon-color "#dfbfff")))
 
-(provide 'config/movement)
+(provide 'jws-movement)

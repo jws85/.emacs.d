@@ -33,4 +33,4 @@
     ;; right-align the list of minor-modes
     (setq sml/mode-width 'right)))
 
-(provide 'config/modeline)
+(provide 'jws-modeline)

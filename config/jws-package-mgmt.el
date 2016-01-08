@@ -7,4 +7,4 @@
     (define-key paradox-menu-mode-map (kbd "j") 'next-line)
     (define-key paradox-menu-mode-map (kbd "k") 'previous-line)))
 
-(provide 'config/package-mgmt)
+(provide 'jws-package-mgmt)

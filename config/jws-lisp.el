@@ -9,4 +9,4 @@
 (use-package slime
   :ensure t)
 
-(provide 'config/lisp)
+(provide 'jws-lisp)

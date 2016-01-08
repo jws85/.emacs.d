@@ -17,4 +17,4 @@
      (define-key eww-mode-map (kbd "<backspace>") 'eww-back-url)
      (define-key eww-mode-map (kbd "C-<backspace>") 'eww-forward-url)))
 
-(provide 'config/www)
+(provide 'jws-www)

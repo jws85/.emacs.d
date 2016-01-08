@@ -10,4 +10,4 @@
      (interactive)
      ,@commands))
 
-(provide 'config/misc-utils)
+(provide 'jws-misc-utils)

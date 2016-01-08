@@ -3,4 +3,4 @@
       (cons (expand-file-name (concat user-emacs-directory "info"))
             Info-default-directory-list))
 
-(provide 'config/docs)
+(provide 'jws-docs)
