@@ -62,7 +62,6 @@
 (let ((default-directory jws/emacs-config-dir))
   (add-to-list 'load-path default-directory)
   (normal-top-level-add-subdirs-to-load-path))
-(require 'jws-misc-utils)
 (require 'jws-basic)
 
 ;; Add library directory recursively

@@ -1,3 +1,5 @@
+(require 'jws-config-macros)
+
 ;; I think most machines I'm on nowadays have at least 2GB of RAM.
 ;; Read 'GC Optimization' here:  https://github.com/lewang/flx
 (setq gc-cons-threshold 20000000)
