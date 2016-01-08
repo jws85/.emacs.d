@@ -88,7 +88,7 @@
 
 ;;; Packages: Editor navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'config/searching)  ; "Searching" UIs (ido/helm)
-;(require 'config/project)    ; Project management
+(require 'config-project)    ; Project management
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'config/lisp)

@@ -18,4 +18,4 @@
 ;(setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache"))
 ;(setq projectile-known-projects-file (concat user-emacs-directory ".cache/projectile-bookmarks.eld"))
 
-(provide 'config/project)
+(provide 'config-project)
