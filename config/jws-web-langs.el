@@ -12,3 +12,7 @@
 (add-hook 'css-mode-hook 'jws/hexcolor-add-to-font-lock)
 
 (provide 'jws-web-langs)
+
+(use-package coffee-mode
+  :ensure t
+  :mode (("\\.coffee\\'" . coffee-mode)))
