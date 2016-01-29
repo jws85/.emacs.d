@@ -35,6 +35,12 @@
     ;; abort if ESC
     (define-key company-active-map (kbd "ESC") #'company-abort)
 
+    ;; For whatever reason, maybe because of the above ESC mapping, M-{1, 2... 0} do not work
+    ;; in my install; it just complains about M-0, etc being equivalent to ESC.  Whatever,
+    ;; I'll use Ctrl instead.
+    (dotimes (i 9)
+      (define-key company-active-map (read-kbd-macro (format "C-%d" i)) 'company-complete-number))
+
     (setq company-idle-delay 0.1
 	  company-minimum-prefix-length 2
 	  company-tooltip-limit 20
