@@ -27,3 +27,9 @@
 (use-package scss-mode
   :ensure t
   :mode (("\\.scss\\'" . scss-mode)))
+
+(use-package php-mode
+  :ensure t
+  :config
+  (progn
+    (setq c-basic-offset 4)))
