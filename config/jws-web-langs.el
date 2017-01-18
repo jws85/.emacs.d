@@ -22,7 +22,10 @@
 
 (use-package coffee-mode
   :ensure t
-  :mode (("\\.coffee\\'" . coffee-mode)))
+  :mode (("\\.coffee\\'" . coffee-mode))
+  :config
+  (progn
+    (setq coffee-tab-width 4)))
 
 (use-package scss-mode
   :ensure t

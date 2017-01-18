@@ -54,6 +54,9 @@ helm-adaptive-history
 ido.last
 smex-items
 
+# Something to do with emacs' IME
+kkcrc
+
 # multiple-cursors
 .mc-lists.el
 
