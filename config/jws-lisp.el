@@ -7,6 +7,9 @@
 (add-hook 'emacs-lisp-mode-hook #'jws/lisp-hook)
 
 (use-package slime
-  :ensure t)
+  :ensure t
+  :config
+  (progn
+    (slime-setup '(slime-fancy))))
 
 (provide 'jws-lisp)
