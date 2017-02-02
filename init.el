@@ -86,6 +86,7 @@
 (require 'jws-popwin)
 (require 'jws-package-mgmt)
 (require 'jws-docs)
+(require 'jws-session)
 
 ;;;; Site-specific customizations ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; I need certain settings at work, etc.
