@@ -1,6 +1,10 @@
 ;; Session management
 
-(setq desktop-dirname             "~/.emacs.d/.cache/desktop/"
+;; Create directory
+(if (not (file-exists-p jws/emacs-desktop-dir))
+    (make-directory jws/emacs-desktop-dir t))
+
+(setq desktop-dirname             jws/emacs-desktop-dir
       desktop-base-file-name      "emacs.desktop"
       desktop-base-lock-name      "lock"
       desktop-path                (list desktop-dirname)

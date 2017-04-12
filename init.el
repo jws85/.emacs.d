@@ -21,6 +21,9 @@
 (defvar jws/emacs-backup-dir (expand-file-name (concat user-emacs-directory ".cache/backups"))
   "The directory that emacs uses to store backup files to")
 
+(defvar jws/emacs-desktop-dir (expand-file-name (concat user-emacs-directory ".cache/desktop"))
+  "The directory that emacs uses to store .desktop files in")
+
 (defvar jws/emacs-config-dir (expand-file-name (concat user-emacs-directory "config"))
   "The directory where my Emacs config lives")
 
