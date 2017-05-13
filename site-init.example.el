@@ -32,6 +32,12 @@ wide (on a 16:9 screen) and maximized vertically as much as possible."
 ;; actually run the above
 (jws/my-emacs-frame-positioning)
 
+;; Prevent window from splitting unless it has a lot of columns
+;; The default is 160.  On a 1080p screen with the above positioning code
+;; and certain fonts, this can be annoying, and so I set it to 200 to prevent
+;; splitting.  On smaller screens this will need some experimentation.
+(setq split-width-threshold 160)
+
 ;;;; A note ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Please note that this file is not just for your appearance-related
