@@ -84,6 +84,7 @@
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'jws-guide-key)
 (require 'jws-org-mode)
+(require 'jws-calc)
 (require 'jws-www)        ; web integration
 (require 'jws-vcs)        ; version control integration
 (require 'jws-popwin)
