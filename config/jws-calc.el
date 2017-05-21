@@ -1,3 +1,9 @@
+;;; jws-calc.el -- Site-specific initialization file
+
+;;; Commentary:
+
+;;; Code:
+
 ;; Vi-only keybinding
 (after 'evil (define-key evil-normal-state-map (kbd ", c") 'calc))
 
@@ -9,4 +15,12 @@
         (bps "bit / s" "Bytes per second"))
       math-units-table nil)
 
+;; Load currency units into Emacs Calc
+(require 'calc-currency)
+(setq calc-currency-exchange-rates-file (expand-file-name (concat user-emacs-directory ".cache/calc-currency-rates.el"))
+      calc-currency-update-interval 1)
+(setq calc-start-hook #'calc-currency-load)
+
 (provide 'jws-calc)
+
+;;; jws-calc.el ends here
