@@ -25,26 +25,35 @@
 (require 'ert)
 (require 'use-package)
 
-(ert-deftest use-package-mplist-get ()
-  (let ((mplist '(:foo bar baz bal :blob plap plup :blam))
-        (tests '((:foo . (bar baz bal))
-                 (:blob . (plap plup))
-                 (:blam . t)
-                 (:blow . nil))))
-    (mapc (lambda (test)
-            (should
-             (equal
-              (use-package-mplist-get mplist
-                                      (car test))
-              (cdr test))))
-          tests)))
+(ert-deftest use-package-normalize-binder ()
+  (let ((good-values '(:map map-sym
+                       ("str" . sym) ("str" . "str")
+                       ([vec] . sym) ([vec] . "str"))))
+    (should (equal (use-package-normalize-binder
+                    'foopkg :bind good-values)
+                   good-values)))
+  (should-error (use-package-normalize-binder
+                 'foopkg :bind '("foo")))
+  (should-error (use-package-normalize-binder
+                 'foopkg :bind '("foo" . 99)))
+  (should-error (use-package-normalize-binder
+                 'foopkg :bind '(99 . sym))))
 
-(ert-deftest use-package-mplist-keys ()
-  (should (equal (use-package-mplist-keys
-                  '(:foo bar baz bal :blob plap plup :blam))
-                 '(:foo :blob :blam))))
+(ert-deftest use-package-normalize-mode ()
+  (should (equal (use-package-normalize-mode 'foopkg :mode '(".foo"))
+                 '((".foo" . foopkg))))
+  (should (equal (use-package-normalize-mode 'foopkg :mode '(".foo" ".bar"))
+                 '((".foo" . foopkg) (".bar" . foopkg))))
+  (should (equal (use-package-normalize-mode 'foopkg :mode '((".foo" ".bar")))
+                 '((".foo" . foopkg) (".bar" . foopkg))))
+  (should (equal (use-package-normalize-mode 'foopkg :mode '((".foo")))
+                 '((".foo" . foopkg))))
+  (should (equal (use-package-normalize-mode 'foopkg :mode '((".foo" . foo) (".bar" . bar)))
+                 '((".foo" . foo) (".bar" . bar)))))
 
 ;; Local Variables:
 ;; indent-tabs-mode: nil
+;; no-byte-compile: t
+;; no-update-autoloads: t
 ;; End:
 ;;; use-package-tests.el ends here
