@@ -1,11 +1,7 @@
 # site-specific .emacs.d customizations
 custom.el
 site-init.el
-lisp/*
-!lisp/config
-!lisp/jws
-!lisp/use-package
-!lisp/guess-style
+site-lisp/
 
 # Where I put the source for Emacs itself; I'll often run long-term
 # support releases, but still want the latest stuff, which means self-

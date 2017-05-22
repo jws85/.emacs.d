@@ -30,6 +30,9 @@
 (defvar jws/emacs-library-dir (expand-file-name (concat user-emacs-directory "lisp"))
   "The directory where various unpackaged libraries are living")
 
+(defvar jws/emacs-site-library-dir (expand-file-name (concat user-emacs-directory "site-lisp"))
+  "The directory where various site-specific unpackaged libraries are living")
+
 (defvar jws/emacs-color-dir (expand-file-name (concat user-emacs-directory "colors"))
   "The directory where deftheme color themes live")
 
@@ -43,6 +46,9 @@
 
 ;; Add library directory recursively
 (let ((default-directory jws/emacs-library-dir))
+  (add-to-list 'load-path default-directory)
+  (normal-top-level-add-subdirs-to-load-path))
+(let ((default-directory jws/emacs-site-library-dir))
   (add-to-list 'load-path default-directory)
   (normal-top-level-add-subdirs-to-load-path))
 
