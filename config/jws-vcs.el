@@ -4,6 +4,9 @@
   (progn
     (setq magit-last-seen-setup-instructions "1.4.0")
 
+    (after 'diminish
+      (diminish 'auto-revert-mode))
+
     (after 'evil
       (use-package evil-magit
         :ensure t
