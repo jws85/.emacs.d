@@ -41,6 +41,7 @@ elpa/
 info/
 
 # eww installation
+eww-bookmarks
 url/
 
 # helm adaptive sort
