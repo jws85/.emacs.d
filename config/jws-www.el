@@ -32,6 +32,9 @@
      ;; Use sane keybindings for forward/back
      (define-key eww-mode-map (kbd "b") 'eww-back-url)
      (define-key eww-mode-map (kbd "<backspace>") 'eww-back-url)
-     (define-key eww-mode-map (kbd "C-<backspace>") 'eww-forward-url)))
+     (define-key eww-mode-map (kbd "C-<backspace>") 'eww-forward-url)
+
+     (define-key eww-bookmark-mode-map (kbd "RET") 'eww-bookmark-browse)
+     (define-key eww-bookmark-mode-map (kbd "q") 'quit-window)))
 
 (provide 'jws-www)
