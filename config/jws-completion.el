@@ -11,6 +11,20 @@
   :init (company-mode)
   :config
   (progn
+    (use-package company-web
+      :ensure t
+      :config
+      (progn
+        (require 'company-web-html)
+        (require 'company-web-html)))
+
+    (use-package company-php
+      :ensure t
+      :config
+      (progn
+        (require 'company-php)
+        (add-to-list 'company-backends 'company-ac-php-backend)))
+
     (after 'diminish
       (diminish 'company-mode))
 
