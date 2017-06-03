@@ -66,13 +66,34 @@
   :config
   (progn
     (after 'evil
+      ; searchable character map
+      (define-key evil-normal-state-map (kbd ", e u") 'helm-ucs)
+
+      ; find string in buffer
+      (define-key evil-normal-state-map (kbd ", e o") 'helm-occur)
+
+      ; show clipboard
       (define-key evil-normal-state-map (kbd ", e k") 'helm-show-kill-ring)
+
+      ; find function definitions
       (define-key evil-normal-state-map (kbd ", e f") 'helm-semantic-or-imenu)
+
+      ; run an elisp regex against the buffer
       (define-key evil-normal-state-map (kbd ", e r") 'helm-regexp)
+
+      ; find a file using 'locate' binary (uses 'everything' on Windows)
+      (define-key evil-normal-state-map (kbd ", e l") 'helm-locate)
+
+      ; searchable list of colors
       (define-key evil-normal-state-map (kbd ", e c") 'helm-colors)
+
+      ; uses 'surfraw' to look up things online
       (define-key evil-normal-state-map (kbd ", e w") 'helm-surfraw)
+
+      ; look up man pages
       (define-key evil-normal-state-map (kbd ", e m") 'helm-man-woman))
 
+    ; use "The Silver Searcher" (ag) binary to find files in project
     (use-package helm-ag
       :ensure t
       :config
