@@ -15,15 +15,8 @@
       :ensure t
       :config
       (progn
-        (require 'company-web-html)
-        (require 'company-web-html)))
-
-    (use-package company-php
-      :ensure t
-      :config
-      (progn
-        (require 'company-php)
-        (add-to-list 'company-backends 'company-ac-php-backend)))
+        (after 'web-mode
+          (require 'company-web-html))))
 
     (after 'diminish
       (diminish 'company-mode))
