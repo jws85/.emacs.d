@@ -6,6 +6,13 @@
 ;; I really liked auto-complete and am trying to make company work a lot
 ;; more like that package.
 
+(use-package yasnippet
+  :ensure t
+  :init (require 'yasnippet)
+  :config
+  (progn
+    (yas-global-mode 1)))
+
 (use-package company
   :ensure t
   :init (company-mode)
@@ -55,6 +62,10 @@
 	  company-dabbrev-downcase nil
 	  company-dabbrev-ignore-case t
           company-show-numbers t)
+
+    (setq company-backends
+          '((company-files company-keywords company-capf company-yasnippet)
+            (company-abbrev company-dabbrev)))
 
     (add-hook 'after-init-hook 'global-company-mode)))
 

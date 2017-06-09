@@ -1,3 +1,15 @@
+; Autocomplete
+(use-package company-php
+  :ensure t
+  :config
+  (progn
+    (defun jws/company-php-setup ()
+      (require 'company-php)
+      (company-mode t)
+      (ac-php-core-eldoc-setup)
+      (make-local-variable 'company-backends)
+      (add-to-list 'company-backends 'company-ac-php-backend))))
+
 (use-package web-mode
   :ensure t
   :mode (("\\.html?\\'" . web-mode)
@@ -13,12 +25,19 @@
   :config
   (progn
     (setq web-mode-enable-auto-pairing nil
-          web-mode-enable-auto-quoting nil)))
+          web-mode-enable-auto-quoting nil)
+
+    ;; still broken...
+    (add-hook 'web-mode-hook
+              (lambda ()
+                (let ((cur-engine "php"))
+                  (cond
+                   ((string= cur-engine "php")
+                    (jws/company-php-setup))))))
+    ))
 
 (require 'jws-hexcolor)
 (add-hook 'css-mode-hook 'jws/hexcolor-add-to-font-lock)
-
-(provide 'jws-web-langs)
 
 (use-package coffee-mode
   :ensure t
@@ -35,4 +54,7 @@
   :ensure t
   :config
   (progn
-    (setq c-basic-offset 4)))
+    (setq c-basic-offset 4)
+    (add-hook 'php-mode-hook #'jws/company-php-setup)))
+
+(provide 'jws-web-langs)
