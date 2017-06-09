@@ -10,6 +10,9 @@
       (make-local-variable 'company-backends)
       (add-to-list 'company-backends 'company-ac-php-backend))))
 
+(defun jws/php-definition-of-word ()
+  (modify-syntax-entry ?_ "w"))
+
 (use-package web-mode
   :ensure t
   :mode (("\\.html?\\'" . web-mode)
@@ -55,6 +58,7 @@
   :config
   (progn
     (setq c-basic-offset 4)
+    (add-hook 'php-mode-hook #'jws/php-definition-of-word)
     (add-hook 'php-mode-hook #'jws/company-php-setup)))
 
 (provide 'jws-web-langs)
