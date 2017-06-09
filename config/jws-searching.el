@@ -97,6 +97,7 @@
     (use-package helm-ag
       :ensure t
       :config
+      (setq helm-ag-insert-at-point 'word)
       (after 'evil
         (define-key evil-normal-state-map (kbd ", e g") 'helm-ag-project-root)))))
 
