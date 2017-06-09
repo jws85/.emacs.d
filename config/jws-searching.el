@@ -98,6 +98,6 @@
       :ensure t
       :config
       (after 'evil
-        (define-key evil-normal-state-map (kbd ", e g") 'helm-ag)))))
+        (define-key evil-normal-state-map (kbd ", e g") 'helm-ag-project-root)))))
 
 (provide 'jws-searching)
