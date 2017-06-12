@@ -2,7 +2,6 @@
 
 ;;; Commentary:
 ;; Author: J. W. Smith <jwsmith2spam at gmail dot com>
-;; Time-stamp: <2017-05-21 17:06:54 jws>
 
 ;; Notes:
 ;; This only updates daily -- so anyone looking for more latency is out of luck.
@@ -19,6 +18,11 @@
 ;; This one is provided by the European Union.
 (defvar *calc-currency-ecb-exchange-rates-url*
   "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")
+
+;; The ECB updates at 16:00 CET:
+;; https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html
+(defvar *calc-currency-ecb-update-time*
+  "16:00:00 +0100")
 
 (defun calc-currency-ecb-currency-table ()
   "Return a table of all currencies supported by the ECB endpoint."
@@ -59,7 +63,13 @@
   "Download the latest exchange rates from the ECB.
 
 This function returns the filename of the downloaded XML file."
-  (calc-currency-utils-fetch-file *calc-currency-ecb-exchange-rates-url* "ecb" "xml"))
+  (calc-currency-utils-fetch-file *calc-currency-ecb-exchange-rates-url*))
+
+(defun my-xml-parse-string (string)
+  "Parse the XML in STRING."
+  (with-temp-buffer
+    (insert string)
+    (xml-parse-region)))
 
 (defun calc-currency-ecb-process-currency (node)
   "Helper function for `calc-currency-ecb-process-rates`.
@@ -72,22 +82,35 @@ same information."
          (rate (string-to-number (assqv 'rate attrs))))
     (cons code rate)))
 
-(defun calc-currency-ecb-process-rates (download-file)
-  "Return an alist representing the exchange rates from the ECB."
-  (let* ((xml (xml-parse-file download-file))
+(defun calc-currency-ecb-process-rates (xml-string)
+  "Return an alist representing the exchange rates from the ECB in XML-STRING."
+  (let* ((xml (my-xml-parse-string xml-string))
          (grandpappy-cube (xml-get-children (car xml) 'Cube))
          (pappy-cube (xml-get-children (car grandpappy-cube) 'Cube))
-         (date (assq 'time (xml-node-attributes (car pappy-cube))))
          (baby-cubes (xml-get-children (car pappy-cube) 'Cube)))
-    (cons (cons 'EUR 1)
+    (cons (cons 'EUR 1.0)
           (loop for cube in baby-cubes
                 collect (calc-currency-ecb-process-currency cube)))))
 
-(defun calc-currency-ecb-module ()
-  "Provide a consistent interface to the ECB backend functions."
-  '((currency-table . calc-currency-ecb-currency-table)
-    (download-rates . calc-currency-ecb-download-rates)
-    (process-rates . calc-currency-ecb-process-rates)))
+(defun calc-currency-ecb-get-timestamp (xml-string)
+  "Return the timestamp of the ECB rates in XML-STRING."
+  (let* ((xml (my-xml-parse-string xml-string))
+         (grandpappy-cube (xml-get-children (car xml) 'Cube))
+         (pappy-cube (xml-get-children (car grandpappy-cube) 'Cube))
+         (date (assqv 'time (xml-node-attributes (car pappy-cube)))))
+    (message date)
+    (epoch-time-from-string (concat date " " *calc-currency-ecb-update-time*))))
+
+(defun calc-currency-ecb-list (base-currency)
+  "Build a list of rates from the ECB using BASE-CURRENCY."
+  (let* ((xml-string (calc-currency-ecb-download-rates))
+         (rate-table (calc-currency-ecb-process-rates xml-string))
+         (currency-table (calc-currency-ecb-currency-table))
+         (rate-list (calc-currency-utils-build-list rate-table
+                                                    currency-table
+                                                    base-currency))
+         (timestamp (calc-currency-ecb-get-timestamp xml-string)))
+    (list 'ecb timestamp rate-list)))
 
 (provide 'calc-currency-ecb)
 
