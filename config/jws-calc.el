@@ -18,7 +18,7 @@
 ;; Load currency units into Emacs Calc
 (require 'calc-currency)
 (setq calc-currency-exchange-rates-file (expand-file-name (concat user-emacs-directory ".cache/calc-currency-rates.el"))
-      calc-currency-update-interval 1)
+      calc-currency-update-interval 3)
 (setq calc-start-hook #'calc-currency-load)
 
 (provide 'jws-calc)
