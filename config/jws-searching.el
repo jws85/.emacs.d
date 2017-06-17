@@ -14,6 +14,7 @@
     (ivy-mode 1))
   :config
   (progn
+    (use-package ivy-hydra :ensure t :init (require 'ivy-hydra))
     (use-package counsel :ensure t :init (require 'counsel))
     (use-package swiper :ensure t :init (require 'swiper))
 
