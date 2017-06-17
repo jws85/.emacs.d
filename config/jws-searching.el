@@ -24,6 +24,13 @@
     (setq ivy-use-virtual-buffers t
           ivy-count-format "(%d/%d)")
 
+    ;; I'm not sure of the implication of this... but it fixes an irritating
+    ;; impedance mismatch between helm/ivy and ido.  When you use RET in
+    ;; ido-find-files on a dir, it does ido on the dir.  When you use RET in
+    ;; ivy/helm, it fires up dired, killing my flow like nothing else.
+    ;; This fixes that!
+    (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
+
     (global-set-key (kbd "C-s") 'swiper)
 
     (after 'projectile
