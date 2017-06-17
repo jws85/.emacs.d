@@ -11,6 +11,8 @@
   :init (require 'yasnippet)
   :config
   (progn
+    (after 'diminish
+      (diminish 'yas-minor-mode))
     (yas-global-mode 1)))
 
 (use-package company
