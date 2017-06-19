@@ -3,7 +3,6 @@
 ;;  ,ek -- #'helm-show-kill-ring
 ;;  ,ef -- #'helm-semantic-or-imenu
 ;;  ,er -- #'helm-regexp
-;;  ,ec -- #'helm-colors
 ;;  ,ew -- #'helm-surfraw
 
 (use-package ivy
@@ -66,6 +65,7 @@
       (define-key evil-normal-state-map (kbd ", b") 'ivy-switch-buffer)
       (define-key evil-normal-state-map (kbd ", e u") 'counsel-unicode-char)
       (define-key evil-normal-state-map (kbd ", e l") 'counsel-locate)
+      (define-key evil-normal-state-map (kbd ", e c") 'counsel-colors-web)
       (define-key evil-normal-state-map (kbd ", e m") 'woman))))
 
 (provide 'jws-searching)
