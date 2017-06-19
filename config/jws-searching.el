@@ -23,9 +23,7 @@
     (use-package flx :ensure t :init (require 'flx))
 
     (setq ivy-use-virtual-buffers t
-          ivy-count-format "(%d/%d)"
-          ivy-re-builders-alist '((t . ivy--regex-fuzzy))
-          ivy-initial-inputs-alist nil)
+          ivy-count-format "(%d/%d)")
 
     ;; I'm not sure of the implication of this... but it fixes an irritating
     ;; impedance mismatch between helm/ivy and ido.  When you use RET in
