@@ -33,7 +33,7 @@
     ;; This fixes that!
     (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
 
-    (global-set-key (kbd "C-s") 'swiper)
+    (global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
 
     (after 'projectile
       (setq projectile-completion-system 'ivy))
@@ -42,7 +42,7 @@
       (setq magit-completing-read-function 'ivy-completing-read))
 
     (after 'evil
-      (define-key evil-normal-state-map (kbd "/") 'swiper)
+      (define-key evil-normal-state-map (kbd "/") 'counsel-grep-or-swiper)
       (define-key evil-normal-state-map (kbd ";") 'counsel-M-x)
       (define-key evil-normal-state-map (kbd ":") 'counsel-M-x)
       (define-key evil-normal-state-map (kbd ", f") 'counsel-find-file)
