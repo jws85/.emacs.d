@@ -3,7 +3,6 @@
 ;;  ,ek -- #'helm-show-kill-ring
 ;;  ,ef -- #'helm-semantic-or-imenu
 ;;  ,er -- #'helm-regexp
-;;  ,ec -- #'helm-colors
 ;;  ,ew -- #'helm-surfraw
 
 (use-package ivy
@@ -22,10 +21,15 @@
     (use-package swiper :ensure t :init (require 'swiper))
     (use-package flx :ensure t :init (require 'flx))
 
+    (after 'projectile
+      (use-package counsel-projectile :ensure t
+        :init (require 'counsel-projectile)
+        :config (counsel-projectile-on)))
+
     (setq ivy-use-virtual-buffers t
           ivy-count-format "(%d/%d)"
-          ivy-re-builders-alist '((t . ivy--regex-fuzzy))
-          ivy-initial-inputs-alist nil)
+          ivy-magic-tilde nil
+          counsel-find-file-at-point t)
 
     ;; I'm not sure of the implication of this... but it fixes an irritating
     ;; impedance mismatch between helm/ivy and ido.  When you use RET in
@@ -34,7 +38,7 @@
     ;; This fixes that!
     (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
 
-    (global-set-key (kbd "C-s") 'swiper)
+    (global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
 
     (after 'projectile
       (setq projectile-completion-system 'ivy))
@@ -43,14 +47,25 @@
       (setq magit-completing-read-function 'ivy-completing-read))
 
     (after 'evil
-      (define-key evil-normal-state-map (kbd "/") 'swiper)
+      (after 'projectile
+        (define-key evil-normal-state-map (kbd ", p g") 'counsel-projectile-ag)
+        ;; If projectile is active in a buffer, use the projectile project as the
+        ;; ag bounds; otherwise just ag in the file's directory
+        (defun jws/counsel-ag-contextual ()
+          (interactive)
+          (if (projectile-project-p)
+              (counsel-projectile-ag)
+            (counsel-ag)))
+        (define-key evil-normal-state-map (kbd ", e g") 'jws/counsel-ag-contextual))
+
+      (define-key evil-normal-state-map (kbd "/") 'counsel-grep-or-swiper)
       (define-key evil-normal-state-map (kbd ";") 'counsel-M-x)
       (define-key evil-normal-state-map (kbd ":") 'counsel-M-x)
       (define-key evil-normal-state-map (kbd ", f") 'counsel-find-file)
       (define-key evil-normal-state-map (kbd ", b") 'ivy-switch-buffer)
       (define-key evil-normal-state-map (kbd ", e u") 'counsel-unicode-char)
       (define-key evil-normal-state-map (kbd ", e l") 'counsel-locate)
-      (define-key evil-normal-state-map (kbd ", e g") 'counsel-ag)
+      (define-key evil-normal-state-map (kbd ", e c") 'counsel-colors-web)
       (define-key evil-normal-state-map (kbd ", e m") 'woman))))
 
 (provide 'jws-searching)

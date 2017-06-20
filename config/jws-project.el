@@ -7,7 +7,7 @@
       (define-key evil-normal-state-map (kbd ", p r") 'projectile-regenerate-tags)
       (define-key evil-normal-state-map (kbd ", p p") 'projectile-find-file)
       (define-key evil-normal-state-map (kbd ", p s") 'projectile-switch-project)
-      (define-key evil-normal-state-map (kbd ", p g") 'projectile-grep)
+      (define-key evil-normal-state-map (kbd ", p g") 'projectile-ag)
       (define-key evil-normal-state-map (kbd ", p c") 'projectile-compile-project)
       (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file))
 
