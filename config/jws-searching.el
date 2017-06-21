@@ -60,7 +60,7 @@
 
       (define-key evil-normal-state-map (kbd "/") 'counsel-grep-or-swiper)
       (define-key evil-normal-state-map (kbd ";") 'counsel-M-x)
-      (define-key evil-normal-state-map (kbd ":") 'counsel-M-x)
+      (define-key evil-visual-state-map (kbd ";") 'counsel-M-x)
       (define-key evil-normal-state-map (kbd ", f") 'counsel-find-file)
       (define-key evil-normal-state-map (kbd ", b") 'ivy-switch-buffer)
       (define-key evil-normal-state-map (kbd ", e u") 'counsel-unicode-char)
