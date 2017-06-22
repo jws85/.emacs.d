@@ -1,6 +1,5 @@
 ;; Lossage in switch to ivy:
 ;;  ,eo -- #'helm-occur, which is basically swiper
-;;  ,ek -- #'helm-show-kill-ring
 ;;  ,ef -- #'helm-semantic-or-imenu
 ;;  ,er -- #'helm-regexp
 ;;  ,ew -- #'helm-surfraw
@@ -66,6 +65,7 @@
       (define-key evil-normal-state-map (kbd ", e u") 'counsel-unicode-char)
       (define-key evil-normal-state-map (kbd ", e l") 'counsel-locate)
       (define-key evil-normal-state-map (kbd ", e c") 'counsel-colors-web)
+      (define-key evil-normal-state-map (kbd ", e k") 'counsel-yank-pop)
       (define-key evil-normal-state-map (kbd ", e m") 'woman))))
 
 (provide 'jws-searching)
