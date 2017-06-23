@@ -30,6 +30,7 @@
      (define-key eww-mode-map (kbd "g") 'eww)
 
      ;; Use sane keybindings for forward/back
+     (define-key eww-mode-map (kbd "f") 'eww-forward-url)
      (define-key eww-mode-map (kbd "b") 'eww-back-url)
      (define-key eww-mode-map (kbd "<backspace>") 'eww-back-url)
      (define-key eww-mode-map (kbd "C-<backspace>") 'eww-forward-url)
