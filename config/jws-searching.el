@@ -19,6 +19,7 @@
     (use-package counsel :ensure t :init (require 'counsel))
     (use-package swiper :ensure t :init (require 'swiper))
     (use-package flx :ensure t :init (require 'flx))
+    (use-package smex :ensure t :init (require 'smex))
 
     (after 'projectile
       (use-package counsel-projectile :ensure t
