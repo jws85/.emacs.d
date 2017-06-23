@@ -3,9 +3,23 @@
 ;; use eww to browse everything
 (setq browse-url-browser-function 'eww-browse-url)
 
+;; Opens links in browse-url-browser-function
+(use-package ace-link
+  :after avy
+  :ensure t
+  :config
+  (progn
+    ;; By default, this adds 'o' keybind to eww and a few other modes
+    (ace-link-setup-default)
+    (after 'org
+      (define-key org-mode-map (kbd "M-o") 'ace-link-org))
+    (global-set-key (kbd "M-o") 'ace-link-addr)))
+
 ;; Much of the following is from https://github.com/GriffinSchneider/emacs-config/blob/master/eww-customizations.el
 (eval-after-load "eww"
   '(progn
+     (add-to-list 'evil-emacs-state-modes 'eww-mode)
+
      ;; Use vim keybindings for scrolling
      (evil-add-hjkl-bindings eww-mode-map 'emacs)
 
