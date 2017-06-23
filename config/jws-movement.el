@@ -14,6 +14,15 @@
     (global-set-key (kbd "C-;") 'avy-goto-char)
     (global-set-key (kbd "C-:") 'avy-goto-line)))
 
+(use-package ace-window
+  :ensure t
+  :config
+  (progn
+    ;; Replace evil's C-w C-w default with ace-window
+    (after 'evil
+      (define-key evil-normal-state-map (kbd "C-w <SPC>") 'evil-window-next)
+      (define-key evil-normal-state-map (kbd "C-w C-w") 'ace-window))))
+
 (use-package beacon
   :init (beacon-mode 1)
   :ensure t
