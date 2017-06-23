@@ -7,13 +7,12 @@
 
 ;; Jump to any character with C-;
 ;; Jump to any line on screen with C-:
-;; ace-jump-word-mode doesn't work with how I think
-(use-package ace-jump-mode
+(use-package avy
   :ensure t
   :config
   (progn
-    (global-set-key (kbd "C-;") 'ace-jump-char-mode)
-    (global-set-key (kbd "C-:") 'ace-jump-line-mode)))
+    (global-set-key (kbd "C-;") 'avy-goto-char)
+    (global-set-key (kbd "C-:") 'avy-goto-line)))
 
 (use-package beacon
   :init (beacon-mode 1)
