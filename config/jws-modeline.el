@@ -1,5 +1,5 @@
-;; Not quite as sexy as airline or powerline, but neither worked particularly
-;; well in Windoze anyways (too much Unicode faffery) so here we are.
+; Not quite as sexy as airline or powerline, but neither worked particularly
+; well in Windoze anyways (too much Unicode faffery) so here we are.
 (use-package smart-mode-line
   :ensure t
   :config
