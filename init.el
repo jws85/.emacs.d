@@ -90,6 +90,7 @@
 (require 'jws-web-langs)
 
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'jws-themeing)
 (require 'jws-guide-key)
 (require 'jws-org-mode)
 (require 'jws-calc)
