@@ -4,11 +4,6 @@
   :config
   (progn
     (after 'evil
-      (define-key evil-normal-state-map (kbd ", p r") 'projectile-regenerate-tags)
-      (define-key evil-normal-state-map (kbd ", p p") 'projectile-find-file)
-      (define-key evil-normal-state-map (kbd ", p s") 'projectile-switch-project)
-      (define-key evil-normal-state-map (kbd ", p g") 'projectile-ag)
-      (define-key evil-normal-state-map (kbd ", p c") 'projectile-compile-project)
       (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file))
 
     (setq projectile-enable-caching t)
@@ -43,5 +38,23 @@
 ; it in the cache directory, it will not work right.
 ;(setq projectile-cache-file (concat user-emacs-directory ".cache/projectile.cache"))
 ;(setq projectile-known-projects-file (concat user-emacs-directory ".cache/projectile-bookmarks.eld"))
+
+(use-package counsel-projectile
+  :ensure t
+  :after projectile
+  :init (require 'counsel-projectile)
+  :config (counsel-projectile-on)))
+
+(jws/after (counsel counsel-projectile hydra)
+  (defhydra jws/hydra-project (:exit t)
+    ("p" projectile-find-file "Find file in project")
+    ("s" projectile-switch-project "Switch project")
+    ("g" counsel-projectile-ag "Find string in project")
+    ("c" projectile-compile-project "Compile project")
+    ("r" projectile-regenerate-tags "Reload tags" (:exit nil)))
+
+  (global-set-key (kbd "C-c C-c p") 'jws/hydra-project/body)
+  (jws/after (evil)
+    (define-key evil-normal-state-map (kbd ", p") 'jws/hydra-project/body)))
 
 (provide 'jws-project)

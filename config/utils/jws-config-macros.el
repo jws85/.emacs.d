@@ -15,4 +15,13 @@
      (interactive)
      ,@commands))
 
+;; I created this macro; it supersedes the previous `after` macro
+(defmacro jws/after (features &rest body)
+  "After FEATURES are loaded, evaluate BODY."
+  (declare (indent defun))
+  (if features
+      `(eval-after-load ',(car features)
+            (jws/after ,(cdr features) ,@body))
+    `(progn ,@body)))
+
 (provide 'jws-config-macros)

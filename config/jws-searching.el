@@ -21,11 +21,6 @@
     (use-package flx :ensure t :init (require 'flx))
     (use-package smex :ensure t :init (require 'smex))
 
-    (after 'projectile
-      (use-package counsel-projectile :ensure t
-        :init (require 'counsel-projectile)
-        :config (counsel-projectile-on)))
-
     (setq ivy-use-virtual-buffers t
           ivy-count-format "(%d/%d)"
           ivy-magic-tilde nil
@@ -86,28 +81,23 @@ Just listing them here to keep flycheck happy:  STR PRED _"
     (after 'magit
       (setq magit-completing-read-function 'ivy-completing-read))
 
-    (after 'evil
-      (after 'projectile
-        (define-key evil-normal-state-map (kbd ", p g") 'counsel-projectile-ag)
-        ;; If projectile is active in a buffer, use the projectile project as the
-        ;; ag bounds; otherwise just ag in the file's directory
-        (defun jws/counsel-ag-contextual ()
-          (interactive)
-          (if (projectile-project-p)
-              (counsel-projectile-ag)
-            (counsel-ag)))
-        (define-key evil-normal-state-map (kbd ", e g") 'jws/counsel-ag-contextual))
+    (define-key evil-normal-state-map (kbd "/") 'counsel-grep-or-swiper)
+    (define-key evil-normal-state-map (kbd ";") 'counsel-M-x)
+    (define-key evil-visual-state-map (kbd ";") 'counsel-M-x)
+    (define-key evil-normal-state-map (kbd ", f") 'counsel-find-file)
+    (define-key evil-normal-state-map (kbd ", b") 'ivy-switch-buffer)
 
-      (define-key evil-normal-state-map (kbd "/") 'counsel-grep-or-swiper)
-      (define-key evil-normal-state-map (kbd ";") 'counsel-M-x)
-      (define-key evil-visual-state-map (kbd ";") 'counsel-M-x)
-      (define-key evil-normal-state-map (kbd ", f") 'counsel-find-file)
-      (define-key evil-normal-state-map (kbd ", b") 'ivy-switch-buffer)
-      (define-key evil-normal-state-map (kbd ", e u") 'counsel-unicode-char)
-      (define-key evil-normal-state-map (kbd ", e l") 'counsel-locate)
-      (define-key evil-normal-state-map (kbd ", e c") 'counsel-colors-web)
-      (define-key evil-normal-state-map (kbd ", e k") 'counsel-yank-pop)
-      (define-key evil-normal-state-map (kbd ", e m") 'woman)
-      (define-key evil-normal-state-map (kbd ", e w") 'jws/counsel-surfraw))))
+    (defhydra jws/hydra-ivy (:exit t)
+      ("u" counsel-unicode-char "Find character")
+      ("l" counsel-locate "Locate file")
+      ("g" counsel-ag "Find string in folder")
+      ("c" counsel-colors-web "Find color")
+      ("k" counsel-yank-pop "Find yank")
+      ("m" woman "Find manpage")
+      ("w" jws/counsel-surfraw "Find webpage"))
+
+    (global-set-key (kbd "C-c C-c e") 'jws/hydra-ivy/body)
+    (jws/after (evil)
+      (define-key evil-normal-state-map (kbd ", e") 'jws/hydra-ivy/body))))
 
 (provide 'jws-searching)
