@@ -43,7 +43,7 @@
   :ensure t
   :after projectile
   :init (require 'counsel-projectile)
-  :config (counsel-projectile-on)))
+  :config (counsel-projectile-on))
 
 (jws/after (counsel counsel-projectile hydra)
   (defhydra jws/hydra-project (:exit t)
