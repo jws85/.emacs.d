@@ -7,6 +7,8 @@
       (require 'company-php)
       (company-mode t)
       (ac-php-core-eldoc-setup)
+      (after 'diminish
+        (diminish 'eldoc-mode))
       (make-local-variable 'company-backends)
       (add-to-list 'company-backends 'company-ac-php-backend))))
 
