@@ -29,7 +29,8 @@
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
 (setq org-log-done t
-      org-agenda-include-diary t)
+      org-agenda-include-diary t
+      org-refile-targets '((nil . (:maxlevel . 6))))
 
 (defun jws/load-org-settings ()
   "Run this after changing jws/org*dir."
