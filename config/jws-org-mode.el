@@ -54,6 +54,12 @@
         ("j" "Journal" entry (file+datetree (concat jws/org-journal-dir "current.org"))
          "* %?\nEntered on %U\n  %i\n  %a")))
 
+;; Enabling vim bindings in the agenda
+(evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
+(define-key org-agenda-mode-map (kbd "L") 'org-agenda-log-mode)
+(define-key org-agenda-mode-map (kbd "C") 'org-agenda-capture)
+(define-key org-agenda-mode-map (kbd "d") 'org-agenda-goto-date)
+
 (jws/after (hydra)
   (defun jws/open-org-dir ()
     (interactive)
