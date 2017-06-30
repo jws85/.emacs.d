@@ -51,7 +51,12 @@
          "* %?\nEntered on %U\n  %i\n  %a")))
 
 (jws/after (hydra)
+  (defun jws/open-org-dir ()
+    (interactive)
+    (counsel-find-file jws/org-dir))
+
   (defhydra jws/hydra-org (:exit t)
+    ("f" jws/open-org-dir "Open org dir")
     ("l" org-store-link "Store link")
     ("a" org-agenda "Agenda")
     ("c" org-capture "Capture")
