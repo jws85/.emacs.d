@@ -43,6 +43,13 @@
   (message "Please set up jws/org-dir and jws/org-todo-dir to use org-agenda, etc."))
 
 (after 'org
+  ;; Enabling vim bindings in the agenda
+  (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
+  (define-key org-agenda-mode-map (kbd "L") 'org-agenda-log-mode)
+  (define-key org-agenda-mode-map (kbd "C") 'org-agenda-capture)
+  (define-key org-agenda-mode-map (kbd "d") 'org-agenda-goto-date)
+
+  ;; Adding habits (recurring events)
   (add-to-list 'org-modules 'org-habit))
 
 ;; http://orgmode.org/manual/Capture-templates.html
@@ -53,12 +60,6 @@
          "* %?")
         ("j" "Journal" entry (file+datetree (concat jws/org-journal-dir "current.org"))
          "* %?\nEntered on %U\n  %i")))
-
-;; Enabling vim bindings in the agenda
-(evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
-(define-key org-agenda-mode-map (kbd "L") 'org-agenda-log-mode)
-(define-key org-agenda-mode-map (kbd "C") 'org-agenda-capture)
-(define-key org-agenda-mode-map (kbd "d") 'org-agenda-goto-date)
 
 (jws/after (hydra)
   (defun jws/open-org-dir ()
