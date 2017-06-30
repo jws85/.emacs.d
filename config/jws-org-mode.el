@@ -23,6 +23,9 @@
 (defvar jws/org-todo-dir (concat jws/org-dir "todo/")
   "The directory where org-mode todo/agenda files live")
 
+(defvar jws/org-journal-dir (concat jws/org-dir "journal/")
+  "The directory where org-mode todo/agenda files live")
+
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
 (setq org-log-done t
@@ -41,8 +44,11 @@
 (after 'org
   (add-to-list 'org-modules 'org-habit))
 
-;(setq org-capture-templates
-;      '(("t" "Todo" entry (file+headline org-default-notes-file "Tasks"))))
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline (concat jws/org-todo-dir "unfiled.org") "Unfiled Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("j" "Journal" entry (file+datetree (concat jws/org-journal-dir "current.org"))
+         "* %?\nEntered on %U\n  %i\n  %a")))
 
 (jws/after (hydra)
   (defhydra jws/hydra-org (:exit t)
