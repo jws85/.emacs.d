@@ -48,11 +48,11 @@
 ;; http://orgmode.org/manual/Capture-templates.html
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline (concat jws/org-todo-dir "unfiled.org") "Unfiled Tasks")
-         "* TODO %?\n  %i\n  %a")
+         "* TODO %?\n  %i")
         ("l" "Link" entry (file+headline (concat jws/org-dir "links.org") "Uncategorized")
          "* %?")
         ("j" "Journal" entry (file+datetree (concat jws/org-journal-dir "current.org"))
-         "* %?\nEntered on %U\n  %i\n  %a")))
+         "* %?\nEntered on %U\n  %i")))
 
 ;; Enabling vim bindings in the agenda
 (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
