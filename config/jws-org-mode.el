@@ -26,9 +26,17 @@
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
 (setq org-log-done t
-      org-agenda-include-diary t
-      org-default-notes-file (concat jws/org-dir "notes.org")
-      org-agenda-files (jws/directory-files jws/org-todo-dir t))
+      org-agenda-include-diary t)
+
+(defun jws/load-org-settings ()
+  "Run this after changing jws/org*dir."
+  (interactive)
+  (setq org-default-notes-file (concat jws/org-dir "notes.org")
+        org-agenda-files (jws/directory-files jws/org-todo-dir t)))
+
+(if (and (file-exists-p jws/org-dir) (file-exists-p jws/org-todo-dir))
+    (jws/load-org-settings)
+  (message "Please set up jws/org-dir and jws/org-todo-dir to use org-agenda, etc."))
 
 (after 'org
   (add-to-list 'org-modules 'org-habit))
