@@ -51,7 +51,7 @@
     ("s" projectile-switch-project "Switch project")
     ("g" counsel-projectile-ag "Find string in project")
     ("c" projectile-compile-project "Compile project")
-    ("r" projectile-regenerate-tags "Reload tags" (:exit nil)))
+    ("r" projectile-regenerate-tags "Reload tags" :exit nil))
 
   (global-set-key (kbd "C-c C-c p") 'jws/hydra-project/body)
   (jws/after (evil)
