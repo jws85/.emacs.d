@@ -57,6 +57,7 @@
 
 ;; Remove all of these awful toolbars.  Emacs is made to be mouseless.
 (if (functionp 'tool-bar-mode) (tool-bar-mode -1))
+(if (functionp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode -1))
 (if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (functionp 'menu-bar-mode) (menu-bar-mode -1))
 
