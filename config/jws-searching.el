@@ -2,7 +2,8 @@
 ;;  ,eo -- #'helm-occur, which is basically swiper
 ;;  ,ef -- #'helm-semantic-or-imenu
 ;;  ,er -- #'helm-regexp
-;;  ,ew -- #'helm-surfraw
+
+(require 'counsel-surfraw)
 
 (use-package ivy
   :ensure t
@@ -35,46 +36,6 @@
 
     (global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
 
-    ;; counsel-surfraw begins here
-    ;; This is some code I wrote to reimplement helm-surfraw in counsel/ivy.
-    ;; Should probably separate it into a separate project.
-    (defun jws/counsel-surfraw ()
-      "Search for something online, using the surfraw command."
-      (interactive)
-      (let ((search-for (read-string "Search for: " nil 'counsel-surfraw-search-history
-                                     (thing-at-point 'symbol))))
-        (ivy-read (format "Search for `%s` with: " search-for)
-                  #'jws/counsel-surfraw-elvi
-                  :require-match t
-                  :history 'counsel-surfraw-engine-history
-                  :sort t
-                  :action
-                  (lambda (selected-elvis)
-                    (browse-url (shell-command-to-string
-                                 (format "sr %s -p %s"
-                                         (get-text-property 0 'elvis selected-elvis)
-                                         search-for)))))))
-
-    (defun jws/counsel-surfraw-elvi (str pred _)
-      "Return a list of surfraw elvi (search engines).
-
-I don't know what the parameters are, they are for compatibility with 'all-completions'.
-Just listing them here to keep flycheck happy:  STR PRED _"
-      (mapcar
-       'jws/counsel-surfraw-elvis
-       (seq-remove
-        (lambda (str) (not (string-match-p "--" str)))
-        (split-string (shell-command-to-string "surfraw -elvi") "\n"))))
-
-    (defun jws/counsel-surfraw-elvis (elvis)
-      "Process an individual surfraw ELVIS."
-      (let* ((list (split-string elvis "--"))
-             (key (string-trim (nth 0 list)))
-             (value (string-trim (nth 1 list)))
-             (text (format "%-20s %s" key value)))
-        (propertize text 'elvis key)))
-    ;; counsel-surfraw ends here
-
     (after 'projectile
       (setq projectile-completion-system 'ivy))
 
@@ -94,7 +55,7 @@ Just listing them here to keep flycheck happy:  STR PRED _"
       ("c" counsel-colors-web "Find color")
       ("k" counsel-yank-pop "Find yank")
       ("m" woman "Find manpage")
-      ("w" jws/counsel-surfraw "Find webpage"))
+      ("w" counsel-surfraw "Find webpage"))
 
     (global-set-key (kbd "C-c C-c e") 'jws/hydra-ivy/body)
     (jws/after (evil)
