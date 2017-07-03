@@ -1,14 +1,13 @@
 ;; Note:
 ;;
 ;; My org-mode folder structure looks like the following:
-;;  * root/
-;;     * todo/
-;;        - latest.org
-;;        - work.org
-;;        - plans.org
-;;        - hobbies.org
-;;        - holidays.org
-;;        - ...
+;;  * $ORGROOT/ (by default, ~/org/)
+;;     * agenda/
+;;        - todo.org       Where todo items go
+;;        - finished.org   Where finished items go; archival spot
+;;        - recurring.org  I put recurring days (e.g. payday) here
+;;        - holidays.org   I put recurring holidays here
+;;        - plans.org      I put future plans (e.g. trips) here
 ;;     * journal/
 ;;        - latest.org
 ;;        - ...
@@ -20,11 +19,11 @@
 (defvar jws/org-dir (expand-file-name "~/org/")
   "The directory where org-mode files live")
 
-(defvar jws/org-todo-dir (concat jws/org-dir "todo/")
-  "The directory where org-mode todo/agenda files live")
+(defvar jws/org-agenda-dir (concat jws/org-dir "agenda/")
+  "The directory where org-mode agenda files live")
 
 (defvar jws/org-journal-dir (concat jws/org-dir "journal/")
-  "The directory where org-mode todo/agenda files live")
+  "The directory where org-mode journal files live")
 
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
@@ -37,11 +36,11 @@
   "Run this after changing jws/org*dir."
   (interactive)
   (setq org-default-notes-file (concat jws/org-dir "notes.org")
-        org-agenda-files (jws/directory-files jws/org-todo-dir t)))
+        org-agenda-files (jws/directory-files jws/org-agenda-dir t)))
 
-(if (and (file-exists-p jws/org-dir) (file-exists-p jws/org-todo-dir))
+(if (and (file-exists-p jws/org-dir) (file-exists-p jws/org-agenda-dir))
     (jws/load-org-settings)
-  (message "Please set up jws/org-dir and jws/org-todo-dir to use org-agenda, etc."))
+  (message "Please set up jws/org-dir and jws/org-agenda-dir to use org-agenda, etc."))
 
 (after 'org
   ;; Adding habits (recurring events)
@@ -56,7 +55,7 @@
 
 ;; http://orgmode.org/manual/Capture-templates.html
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline (concat jws/org-todo-dir "unfiled.org") "Unfiled Tasks")
+      '(("t" "Todo" entry (file+headline (concat jws/org-agenda-dir "todo.org") "Unfiled Tasks")
          "* TODO %?\n  %i")
         ("l" "Link" entry (file+headline (concat jws/org-dir "links.org") "Uncategorized")
          "* %?")
