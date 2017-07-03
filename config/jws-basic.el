@@ -104,6 +104,9 @@
 ;; Needed for complicated modes like web-mode
 (global-set-key (kbd "<f12>") 'font-lock-fontify-buffer)
 
+;; Remove keybinding for M-j, which I never use otherwise
+(global-unset-key (kbd "M-j"))
+
 ;; Disable C-x C-z; irritating keymap
 (global-unset-key (kbd "C-x C-z"))
 

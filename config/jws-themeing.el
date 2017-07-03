@@ -23,7 +23,7 @@
     ("-" text-scale-decrease "Smaller font")
     ("s" text-scale-decrease "Smaller font"))
 
-  (global-set-key (kbd "C-c C-c t") 'jws/hydra-themeing/body)
+  (global-set-key (kbd "M-j t") 'jws/hydra-themeing/body)
   (after 'evil
     (define-key evil-normal-state-map (kbd ", t") 'jws/hydra-themeing/body)))
 

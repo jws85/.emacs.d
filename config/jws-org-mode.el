@@ -74,7 +74,7 @@
     ("c" org-capture "Capture")
     ("e" org-export "Export"))
 
-  (global-set-key (kbd "C-c C-c o") 'jws/hydra-org/body)
+  (global-set-key (kbd "M-j o") 'jws/hydra-org/body)
   (jws/after (evil)
     (define-key evil-normal-state-map (kbd ", o") 'jws/hydra-org/body)))
 

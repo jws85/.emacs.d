@@ -53,7 +53,7 @@
     ("c" projectile-compile-project "Compile project")
     ("r" projectile-regenerate-tags "Reload tags" :exit nil))
 
-  (global-set-key (kbd "C-c C-c p") 'jws/hydra-project/body)
+  (global-set-key (kbd "M-j p") 'jws/hydra-project/body)
   (jws/after (evil)
     (define-key evil-normal-state-map (kbd ", p") 'jws/hydra-project/body)))
 

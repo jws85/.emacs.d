@@ -57,7 +57,7 @@
       ("m" woman "Find manpage")
       ("w" counsel-surfraw "Find webpage"))
 
-    (global-set-key (kbd "C-c C-c e") 'jws/hydra-ivy/body)
+    (global-set-key (kbd "M-j e") 'jws/hydra-ivy/body)
     (jws/after (evil)
       (define-key evil-normal-state-map (kbd ", e") 'jws/hydra-ivy/body))))
 
