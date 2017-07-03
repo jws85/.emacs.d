@@ -62,6 +62,17 @@
         ("j" "Journal" entry (file+datetree (concat jws/org-journal-dir "current.org"))
          "* %?\nEntered on %U\n  %i")))
 
+(defun jws/show-org-agenda ()
+  "Run org-agenda and bring its buffer to the front.
+
+Useful on startup (e.g. in site-init.el):
+(setq initial-buffer-choice #'jws/show-org-agenda)
+
+This displays the org-agenda at startup."
+  (interactive)
+  (org-agenda-list)
+  (get-buffer "*Org Agenda*"))
+
 (jws/after (hydra)
   (defun jws/open-org-dir ()
     (interactive)
