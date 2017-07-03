@@ -30,7 +30,8 @@
 
 (setq org-log-done t
       org-agenda-include-diary t
-      org-refile-targets '((nil . (:maxlevel . 6))))
+      org-refile-targets '((nil . (:maxlevel . 6)))
+      org-archive-location "finished.org::datetree/*")
 
 (defun jws/load-org-settings ()
   "Run this after changing jws/org*dir."
