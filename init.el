@@ -100,6 +100,7 @@
 (require 'jws-package-mgmt)
 (require 'jws-docs)
 (require 'jws-session)
+(require 'jws-utils)
 
 ;;;; Site-specific customizations ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; I need certain settings at work, etc.
