@@ -21,6 +21,7 @@
     (use-package swiper :ensure t :init (require 'swiper))
     (use-package flx :ensure t :init (require 'flx))
     (use-package smex :ensure t :init (require 'smex))
+    (use-package counsel-dash :ensure t :init (require 'counsel-dash))
 
     (setq ivy-use-virtual-buffers t
           ivy-count-format "(%d/%d)"
@@ -57,6 +58,7 @@
       ("c" counsel-colors-web "Find color")
       ("k" counsel-yank-pop "Find yank")
       ("m" woman "Find manpage")
+      ("d" counsel-dash "Find docset")
       ("w" counsel-surfraw "Find webpage"))
 
     (global-set-key (kbd "M-j e") 'jws/hydra-ivy/body)
