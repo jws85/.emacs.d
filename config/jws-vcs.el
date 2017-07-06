@@ -7,6 +7,8 @@
     (after 'diminish
       (diminish 'auto-revert-mode))
 
+    (global-set-key (kbd "M-j g") 'magit-status)
+
     (after 'evil
       (use-package evil-magit
         :ensure t

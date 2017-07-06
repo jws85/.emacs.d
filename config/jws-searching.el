@@ -47,6 +47,8 @@
     (define-key evil-visual-state-map (kbd ";") 'counsel-M-x)
     (define-key evil-normal-state-map (kbd ", f") 'counsel-find-file)
     (define-key evil-normal-state-map (kbd ", b") 'ivy-switch-buffer)
+    (global-set-key (kbd "M-j f") 'counsel-find-file)
+    (global-set-key (kbd "M-j b") 'ivy-switch-buffer)
 
     (defhydra jws/hydra-ivy (:exit t)
       ("u" counsel-unicode-char "Find character")

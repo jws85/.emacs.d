@@ -5,6 +5,7 @@
 ;;; Code:
 
 ;; Vi-only keybinding
+(global-set-key (kbd "M-j c") 'calc)
 (after 'evil (define-key evil-normal-state-map (kbd ", c") 'calc))
 
 ;; Add computer data units

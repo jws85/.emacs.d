@@ -22,10 +22,10 @@
   (progn
     (use-package company-web
       :ensure t
+      :after web-mode
       :config
       (progn
-        (after 'web-mode
-          (require 'company-web-html))))
+        (require 'company-web-html)))
 
     (after 'diminish
       (diminish 'company-mode))
