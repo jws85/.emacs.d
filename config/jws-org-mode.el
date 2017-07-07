@@ -31,7 +31,10 @@
       org-agenda-include-diary t
       org-refile-targets '((nil . (:maxlevel . 6)))
       org-archive-location "finished.org::datetree/*"
-      org-agenda-span 14)
+      org-agenda-span 14
+      org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                          (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))
+      org-use-fast-todo-selection t)
 
 (defun jws/load-org-settings ()
   "Run this after changing jws/org*dir."
