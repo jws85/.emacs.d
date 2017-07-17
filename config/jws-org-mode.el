@@ -87,6 +87,7 @@ This displays the org-agenda at startup."
 
   (defhydra jws/hydra-org (:exit t)
     ("f" jws/open-org-dir "Open org dir")
+    ("r" jws/load-org-settings "Load org settings")
     ("l" org-store-link "Store link")
     ("a" org-agenda "Agenda")
     ("c" org-capture "Capture")
