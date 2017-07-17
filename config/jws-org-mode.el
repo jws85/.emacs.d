@@ -62,7 +62,7 @@
 
 ;; http://orgmode.org/manual/Capture-templates.html
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline (concat jws/org-agenda-dir "todo.org") "Unfiled Tasks")
+      '(("t" "Todo" entry (file+headline (concat jws/org-agenda-dir "unfiled.org") "Unfiled Tasks")
          "* TODO %?\n  %i")
         ("l" "Link" entry (file+headline (concat jws/org-dir "links.org") "Uncategorized")
          "* %?")
