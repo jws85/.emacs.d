@@ -29,7 +29,10 @@
 
 (setq org-log-done t
       org-agenda-include-diary t
-      org-refile-targets '((nil . (:maxlevel . 6)))
+      org-refile-targets '((nil . (:maxlevel . 9))
+                           (org-agenda-files . (:maxlevel . 9)))
+      org-refile-use-outline-path t
+      org-outline-path-complete-in-steps nil
       org-archive-location "finished.org::datetree/*"
       org-agenda-span 14
       org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
