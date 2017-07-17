@@ -28,6 +28,8 @@
           ivy-magic-tilde nil
           counsel-find-file-at-point t)
 
+    (define-key ivy-mode-map (kbd "C-SPC") 'ivy-restrict-to-matches)
+
     ;; I'm not sure of the implication of this... but it fixes an irritating
     ;; impedance mismatch between helm/ivy and ido.  When you use RET in
     ;; ido-find-files on a dir, it does ido on the dir.  When you use RET in
