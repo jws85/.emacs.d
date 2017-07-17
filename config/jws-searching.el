@@ -28,6 +28,13 @@
           ivy-magic-tilde nil
           counsel-find-file-at-point t)
 
+    ;; I don't want org-refile to have its initial input, due to settings I'm
+    ;; using with it now...
+    (setq ivy-initial-inputs-alist
+          (assq-delete-all 'org-capture-refile
+                           (assq-delete-all 'org-agenda-refile
+                                            (assq-delete-all 'org-refile ivy-initial-inputs-alist))))
+
     (define-key ivy-mode-map (kbd "C-SPC") 'ivy-restrict-to-matches)
 
     ;; I'm not sure of the implication of this... but it fixes an irritating
