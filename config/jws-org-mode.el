@@ -80,6 +80,8 @@ This displays the org-agenda at startup."
   (org-agenda-list)
   (get-buffer "*Org Agenda*"))
 
+(global-set-key (kbd "<f5>") 'org-agenda-list)
+
 (jws/after (hydra)
   (defun jws/open-org-dir ()
     (interactive)
