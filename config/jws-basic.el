@@ -87,6 +87,11 @@
 ;; make dired more usable (lexicographic sort, human-readable sizes)
 (setq dired-listing-switches "-alhv")
 
+;; do not spawn a zillion dired buffers
+(require 'dired)
+(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+(define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))
+
 ;; don't make me have to type out 'yes' or 'no'
 (fset 'yes-or-no-p 'y-or-n-p)
 
