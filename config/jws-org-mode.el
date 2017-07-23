@@ -60,6 +60,10 @@
   (define-key org-agenda-mode-map (kbd "C") 'org-agenda-capture)
   (define-key org-agenda-mode-map (kbd "d") 'org-agenda-goto-date))
 
+;; Save after various edits in org-mode/org-agenda
+(advice-add 'org-deadline :after 'org-save-all-org-buffers)
+(advice-add 'org-refile :after 'org-save-all-org-buffers)
+
 ;; http://orgmode.org/manual/Capture-templates.html
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline (concat jws/org-agenda-dir "unfiled.org") "Unfiled Tasks")
