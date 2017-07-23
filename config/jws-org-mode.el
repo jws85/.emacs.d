@@ -98,6 +98,8 @@ in my site-init.el.  This displays the `org-agenda' at startup."
 
 ;; keybindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(global-set-key (kbd "<f5>") 'org-agenda-list)
+
 (jws/after (hydra)
   (defun jws/open-org-dir ()
     (interactive)
