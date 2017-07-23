@@ -1,31 +1,47 @@
-;; Note:
+;;; jws-org-mode.el -- Org-mode settings
+
+;;; Commentary:
 ;;
 ;; My org-mode folder structure looks like the following:
 ;;  * $ORGROOT/ (by default, ~/org/)
 ;;     * agenda/
-;;        - todo.org       Where todo items go
+;;        - unfiled.org    Where captured todo items go
 ;;        - finished.org   Where finished items go; archival spot
 ;;        - recurring.org  I put recurring days (e.g. payday) here
 ;;        - holidays.org   I put recurring holidays here
 ;;        - plans.org      I put future plans (e.g. trips) here
+;;        - [client].org   Todo files
 ;;     * journal/
 ;;        - latest.org
 ;;        - ...
+;;
+;; All of this is synced up with Dropbox, and on some computers I
+;; leave the Emacs window open; thus the reason for the autosaving.
+
+;;; Code:
 
 (require 'jws-path-helpers)
 
 (require 'org-install)
 
+;; basic configuration ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defvar jws/org-dir (expand-file-name "~/org/")
-  "The directory where org-mode files live")
+  "The directory where `org-mode' files live.")
 
 (defvar jws/org-agenda-dir (concat jws/org-dir "agenda/")
-  "The directory where org-mode agenda files live")
+  "The directory where `org-mode' agenda files live.")
 
 (defvar jws/org-journal-dir (concat jws/org-dir "journal/")
-  "The directory where org-mode journal files live")
+  "The directory where `org-mode' journal files live.")
 
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+
+(after 'org
+  ;; Adding habits (recurring events)
+  (add-to-list 'org-modules 'org-habit))
+
+;; org-agenda ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq org-log-done t
       org-agenda-include-diary t
@@ -49,10 +65,6 @@
     (jws/load-org-settings)
   (message "Please set up jws/org-dir and jws/org-agenda-dir to use org-agenda, etc."))
 
-(after 'org
-  ;; Adding habits (recurring events)
-  (add-to-list 'org-modules 'org-habit))
-
 (after 'org-agenda
   ;; Enabling vim bindings in the agenda
   (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
@@ -64,6 +76,17 @@
 (advice-add 'org-deadline :after 'org-save-all-org-buffers)
 (advice-add 'org-refile :after 'org-save-all-org-buffers)
 
+(defun jws/show-org-agenda ()
+  "Run `org-agenda' and bring its buffer to the front.
+
+I like to `setq' the `initial-buffer-choice' to this function
+in my site-init.el.  This displays the `org-agenda' at startup."
+  (interactive)
+  (org-agenda-list)
+  (get-buffer "*Org Agenda*"))
+
+;; org-capture ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; http://orgmode.org/manual/Capture-templates.html
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline (concat jws/org-agenda-dir "unfiled.org") "Unfiled Tasks")
@@ -73,16 +96,7 @@
         ("j" "Journal" entry (file+datetree (concat jws/org-journal-dir "current.org"))
          "* %?\nEntered on %U\n  %i")))
 
-(defun jws/show-org-agenda ()
-  "Run org-agenda and bring its buffer to the front.
-
-Useful on startup (e.g. in site-init.el):
-(setq initial-buffer-choice #'jws/show-org-agenda)
-
-This displays the org-agenda at startup."
-  (interactive)
-  (org-agenda-list)
-  (get-buffer "*Org Agenda*"))
+;; keybindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (jws/after (hydra)
   (defun jws/open-org-dir ()
@@ -102,3 +116,5 @@ This displays the org-agenda at startup."
     (define-key evil-normal-state-map (kbd ", o") 'jws/hydra-org/body)))
 
 (provide 'jws-org-mode)
+
+;;; jws-org-mode.el ends here
