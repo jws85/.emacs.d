@@ -97,7 +97,7 @@
 (require 'jws-calc)
 (require 'jws-www)        ; web integration
 (require 'jws-vcs)        ; version control integration
-(require 'jws-popwin)
+(require 'jws-window)
 (require 'jws-package-mgmt)
 (require 'jws-docs)
 (require 'jws-session)
