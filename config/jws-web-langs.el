@@ -32,6 +32,9 @@
     (setq web-mode-enable-auto-pairing nil
           web-mode-enable-auto-quoting nil)
 
+    ;; uh, why isn't this happening by default?
+    (add-hook 'web-mode-hook (lambda () (run-hooks 'prog-mode-hook)))
+
     ;; still broken...
     (add-hook 'web-mode-hook
               (lambda ()
