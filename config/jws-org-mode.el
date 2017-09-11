@@ -94,6 +94,8 @@ in my site-init.el.  This displays the `org-agenda' at startup."
         ("l" "Link" entry (file+headline (concat jws/org-dir "links.org") "Uncategorized")
          "* %?")
         ("j" "Journal" entry (file+datetree (concat jws/org-journal-dir "current.org"))
+         "* %?\nEntered on %U\n  %i")
+        ("s" "Shopping list" entry (file+headline (concat jws/org-dir "shopping.org") "Unfiled Shopping")
          "* %?\nEntered on %U\n  %i")))
 
 ;; keybindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
