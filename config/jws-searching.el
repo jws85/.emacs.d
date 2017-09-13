@@ -35,6 +35,24 @@
                            (assq-delete-all 'org-agenda-refile
                                             (assq-delete-all 'org-refile ivy-initial-inputs-alist))))
 
+    ;; Fix shortest match irritation with counsel-find-files
+    ;; https://github.com/abo-abo/swiper/issues/723
+    (defun jws/ivy-sort-files-function (_name candidates)
+      "Sort CANDIDATES files alphabetically ignoring trailing slashes.
+Meant for use in `ivy-sort-matches-functions-alist' so
+directories will have a trailing /, ignore it so foo.txt is after foo/."
+      ;; Perhaps add a check for if directories should sort first
+      (cl-sort (copy-sequence candidates)
+               (lambda (x y)
+                 (string< (if (string-suffix-p "/" x) (substring x 0 -1) x)
+                          (if (string-suffix-p "/" y) (substring y 0 -1) y)))))
+
+    ;; Actually use jws/ivy-sort-files-function
+    (setq ivy-sort-matches-functions-alist
+          '((t)
+            (ivy-switch-buffer . ivy-sort-function-buffer)
+            (counsel-find-file . jws/ivy-sort-files-function)))
+
     (define-key ivy-mode-map (kbd "C-SPC") 'ivy-restrict-to-matches)
 
     ;; I'm not sure of the implication of this... but it fixes an irritating
