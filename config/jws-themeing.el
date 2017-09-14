@@ -17,7 +17,7 @@
 (defun jws/set-frame-transparency (transparency)
   (set-frame-parameter (selected-frame)
                        'alpha
-                       (jws/clamp 0 100 transparency)))
+                       (jws/clamp 10 100 transparency)))
 
 (defun jws/increase-transparency ()
   "Make frame more transparent/less opaque."
@@ -28,6 +28,11 @@
   "Make frame less transparent/more opaque."
   (interactive)
   (jws/set-frame-transparency (+ (jws/get-frame-transparency) 1)))
+
+(defun jws/reset-transparency ()
+  "Make frame completely opaque."
+  (interactive)
+  (jws/set-frame-transparency 100))
 
 ;; Focus on some text at a time
 (use-package focus :ensure t)
@@ -47,6 +52,7 @@
     ("-" text-scale-decrease "Smaller font")
     ("s" text-scale-decrease "Smaller font")
 
+    ("o" jws/reset-transparency "Completely opaque")
     ("i" jws/increase-transparency "More transparent")
     ("d" jws/decrease-transparency "Less transparent"))
 
