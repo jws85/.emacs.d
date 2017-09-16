@@ -89,13 +89,13 @@ in my site-init.el.  This displays the `org-agenda' at startup."
 
 ;; http://orgmode.org/manual/Capture-templates.html
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline (concat jws/org-agenda-dir "unfiled.org") "Unfiled Tasks")
+      '(("t" "Todo" entry (file+headline (lambda () (concat jws/org-agenda-dir "unfiled.org")) "Unfiled Tasks")
          "* TODO %?\n  %i")
-        ("l" "Link" entry (file+headline (concat jws/org-dir "links.org") "Uncategorized")
+        ("l" "Link" entry (file+headline (lambda () (concat jws/org-dir "links.org")) "Uncategorized")
          "* %?")
-        ("j" "Journal" entry (file+datetree (concat jws/org-journal-dir "current.org"))
+        ("j" "Journal" entry (file+datetree (lambda () (concat jws/org-journal-dir "current.org")))
          "* %?\nEntered on %U\n  %i")
-        ("s" "Shopping list" entry (file+headline (concat jws/org-dir "shopping.org") "Unfiled Shopping")
+        ("s" "Shopping list" entry (file+headline (lambda () (concat jws/org-dir "shopping.org")) "Unfiled Shopping")
          "* %?\nEntered on %U\n  %i")))
 
 ;; keybindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
