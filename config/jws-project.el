@@ -1,6 +1,5 @@
 (use-package projectile
   :ensure t
-  ;:init (projectile-global-mode) ;; disabling always-on mode, see below comment
   :config
   (progn
     (after 'evil
@@ -42,8 +41,7 @@
 (use-package counsel-projectile
   :ensure t
   :after projectile
-  :init (require 'counsel-projectile)
-  :config (counsel-projectile-on))
+  :config (counsel-projectile-mode))
 
 (jws/after (counsel counsel-projectile hydra)
   (defhydra jws/hydra-project (:exit t)
