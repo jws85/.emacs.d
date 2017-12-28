@@ -57,19 +57,7 @@
 (add-to-list 'custom-theme-load-path jws/emacs-color-dir)
 
 ;;;; Package management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; a.k.a. the best thing to ever happen to emacs
-(require 'use-package)
-(require 'package)
-
-;; MELPA (forget Marmalade, it never worked for me)
-(add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-;; Enable packages
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
+(require 'jws-package-mgmt)
 
 ;;;; Packages: Basic text editing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'jws-vi)         ; Evil and other vi-style things
@@ -99,7 +87,6 @@
 (require 'jws-www)        ; web integration
 (require 'jws-vcs)        ; version control integration
 (require 'jws-window)
-(require 'jws-package-mgmt)
 (require 'jws-docs)
 (require 'jws-session)
 (require 'jws-utils)
