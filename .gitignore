@@ -37,6 +37,9 @@ emms/
 # elpa installation
 elpa/
 
+# eshell installation
+eshell/
+
 # infodocs
 info/
 
