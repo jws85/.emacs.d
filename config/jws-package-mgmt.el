@@ -8,8 +8,20 @@
 
 ;; Enable packages
 (package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents))
+
+;; Refresh the package only if it hasn't already been done this session
+(setq jws/package-refreshed-already nil)
+(defun jws/package-refresh-once-a-session ()
+  (if (eq jws/package-refreshed-already nil)
+      (progn
+	(package-refresh-contents)
+	(setq jws/package-refreshed-already t))))
+
+;; Refresh the package list, then install package if it hasn't already been installed
+(defun jws/package-install (pkg)
+  (unless (package-installed-p pkg)
+    (jws/package-refresh-once-a-session)
+    (package-install pkg)))
 
 ;; Paradox is a slightly nicer package installation interface
 (use-package paradox
