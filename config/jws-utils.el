@@ -6,7 +6,7 @@
 
 ;; Open up shell through shortcut
 (global-set-key (kbd "M-j s") 'shell)
-(after 'evil (define-key evil-normal-state-map (kbd ", c") 'shell))
+(after 'evil (define-key evil-normal-state-map (kbd "SPC s") 'shell))
 
 ;; Turn off evil-mode when viewing images
 (require 'image-mode)

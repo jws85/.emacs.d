@@ -16,6 +16,6 @@
         (progn
           (require 'evil-magit)))
 
-      (define-key evil-normal-state-map (kbd ", g") 'magit-status))))
+      (define-key evil-normal-state-map (kbd "SPC g") 'magit-status))))
 
 (provide 'jws-vcs)

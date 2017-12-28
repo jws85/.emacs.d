@@ -55,6 +55,6 @@
 
   (global-set-key (kbd "M-j p") 'jws/hydra-project/body)
   (jws/after (evil)
-    (define-key evil-normal-state-map (kbd ", p") 'jws/hydra-project/body)))
+    (define-key evil-normal-state-map (kbd "SPC p") 'jws/hydra-project/body)))
 
 (provide 'jws-project)

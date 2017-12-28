@@ -34,8 +34,8 @@
     (define-key minibuffer-local-must-match-map [escape] 'jws/minibuffer-keyboard-quit)
     (define-key minibuffer-local-isearch-map [escape] 'jws/minibuffer-keyboard-quit)
 
-    (define-key evil-normal-state-map (kbd ", j") 'jws/switch-to-previous-buffer)
-    (define-key evil-normal-state-map (kbd ", k") 'kill-this-buffer)
+    (define-key evil-normal-state-map (kbd "SPC <tab>") 'jws/switch-to-previous-buffer)
+    (define-key evil-normal-state-map (kbd "SPC k") 'kill-this-buffer)
 
     (define-key evil-normal-state-map (kbd "[ SPC") (bind (evil-insert-newline-above) (forward-line)))
     (define-key evil-normal-state-map (kbd "] SPC") (bind (evil-insert-newline-below) (forward-line -1)))

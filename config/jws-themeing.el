@@ -58,7 +58,7 @@
 
   (global-set-key (kbd "M-j t") 'jws/hydra-themeing/body)
   (after 'evil
-    (define-key evil-normal-state-map (kbd ", t") 'jws/hydra-themeing/body)))
+    (define-key evil-normal-state-map (kbd "SPC t") 'jws/hydra-themeing/body)))
 
 ;; Color themes
 

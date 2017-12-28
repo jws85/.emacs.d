@@ -7,7 +7,7 @@
   :ensure t
   :config
   (progn
-    (define-key evil-normal-state-map (kbd ", h z") 'zeal-at-point)
+    (define-key evil-normal-state-map (kbd "SPC d") 'zeal-at-point)
     (global-set-key "\C-hz" 'zeal-at-point)))
 
 (provide 'jws-docs)

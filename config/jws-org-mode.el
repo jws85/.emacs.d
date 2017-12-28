@@ -117,7 +117,7 @@ in my site-init.el.  This displays the `org-agenda' at startup."
 
   (global-set-key (kbd "M-j o") 'jws/hydra-org/body)
   (jws/after (evil)
-    (define-key evil-normal-state-map (kbd ", o") 'jws/hydra-org/body)))
+    (define-key evil-normal-state-map (kbd "SPC o") 'jws/hydra-org/body)))
 
 (provide 'jws-org-mode)
 
