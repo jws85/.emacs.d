@@ -54,8 +54,6 @@
       (add-to-list 'load-path default-directory)
       (normal-top-level-add-subdirs-to-load-path)))
 
-(add-to-list 'custom-theme-load-path jws/emacs-color-dir)
-
 ;;;; Package management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'jws-package-mgmt)
 
