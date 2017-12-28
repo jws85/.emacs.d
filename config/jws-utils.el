@@ -5,8 +5,8 @@
 (add-hook 'shell-mode-hook #'jws/disable-completion-in-shell)
 
 ;; Open up shell through shortcut
-(global-set-key (kbd "M-j s") 'shell)
-(after 'evil (define-key evil-normal-state-map (kbd "SPC s") 'shell))
+(global-set-key (kbd "M-j s") 'eshell)
+(after 'evil (define-key evil-normal-state-map (kbd "SPC s") 'eshell))
 
 ;; Turn off evil-mode when viewing images
 (require 'image-mode)
