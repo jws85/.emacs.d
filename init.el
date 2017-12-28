@@ -91,6 +91,7 @@
 
 ;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'jws-themeing)
+(require 'jws-splashscreen)
 (require 'jws-fonts)
 (require 'jws-guide-key)
 (require 'jws-org-mode)
