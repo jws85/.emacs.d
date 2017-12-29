@@ -3,34 +3,26 @@
 (use-package smart-mode-line
   :ensure t
   :config
-  (progn
-    ;; Hide packages from the modeline
-    (use-package diminish
-      :ensure t)
+  ;; Hide packages from the modeline
+  (use-package diminish
+    :ensure t)
 
-    ;; Nyan~ ^_^ (in all seriousness, it's not a bad navigation indicator)
-    (use-package nyan-mode
-      :ensure t
-      :init (nyan-mode)
-      :config
-      (progn
-        (setq nyan-bar-length 25)))
+  ;; Nyan~ ^_^ (in all seriousness, it's not a bad navigation indicator)
+  (use-package nyan-mode
+    :ensure t
+    :config
+    (setq nyan-bar-length 25))
 
-    (column-number-mode)
+  (column-number-mode)
 
-    (if after-init-time (sml/setup)
-      (add-hook 'after-init-hook 'sml/setup))
+  (setq sml/col-number-format "%3c" ; three places for column numbers
+        sml/mule-info "" ; hide buffer encoding type -- I just don't need it that much
+        sml/name-width 38 ; make filename field less wide
+        sml/mode-width 'right ; right-align the list of minor-modes
+        sml/theme 'respectful)
 
-    ;; three places for column numbers
-    (setq sml/col-number-format "%3c")
-
-    ;; hide buffer encoding type -- I just don't need it that much
-    (setq sml/mule-info "")
-
-    ;; make filename field less wide
-    (setq sml/name-width 38)
-
-    ;; right-align the list of minor-modes
-    (setq sml/mode-width 'right)))
+  (if after-init-time (sml/setup)
+    (nyan-mode)
+    (add-hook 'after-init-hook 'sml/setup)))
 
 (provide 'jws-modeline)
