@@ -27,4 +27,12 @@
     (setq mis-recipes-directory (expand-file-name (concat user-emacs-directory "etc/make-it-so")))
     (define-key dired-mode-map (kbd ", ,") 'make-it-so)))
 
+;; Weather ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package wttrin
+  :ensure t
+  :config
+  (setq wttrin-default-cities '("Wilmington, NC" "Raleigh, NC" "Springfield, VA" "Tokyo")
+        wttrin-default-accept-language '("Accept-Language" . "en-US")))
+
 (provide 'jws-utils)
