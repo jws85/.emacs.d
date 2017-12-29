@@ -13,4 +13,15 @@
   (progn
     (slime-setup '(slime-fancy))))
 
+(use-package lispy
+  :ensure t)
+
+(use-package lispyville
+  :ensure t
+  :after (evil lispy)
+  :config
+  (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
+  (add-hook 'lispy-mode-hook #'lispyville-mode)
+  (define-key lispy-mode-map-lispy (kbd "\"") nil))
+
 (provide 'jws-lisp)
