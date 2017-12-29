@@ -1,3 +1,5 @@
+;; Shells ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Disable company-mode in shell, to prevent needing to hit RET twice
 (defun jws/disable-completion-in-shell ()
   (company-mode -1)
@@ -8,9 +10,13 @@
 (global-set-key (kbd "M-j s") 'eshell)
 (after 'evil (define-key evil-normal-state-map (kbd "SPC s") 'eshell))
 
+;; Image viewing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Turn off evil-mode when viewing images
 (require 'image-mode)
 (evil-set-initial-state 'image-mode 'emacs)
+
+;; Dired ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; make-it-so, a package to perform batch file conversions with dired
 (use-package make-it-so
