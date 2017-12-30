@@ -2,7 +2,9 @@
 (winner-mode 1)
 
 (use-package popwin
-  :ensure t)
+  :ensure t
+  :config
+  (popwin-mode))
 
 (use-package which-key
   :ensure t
