@@ -8,6 +8,8 @@
   :ensure t
   :config
   (which-key-mode)
+  (after 'diminish
+    (diminish 'which-key-mode))
   (setq which-key-idle-delay 0.1))
 
 (provide 'jws-window)
