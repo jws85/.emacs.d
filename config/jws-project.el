@@ -43,11 +43,25 @@
   :after projectile
   :config (counsel-projectile-mode))
 
+;; Needed by the code figuring out the grep command du jour...
+(defun jws/not-nil-p (val)
+  (not (eq val nil)))
+
 (jws/after (counsel counsel-projectile hydra)
+  ;; If rg isn't installed, go with ag
+  ;; if ag isn't installed, fall back to grep
+  ;; rg requires a full Rust toolchain on Debian boxen, or SSSE2 support for the binary
+  ;; ag is at least available as a package on *buntu (silversearcher-ag)
+  (setq jws/project-grep-command
+        (cond
+         ((jws/not-nil-p (executable-find "rg")) #'counsel-projectile-rg)
+         ((jws/not-nil-p (executable-find "ag")) #'counsel-projectile-ag)
+         (t #'counsel-projectile-grep)))
+
   (defhydra jws/hydra-project (:exit t)
     ("p" projectile-find-file "Find file in project")
     ("s" projectile-switch-project "Switch project")
-    ("g" counsel-projectile-ag "Find string in project")
+    ("g" (funcall jws/project-grep-command) "Find string in project")
     ("c" projectile-compile-project "Compile project")
     ("r" projectile-regenerate-tags "Reload tags" :exit nil))
 
