@@ -79,7 +79,6 @@
 (require 'jws-themeing)
 (require 'jws-splashscreen)
 (require 'jws-fonts)
-(require 'jws-guide-key)
 (require 'jws-org-mode)
 (require 'jws-calc)
 (require 'jws-www)        ; web integration
