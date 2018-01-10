@@ -7,6 +7,9 @@
 (use-package which-key
   :ensure t
   :config
+  (after 'diminish
+    (diminish 'which-key-mode))
+
   (which-key-mode)
   (setq which-key-idle-delay 0.1))
 

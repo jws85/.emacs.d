@@ -20,6 +20,10 @@
   :ensure t
   :after (evil lispy)
   :config
+  (after 'diminish
+    (diminish 'lispy-mode)
+    (diminish 'lispyville-mode))
+
   (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
   (add-hook 'lispy-mode-hook #'lispyville-mode)
   (define-key lispy-mode-map-lispy (kbd "\"") nil))
