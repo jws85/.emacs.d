@@ -1,4 +1,4 @@
-;; a.k.a. the best thing to ever happen to emacs
+;; use-package, a.k.a. the best thing to ever happen to emacs
 (require 'use-package)
 (require 'package)
 
@@ -22,6 +22,10 @@
   (unless (package-installed-p pkg)
     (jws/package-refresh-once-a-session)
     (package-install pkg)))
+
+;; Hide packages from the modeline
+(use-package diminish
+  :ensure t)
 
 ;; Paradox is a slightly nicer package installation interface
 (use-package paradox
