@@ -3,10 +3,6 @@
 (use-package smart-mode-line
   :ensure t
   :config
-  ;; Hide packages from the modeline
-  (use-package diminish
-    :ensure t)
-
   ;; Nyan~ ^_^ (in all seriousness, it's not a bad navigation indicator)
   (use-package nyan-mode
     :ensure t

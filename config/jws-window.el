@@ -9,6 +9,9 @@
 (use-package which-key
   :ensure t
   :config
+  (after 'diminish
+    (diminish 'which-key-mode))
+
   (which-key-mode)
   (after 'diminish
     (diminish 'which-key-mode))
