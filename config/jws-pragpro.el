@@ -308,8 +308,8 @@
             ("\\(~>>\\)"              #XEA73) ; ~ > >
 
             ;; #XEA9* -- ">
-            ("\\(\">\\)"              #XEA90) ; " >
-            ("\\(<\">\\)"             #XE9DE) ; < " > [NOTE] out of order
+            ;; ("\\(\">\\)"              #XEA90) ; " >
+            ;; ("\\(<\">\\)"             #XE9DE) ; < " > [NOTE] out of order
             )))
 
 (defun add-pragmatapro-symbol-keywords ()

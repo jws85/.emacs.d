@@ -3,8 +3,6 @@
 ;;  ,ef -- #'helm-semantic-or-imenu
 ;;  ,er -- #'helm-regexp
 
-(require 'counsel-surfraw)
-
 (use-package ivy
   :ensure t
   :init
@@ -22,6 +20,8 @@
     (use-package flx :ensure t :init (require 'flx))
     (use-package smex :ensure t :init (require 'smex))
     (use-package counsel-dash :ensure t :init (require 'counsel-dash))
+
+    (require 'counsel-surfraw)
 
     (setq ivy-use-virtual-buffers t
           ivy-count-format "(%d/%d)"

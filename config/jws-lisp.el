@@ -14,8 +14,15 @@
   :ensure t
   :after (evil lispy)
   :config
+  (after 'diminish
+    (diminish 'lispy-mode)
+    (diminish 'lispyville-mode))
+
   (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
   (add-hook 'lispy-mode-hook #'lispyville-mode)
+  (after 'diminish
+    (diminish 'lispyville-mode)
+    (diminish 'lispy-mode))
   (define-key lispy-mode-map-lispy (kbd "\"") nil))
 
 ;; syntax highlight Cask files
@@ -36,5 +43,8 @@
 ;;     (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
 ;;     (add-hook 'flycheck-mode-hook #'flycheck-package-setup)
 ;;     (add-hook 'emacs-lisp-mode-hook #'flycheck-mode))
+
+(after 'diminish
+  (diminish 'eldoc-mode))
 
 (provide 'jws-lisp)
