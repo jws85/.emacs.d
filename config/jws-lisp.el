@@ -26,6 +26,12 @@
 
   (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
   (add-hook 'lispy-mode-hook #'lispyville-mode)
+  (after 'diminish
+    (diminish 'lispyville-mode)
+    (diminish 'lispy-mode))
   (define-key lispy-mode-map-lispy (kbd "\"") nil))
+
+(after 'diminish
+  (diminish 'eldoc-mode))
 
 (provide 'jws-lisp)
