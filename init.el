@@ -60,7 +60,7 @@
 ;;;; Packages: Basic text editing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'jws-vi)         ; Evil and other vi-style things
 (require 'jws-movement)   ; Other plugins to help move around
-(require 'jws-indent)     ; Indentation
+(require 'jws-formatting) ; Indentation and other formatting
 (require 'jws-completion) ; Text completion
 (require 'jws-modeline)   ; The bar at the bottom with data in it
 
