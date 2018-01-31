@@ -67,6 +67,7 @@
 ;;;; Packages: Editor navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'jws-searching)  ; "Searching" UIs (ido/helm)
 (require 'jws-project)    ; Project management
+(require 'jws-bufjuggler) ; Juggling lots of buffers?
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'jws-lisp)
