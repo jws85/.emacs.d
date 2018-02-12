@@ -7,8 +7,8 @@
 (add-hook 'shell-mode-hook #'jws/disable-completion-in-shell)
 
 ;; Open up shell through shortcut
-(global-set-key (kbd "M-j s") 'eshell)
-(after 'evil (define-key evil-normal-state-map (kbd "SPC s") 'eshell))
+(global-set-key (kbd "M-j s") 'ansi-term)
+(after 'evil (define-key evil-normal-state-map (kbd "SPC s") 'ansi-term))
 
 ;; Image viewing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
