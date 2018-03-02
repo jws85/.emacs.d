@@ -6,9 +6,28 @@
   (setq-local company-mode nil))
 (add-hook 'shell-mode-hook #'jws/disable-completion-in-shell)
 
+;; Disable evil in term modes
+(evil-set-initial-state 'term-mode 'emacs)
+
+;; Close the ansi-term buffer when finished
+(defun jws/oleh-term-exec-hook ()
+  "Copied from https://oremacs.com/2015/01/01/three-ansi-term-tips/"
+  (let* ((buff (current-buffer))
+         (proc (get-buffer-process buff)))
+    (set-process-sentinel
+     proc
+     `(lambda (process event)
+        (if (string= event "finished\n")
+            (kill-buffer ,buff))))))
+(add-hook 'term-exec-hook 'jws/oleh-term-exec-hook)
+
 ;; Open up shell through shortcut
-(global-set-key (kbd "M-j s") 'ansi-term)
-(after 'evil (define-key evil-normal-state-map (kbd "SPC s") 'ansi-term))
+(defun jws/ansi-term-zsh ()
+  (interactive)
+  (ansi-term "/bin/zsh"))
+
+(global-set-key (kbd "M-j s") 'jws/ansi-term-zsh)
+(after 'evil (define-key evil-normal-state-map (kbd "SPC s") 'jws/ansi-term-zsh))
 
 ;; Image viewing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
