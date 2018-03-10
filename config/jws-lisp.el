@@ -20,10 +20,9 @@
 
   (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
   (add-hook 'lispy-mode-hook #'lispyville-mode)
-  (after 'diminish
-    (diminish 'lispyville-mode)
-    (diminish 'lispy-mode))
-  (define-key lispy-mode-map-lispy (kbd "\"") nil))
+  (define-key lispy-mode-map-lispy (kbd "\"") nil)
+  (define-key lispy-mode-map-lispy (kbd "[") nil)
+  (define-key lispy-mode-map-lispy (kbd "]") nil))
 
 ;; syntax highlight Cask files
 (use-package cask-mode :ensure t)
@@ -31,8 +30,9 @@
 (use-package nameless
   :ensure t
   :config
-  (progn
-    (add-hook 'emacs-lisp-mode-hook #'nameless-mode)))
+  (after 'diminish
+    (diminish 'nameless-mode))
+  (add-hook 'emacs-lisp-mode-hook #'nameless-mode))
 
 ;; ;; I am trying to do the following: If there is a Cask file somewhere in the
 ;; ;; upwards file hierarchy for this elisp file, enable flycheck-package,
