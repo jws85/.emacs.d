@@ -37,6 +37,13 @@
 
 ;; Dired ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun jws/dired-home ()
+  (interactive)
+  (dired "~"))
+
+(global-set-key (kbd "M-j u d") 'jws/dired-home)
+(after 'evil (define-key evil-normal-state-map (kbd "SPC u d") 'jws/dired-home))
+
 ;; make-it-so, a package to perform batch file conversions with dired
 (use-package make-it-so
   :ensure t
