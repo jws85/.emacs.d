@@ -44,6 +44,12 @@
 (global-set-key (kbd "M-j u d") 'jws/dired-home)
 (after 'evil (define-key evil-normal-state-map (kbd "SPC u d") 'jws/dired-home))
 
+;; Show/hide hidden files
+(require 'dired-x)
+(setq dired-omit-files "^\\...+$")
+(add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1)))
+(define-key dired-mode-map (kbd ", h") 'dired-omit-mode)
+
 ;; make-it-so, a package to perform batch file conversions with dired
 (use-package make-it-so
   :ensure t
@@ -52,6 +58,23 @@
   (progn
     (setq mis-recipes-directory (expand-file-name (concat user-emacs-directory "etc/make-it-so")))
     (define-key dired-mode-map (kbd ", ,") 'make-it-so)))
+
+(use-package dired-rainbow
+  :ensure t
+  :config
+  ;; executable files
+  (dired-rainbow-define-chmod executable-unix "Green" "-[rw-]+x.*"))
+
+(use-package dired-subtree
+  :ensure t
+  :config
+  (define-key dired-mode-map (kbd ", s o") 'dired-subtree-insert)
+  (define-key dired-mode-map (kbd ", s c") 'dired-subtree-remove))
+
+(use-package dired-collapse
+  :ensure t
+  :config
+  (define-key dired-mode-map (kbd ", c") 'dired-collapse-mode))
 
 ;; Weather ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
