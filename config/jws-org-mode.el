@@ -43,6 +43,11 @@
 
 ;; org-agenda ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package worf
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook 'worf-mode))
+
 (setq org-log-done t
       org-agenda-include-diary t
       org-refile-targets '((nil . (:maxlevel . 9))
