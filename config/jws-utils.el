@@ -26,8 +26,8 @@
   (interactive)
   (ansi-term "/bin/zsh"))
 
-(global-set-key (kbd "M-j s") 'jws/ansi-term-zsh)
-(after 'evil (define-key evil-normal-state-map (kbd "SPC s") 'jws/ansi-term-zsh))
+(global-set-key (kbd "M-j u s") 'jws/ansi-term-zsh)
+(after 'evil (define-key evil-normal-state-map (kbd "SPC u s") 'jws/ansi-term-zsh))
 
 ;; Image viewing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
