@@ -46,7 +46,9 @@
 (use-package worf
   :ensure t
   :config
-  (add-hook 'org-mode-hook 'worf-mode))
+  (add-hook 'org-mode-hook 'worf-mode)
+  (define-key worf-mode-map (kbd "[") nil)
+  (define-key worf-mode-map (kbd "]") nil))
 
 (setq org-log-done t
       org-agenda-include-diary t
