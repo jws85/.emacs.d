@@ -76,15 +76,23 @@
 (require 'jws-clangs)
 (require 'jws-web-langs)
 
-;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Packages: Appearance ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Note that what most people call a "window," emacs calls a "frame."
+;; Emacs "windows" are the subdivided parts of a frame that holds buffers.
+;; So, "window" functions are things like popwin and winner-mode, while
+;; "frame" functions actually provide maximization/fullscreen and things
+;; like that.
+(require 'jws-window)     ; handles emacs window positioning
+(require 'jws-frame)      ; handles emacs frame positioning
 (require 'jws-themeing)
-(require 'jws-splashscreen)
 (require 'jws-fonts)
+
+;;;; Packages: Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'jws-splashscreen)
 (require 'jws-org-mode)
 (require 'jws-calc)
 (require 'jws-www)        ; web integration
 (require 'jws-vcs)        ; version control integration
-(require 'jws-window)
 (require 'jws-docs)
 (require 'jws-session)
 (require 'jws-utils)

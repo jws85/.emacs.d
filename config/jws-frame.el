@@ -32,4 +32,18 @@ percent-high:  Height of frame, in fraction of screen resolution"
 	 (average-width (elt font-vector 7)))
     (cons average-height average-width)))
 
-(provide 'jws-frame-size)
+;; Hydra to create, close, and resize frames
+
+(after 'hydra
+  (defhydra jws/hydra-frame (:exit t)
+    ("n" make-frame "Make new window/frame")
+    ("c" delete-frame "Close window/frame")
+
+    ("m" toggle-frame-maximized "Maximize/unmaximize")
+    ("f" toggle-frame-fullscreen "Toggle fullscreen"))
+
+  (global-set-key (kbd "M-j w") 'jws/hydra-frame/body)
+  (after 'evil
+    (define-key evil-normal-state-map (kbd "SPC w") 'jws/hydra-frame/body)))
+
+(provide 'jws-frame)
