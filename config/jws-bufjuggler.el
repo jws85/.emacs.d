@@ -12,7 +12,13 @@
 ;; FIXME: make it so that users can use Dvorak, etc instead of qwerty
 ;;        home row
 ;; FIXME: fix formatting of hydra docstring so everything is in nice neat
-;;        columns
+;;        columns (or just replace hydra)
+;; FIXME: fix 'nil' when there are less than ten open buffers
+
+(defun jws/cond-buffer-list ()
+  (if (functionp #'persp-buffer-list)
+      (persp-buffer-list)
+    (buffer-list)))
 
 (defun jws/name-of-buffers (n)
   "Return the names of the first N buffers from `buffer-list'."
@@ -22,7 +28,7 @@
                 (lambda (b)
                   (unless (string-match "^ " (setq b (buffer-name b)))
                     b))
-                (buffer-list)))))
+                (jws/cond-buffer-list)))))
     (subseq bns 1 (min (1+ n) (length bns)))))
 
 (defvar jws/last-buffers nil)
@@ -34,9 +40,6 @@
 
 (defun jws/name-of-buffer (arg)
   (nth (1- arg) jws/last-buffers))
-
-(jws/name-of-buffer 1)
-(jws/name-of-buffer 2)
 
 (defhydra jws/bufjuggler (:exit t :hint nil :body-pre (setq jws/last-buffers
                                                             (jws/name-of-buffers 10)))
