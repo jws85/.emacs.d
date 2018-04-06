@@ -18,23 +18,15 @@
 
 ;;;; Appearance ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; font
-(set-face-attribute 'default nil :font "Consolas-11")
-
 ;; theme
 (load-theme 'jellybeans t)
 
-;; positioning/sizing code
-;; I define this in a defun so I can run it without rerunning the whole ~/.emacs
-(defun jws/my-emacs-frame-positioning ()
-  "Positions the emacs frame to *my* personal specifications.  Interactive function.
-I personally like emacs to be in the top left corner, a bit more than half the screen
-wide (on a 16:9 screen) and maximized vertically as much as possible."
-  (interactive)
-  (jws/emacs-frame-positioning 0 0 0.57 1))
-
-;; actually run the above
-(jws/my-emacs-frame-positioning)
+;; If you want to position the window, you'll need to override the settings
+;; in jws-frame.el and re-load (jws/set-my-default-frame-alist), like so:
+;; (setq jws/default-x-pos 50)
+;; (setq jws/default-width-percent 0.6)
+;; (setq jws/default-font "PragmataPro-10.5")
+;; (jws/set-my-default-frame-alist)
 
 ;; Prevent window from splitting unless it has a lot of columns
 ;; The default is 160.  On a 1080p screen with the above positioning code
