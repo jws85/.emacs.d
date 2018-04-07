@@ -22,7 +22,9 @@
 
 (require 'jws-path-helpers)
 
-(require 'org-install)
+(use-package org
+  :ensure t
+  :init (require 'org-install))
 
 ;; basic configuration ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -51,7 +53,6 @@
   (define-key worf-mode-map (kbd "]") nil))
 
 (setq org-log-done t
-      org-agenda-include-diary t
       org-refile-targets '((nil . (:maxlevel . 9))
                            (org-agenda-files . (:maxlevel . 9)))
       org-refile-use-outline-path t
