@@ -4,11 +4,9 @@ Oriented around vim-style keybindings and PHP programming... for the
 moment.
 
 Warning: If you want a good easy Emacs starter pack, please go look at
-Emacs Prelude[1] or similar.  I've used Emacs in some form for more
-than five years (not counting my long torrid affair with Vim) and thus
-am not afraid to totally remap things and enable "scary" disabled
-commands[2] and the like.  This is really more for my own personal
-use.
+Emacs Prelude[1] or Spacemacs[2] or similar.  I've run this code in
+various states of breakage, and anticipate more breakage in the future.
+That said, I try to sorta-test before pushing here.
 
 Do feel free to steal from it though.
 
@@ -27,6 +25,11 @@ needs.
 Start up Emacs and pray that something isn't broken.  If it is, fix
 it.  Ain't the bleeding edge fun?
 
+NOTE:  I used to run bleeding-edge Emacs from the git repository,
+but now I think I'm going to try to keep up with the latest numbered
+version.  As of 2018-04-06, that is 25.3.  That said, I caused some
+breakage by going backwards :P
+
 NOTE:  This is so oriented around vim keybindings that you may need
 to install evil through M-x package-list-packages before anything
 else will auto-install...
@@ -38,14 +41,17 @@ stable), you may need to blow away the elpa/ directory to get rid of
 
 # Keybindings
 
-Key | Does:
---- | -----
-,f  | Find files
-,b  | Find buffers (open files)
-,j  | Swap back to previous buffer
-,k  | Kill buffer
-,g  | Magit
-,e  | Prefix key for miscellaneous things (Helm)
+The keybindings section is probably forever doomed to be super out
+of date.  A while back, I re-oriented myself to work more like
+Spacemacs, so almost everything that isn't some kind of Evil binding
+is hanging off the Space key.
+
+If you're in a mode where Space doesn't work, M-j should do the same
+thing.
+
+Specifically, SPC f should open a file switcher and SPC b should
+open a buffer switcher.  I'm not even sure I can guarantee those
+staying the same in the future...
 
 # Customizing
 
@@ -61,4 +67,5 @@ MELPA, stick it in lisp/ (it should be gitignored, except for the
 use-package, jws, and config packages) and have at it.
 
 [1] https://github.com/bbatsov/prelude
-[2] http://www.emacswiki.org/emacs/DisabledCommands
+[2] http://spacemacs.org/
+[3] http://www.emacswiki.org/emacs/DisabledCommands
