@@ -20,6 +20,7 @@
     (use-package flx :ensure t :init (require 'flx))
     (use-package smex :ensure t :init (require 'smex))
     (use-package counsel-dash :ensure t :init (require 'counsel-dash))
+    (use-package ivy-rich :ensure t :config (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
 
     (require 'counsel-surfraw)
 
