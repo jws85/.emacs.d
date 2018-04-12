@@ -46,7 +46,7 @@
 
 ;; For instance:
 
-;; Setting up org-agenda (could swap out ~/org for d:/org or whatever)
+;; Setting up org-agenda (could swap out ~/Org for d:/Org or whatever)
 (require 'jws-path-helpers)
 (setq org-agenda-files
-      (jws/expand-file-names (list "todo.org") "~/org"))
+      (jws/expand-file-names (list "todo.org") "~/Org"))

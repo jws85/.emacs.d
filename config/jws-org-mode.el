@@ -3,7 +3,7 @@
 ;;; Commentary:
 ;;
 ;; My org-mode folder structure looks like the following:
-;;  * $ORGROOT/ (by default, ~/org/)
+;;  * $ORGROOT/ (by default, ~/Org/)
 ;;     * agenda/
 ;;        - unfiled.org    Where captured todo items go
 ;;        - finished.org   Where finished items go; archival spot
@@ -28,7 +28,7 @@
 
 ;; basic configuration ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defvar jws/org-dir (expand-file-name "~/org/")
+(defvar jws/org-dir (expand-file-name "~/Org/")
   "The directory where `org-mode' files live.")
 
 (defvar jws/org-agenda-dir (concat jws/org-dir "agenda/")
