@@ -35,33 +35,6 @@
 (require 'image-mode)
 (evil-set-initial-state 'image-mode 'emacs)
 
-;; Buffer stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Taken from http://emacsredux.com/blog/2013/03/27/copy-filename-to-the-clipboard/
-(defun jws/copy-file-name-to-clipboard ()
-  "Copy the current buffer file name to the clipboard."
-  (interactive)
-  (let ((filename (if (equal major-mode 'dired-mode)
-                      default-directory
-                    (buffer-file-name))))
-    (when filename
-      (kill-new filename)
-      (message "Copied buffer file name '%s' to the clipboard." filename))))
-
-;; Taken from http://emacsredux.com/blog/2013/03/27/open-file-in-external-program/
-(defun jws/open-file-with (arg)
-    "Open visited file in default external program.
-
-With a prefix ARG always prompt for command to use."
-  (interactive "P")
-  (when buffer-file-name
-    (shell-command (concat
-                    (cond
-                     ((and (not arg) (eq system-type 'darwin)) "open")
-                     ((and (not arg) (member system-type '(gnu gnu/linux gnu/kfreebsd))) "xdg-open")
-                     (t (read-shell-command "Open current file with: ")))
-                    " "
-                    (shell-quote-argument buffer-file-name)))))
 
 ;; Dired ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -118,5 +91,24 @@ With a prefix ARG always prompt for command to use."
   :ensure t
   :config
   (setq alert-default-style (if (equal system-type 'gnu/linux) 'notifications 'message)))
+
+;; Assorted other stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Some good functions from here that are asking for keybindings:
+;;  - crux-find-user-init-file (Opens the ~/.emacs.d/init.el)
+;;  - crux-find-shell-init-file (Opens your shell's init files)
+;;  - crux-open-with (Opens file in your OS' default program)
+(use-package crux :ensure t)
+
+;; Taken from http://emacsredux.com/blog/2013/03/27/copy-filename-to-the-clipboard/
+(defun jws/copy-file-name-to-clipboard ()
+  "Copy the current buffer file name to the clipboard."
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (kill-new filename)
+      (message "Copied buffer file name '%s' to the clipboard." filename))))
 
 (provide 'jws-utils)
