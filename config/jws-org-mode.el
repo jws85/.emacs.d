@@ -52,6 +52,9 @@
   (define-key worf-mode-map (kbd "[") nil)
   (define-key worf-mode-map (kbd "]") nil))
 
+(use-package org-alert
+  :ensure t)
+
 (setq org-log-done t
       org-refile-targets '((nil . (:maxlevel . 9))
                            (org-agenda-files . (:maxlevel . 9)))

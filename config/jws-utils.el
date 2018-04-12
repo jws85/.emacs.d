@@ -112,4 +112,11 @@ With a prefix ARG always prompt for command to use."
   (setq wttrin-default-cities '("Wilmington, NC" "Raleigh, NC" "Springfield, VA" "Tokyo")
         wttrin-default-accept-language '("Accept-Language" . "en-US")))
 
+;; Alerts ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package alert
+  :ensure t
+  :config
+  (setq alert-default-style (if (equal system-type 'gnu/linux) 'notifications 'message)))
+
 (provide 'jws-utils)
