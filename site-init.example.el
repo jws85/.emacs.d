@@ -21,10 +21,12 @@
 ;; theme
 (load-theme 'jellybeans t)
 
-;; If you want to position the window, you'll need to override the settings
-;; in jws-frame.el and re-load (jws/set-my-default-frame-alist), like so:
+;; If you want to position the window, you'll need to open up a GUI frame
+;; and run (jws/calculate-window-size), then take those values and enter
+;; them here and re-run (jws/set-my-default-frame-alist):
 ;; (setq jws/default-x-pos 50)
-;; (setq jws/default-width-percent 0.6)
+;; (setq jws/default-width-colums 120)
+;; (setq jws/default-height-rows 50)
 ;; (setq jws/default-font "PragmataPro-10.5")
 ;; (jws/set-my-default-frame-alist)
 
