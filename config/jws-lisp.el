@@ -20,9 +20,14 @@
 
   (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
   (add-hook 'lispy-mode-hook #'lispyville-mode)
+
+  ;; I've found the below bindings more annoying than useful.
   (define-key lispy-mode-map-lispy (kbd "\"") nil)
   (define-key lispy-mode-map-lispy (kbd "[") nil)
-  (define-key lispy-mode-map-lispy (kbd "]") nil))
+  (define-key lispy-mode-map-lispy (kbd "]") nil)
+
+  ;; I'm using M-j as the entry point to my main menu...
+  (define-key lispy-mode-map-lispy (kbd "M-j") nil))
 
 ;; syntax highlight Cask files
 (use-package cask-mode :ensure t)
