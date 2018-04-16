@@ -3,6 +3,15 @@
 ;; use eww to browse everything
 (setq browse-url-browser-function 'eww-browse-url)
 
+(defvar jws/eww-home-page "https://duckduckgo.com/html/?kd=1")
+
+(defun jws/eww-home ()
+  (interactive)
+  (eww jws/eww-home-page))
+
+(global-set-key (kbd "M-j u w w") 'jws/eww-home)
+(after 'evil (define-key evil-normal-state-map (kbd "SPC u w w") 'jws/eww-home))
+
 ;; Opens links in browse-url-browser-function
 (use-package ace-link
   :after avy
