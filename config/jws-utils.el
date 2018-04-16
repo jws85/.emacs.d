@@ -94,11 +94,6 @@
 
 ;; Assorted other stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Some good functions from here that are asking for keybindings:
-;;  - crux-find-user-init-file (Opens the ~/.emacs.d/init.el)
-;;  - crux-find-shell-init-file (Opens your shell's init files)
-;;  - crux-open-with (Opens file in your OS' default program)
-(use-package crux :ensure t)
 
 ;; Taken from http://emacsredux.com/blog/2013/03/27/copy-filename-to-the-clipboard/
 (defun jws/copy-file-name-to-clipboard ()

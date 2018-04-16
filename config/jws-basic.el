@@ -112,4 +112,24 @@
 ;; Disable C-x C-z; irritating keymap
 (global-unset-key (kbd "C-x C-z"))
 
+;; Define a hydra with some basic emacs functionality
+(defun jws/server-shutdown ()
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs))
+
+;; Some good functions from here that are asking for keybindings:
+;;  - crux-find-user-init-file (Opens the ~/.emacs.d/init.el)
+;;  - crux-find-shell-init-file (Opens your shell's init files)
+;;  - crux-open-with (Opens file in your OS' default program)
+(use-package crux :ensure t)
+
+(after 'hydra
+  (defhydra jws/hydra-emacs (:exit t)
+    ("s" server-start "Start server")
+    ("c" crux-find-user-init-file "Open config file")
+    ("q" jws/server-shutdown "Shutdown Emacs"))
+  (global-set-key (kbd "M-j e") 'jws/hydra-emacs/body)
+  (after 'evil (define-key evil-normal-state-map (kbd "SPC e") 'jws/hydra-emacs/body)))
+
 (provide 'jws-basic)
