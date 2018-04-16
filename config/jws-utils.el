@@ -94,6 +94,18 @@
 
 ;; Assorted other stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(after 'counsel
+  ;; "character map"
+  (global-set-key (kbd "M-j u u") 'counsel-unicode-char)
+  (after 'evil (define-key evil-normal-state-map (kbd "SPC u u") 'counsel-unicode-char))
+
+  ;; Colors
+  (global-set-key (kbd "M-j u o") 'counsel-colors-web)
+  (after 'evil (define-key evil-normal-state-map (kbd "SPC u o") 'counsel-colors-web))
+
+  ;; Clipboard manager
+  (global-set-key (kbd "M-j u k") 'counsel-yank-pop)
+  (after 'evil (define-key evil-normal-state-map (kbd "SPC u k") 'counsel-yank-pop)))
 
 ;; Taken from http://emacsredux.com/blog/2013/03/27/copy-filename-to-the-clipboard/
 (defun jws/copy-file-name-to-clipboard ()

@@ -19,10 +19,7 @@
     (use-package swiper :ensure t :init (require 'swiper))
     (use-package flx :ensure t :init (require 'flx))
     (use-package smex :ensure t :init (require 'smex))
-    (use-package counsel-dash :ensure t :init (require 'counsel-dash))
     (use-package ivy-rich :ensure t :config (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
-
-    (require 'counsel-surfraw)
 
     (setq ivy-use-virtual-buffers t
           ivy-count-format "(%d/%d)"
@@ -81,18 +78,15 @@ directories will have a trailing /, ignore it so foo.txt is after foo/."
     (global-set-key (kbd "M-j f") 'counsel-find-file)
     (global-set-key (kbd "M-j b") 'ivy-switch-buffer)
 
-    (defhydra jws/hydra-ivy (:exit t)
-      ("u" counsel-unicode-char "Find character")
-      ("l" counsel-locate "Locate file")
-      ("g" counsel-ag "Find string in folder")
-      ("c" counsel-colors-web "Find color")
-      ("k" counsel-yank-pop "Find yank")
-      ("m" woman "Find manpage")
-      ("d" counsel-dash "Find docset")
-      ("w" counsel-surfraw "Find webpage"))
+    ;; [FIXME] Move these somewhere else
+    ;; (defhydra jws/hydra-ivy (:exit t)
+    ;;   ("l" counsel-locate "Locate file")
+    ;;   ("g" counsel-ag "Find string in folder")
+    ;;   ("d" counsel-dash "Find docset"))
+    ;; (global-set-key (kbd "M-j e") 'jws/hydra-ivy/body)
+    ;; (jws/after (evil)
+    ;;   (define-key evil-normal-state-map (kbd "SPC e") 'jws/hydra-ivy/body))
 
-    (global-set-key (kbd "M-j e") 'jws/hydra-ivy/body)
-    (jws/after (evil)
-      (define-key evil-normal-state-map (kbd "SPC e") 'jws/hydra-ivy/body))))
+    ))
 
 (provide 'jws-searching)
