@@ -25,8 +25,8 @@
   '(progn
      (add-to-list 'evil-emacs-state-modes 'eww-mode)
 
-     ;; Use vim keybindings for scrolling
-     (evil-add-hjkl-bindings eww-mode-map 'emacs)
+     ;; Use vim keybindings for scrolling -- [FIXME] broke typing hjkl into text fields :(
+     ;; (evil-add-hjkl-bindings eww-mode-map 'emacs)
 
      ;; kd=-1 disables duckduckgo JavaScript redirect
      (setq eww-search-prefix "https://duckduckgo.com/html/?kd=-1&q=")
