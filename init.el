@@ -48,7 +48,6 @@
 (let ((default-directory jws/emacs-config-dir))
   (add-to-list 'load-path default-directory)
   (normal-top-level-add-subdirs-to-load-path))
-(require 'jws-basic)
 
 ;; Add library directory recursively
 (let ((default-directory jws/emacs-library-dir))
@@ -64,6 +63,7 @@
 (require 'jws-package-mgmt)
 
 ;;;; Packages: Basic text editing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'jws-basic)
 (require 'jws-vi)         ; Evil and other vi-style things
 (require 'jws-movement)   ; Other plugins to help move around
 (require 'jws-formatting) ; Indentation and other formatting
