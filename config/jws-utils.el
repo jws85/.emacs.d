@@ -92,6 +92,16 @@
 
 ;; Assorted other stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; I'm one of THOSE PEOPLE who use emoticons semi-regularly, but usually I prefer
+;; more text-based emotes.  Emoji have a real handy use though; a good graphical
+;; way to represent countries/nationalities.  Sticking a flag like 🇫🇷 in an org-mode
+;; file is a nice graphical way to represent the concept of "France."
+(use-package emojify
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-emojify-mode)
+  (define-key jws/leader-map (kbd "u j") 'emojify-insert-emoji))
+
 (after 'counsel
   ;; "character map"
   (define-key jws/leader-map (kbd "u u") 'counsel-unicode-char)
