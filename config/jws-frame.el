@@ -106,8 +106,6 @@ and 1."
     ("m" toggle-frame-maximized "Maximize/unmaximize")
     ("f" toggle-frame-fullscreen "Toggle fullscreen"))
 
-  (global-set-key (kbd "M-j w") 'jws/hydra-frame/body)
-  (after 'evil
-    (define-key evil-normal-state-map (kbd "SPC w") 'jws/hydra-frame/body)))
+  (define-key jws/leader-map (kbd "w") 'jws/hydra-frame/body))
 
 (provide 'jws-frame)

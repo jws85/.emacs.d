@@ -26,8 +26,7 @@
   (interactive)
   (ansi-term "/bin/zsh"))
 
-(global-set-key (kbd "M-j u s") 'jws/ansi-term-zsh)
-(after 'evil (define-key evil-normal-state-map (kbd "SPC u s") 'jws/ansi-term-zsh))
+(define-key jws/leader-map (kbd "u s") 'jws/ansi-term-zsh)
 
 ;; Image viewing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -42,8 +41,7 @@
   (interactive)
   (dired "~"))
 
-(global-set-key (kbd "M-j u d") 'jws/dired-home)
-(after 'evil (define-key evil-normal-state-map (kbd "SPC u d") 'jws/dired-home))
+(define-key jws/leader-map (kbd "u d") 'jws/dired-home)
 
 ;; Show/hide hidden files
 (require 'dired-x)
@@ -96,16 +94,13 @@
 
 (after 'counsel
   ;; "character map"
-  (global-set-key (kbd "M-j u u") 'counsel-unicode-char)
-  (after 'evil (define-key evil-normal-state-map (kbd "SPC u u") 'counsel-unicode-char))
+  (define-key jws/leader-map (kbd "u u") 'counsel-unicode-char)
 
   ;; Colors
-  (global-set-key (kbd "M-j u o") 'counsel-colors-web)
-  (after 'evil (define-key evil-normal-state-map (kbd "SPC u o") 'counsel-colors-web))
+  (define-key jws/leader-map (kbd "u o") 'counsel-colors-web)
 
   ;; Clipboard manager
-  (global-set-key (kbd "M-j u k") 'counsel-yank-pop)
-  (after 'evil (define-key evil-normal-state-map (kbd "SPC u k") 'counsel-yank-pop)))
+  (define-key jws/leader-map (kbd "u k") 'counsel-yank-pop))
 
 ;; Taken from http://emacsredux.com/blog/2013/03/27/copy-filename-to-the-clipboard/
 (defun jws/copy-file-name-to-clipboard ()

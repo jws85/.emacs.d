@@ -5,8 +5,7 @@
 ;;; Code:
 
 ;; Vi-only keybinding
-(global-set-key (kbd "M-j u c") 'calc)
-(after 'evil (define-key evil-normal-state-map (kbd "SPC u c") 'calc))
+(define-key jws/leader-map (kbd "u c") 'calc)
 
 ;; Add computer data units
 ;; see https://florian.adamsky.it/2016/03/31/emacs-calc-for-programmers-and-cs.html

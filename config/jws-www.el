@@ -9,8 +9,7 @@
   (interactive)
   (eww jws/eww-home-page))
 
-(global-set-key (kbd "M-j u w w") 'jws/eww-home)
-(after 'evil (define-key evil-normal-state-map (kbd "SPC u w w") 'jws/eww-home))
+(define-key jws/leader-map (kbd "u w w") 'jws/eww-home)
 
 ;; Opens links in browse-url-browser-function
 (use-package ace-link
@@ -23,11 +22,11 @@
     (after 'org
       (define-key org-mode-map (kbd "M-o") 'ace-link-org))
     (global-set-key (kbd "M-o") 'ace-link-addr)))
+
 ;; Web search
 (after 'counsel
   (require 'counsel-surfraw)
-  (global-set-key (kbd "M-j u w s") 'counsel-surfraw)
-  (after 'evil (define-key evil-normal-state-map (kbd "SPC u w s") 'counsel-surfraw)))
+  (define-key jws/leader-map (kbd "u w s") 'counsel-surfraw))
 
 ;; Much of the following is from https://github.com/GriffinSchneider/emacs-config/blob/master/eww-customizations.el
 (eval-after-load "eww"

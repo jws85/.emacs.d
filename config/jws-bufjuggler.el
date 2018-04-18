@@ -74,9 +74,7 @@ _h_,_6_: %s(jws/name-of-buffer 6)  _j_,_7_: %s(jws/name-of-buffer 7)  _k_,_8_: %
   
   ("<escape>" nil))
 
-(global-key-binding (kbd "M-j B") #'jws/bufjuggler/body)
-(after 'evil
-  (define-key evil-normal-state-map (kbd "SPC B") #'jws/bufjuggler/body))
+(define-key jws/leader-map (kbd "B") 'jws/bufjuggler/body)
 
 (provide 'jws-bufjuggler)
 

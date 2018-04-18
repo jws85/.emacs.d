@@ -112,6 +112,14 @@
 ;; Disable C-x C-z; irritating keymap
 (global-unset-key (kbd "C-x C-z"))
 
+;; Define the "leader" bindings.  I have a main menu that I want to be available.
+;; Generally this menu should be available from SPC in Evil Normal mode, and M-j
+;; at all other times.  Remember that I unmapped M-j above.
+(define-prefix-command 'jws/leader-map)
+(global-set-key (kbd "M-j") jws/leader-map)
+(after 'evil
+  (define-key evil-normal-state-map (kbd "SPC") jws/leader-map))
+
 ;; Define a hydra with some basic emacs functionality
 (defun jws/server-shutdown ()
   (interactive)
@@ -130,7 +138,6 @@
     ("s" server-start "Start server")
     ("c" crux-find-user-init-file "Open config file")
     ("q" jws/server-shutdown "Shutdown Emacs"))
-  (global-set-key (kbd "M-j e") 'jws/hydra-emacs/body)
-  (after 'evil (define-key evil-normal-state-map (kbd "SPC e") 'jws/hydra-emacs/body)))
+  (define-key jws/leader-map (kbd "e") 'jws/hydra-emacs/body))
 
 (provide 'jws-basic)

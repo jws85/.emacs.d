@@ -41,9 +41,6 @@ INDENTATION | Char: %s(jws/get-indent-char) | Size: %`tab-width | Electric: %`el
   ("RET" untabify "Spacify the selection")
   ("w" whitespace-mode "Display whitespace"))
 
-(global-set-key (kbd "M-j F") 'jws/hydra-formatting/body)
-(jws/after (evil)
-  (define-key evil-normal-state-map (kbd "SPC F") 'jws/hydra-formatting/body)
-  (define-key evil-visual-state-map (kbd "SPC F") 'jws/hydra-formatting/body))
+(define-key jws/leader-map (kbd "F") 'jws/hydra-formatting/body)
 
 (provide 'jws-formatting)

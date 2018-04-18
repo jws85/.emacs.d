@@ -1,8 +1,5 @@
 (require 'jws-keybinding-helpers)
 
-(global-set-key (kbd "M-j j") 'jws/switch-to-previous-buffer)
-(global-set-key (kbd "M-j k") 'kill-this-buffer)
-
 (use-package evil
   :init (evil-mode t)
   :ensure t
@@ -31,9 +28,6 @@
     (define-key minibuffer-local-must-match-map [escape] 'jws/minibuffer-keyboard-quit)
     (define-key minibuffer-local-isearch-map [escape] 'jws/minibuffer-keyboard-quit)
 
-    (define-key evil-normal-state-map (kbd "SPC <tab>") 'jws/switch-to-previous-buffer)
-    (define-key evil-normal-state-map (kbd "SPC k") 'kill-this-buffer)
-
     (define-key evil-normal-state-map (kbd "[ SPC") (bind (evil-insert-newline-above) (forward-line)))
     (define-key evil-normal-state-map (kbd "] SPC") (bind (evil-insert-newline-below) (forward-line -1)))
     (define-key evil-normal-state-map (kbd "[ e") (kbd "ddkP"))
@@ -47,5 +41,8 @@
 	  lazy-highlight-cleanup nil
 	  lazy-highlight-max-at-a-time nil
 	  lazy-highlight-initial-delay 0)))
+
+(define-key jws/leader-map (kbd "<tab>") 'jws/switch-to-previous-buffer)
+(define-key jws/leader-map (kbd "k") 'kill-this-buffer)
 
 (provide 'jws-vi)

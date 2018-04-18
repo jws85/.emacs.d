@@ -65,8 +65,6 @@
     ("c" projectile-compile-project "Compile project")
     ("r" projectile-regenerate-tags "Reload tags" :exit nil))
 
-  (global-set-key (kbd "M-j p") 'jws/hydra-project/body)
-  (jws/after (evil)
-    (define-key evil-normal-state-map (kbd "SPC p") 'jws/hydra-project/body)))
+  (define-key jws/leader-map (kbd "p") 'jws/hydra-project/body))
 
 (provide 'jws-project)

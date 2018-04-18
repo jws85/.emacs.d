@@ -6,9 +6,7 @@
   (after 'diminish
     (diminish 'auto-revert-mode))
 
-  (global-set-key (kbd "M-j g") 'magit-status)
-  (after 'evil
-    (define-key evil-normal-state-map (kbd "SPC g") 'magit-status)))
+  (define-key jws/leader-map (kbd "g") 'magit-status))
 
 (use-package magit-gitflow
   :ensure t

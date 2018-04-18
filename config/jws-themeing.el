@@ -56,9 +56,7 @@
     ("i" jws/increase-transparency "More transparent")
     ("d" jws/decrease-transparency "Less transparent"))
 
-  (global-set-key (kbd "M-j t") 'jws/hydra-themeing/body)
-  (after 'evil
-    (define-key evil-normal-state-map (kbd "SPC t") 'jws/hydra-themeing/body)))
+  (define-key jws/leader-map (kbd "t") 'jws/hydra-themeing/body))
 
 ;; Color themes
 

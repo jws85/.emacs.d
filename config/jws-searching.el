@@ -71,22 +71,9 @@ directories will have a trailing /, ignore it so foo.txt is after foo/."
     (define-key evil-normal-state-map (kbd "/") 'counsel-grep-or-swiper)
     (define-key evil-normal-state-map (kbd ";") 'counsel-M-x)
     (define-key evil-visual-state-map (kbd ";") 'counsel-M-x)
-    (define-key evil-normal-state-map (kbd "SPC SPC") 'counsel-M-x)
-    (define-key evil-visual-state-map (kbd "SPC SPC") 'counsel-M-x)
-    (define-key evil-normal-state-map (kbd "SPC f") 'counsel-find-file)
-    (define-key evil-normal-state-map (kbd "SPC b") 'ivy-switch-buffer)
-    (global-set-key (kbd "M-j f") 'counsel-find-file)
-    (global-set-key (kbd "M-j b") 'ivy-switch-buffer)
 
-    ;; [FIXME] Move these somewhere else
-    ;; (defhydra jws/hydra-ivy (:exit t)
-    ;;   ("l" counsel-locate "Locate file")
-    ;;   ("g" counsel-ag "Find string in folder")
-    ;;   ("d" counsel-dash "Find docset"))
-    ;; (global-set-key (kbd "M-j e") 'jws/hydra-ivy/body)
-    ;; (jws/after (evil)
-    ;;   (define-key evil-normal-state-map (kbd "SPC e") 'jws/hydra-ivy/body))
-
-    ))
+    (define-key jws/leader-map (kbd "SPC") 'counsel-M-x)
+    (define-key jws/leader-map (kbd "f") 'counsel-find-file)
+    (define-key jws/leader-map (kbd "b") 'ivy-switch-buffer)))
 
 (provide 'jws-searching)
