@@ -90,6 +90,16 @@
   :config
   (setq alert-default-style (if (equal system-type 'gnu/linux) 'notifications 'message)))
 
+;; Junk buffers ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Open a quicky file to make quick notes in; by default under ~/.junk/
+(use-package open-junk-file
+  :ensure t
+  :init (require 'open-junk-file)
+  :config
+  (setq open-junk-file-directory "~/.junk/%Y/%m/%d-%H%M%S.")
+  (define-key jws/leader-map (kbd "f j") 'open-junk-file))
+
 ;; Assorted other stuff ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; I'm one of THOSE PEOPLE who use emoticons semi-regularly, but usually I prefer
