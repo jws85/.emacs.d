@@ -73,7 +73,7 @@ directories will have a trailing /, ignore it so foo.txt is after foo/."
     (define-key evil-visual-state-map (kbd ";") 'counsel-M-x)
 
     (define-key jws/leader-map (kbd "SPC") 'counsel-M-x)
-    (define-key jws/leader-map (kbd "f") 'counsel-find-file)
-    (define-key jws/leader-map (kbd "b") 'ivy-switch-buffer)))
+    (define-key jws/leader-map (kbd "f f") 'counsel-find-file)
+    (define-key jws/leader-map (kbd "b b") 'ivy-switch-buffer)))
 
 (provide 'jws-searching)
