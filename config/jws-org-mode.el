@@ -113,13 +113,15 @@ in my site-init.el.  This displays the `org-agenda' at startup."
 
 (global-set-key (kbd "<f5>") 'org-agenda-list)
 
+(defun jws/open-org-dir ()
+  (interactive)
+  (counsel-find-file jws/org-dir))
+
+(define-key jws/leader-map (kbd "f o") 'jws/open-org-dir)
+
 (jws/after (hydra)
-  (defun jws/open-org-dir ()
-    (interactive)
-    (counsel-find-file jws/org-dir))
 
   (defhydra jws/hydra-org (:exit t)
-    ("f" jws/open-org-dir "Open org dir")
     ("r" jws/load-org-settings "Load org settings")
     ("l" org-store-link "Store link")
     ("a" org-agenda "Agenda")

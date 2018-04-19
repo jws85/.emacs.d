@@ -140,7 +140,6 @@
   (defhydra jws/hydra-emacs (:exit t)
     ("p" package-list-packages "Package list")
     ("s" server-start "Start server")
-    ("c" crux-find-user-init-file "Open config file")
     ("q" jws/server-shutdown "Shutdown Emacs"))
   (define-key jws/leader-map (kbd "e") 'jws/hydra-emacs/body))
 

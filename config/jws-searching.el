@@ -79,4 +79,7 @@ directories will have a trailing /, ignore it so foo.txt is after foo/."
 (require 'bufj)
 (define-key jws/leader-map (kbd "b j") 'bufj/uggler)
 
+(define-key jws/leader-map (kbd "f i e") 'crux-find-user-init-file)
+(define-key jws/leader-map (kbd "f i s") 'crux-find-shell-init-file)
+
 (provide 'jws-searching)
