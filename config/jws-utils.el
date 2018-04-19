@@ -133,4 +133,6 @@
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
+(define-key jws/leader-map (kbd "b c") 'jws/copy-file-name-to-clipboard)
+
 (provide 'jws-utils)
