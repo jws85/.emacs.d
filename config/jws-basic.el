@@ -120,6 +120,10 @@
 (after 'evil
   (define-key evil-normal-state-map (kbd "SPC") jws/leader-map))
 
+;; Save place in buffers even after they are killed
+(require 'saveplace)
+(save-place-mode)
+
 ;; Define a hydra with some basic emacs functionality
 (defun jws/server-shutdown ()
   (interactive)
