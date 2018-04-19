@@ -15,6 +15,8 @@
       (diminish 'yas-minor-mode))
     (yas-global-mode 1)))
 
+(use-package yasnippet-snippets :ensure t :after yasnippet)
+
 (use-package company
   :ensure t
   :init (company-mode)
@@ -36,13 +38,27 @@
       (company-abort)
       (newline-and-indent))
 
+    (defun jws/company-yasnippet ()
+      "company-yasnippet hack
+
+Try to use company-yasnippet to complete; if the text in the buffer is
+the same as the only possible snippet completion, just expand the snippet
+instead.  Shamelessly ripped from pronobis' comment on company-mode github
+issue #205."
+      (interactive)
+      (let ((prefix (company-yasnippet 'prefix)))
+        (when prefix
+          (let ((candidates (company-yasnippet 'candidates prefix)))
+            (if (and
+                 (= (length candidates) 1)
+                 (string= prefix (car candidates)))
+                (yas-expand)
+              (company-begin-backend 'company-yasnippet))))))
+
     ;; with properly remapped keyboard, control is easier to hit than alt/meta
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous)
-
-    (define-key company-active-map (kbd "<backtab>") #'company-select-previous)
     (define-key company-active-map (kbd "C-i") #'company-complete-common-or-cycle)
-    (define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
     (define-key company-active-map (kbd "C-j") #'company-complete-selection)
 
     ;; ret-to-complete is problematic at end of lines
@@ -65,9 +81,7 @@
 	  company-dabbrev-ignore-case t
           company-show-numbers t)
 
-    (setq company-backends
-          '((company-files company-keywords company-capf company-yasnippet)
-            (company-abbrev company-dabbrev)))
+    (define-key evil-insert-state-map (kbd "C-;") 'jws/company-yasnippet)
 
     (add-hook 'after-init-hook 'global-company-mode)))
 
