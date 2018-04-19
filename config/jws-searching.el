@@ -76,4 +76,7 @@ directories will have a trailing /, ignore it so foo.txt is after foo/."
     (define-key jws/leader-map (kbd "f f") 'counsel-find-file)
     (define-key jws/leader-map (kbd "b b") 'ivy-switch-buffer)))
 
+(require 'bufj)
+(define-key jws/leader-map (kbd "b j") 'bufj/uggler)
+
 (provide 'jws-searching)
