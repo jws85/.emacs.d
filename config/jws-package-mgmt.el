@@ -31,12 +31,13 @@
 (use-package paradox
   :ensure t
   :config
-  (progn
-    (paradox-enable)
+  (paradox-enable)
 
-    (with-eval-after-load 'evil
-      (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode))
-    (define-key paradox-menu-mode-map (kbd "j") 'next-line)
-    (define-key paradox-menu-mode-map (kbd "k") 'previous-line)))
+  (with-eval-after-load 'evil
+    (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode))
+  (define-key paradox-menu-mode-map (kbd "j") 'next-line)
+  (define-key paradox-menu-mode-map (kbd "k") 'previous-line)
+
+  (define-key jws/leader-map (kbd "e u") 'paradox-upgrade-packages))
 
 (provide 'jws-package-mgmt)
