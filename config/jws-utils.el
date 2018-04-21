@@ -24,9 +24,13 @@
 ;; Open up shell through shortcut
 (defun jws/ansi-term-zsh ()
   (interactive)
+  (split-window-sensibly)
   (ansi-term "/bin/zsh"))
 
 (define-key jws/leader-map (kbd "u s") 'jws/ansi-term-zsh)
+
+(eval-after-load "term"
+  '(define-key term-raw-map (kbd "M-j") nil))
 
 ;; Image viewing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
