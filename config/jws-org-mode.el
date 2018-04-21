@@ -20,8 +20,6 @@
 
 ;;; Code:
 
-(require 'jws-path-helpers)
-
 (use-package org
   :ensure t
   :init (require 'org-install))
@@ -70,7 +68,7 @@
   "Run this after changing jws/org*dir."
   (interactive)
   (setq org-default-notes-file (concat jws/org-dir "notes.org")
-        org-agenda-files (jws/directory-files jws/org-agenda-dir t)))
+        org-agenda-files (f-files jws/org-agenda-dir)))
 
 (if (and (file-exists-p jws/org-dir) (file-exists-p jws/org-agenda-dir))
     (jws/load-org-settings)

@@ -45,10 +45,3 @@
 ;; Or you could load external packages.  Quicklisp comes with a SLIME helper
 ;; that installs it inside Quicklisp itself.  Easy, but not easy to keep
 ;; consistent between environments.
-
-;; For instance:
-
-;; Setting up org-agenda (could swap out ~/Org for d:/Org or whatever)
-(require 'jws-path-helpers)
-(setq org-agenda-files
-      (jws/expand-file-names (list "todo.org") "~/Org"))

@@ -1,4 +1,28 @@
-(require 'jws-config-macros)
+;; I wish I remembered who created these macros; yet another thing I
+;; ganked from someone else's code...
+
+;; These macros are useful for convenience when configuring Emacs.
+
+(defmacro after (feature &rest body)
+  "After FEATURE is loaded, evaluate BODY."
+  (declare (indent defun))
+  `(eval-after-load ,feature
+     '(progn ,@body)))
+
+(defmacro bind (&rest commands)
+  "Conveniece macro which creates a lambda interactive command."
+  `(lambda ()
+     (interactive)
+     ,@commands))
+
+;; I created this macro; it supersedes the previous `after` macro
+(defmacro jws/after (features &rest body)
+  "After FEATURES are loaded, evaluate BODY."
+  (declare (indent defun))
+  (if features
+      `(eval-after-load ',(car features)
+            (jws/after ,(cdr features) ,@body))
+    `(progn ,@body)))
 
 ;; I think most machines I'm on nowadays have at least 2GB of RAM.
 ;; Read 'GC Optimization' here:  https://github.com/lewang/flx
@@ -129,6 +153,9 @@
   (interactive)
   (save-some-buffers)
   (kill-emacs))
+
+;; Basic file-handling functions
+(use-package f :ensure t)
 
 ;; Some good functions from here that are asking for keybindings:
 ;;  - crux-find-user-init-file (Opens the ~/.emacs.d/init.el)
