@@ -41,6 +41,6 @@ INDENTATION | Char: %s(jws/get-indent-char) | Size: %`tab-width | Electric: %`el
   ("RET" untabify "Spacify the selection")
   ("w" whitespace-mode "Display whitespace"))
 
-(define-key jws/leader-map (kbd "F") 'jws/hydra-formatting/body)
+(define-key jws/leader-map (kbd "i") 'jws/hydra-formatting/body)
 
 (provide 'jws-formatting)
