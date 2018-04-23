@@ -163,6 +163,7 @@
 ;;  - crux-open-with (Opens file in your OS' default program)
 (use-package crux :ensure t)
 
+(define-key jws/leader-map (kbd "e i") 'package-install)
 (define-key jws/leader-map (kbd "e p") 'package-list-packages)
 (define-key jws/leader-map (kbd "e s") 'server-start)
 (define-key jws/leader-map (kbd "e q") 'jws/server-shutdown)
