@@ -6,7 +6,8 @@
   (after 'diminish
     (diminish 'auto-revert-mode))
 
-  (define-key jws/leader-map (kbd "g") 'magit-status))
+  (define-key jws/leader-map (kbd "g g") 'magit-status)
+  (define-key jws/leader-map (kbd "g b") 'magit-blame))
 
 (use-package magit-gitflow
   :ensure t
