@@ -77,6 +77,7 @@ directories will have a trailing /, ignore it so foo.txt is after foo/."
     (define-key jws/leader-map (kbd "b b") 'ivy-switch-buffer)))
 
 (require 'bufj)
+(define-key jws/leader-map (kbd "b i") 'ibuffer)
 (define-key jws/leader-map (kbd "b j") 'bufj/uggler)
 (define-key jws/leader-map (kbd "b u") 'bury-buffer)
 (define-key jws/leader-map (kbd "b k") 'kill-this-buffer)
