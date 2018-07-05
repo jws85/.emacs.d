@@ -6,6 +6,8 @@
   :config
   (popwin-mode))
 
+(use-package buffer-move :ensure t)
+
 (use-package which-key
   :ensure t
   :config
@@ -20,11 +22,18 @@
 (defhydra jws/hydra-splitting (:columns 5)
   "Buffer splitting:"
   ("TAB" other-window "Prev")
+
   ("s" ace-window "Jump to")
   ("h" evil-window-left "Left")
   ("j" evil-window-down "Down")
   ("k" evil-window-up "Up")
   ("l" evil-window-right "Right")
+
+  ("H" buf-move-left "Move left")
+  ("J" buf-move-down "Move down")
+  ("K" buf-move-up "Move up")
+  ("L" buf-move-right "Move right")
+
   ("-" split-window-below "Horiz split")
   ("\\" split-window-right "Vert split")
   ("|" split-window-right "Vert split")
