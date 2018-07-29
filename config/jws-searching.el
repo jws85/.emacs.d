@@ -82,8 +82,13 @@ directories will have a trailing /, ignore it so foo.txt is after foo/."
 (define-key jws/leader-map (kbd "b u") 'bury-buffer)
 (define-key jws/leader-map (kbd "b k") 'kill-this-buffer)
 
+(defun jws/create-empty-file (file)
+  (interactive "FPath to touch: ")
+  (with-temp-buffer (write-file file)))
+
 (define-key jws/leader-map (kbd "f r") 'ff-find-other-file)
 (define-key jws/leader-map (kbd "f i e") 'crux-find-user-init-file)
 (define-key jws/leader-map (kbd "f i s") 'crux-find-shell-init-file)
+(define-key jws/leader-map (kbd "f t") 'jws/create-empty-file)
 
 (provide 'jws-searching)
