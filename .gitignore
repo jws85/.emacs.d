@@ -37,6 +37,9 @@ emms/
 # elpa installation
 elpa/
 
+# emoji installation
+emojis/
+
 # eshell installation
 eshell/
 
@@ -59,6 +62,9 @@ kkcrc
 
 # multiple-cursors
 .mc-lists.el
+
+# places file
+places
 
 # projectile
 projectile.cache
