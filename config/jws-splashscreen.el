@@ -21,6 +21,9 @@
   (dashboard-setup-startup-hook)
   (setq dashboard-items '((agenda . 5)
                           (projects . 5)
-                          (recents . 5))))
+                          (recents . 5))
+        dashboard-image-banner-max-height 50
+        dashboard-startup-banner (concat user-emacs-directory "EmacsBanner.png")
+        dashboard-banner-logo-title nil))
 
 (provide 'jws-splashscreen)
