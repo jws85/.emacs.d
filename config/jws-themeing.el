@@ -99,6 +99,7 @@
     darkmine-theme
     darkokai-theme
     darktooth-theme
+    doom-themes
     django-theme
     dracula-theme
     espresso-theme
