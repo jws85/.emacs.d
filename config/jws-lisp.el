@@ -7,27 +7,23 @@
   (progn
     (slime-setup '(slime-fancy))))
 
-(use-package lispy
-  :ensure t)
-
-(use-package lispyville
+;; Parinfer is a FRIGGIN' REVELATION HOLY CARP WHERE HAS THIS BEEN
+;; MY WHOLE LIFE OMG OMG OMG
+;;
+;;   https://shaunlebron.github.io/parinfer/
+;;   https://github.com/DogLooksGood/parinfer-mode
+(use-package parinfer
   :ensure t
-  :after (evil lispy)
-  :config
-  (after 'diminish
-    (diminish 'lispy-mode)
-    (diminish 'lispyville-mode))
-
-  (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
-  (add-hook 'lispy-mode-hook #'lispyville-mode)
-
-  ;; I've found the below bindings more annoying than useful.
-  (define-key lispy-mode-map-lispy (kbd "\"") nil)
-  (define-key lispy-mode-map-lispy (kbd "[") nil)
-  (define-key lispy-mode-map-lispy (kbd "]") nil)
-
-  ;; I'm using M-j as the entry point to my main menu...
-  (define-key lispy-mode-map-lispy (kbd "M-j") nil))
+  :bind ("C-," . parinfer-toggle-mode)
+  :init
+  (progn
+    (setq parinfer-extensions
+          '(defaults pretty-parens evil smart-tab smart-yank))
+    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'common-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'scheme-mode-hook #'parinfer-mode)
+    (add-hook 'lisp-mode-hook #'parinfer-mode)
+    (add-hook 'lisp-interaction-mode-hook #'parinfer-mode)))
 
 ;; syntax highlight Cask files
 (use-package cask-mode :ensure t)
