@@ -39,7 +39,9 @@
   ("|" split-window-right "Vert split")
   ("=" balance-windows "Balance splits")
   ("c" delete-window "Remove current")
-  ("C" delete-other-windows "Remove others"))
+  ("C" delete-other-windows "Remove others")
+  ("<left>" winner-undo "Undo split")
+  ("<right>" winner-redo "Redo split"))
 
 (define-key jws/leader-map (kbd "s") 'jws/hydra-splitting/body)
 
