@@ -29,8 +29,8 @@
          (defadvice projectile-project-name (around bk/projectile-project-name activate)
            (if (not bk/projectile-project-name-cache)
                (setq bk/projectile-project-name-cache ad-do-it))
-           (setq ad-return-value bk/projectile-project-name-cache))))
-    ))
+           (setq ad-return-value bk/projectile-project-name-cache))))))
+
 
 ; FIXME -- currently these are broken!  If I let projectile vomit into my
 ; .emacs.d the cache files are persistent across emacs restarts.  If I put
@@ -40,6 +40,7 @@
 
 (use-package counsel-projectile
   :ensure t
+  :preface (setq projectile-keymap-prefix (kbd "C-c p")) ; [FIXME] Quick hack q.v. https://github.com/ericdanan/counsel-projectile/pull/92
   :after projectile
   :config (counsel-projectile-mode))
 
