@@ -2,20 +2,29 @@
 
 ;;; Commentary:
 ;;
-;; My org-mode folder structure looks like the following:
-;;  * $ORGROOT/ (by default, ~/Org/)
-;;     * agenda/
-;;        - unfiled.org    Where captured todo items go
-;;        - finished.org   Where finished items go; archival spot
-;;        - recurring.org  I put recurring days (e.g. payday) here
-;;        - holidays.org   I put recurring holidays here
-;;        - plans.org      I put future plans (e.g. trips) here
-;;        - [client].org   Todo files
-;;     * journal/
-;;        - latest.org
-;;        - ...
+;; I've redone my org-mode strategy because my old one was not
+;; working for me.
 ;;
-;; All of this is synced up with Dropbox, and on some computers I
+;; The idea is to try to follow GTD, so I have these files under
+;; the journal/ directory under my $orgroot:
+;;
+;;  - inbox.org      Where unfiled stuff goes
+;;  - gtd.org        Repository for current projects
+;;  - someday.org    Repository for postponed projects
+;;  - reminders.org  A 'tickler' file, but I don't like that name
+;;  - finished.org   Where finished stuff gets archived to
+;;
+;; I am planning on following more or less the methodology
+;; outlined here:
+;;
+;; https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html
+;;
+;; It's a lot simpler and cleaner than what I was (not) doing.
+;; The one difference is that I have daily and weekly reviews
+;; scheduled on fixed times in the tickler file, because I need
+;; the push to do it.
+;;
+;; All of this is synced up using Dropbox, and on some computers I
 ;; leave the Emacs window open; thus the reason for the autosaving.
 
 ;;; Code:
@@ -41,6 +50,9 @@
   ;; Adding habits (recurring events)
   (add-to-list 'org-modules 'org-habit))
 
+;; Render code inside code blocks
+(setq org-src-fontify-natively t)
+
 ;; org-agenda ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package worf
@@ -53,6 +65,25 @@
 (use-package org-alert
   :ensure t)
 
+;; The following code only shows the first action to be done per heading
+;; This code is taken more or less verbatim from the emacs.cafe article above.
+(defun jws/org-current-is-todo ()
+  (string= "TODO" (org-get-todo-state)))
+
+(defun jws/org-agenda-skip-all-siblings-but-first ()
+  "Skip all but the first non-done entry."
+  (let (should-skip-entry)
+    (unless (jws/org-current-is-todo)
+      (setq should-skip-entry t))
+    (save-excursion
+      (while (and (not should-skip-entry) (org-goto-sibling t))
+        (when (jws/org-current-is-todo)
+          (setq should-skip-entry t))))
+    (when should-skip-entry
+      (or (outline-next-heading)
+          (goto-char (point-max))))))
+;; end snippet
+
 (setq org-log-done t
       org-refile-targets '((nil . (:maxlevel . 9))
                            (org-agenda-files . (:maxlevel . 9)))
@@ -60,15 +91,29 @@
       org-outline-path-complete-in-steps nil
       org-archive-location "finished.org::datetree/*"
       org-agenda-span 14
-      org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-                          (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))
-      org-use-fast-todo-selection t)
+      org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
+      org-tag-alist '(("@personal" . ?p) ("@career" . ?c) ("@errand" . ?e) ("@travel" . ?t))
+      org-use-fast-todo-selection t
+      org-agenda-custom-commands
+      '(("p" "Personal" tags-todo "@personal"
+         ((org-agenda-overriding-header "Personal")
+          (org-agenda-skip-function #'jws/org-agenda-skip-all-siblings-but-first)))
+        ("c" "Career" tags-todo "@career"
+         ((org-agenda-overriding-header "Career")
+          (org-agenda-skip-function #'jws/org-agenda-skip-all-siblings-but-first)))
+        ("E" "Errands" tags-todo "@errand"
+         ((org-agenda-overriding-header "Errands")
+          (org-agenda-skip-function #'jws/org-agenda-skip-all-siblings-but-first)))
+        ("A" "Travel" tags-todo "@travel"
+         ((org-agenda-overriding-header "Travelling")
+          (org-agenda-skip-function #'jws/org-agenda-skip-all-siblings-but-first)))))
 
 (defun jws/load-org-settings ()
   "Run this after changing jws/org*dir."
   (interactive)
   (setq org-default-notes-file (concat jws/org-dir "notes.org")
-        org-agenda-files (f-files jws/org-agenda-dir)))
+        org-agenda-files (mapcar (lambda (f) (concat jws/org-agenda-dir f))
+                                 '("inbox.org" "gtd.org" "reminders.org"))))
 
 (if (and (file-exists-p jws/org-dir) (file-exists-p jws/org-agenda-dir))
     (jws/load-org-settings)
@@ -98,7 +143,7 @@ in my site-init.el.  This displays the `org-agenda' at startup."
 
 ;; http://orgmode.org/manual/Capture-templates.html
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline (lambda () (concat jws/org-agenda-dir "unfiled.org")) "Unfiled Tasks")
+      '(("t" "Todo" entry (file+headline (lambda () (concat jws/org-agenda-dir "inbox.org")) "Unfiled Tasks")
          "* TODO %?\n  %i")
         ("l" "Link" entry (file+headline (lambda () (concat jws/org-dir "links.org")) "Uncategorized")
          "* %?")
@@ -108,8 +153,6 @@ in my site-init.el.  This displays the `org-agenda' at startup."
          "* %?\nEntered on %U\n  %i")))
 
 ;; keybindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(global-set-key (kbd "<f5>") 'org-agenda-list)
 
 (defun jws/open-org-dir ()
   (interactive)
