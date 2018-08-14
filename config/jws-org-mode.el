@@ -29,6 +29,8 @@
 
 ;;; Code:
 
+(require 'seq) ; required for seq-filter
+
 (use-package org
   :ensure t
   :init (require 'org-install))
@@ -108,12 +110,18 @@
          ((org-agenda-overriding-header "Travelling")
           (org-agenda-skip-function #'jws/org-agenda-skip-all-siblings-but-first)))))
 
+(setq jws/journal-files
+      '("inbox.org" "gtd.org" "reminders.org"))
+
 (defun jws/load-org-settings ()
   "Run this after changing jws/org*dir."
   (interactive)
   (setq org-default-notes-file (concat jws/org-dir "notes.org")
-        org-agenda-files (mapcar (lambda (f) (concat jws/org-agenda-dir f))
-                                 '("inbox.org" "gtd.org" "reminders.org"))))
+        org-agenda-files (seq-filter
+                          #'file-exists-p
+                          (mapcar
+                           (lambda (f) (concat jws/org-agenda-dir f))
+                           jws/journal-files))))
 
 (if (and (file-exists-p jws/org-dir) (file-exists-p jws/org-agenda-dir))
     (jws/load-org-settings)
