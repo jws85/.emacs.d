@@ -11,7 +11,8 @@
 ;;  - inbox.org      Where unfiled stuff goes
 ;;  - gtd.org        Repository for current projects
 ;;  - someday.org    Repository for postponed projects
-;;  - reminders.org  A 'tickler' file, but I don't like that name
+;;  - tickler.org    A 'tickler' file (still don't like that name)
+;;  - recurring.org  Where recurring events go (like birthdays)
 ;;  - finished.org   Where finished stuff gets archived to
 ;;
 ;; I am planning on following more or less the methodology
@@ -93,9 +94,10 @@
       org-outline-path-complete-in-steps nil
       org-archive-location "finished.org::datetree/*"
       org-agenda-span 14
+      org-use-fast-todo-selection t
+      org-log-into-drawer t
       org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
       org-tag-alist '(("@personal" . ?p) ("@career" . ?c) ("@errand" . ?e) ("@travel" . ?t))
-      org-use-fast-todo-selection t
       org-agenda-custom-commands
       '(("p" "Personal" tags-todo "@personal"
          ((org-agenda-overriding-header "Personal")
@@ -111,7 +113,7 @@
           (org-agenda-skip-function #'jws/org-agenda-skip-all-siblings-but-first)))))
 
 (setq jws/journal-files
-      '("inbox.org" "gtd.org" "reminders.org"))
+      '("inbox.org" "gtd.org" "tickler.org" "recurring.org"))
 
 (defun jws/load-org-settings ()
   "Run this after changing jws/org*dir."
@@ -151,8 +153,10 @@ in my site-init.el.  This displays the `org-agenda' at startup."
 
 ;; http://orgmode.org/manual/Capture-templates.html
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline (lambda () (concat jws/org-agenda-dir "inbox.org")) "Unfiled Tasks")
+      '(("t" "Todo" entry (file (lambda () (concat jws/org-agenda-dir "inbox.org")))
          "* TODO %?\n  %i")
+        ("T" "Tickler" entry (file (lambda () (concat jws/org-agenda-dir "tickler.org")))
+         "* TODO %i%?\n  %T")
         ("l" "Link" entry (file+headline (lambda () (concat jws/org-dir "links.org")) "Uncategorized")
          "* %?")
         ("j" "Journal" entry (file+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
