@@ -76,15 +76,20 @@ directories will have a trailing /, ignore it so foo.txt is after foo/."
     (define-key jws/leader-map (kbd "f f") 'counsel-find-file)
     (define-key jws/leader-map (kbd "b b") 'ivy-switch-buffer)))
 
+(defun jws/switch-to-scratch ()
+  (interactive)
+  (switch-to-buffer "*scratch*"))
+
+(defun jws/create-empty-file (file)
+  (interactive "FPath to touch: ")
+  (with-temp-buffer (write-file file)))
+
 (require 'bufj)
 (define-key jws/leader-map (kbd "b i") 'ibuffer)
 (define-key jws/leader-map (kbd "b j") 'bufj/uggler)
 (define-key jws/leader-map (kbd "b u") 'bury-buffer)
 (define-key jws/leader-map (kbd "b k") 'kill-this-buffer)
-
-(defun jws/create-empty-file (file)
-  (interactive "FPath to touch: ")
-  (with-temp-buffer (write-file file)))
+(define-key jws/leader-map (kbd "b s") 'jws/switch-to-scratch)
 
 (define-key jws/leader-map (kbd "f r") 'ff-find-other-file)
 (define-key jws/leader-map (kbd "f i e") 'crux-find-user-init-file)
