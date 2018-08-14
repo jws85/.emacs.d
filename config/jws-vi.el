@@ -20,6 +20,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (switch-to-buffer (other-buffer (current-buffer))))
 
 (use-package evil
+  :init (setq evil-want-integration nil)
   :ensure t
   :config
   (evil-mode t)
@@ -59,6 +60,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
         lazy-highlight-cleanup nil
         lazy-highlight-max-at-a-time nil
         lazy-highlight-initial-delay 0))
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (setq evil-collection-mode-list '(eww))
+  (evil-collection-init))
 
 (define-key jws/leader-map (kbd "<tab>") 'jws/switch-to-previous-buffer)
 (define-key jws/leader-map (kbd "k") 'kill-this-buffer)
