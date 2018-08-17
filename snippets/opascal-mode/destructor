@@ -1,0 +1,9 @@
+# -*- mode:snippet -*-
+# name: destructor
+# key: destructor
+# --
+destructor ${1:ClassName}.Create;
+begin
+  $0
+  ${2:Inherited;}
+end;

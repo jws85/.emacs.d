@@ -80,6 +80,7 @@
 (require 'jws-tex)
 (require 'jws-clangs)
 (require 'jws-web-langs)
+(require 'jws-pascal)
 
 ;;;; Packages: Appearance ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Note that what most people call a "window," emacs calls a "frame."

@@ -1,0 +1,8 @@
+# -*- mode:snippet -*-
+# name: function
+# key: function
+# --
+function ${1:ProcedureName}(${2:nil}) : ${3:return};
+begin
+  $0;
+end;

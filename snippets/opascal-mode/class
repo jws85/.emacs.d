@@ -1,0 +1,14 @@
+# -*- mode:snippet -*-
+# name: class
+# key: class
+# --
+${1:ClassName} = class(${2:ExtendsClassName})
+  private
+    $3
+  public
+    $4
+  protected
+    $5
+  published
+    $0
+  end;
