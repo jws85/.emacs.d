@@ -44,12 +44,13 @@ Taken from http://rawsyntax.com/blog/learn-emacs-store-window-configuration/"
     (delete-other-windows)))
 (global-set-key (kbd "<f9>") 'jws/toggle-eshell-visor)
 
+
 ;; Image viewing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Turn off evil-mode when viewing images
-(require 'image-mode)
-(evil-set-initial-state 'image-mode 'emacs)
-
+(use-package image+
+  :ensure t
+  :config
+  (eval-after-load 'image '(require 'image+)))
 
 ;; Dired ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
