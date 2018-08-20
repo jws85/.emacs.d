@@ -33,6 +33,8 @@
   :config
   (paradox-enable)
 
+  (setq paradox-github-token t) ; disable GitHub integration
+
   (with-eval-after-load 'evil
     (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode))
   (define-key paradox-menu-mode-map (kbd "j") 'next-line)
