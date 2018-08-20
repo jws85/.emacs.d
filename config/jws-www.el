@@ -19,9 +19,13 @@
   (progn
     ;; By default, this adds 'o' keybind to eww and a few other modes
     (ace-link-setup-default)
-    (after 'org
-      (define-key org-mode-map (kbd "M-o") 'ace-link-org))
-    (global-set-key (kbd "M-o") 'ace-link-addr)))
+    (defun jws/ace-link-contextual ()
+      (interactive)
+      (if (eq major-mode 'org-mode)
+          (ace-link-org)
+        (ace-link-addr)))
+    (global-set-key (kbd "M-j u w o") 'jws/ace-link-contextual)
+    (after 'evil (define-key evil-normal-state-map (kbd "SPC u w o") 'jws/ace-link-contextual))))
 
 ;; Web search
 (after 'counsel
