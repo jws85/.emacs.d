@@ -13,4 +13,6 @@
 ; Entry point
 (add-to-list 'auto-mode-alist '("\\.lpr$" . opascal-mode))
 
+(setq opascal-indent-level 2)
+
 (provide 'jws-pascal)

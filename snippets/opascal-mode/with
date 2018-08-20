@@ -1,0 +1,7 @@
+# -*- mode:snippet -*-
+# name: with
+# key: with
+# --
+with ${1:Object} do
+  $0;
+end;
