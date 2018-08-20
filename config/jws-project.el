@@ -44,6 +44,13 @@
   :after projectile
   :config (counsel-projectile-mode))
 
+(use-package dumb-jump
+  :ensure t
+  :after projectile
+  :config
+  (dumb-jump-mode)
+  (setq dumb-jump-selector 'ivy))
+
 ;; Needed by the code figuring out the grep command du jour...
 (defun jws/not-nil-p (val)
   (not (eq val nil)))
@@ -63,6 +70,8 @@
     ("p" projectile-find-file "Find file in project")
     ("s" projectile-switch-project "Switch project")
     ("g" (funcall jws/project-grep-command) "Find string in project")
+    ("j" dumb-jump-go "Jump to definition under point")
+    ("J" dumb-jump-back "Jump back" :exit nil)
     ("c" projectile-compile-project "Compile project")
     ("r" projectile-regenerate-tags "Reload tags" :exit nil))
 
