@@ -5,9 +5,7 @@
   (company-mode -1)
   (setq-local company-mode nil))
 (add-hook 'shell-mode-hook #'jws/disable-completion-in-shell)
-
-;; Disable evil in term modes
-(evil-set-initial-state 'term-mode 'emacs)
+(add-hook 'eshell-mode-hook #'jws/disable-completion-in-shell)
 
 ;; Close the ansi-term buffer when finished
 (defun jws/oleh-term-exec-hook ()
