@@ -112,7 +112,7 @@
          ((org-agenda-overriding-header "Travelling")
           (org-agenda-skip-function #'jws/org-agenda-skip-all-siblings-but-first)))))
 
-(setq jws/journal-files
+(setq jws/agenda-files
       '("inbox.org" "gtd.org" "tickler.org" "recurring.org"))
 
 (defun jws/load-org-settings ()
@@ -123,10 +123,13 @@
                           #'file-exists-p
                           (mapcar
                            (lambda (f) (concat jws/org-agenda-dir f))
-                           jws/journal-files))))
+                           jws/agenda-files)))
+  (message "jws/agenda-files: %S" jws/agenda-files)
+  (message "org-agenda-files: %S" org-agenda-files))
 
 (if (and (file-exists-p jws/org-dir) (file-exists-p jws/org-agenda-dir))
-    (jws/load-org-settings)
+    (progn
+      (jws/load-org-settings))
   (message "Please set up jws/org-dir and jws/org-agenda-dir to use org-agenda, etc."))
 
 (after 'org-agenda
