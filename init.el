@@ -101,6 +101,7 @@
 (require 'jws-vcs)        ; version control integration
 (require 'jws-docs)
 (require 'jws-session)
+(require 'jws-shell)
 (require 'jws-utils)
 
 ;;;; Site-specific customizations ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
