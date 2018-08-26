@@ -4,7 +4,7 @@
 
 ;; MELPA (forget Marmalade, it never worked for me)
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+       '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 ;; Enable packages
 (package-initialize)
@@ -14,8 +14,11 @@
 (defun jws/package-refresh-once-a-session ()
   (if (eq jws/package-refreshed-already nil)
       (progn
-	(package-refresh-contents)
-	(setq jws/package-refreshed-already t))))
+        (package-refresh-contents)
+        (setq jws/package-refreshed-already t))))
+
+;; Only way to be sure...
+(jws/package-refresh-once-a-session)
 
 ;; Refresh the package list, then install package if it hasn't already been installed
 (defun jws/package-install (pkg)
