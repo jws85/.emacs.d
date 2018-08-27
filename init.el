@@ -80,6 +80,7 @@
 (require 'jws-tex)
 (require 'jws-clangs)
 (require 'jws-web-langs)
+(require 'jws-python)
 (require 'jws-pascal)
 
 ;;;; Packages: Appearance ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
