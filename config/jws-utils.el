@@ -7,11 +7,21 @@
 
 ;; Dired ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun jws/dired-curdir ()
+  (interactive)
+  (let* ((parent (if (buffer-file-name)
+                     (file-name-directory (buffer-file-name))
+                    default-directory))
+         (name (car (last (split-string parent "/" t)))))
+    (dired parent)
+    (rename-buffer (concat "*dired: " name "*"))))
+
 (defun jws/dired-home ()
   (interactive)
   (dired "~"))
 
-(define-key jws/leader-map (kbd "u d") 'jws/dired-home)
+(define-key jws/leader-map (kbd "u d") 'jws/dired-curdir)
+(define-key jws/leader-map (kbd "u D") 'jws/dired-home)
 
 ;; Show/hide hidden files
 (require 'dired-x)
