@@ -30,6 +30,26 @@
   :ensure t
   :mode (("\\.scss\\'" . scss-mode)))
 
+;; JavaScript -----------------------------------------------------------------
+
+(use-package js2-mode
+  :ensure t
+  :mode (("\\.js\\'" . js2-mode)))
+
+(use-package tide
+  :ensure t
+  :config
+  (defun jws/setup-tide ()
+    (interactive)
+    (tide-setup)
+    (flycheck-mode 1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode 1)
+    (tide-hl-identifier-mode 1)
+    (add-hook 'before-save-hook #'tide-format-before-save))
+  ;(add-hook 'typescript-mode-hook #'jws/setup-tide)
+  (add-hook 'js2-mode-hook #'jws/setup-tide))
+
 ;; Coffee ---------------------------------------------------------------------
 ;; I don't use Coffeescript; I think I pulled this in because some other
 ;; library I wanted to use used it, and I wanted to see its code.
