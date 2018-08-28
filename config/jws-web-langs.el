@@ -89,4 +89,12 @@
     (add-hook 'php-mode-hook #'jws/php-definition-of-word)
     (add-hook 'php-mode-hook #'jws/company-php-setup)))
 
+;; rest client ----------------------------------------------------------------
+
+(use-package restclient
+  :ensure t
+  :config
+  (setq auto-mode-alist (append '(("\\.restclient$" . restclient-mode))
+                                auto-mode-alist)))
+
 (provide 'jws-web-langs)
