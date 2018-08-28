@@ -3,11 +3,11 @@
 (defun jws/hexcolor-luminance (color)
   "Calculate the luminance of a color string (e.g. \"#ffaa00\", \"blue\").
   This is 0.3 red + 0.59 green + 0.11 blue and always between 0 and 255."
-  (let* ((values (x-color-values color))
-	 (r (car values))
-	 (g (cadr values))
-	 (b (caddr values)))
-    (floor (+ (* .3 r) (* .59 g) (* .11 b)) 256)))
+  (let* ((values (x-color-values color)))
+   (r (car values))
+   (g (cadr values))
+   (b (caddr values)
+    (floor (+ (* .3 r) (* .59 g) (* .11 b)) 256))))
 
 
 (defun jws/hexcolor-add-to-font-lock ()
@@ -41,15 +41,15 @@
 
 (use-package web-mode
   :ensure t
-  :mode (("\\.html?\\'" . web-mode)
-	 ("\\.php\\'" . web-mode)
-	 ("\\.phtml\\'" . web-mode)
-	 ("\\.tpl\\.php\\'" . web-mode)
-	 ("\\.[agj]sp\\'" . web-mode)
-	 ("\\.as[cp]x\\'" . web-mode)
-	 ("\\.erb\\'" . web-mode)
-	 ("\\.mustache\\'" . web-mode)
-	 ("\\.djhtml\\'" . web-mode))
+  :mode (("\\.html?\\'" . web-mode))
+   ("\\.php\\'" . web-mode)
+   ("\\.phtml\\'" . web-mode)
+   ("\\.tpl\\.php\\'" . web-mode)
+   ("\\.[agj]sp\\'" . web-mode)
+   ("\\.as[cp]x\\'" . web-mode)
+   ("\\.erb\\'" . web-mode)
+   ("\\.mustache\\'" . web-mode)
+   ("\\.djhtml\\'" . web-mode)
   :init (require 'web-mode)
   :config
   (progn
@@ -65,8 +65,8 @@
                 (let ((cur-engine "php"))
                   (cond
                    ((string= cur-engine "php")
-                    (jws/company-php-setup))))))
-    ))
+                    (jws/company-php-setup))))))))
+
 
 (add-hook 'css-mode-hook 'jws/hexcolor-add-to-font-lock)
 
