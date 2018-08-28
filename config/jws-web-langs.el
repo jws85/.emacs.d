@@ -1,3 +1,5 @@
+;; CSS ------------------------------------------------------------------------
+
 ;; Color functions
 ;; From http://www.emacswiki.org/emacs/HexColour
 (defun jws/hexcolor-luminance (color)
@@ -22,6 +24,25 @@
                                                      "white" "black"))
                                    (:background ,color)))))))))
 
+(add-hook 'css-mode-hook 'jws/hexcolor-add-to-font-lock)
+
+(use-package scss-mode
+  :ensure t
+  :mode (("\\.scss\\'" . scss-mode)))
+
+;; Coffee ---------------------------------------------------------------------
+;; I don't use Coffeescript; I think I pulled this in because some other
+;; library I wanted to use used it, and I wanted to see its code.
+
+(use-package coffee-mode
+  :ensure t
+  :mode (("\\.coffee\\'" . coffee-mode))
+  :config
+  (progn
+    (setq coffee-tab-width 4)))
+
+;; PHP ------------------------------------------------------------------------
+
 ;; Autocomplete
 (use-package company-php
   :ensure t
@@ -38,6 +59,32 @@
 
 (defun jws/php-definition-of-word ()
   (modify-syntax-entry ?_ "w"))
+
+(use-package php-mode
+  :ensure t
+  :config
+  (progn
+    (setq c-basic-offset 4)
+    (add-hook 'php-mode-hook #'jws/php-definition-of-word)
+    (add-hook 'php-mode-hook #'jws/company-php-setup)))
+
+;; web-mode -------------------------------------------------------------------
+;; Emacs does quite well in handling monolingual PHP files.  But a LOT of
+;; legacy PHP contains commingled JavaScript, CSS, and HTML.  These files
+;; are not suitably handled by php-mode.
+;;
+;; When I first came across code like this, I tried mumamo-mode, and
+;; in doing so took days off my lifespan.  Absolutely frustrating.  I
+;; ended up switching to vim (which had at the time much better
+;; support for this kind of PHP code) for several years; in doing so,
+;; I assimilated the keybindings.  So we have legacy PHP code to blame
+;; for this huge emacs configuration with lots of vim affordances in
+;; it >_<
+;;
+;; I finally switched back to emacs full time with the web-mode package,
+;; which displays these commingled files about as well as could be
+;; expected.  It ain't the best solution; web-mode can be kind of buggy,
+;; but it is worth it to have a nice editing environment like this.
 
 (use-package web-mode
   :ensure t
@@ -67,29 +114,7 @@
                    ((string= cur-engine "php")
                     (jws/company-php-setup))))))))
 
-
-(add-hook 'css-mode-hook 'jws/hexcolor-add-to-font-lock)
-
-(use-package coffee-mode
-  :ensure t
-  :mode (("\\.coffee\\'" . coffee-mode))
-  :config
-  (progn
-    (setq coffee-tab-width 4)))
-
-(use-package scss-mode
-  :ensure t
-  :mode (("\\.scss\\'" . scss-mode)))
-
-(use-package php-mode
-  :ensure t
-  :config
-  (progn
-    (setq c-basic-offset 4)
-    (add-hook 'php-mode-hook #'jws/php-definition-of-word)
-    (add-hook 'php-mode-hook #'jws/company-php-setup)))
-
-;; rest client ----------------------------------------------------------------
+;; REST Client ----------------------------------------------------------------
 
 (use-package restclient
   :ensure t
