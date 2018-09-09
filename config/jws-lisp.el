@@ -24,6 +24,10 @@
 ;;    (ql:quickload "quicklisp-slime-helper")
 ;; and copy the lines given to you into site-init.el
 
+(defun jws/slime-stumpwm ()
+  (interactive)
+  (slime-connect "localhost" 4004))
+
 ;; Emacs Lisp ----------------------------------------------------------------
 
 ;; syntax highlight Cask files
