@@ -19,7 +19,9 @@
     (use-package swiper :ensure t :init (require 'swiper))
     (use-package flx :ensure t :init (require 'flx))
     (use-package smex :ensure t :init (require 'smex))
-    (use-package ivy-rich :ensure t :config (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
+    (use-package ivy-rich :ensure t
+      :config
+      (ivy-rich-mode 1))
 
     (setq ivy-use-virtual-buffers t
           ivy-count-format "(%d/%d)"
