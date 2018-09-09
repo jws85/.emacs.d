@@ -1,12 +1,3 @@
-;; Use Quicklisp to install swank in your preferred lisp and define
-;; the lisp using slime-lisp-implementations
-
-(use-package slime
-  :ensure t
-  :config
-  (progn
-    (slime-setup '(slime-fancy))))
-
 ;; Parinfer is a FRIGGIN' REVELATION HOLY CARP WHERE HAS THIS BEEN
 ;; MY WHOLE LIFE OMG OMG OMG
 ;;
@@ -24,6 +15,16 @@
     (add-hook 'scheme-mode-hook #'parinfer-mode)
     (add-hook 'lisp-mode-hook #'parinfer-mode)
     (add-hook 'lisp-interaction-mode-hook #'parinfer-mode)))
+
+;; Common Lisp ---------------------------------------------------------------
+;; It is actually much easier to install SLIME via Quicklisp:
+;;    https://www.quicklisp.org/beta/
+;;
+;; Once you have QL loaded, run
+;;    (ql:quickload "quicklisp-slime-helper")
+;; and copy the lines given to you into site-init.el
+
+;; Emacs Lisp ----------------------------------------------------------------
 
 ;; syntax highlight Cask files
 (use-package cask-mode :ensure t)
