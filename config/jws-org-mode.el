@@ -47,6 +47,9 @@
 (defvar jws/org-journal-dir (concat jws/org-dir "journal/")
   "The directory where `org-mode' journal files live.")
 
+(defvar jws/org-notes-dir (concat jws/org-dir "notes/")
+  "The directory where `deft' notes files live.")
+
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
 (after 'org
@@ -167,6 +170,22 @@ in my site-init.el.  This displays the `org-agenda' at startup."
         ("s" "Shopping list" entry (file+headline (lambda () (concat jws/org-dir "shopping.org")) "Unfiled Shopping")
          "* %?\n  Entered on %U\n  %i")))
 
+;; note-taking (deft) ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package deft
+  :ensure t
+  :commands (deft)
+  :config
+  (setq deft-directory jws/org-notes-dir
+        deft-extensions '("org" "md" "markdown" "txt")
+        deft-default-extension "org"
+        deft-use-filename-as-title nil
+        deft-use-filter-string-for-filename t
+        deft-file-naming-rules
+        '((noslash . "-")
+          (nospace . "-")
+          (case-fn . downcase))))
+
 ;; keybindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun jws/open-org-dir ()
@@ -174,15 +193,16 @@ in my site-init.el.  This displays the `org-agenda' at startup."
   (counsel-find-file jws/org-dir))
 
 (define-key jws/leader-map (kbd "f o") 'jws/open-org-dir)
+(define-key jws/leader-map (kbd "f n") 'deft)
 
 (jws/after (hydra)
-
   (defhydra jws/hydra-org (:exit t)
     ("r" jws/load-org-settings "Load org settings")
     ("l" org-store-link "Store link")
     ("a" org-agenda "Agenda")
     ("c" org-capture "Capture")
-    ("e" org-export "Export"))
+    ("e" org-export "Export")
+    ("n" deft "Notes"))
 
   (global-set-key (kbd "M-j o") 'jws/hydra-org/body)
   (jws/after (evil)
