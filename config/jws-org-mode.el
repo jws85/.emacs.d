@@ -192,6 +192,9 @@ in my site-init.el.  This displays the `org-agenda' at startup."
   (interactive)
   (counsel-find-file jws/org-dir))
 
+(define-key evil-normal-state-map (kbd "<f5>") 'org-agenda)
+(define-key evil-normal-state-map (kbd "<f6>") 'deft)
+
 (define-key jws/leader-map (kbd "f o") 'jws/open-org-dir)
 (define-key jws/leader-map (kbd "f n") 'deft)
 
