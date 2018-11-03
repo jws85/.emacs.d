@@ -21,6 +21,7 @@
               (lambda ()
                 (if (locate-dominating-file default-directory ".git")
                     (projectile-mode))))
+
     (eval-after-load "projectile"
       '(progn
          (defvar-local bk/projectile-project-name-cache nil
@@ -29,7 +30,9 @@
          (defadvice projectile-project-name (around bk/projectile-project-name activate)
            (if (not bk/projectile-project-name-cache)
                (setq bk/projectile-project-name-cache ad-do-it))
-           (setq ad-return-value bk/projectile-project-name-cache))))))
+           (setq ad-return-value bk/projectile-project-name-cache))))
+
+    (define-key jws/leader-map (kbd "p") 'projectile-command-map)))
 
 
 ; FIXME -- currently these are broken!  If I let projectile vomit into my
@@ -50,31 +53,5 @@
   :config
   (dumb-jump-mode)
   (setq dumb-jump-selector 'ivy))
-
-;; Needed by the code figuring out the grep command du jour...
-(defun jws/not-nil-p (val)
-  (not (eq val nil)))
-
-(jws/after (counsel counsel-projectile hydra)
-  ;; If rg isn't installed, go with ag
-  ;; if ag isn't installed, fall back to grep
-  ;; rg requires a full Rust toolchain on Debian boxen, or SSSE2 support for the binary
-  ;; ag is at least available as a package on *buntu (silversearcher-ag)
-  (setq jws/project-grep-command
-        (cond
-         ((jws/not-nil-p (executable-find "rg")) #'counsel-projectile-rg)
-         ((jws/not-nil-p (executable-find "ag")) #'counsel-projectile-ag)
-         (t #'counsel-projectile-grep)))
-
-  (defhydra jws/hydra-project (:exit t)
-    ("p" projectile-find-file "Find file in project")
-    ("s" projectile-switch-project "Switch project")
-    ("g" (funcall jws/project-grep-command) "Find string in project")
-    ("j" dumb-jump-go "Jump to definition under point")
-    ("J" dumb-jump-back "Jump back" :exit nil)
-    ("c" projectile-compile-project "Compile project")
-    ("r" projectile-regenerate-tags "Reload tags" :exit nil))
-
-  (define-key jws/leader-map (kbd "p") 'jws/hydra-project/body))
 
 (provide 'jws-project)
