@@ -204,7 +204,7 @@ in my site-init.el.  This displays the `org-agenda' at startup."
     ("l" org-store-link "Store link")
     ("a" org-agenda "Agenda")
     ("c" org-capture "Capture")
-    ("e" org-export "Export")
+    ("e" org-export-dispatch "Export")
     ("n" deft "Notes"))
 
   (global-set-key (kbd "M-j o") 'jws/hydra-org/body)
