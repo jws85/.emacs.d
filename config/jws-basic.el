@@ -157,6 +157,13 @@
 ;; Basic file-handling functions
 (use-package f :ensure t)
 
+;; Load emacs' exec-path using your shell's PATH value
+(use-package exec-path-from-shell
+  :if (not (memq system-type '(windows-nt ms-dos)))
+  :ensure t
+  :config
+  (exec-path-from-shell-initialize))
+
 ;; Some good functions from here that are asking for keybindings:
 ;;  - crux-find-user-init-file (Opens the ~/.emacs.d/init.el)
 ;;  - crux-find-shell-init-file (Opens your shell's init files)
