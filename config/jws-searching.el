@@ -91,9 +91,12 @@ directories will have a trailing /, ignore it so foo.txt is after foo/."
 (define-key jws/leader-map (kbd "b j") 'bufj/uggler)
 (define-key jws/leader-map (kbd "b u") 'bury-buffer)
 (define-key jws/leader-map (kbd "b k") 'kill-this-buffer)
-(define-key jws/leader-map (kbd "b s") 'jws/switch-to-scratch)
+(define-key jws/leader-map (kbd "b l") 'jws/switch-to-scratch)
+(define-key jws/leader-map (kbd "b s") 'save-buffer) ; save buffer
+(define-key jws/leader-map (kbd "b S") 'write-file) ; save buffer to new file name
+(define-key jws/leader-map (kbd "b r") 'crux-rename-buffer-and-file) ; rename buffer and file
 
-(define-key jws/leader-map (kbd "f r") 'ff-find-other-file)
+(define-key jws/leader-map (kbd "f a") 'ff-find-other-file)
 (define-key jws/leader-map (kbd "f i e") 'crux-find-user-init-file)
 (define-key jws/leader-map (kbd "f i s") 'crux-find-shell-init-file)
 (define-key jws/leader-map (kbd "f t") 'jws/create-empty-file)
