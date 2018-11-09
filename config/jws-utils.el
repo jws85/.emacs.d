@@ -89,6 +89,7 @@
 (use-package emojify
   :ensure t
   :config
+  (setq emojify-download-emojis-p nil)
   (add-hook 'after-init-hook #'global-emojify-mode)
   (define-key jws/leader-map (kbd "u j") 'emojify-insert-emoji))
 
