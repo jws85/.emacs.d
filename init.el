@@ -75,6 +75,7 @@
 (require 'jws-project)    ; Project management
 
 ;;;; Packages: Languages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'jws-devops)     ; For when I must pretend to be a sysadmin
 (require 'jws-lisp)
 (require 'jws-markup)
 (require 'jws-tex)
