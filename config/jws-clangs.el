@@ -4,6 +4,7 @@
 ;; Useful: https://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
 (use-package go-mode
   :ensure t
+  :mode "\\.go\\'"
   :config
   (add-hook 'before-save-hook 'gofmt-before-save))
 
