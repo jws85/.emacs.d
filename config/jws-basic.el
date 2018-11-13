@@ -171,9 +171,9 @@
 (use-package crux :ensure t)
 
 (define-key jws/leader-map (kbd "e i") 'package-install)
-(define-key jws/leader-map (kbd "e p") 'package-list-packages)
 (define-key jws/leader-map (kbd "e s") 'server-start)
 (define-key jws/leader-map (kbd "e q") 'jws/server-shutdown)
+(define-key jws/leader-map (kbd "e p") 'paradox-list-packages)
 (define-key jws/leader-map (kbd "e u") 'paradox-upgrade-packages)
 
 (provide 'jws-basic)
