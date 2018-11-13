@@ -4,9 +4,10 @@ Oriented around vim-style keybindings and PHP programming... for the
 moment.
 
 Warning: If you want a good easy Emacs starter pack, please go look at
-Emacs Prelude[1] or Spacemacs[2] or similar.  I've run this code in
-various states of breakage, and anticipate more breakage in the future.
-That said, I try to sorta-test before pushing here.
+[Emacs Prelude](https://github.com/bbatsov/prelude) or
+[Spacemacs](http://spacemacs.org/) or similar.  I've run this code in
+various states of breakage, and anticipate more breakage in the
+future.  That said, I try to sorta-test before pushing here.
 
 Do feel free to steal from it though.
 
@@ -49,9 +50,10 @@ is hanging off the Space key.
 If you're in a mode where Space doesn't work, M-j should do the same
 thing.
 
-Specifically, SPC f should open a file switcher and SPC b should
-open a buffer switcher.  I'm not even sure I can guarantee those
-staying the same in the future...
+Specifically, <kbd>SPC f f</kbd> should open a file switcher and
+<kbd>SPC b b</kbd> should open a buffer switcher.  But I can't even
+guarantee those staying the same, as I've already changed them once
+before!
 
 # Customizing
 
@@ -65,7 +67,3 @@ install a package off MELPA, use use-package; look at the lisp/config
 files for how to use this.  If you want some package that isn't on
 MELPA, stick it in lisp/ (it should be gitignored, except for the
 use-package, jws, and config packages) and have at it.
-
-[1] https://github.com/bbatsov/prelude
-[2] http://spacemacs.org/
-[3] http://www.emacswiki.org/emacs/DisabledCommands
