@@ -6,6 +6,7 @@
 (use-package parinfer
   :ensure t
   :bind ("C-," . parinfer-toggle-mode)
+  :defer t
   :init
   (progn
     (setq parinfer-extensions
@@ -35,6 +36,7 @@
 
 (use-package nameless
   :ensure t
+  :defer t
   :config
   (after 'diminish
     (diminish 'nameless-mode))
