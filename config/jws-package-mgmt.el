@@ -1,5 +1,3 @@
-;; use-package, a.k.a. the best thing to ever happen to emacs
-(require 'use-package)
 (require 'package)
 
 ;; MELPA (forget Marmalade, it never worked for me)
@@ -25,6 +23,11 @@
   (unless (package-installed-p pkg)
     (jws/package-refresh-once-a-session)
     (package-install pkg)))
+
+;; use-package, a.k.a. the best thing to ever happen to emacs
+(jws/package-install 'use-package)
+(eval-when-compile
+  (require 'use-package))
 
 ;; Hide packages from the modeline
 (use-package diminish
