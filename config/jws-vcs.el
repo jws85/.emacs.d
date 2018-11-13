@@ -1,13 +1,12 @@
 (use-package magit
   :ensure t
+  :defer t
+  :init
+  (define-key jws/leader-map (kbd "g g") 'magit-status)
+  (define-key jws/leader-map (kbd "g b") 'magit-blame)
   :config
   (setq magit-last-seen-setup-instructions "1.4.0")
-
-  (after 'diminish
-    (diminish 'auto-revert-mode))
-
-  (define-key jws/leader-map (kbd "g g") 'magit-status)
-  (define-key jws/leader-map (kbd "g b") 'magit-blame))
+  (after 'diminish (diminish 'auto-revert-mode)))
 
 (use-package magit-gitflow
   :ensure t
