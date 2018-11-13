@@ -62,6 +62,7 @@
 
 (use-package php-mode
   :ensure t
+  :mode "\\.php\\'"
   :config
   (progn
     (setq c-basic-offset 4)
@@ -88,15 +89,15 @@
 
 (use-package web-mode
   :ensure t
-  :mode (("\\.html?\\'" . web-mode))
-   ("\\.php\\'" . web-mode)
+  :mode
+  (("\\.html?\\'" . web-mode)
    ("\\.phtml\\'" . web-mode)
    ("\\.tpl\\.php\\'" . web-mode)
    ("\\.[agj]sp\\'" . web-mode)
    ("\\.as[cp]x\\'" . web-mode)
    ("\\.erb\\'" . web-mode)
    ("\\.mustache\\'" . web-mode)
-   ("\\.djhtml\\'" . web-mode)
+   ("\\.djhtml\\'" . web-mode))
   :init (require 'web-mode)
   :config
   (progn
