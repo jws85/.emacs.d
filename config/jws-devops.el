@@ -7,7 +7,6 @@
 ;; Hipster VMs!  (Ahem, hipster chroots.)
 (use-package dockerfile-mode
   :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+  :mode "Dockerfile\\'")
 
 (provide 'jws-devops)
