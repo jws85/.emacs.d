@@ -20,8 +20,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (switch-to-buffer (other-buffer (current-buffer))))
 
 (use-package evil
-  :init (setq evil-want-integration nil)
   :ensure t
+  :init (setq evil-want-keybinding nil)
   :config
   (evil-mode t)
 
