@@ -181,7 +181,7 @@ more-helpful local prompt."
 
 ;; Keybindings ---------------------------------------------------------------
 
-(define-key jws/leader-map (kbd "u s") 'jws/eshell-here)
-(define-key jws/leader-map (kbd "u S") 'jws/ansi-term-zsh)
+(define-key jws/leader-map (kbd "x e") 'jws/eshell-here)
+(define-key jws/leader-map (kbd "x t") 'jws/ansi-term-zsh)
 
 (provide 'jws-shell)
