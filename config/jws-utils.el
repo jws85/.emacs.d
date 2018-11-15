@@ -1,64 +1,78 @@
 ;; Image viewing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package image
+  :commands image-mode)
+
 (use-package image+
   :ensure t
+  :after image
   :config
   (eval-after-load 'image '(require 'image+)))
 
 ;; Dired ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun jws/dired-curdir ()
-  (interactive)
-  (let* ((parent (if (buffer-file-name)
-                     (file-name-directory (buffer-file-name))
-                    default-directory))
-         (name (car (last (split-string parent "/" t)))))
-    (dired parent)
-    (rename-buffer (concat "*dired: " name "*"))))
+(use-package dired
+  :commands dired
 
-(defun jws/dired-home ()
-  (interactive)
-  (dired "~"))
+  :preface
+  (defun jws/dired-curdir ()
+    (interactive)
+    (let* ((parent (if (buffer-file-name)
+                       (file-name-directory (buffer-file-name))
+                      default-directory))
+           (name (car (last (split-string parent "/" t)))))
+      (dired parent)
+      (rename-buffer (concat "*dired: " name "*"))))
 
-(define-key jws/leader-map (kbd "u d") 'jws/dired-curdir)
-(define-key jws/leader-map (kbd "u D") 'jws/dired-home)
+  (defun jws/dired-home ()
+    (interactive)
+    (dired "~"))
 
-;; Show/hide hidden files
-(require 'dired-x)
-(setq dired-omit-files "^\\...+$")
-(add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1)))
-(define-key dired-mode-map (kbd ", h") 'dired-omit-mode)
+  :init
+  (define-key jws/leader-map (kbd "u d") 'jws/dired-curdir)
+  (define-key jws/leader-map (kbd "u D") 'jws/dired-home))
+
+(use-package dired-x
+  :config
+  ;; Show/hide hidden files
+  (setq dired-omit-files "^\\...+$")
+  (add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1)))
+  (define-key dired-mode-map (kbd "C-c h") 'dired-omit-mode))
 
 ;; make-it-so, a package to perform batch file conversions with dired
 (use-package make-it-so
   :ensure t
-  :init (require 'make-it-so)
+  :after dired
   :config
   (progn
     (setq mis-recipes-directory (expand-file-name (concat user-emacs-directory "etc/make-it-so")))
-    (define-key dired-mode-map (kbd ", ,") 'make-it-so)))
+    (define-key dired-mode-map (kbd "C-c m") 'make-it-so)))
 
 (use-package dired-rainbow
   :ensure t
+  :after dired
   :config
   ;; executable files
   (dired-rainbow-define-chmod executable-unix "Green" "-[rw-]+x.*"))
 
 (use-package dired-subtree
   :ensure t
+  :after dired
   :config
-  (define-key dired-mode-map (kbd ", s o") 'dired-subtree-insert)
-  (define-key dired-mode-map (kbd ", s c") 'dired-subtree-remove))
+  (define-key dired-mode-map (kbd "C-c s a") 'dired-subtree-insert)
+  (define-key dired-mode-map (kbd "C-c s d") 'dired-subtree-remove))
 
 (use-package dired-collapse
   :ensure t
+  :after dired
   :config
-  (define-key dired-mode-map (kbd ", c") 'dired-collapse-mode))
+  (define-key dired-mode-map (kbd "C-c c") 'dired-collapse-mode))
 
 ;; Weather ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package wttrin
   :ensure t
+  :commands wttrin
   :config
   (setq wttrin-default-cities '("Wilmington, NC" "Raleigh, NC" "Springfield, VA" "Tokyo")
         wttrin-default-accept-language '("Accept-Language" . "en-US")))
@@ -75,7 +89,7 @@
 ;; Open a quicky file to make quick notes in; by default under ~/.junk/
 (use-package open-junk-file
   :ensure t
-  :init (require 'open-junk-file)
+  :commands open-junk-file
   :config
   (setq open-junk-file-directory "~/.junk/%Y/%m/%d-%H%M%S.")
   (define-key jws/leader-map (kbd "f j") 'open-junk-file))
