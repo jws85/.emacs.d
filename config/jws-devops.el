@@ -9,4 +9,7 @@
   :ensure t
   :mode "Dockerfile\\'")
 
+(use-package docker-tramp
+  :ensure t)
+
 (provide 'jws-devops)
