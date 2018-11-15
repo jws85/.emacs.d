@@ -156,6 +156,12 @@ more-helpful local prompt."
 (setq eshell-prompt-regexp "^[^#$\n]*[#$] "
       eshell-highlight-prompt nil)
 
+(use-package eshell-bookmark
+  :ensure t
+  :config
+  (add-hook 'eshell-mode-hook 'eshell-bookmark-setup)
+  (eshell/alias "es-bookmark" "bookmark-set"))
+
 ;; (ansi-)term-mode ----------------------------------------------------------
 
 ;; Close the ansi-term buffer when finished
