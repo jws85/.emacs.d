@@ -11,12 +11,7 @@
 (use-package which-key
   :ensure t
   :config
-  (after 'diminish
-    (diminish 'which-key-mode))
-
   (which-key-mode)
-  (after 'diminish
-    (diminish 'which-key-mode))
   (setq which-key-idle-delay 0.1))
 
 (defhydra jws/hydra-splitting (:columns 5)

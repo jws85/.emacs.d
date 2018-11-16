@@ -11,10 +11,7 @@
   :defer t
   :init (require 'yasnippet)
   :config
-  (progn
-    (after 'diminish
-      (diminish 'yas-minor-mode))
-    (yas-global-mode 1)))
+  (yas-global-mode 1))
 
 (use-package yasnippet-snippets :ensure t :after yasnippet)
 
@@ -30,9 +27,6 @@
       :config
       (progn
         (require 'company-web-html)))
-
-    (after 'diminish
-      (diminish 'company-mode))
 
     (defun jws/company-abort-and-insert-newline ()
       "Meant for binding to RET in company-active-map"

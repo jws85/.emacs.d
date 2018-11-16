@@ -8,8 +8,7 @@
   (define-key jws/leader-map (kbd "g i") 'magit-init)
   (define-key jws/leader-map (kbd "g l") 'magit-log-all-branches)
   :config
-  (setq magit-last-seen-setup-instructions "1.4.0")
-  (after 'diminish (diminish 'auto-revert-mode)))
+  (setq magit-last-seen-setup-instructions "1.4.0"))
 
 (use-package magit-gitflow
   :ensure t

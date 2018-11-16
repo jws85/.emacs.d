@@ -45,8 +45,6 @@
   :ensure t
   :defer t
   :config
-  (after 'diminish
-    (diminish 'nameless-mode))
   (add-hook 'emacs-lisp-mode-hook #'nameless-mode))
 
 ;; ;; I am trying to do the following: If there is a Cask file somewhere in the
@@ -58,8 +56,5 @@
 ;;     (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
 ;;     (add-hook 'flycheck-mode-hook #'flycheck-package-setup)
 ;;     (add-hook 'emacs-lisp-mode-hook #'flycheck-mode))
-
-(after 'diminish
-  (diminish 'eldoc-mode))
 
 (provide 'jws-lisp)

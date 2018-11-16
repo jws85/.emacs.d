@@ -26,8 +26,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (evil-mode t)
 
   ;; evil requires undo-tree
-  (after 'diminish
-    (diminish 'undo-tree-mode))
 
   ;; artist-mode is allergic to evil
   (after 'evil

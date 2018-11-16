@@ -38,10 +38,6 @@
 (eval-when-compile
   (require 'use-package))
 
-;; Hide packages from the modeline
-(use-package diminish
-  :ensure t)
-
 ;; Paradox is a slightly nicer package installation interface
 (use-package paradox
   :ensure t
