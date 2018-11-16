@@ -4,6 +4,7 @@
   :init
   (define-key jws/leader-map (kbd "g g") 'magit-status)
   (define-key jws/leader-map (kbd "g b") 'magit-blame)
+  (define-key jws/leader-map (kbd "g i") 'magit-init)
   :config
   (setq magit-last-seen-setup-instructions "1.4.0")
   (after 'diminish (diminish 'auto-revert-mode)))
