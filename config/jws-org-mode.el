@@ -185,18 +185,12 @@
 (define-key jws/leader-map (kbd "f o") 'jws/open-org-dir)
 (define-key jws/leader-map (kbd "f n") 'deft)
 
-(jws/after (hydra)
-  (defhydra jws/hydra-org (:exit t)
-    ("r" jws/load-org-settings "Load org settings")
-    ("l" org-store-link "Store link")
-    ("a" org-agenda "Agenda")
-    ("c" org-capture "Capture")
-    ("e" org-export-dispatch "Export")
-    ("n" deft "Notes"))
-
-  (global-set-key (kbd "M-j o") 'jws/hydra-org/body)
-  (jws/after (evil)
-    (define-key evil-normal-state-map (kbd "SPC o") 'jws/hydra-org/body)))
+(define-key jws/leader-map (kbd "o r") 'jws/load-org-settings)
+(define-key jws/leader-map (kbd "o l") 'org-store-link)
+(define-key jws/leader-map (kbd "o a") 'org-agenda)
+(define-key jws/leader-map (kbd "o c") 'org-capture)
+(define-key jws/leader-map (kbd "o e") 'org-export-dispatch)
+(define-key jws/leader-map (kbd "o n") 'deft)
 
 (provide 'jws-org-mode)
 
