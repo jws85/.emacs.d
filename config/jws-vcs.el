@@ -3,8 +3,10 @@
   :defer t
   :init
   (define-key jws/leader-map (kbd "g g") 'magit-status)
-  (define-key jws/leader-map (kbd "g b") 'magit-blame)
+  (define-key jws/leader-map (kbd "g b") 'magit-branch-checkout)
+  (define-key jws/leader-map (kbd "g B") 'magit-blame)
   (define-key jws/leader-map (kbd "g i") 'magit-init)
+  (define-key jws/leader-map (kbd "g l") 'magit-log-all-branches)
   :config
   (setq magit-last-seen-setup-instructions "1.4.0")
   (after 'diminish (diminish 'auto-revert-mode)))
@@ -21,7 +23,6 @@
   :ensure t
   :after (evil magit)
   :config
-  (require 'evil-magit)
-  (define-key magit-mode-map (kbd "C-f") nil))
+  (require 'evil-magit))
 
 (provide 'jws-vcs)
