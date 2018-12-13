@@ -43,6 +43,9 @@ emojis/
 # eshell installation
 eshell/
 
+# games (e.g. Tetris scores)
+games/
+
 # infodocs
 info/
 
