@@ -92,6 +92,10 @@ and 1."
          (average-width (elt font-vector 7)))
     (cons (+ ascent descent) average-width)))
 
+(defun jws/make-maximized-frame ()
+  (interactive)
+  (make-frame '((fullscreen . maximized))))
+
 (jws/set-my-default-frame-alist)
 
 ;; Hydra to create, close, and resize frames
@@ -99,6 +103,7 @@ and 1."
 (after 'hydra
   (defhydra jws/hydra-frame (:exit t)
     ("n" make-frame "Make new window/frame")
+    ("N" jws/make-maximized-frame "Make new maximized window/frame")
     ("c" delete-frame "Close window/frame")
 
     ("d" jws/use-default-frame-alist "Default position/size/font")
