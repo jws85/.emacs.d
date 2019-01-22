@@ -32,7 +32,8 @@
                (setq bk/projectile-project-name-cache ad-do-it))
            (setq ad-return-value bk/projectile-project-name-cache))))
 
-    (define-key jws/leader-map (kbd "p") 'projectile-command-map)))
+    (define-key jws/leader-map (kbd "p") 'projectile-command-map)
+    (define-key projectile-command-map (kbd "SPC") 'projectile-switch-project)))
 
 
 ; FIXME -- currently these are broken!  If I let projectile vomit into my
@@ -45,7 +46,11 @@
   :ensure t
   :preface (setq projectile-keymap-prefix (kbd "C-c p")) ; [FIXME] Quick hack q.v. https://github.com/ericdanan/counsel-projectile/pull/92
   :after projectile
-  :config (counsel-projectile-mode))
+  :config
+  (progn
+    (counsel-projectile-mode)
+    (define-key projectile-command-map (kbd "SPC") 'projectile-switch-project)
+    (define-key projectile-command-map (kbd "p") 'counsel-projectile)))
 
 (use-package dumb-jump
   :ensure t
