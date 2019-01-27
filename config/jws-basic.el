@@ -148,6 +148,23 @@
 (require 'saveplace)
 (save-place-mode)
 
+;; Try to force UTF-8 everywhere... even on Windows.  See this StackOverflow
+;; comment:
+;;   https://stackoverflow.com/a/2903256
+;;
+;; However, read over this, as if you are a little too strict on forcing UTF-8
+;; everywhere, Windows can have problems:
+;;   https://rufflewind.com/2014-07-20/pasting-unicode-in-emacs-on-windows
+(setq utf-translate-cjk-mode nil ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+      locale-coding-system 'utf-8)
+(set-language-environment 'utf-8)
+(set-keyboard-coding-system 'utf-8-mac) ; For old Carbon emacs on OS X only
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-selection-coding-system
+  (if (eq system-type 'windows-nt) 'utf-16-le 'utf-8))
+(prefer-coding-system 'utf-8)
+
 ;; Define a hydra with some basic emacs functionality
 (defun jws/server-shutdown ()
   (interactive)
