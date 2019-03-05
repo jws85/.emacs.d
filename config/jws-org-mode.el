@@ -141,6 +141,11 @@
 
 ;; org-capture ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun jws/org-capture-single-window ()
+  (interactive)
+  (org-capture)
+  (delete-other-windows))
+
 ;; http://orgmode.org/manual/Capture-templates.html
 (use-package org-capture
   :after (org)
