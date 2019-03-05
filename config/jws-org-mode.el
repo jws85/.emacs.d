@@ -139,6 +139,11 @@
            ((org-agenda-overriding-header "Travelling")
             (org-agenda-skip-function #'jws/org-agenda-skip-all-siblings-but-first))))))
 
+(defun jws/org-agenda-single-window ()
+  (interactive)
+  (org-agenda)
+  (delete-other-windows))
+
 ;; org-capture ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun jws/org-capture-single-window ()
