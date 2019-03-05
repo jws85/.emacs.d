@@ -25,6 +25,7 @@
 
 (use-package beacon
   :init (beacon-mode 1)
+  :disabled
   :ensure t
   :config
   (progn
