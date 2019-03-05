@@ -9,7 +9,7 @@
   (interactive)
   (eww jws/eww-home-page))
 
-(define-key jws/leader-map (kbd "u w w") 'jws/eww-home)
+(define-key jws/leader-map (kbd "n n") 'jws/eww-home)
 
 ;; Opens links in browse-url-browser-function
 (use-package ace-link
@@ -24,12 +24,12 @@
       (if (eq major-mode 'org-mode)
           (ace-link-org)
         (ace-link-addr)))
-    (global-set-key (kbd "M-j u w o") 'jws/ace-link-contextual)
-    (after 'evil (define-key evil-normal-state-map (kbd "SPC u w o") 'jws/ace-link-contextual))))
+    (global-set-key (kbd "M-j n o") 'jws/ace-link-contextual)
+    (after 'evil (define-key evil-normal-state-map (kbd "SPC n o") 'jws/ace-link-contextual))))
 
 ;; Web search
 (after 'counsel
   (require 'counsel-surfraw)
-  (define-key jws/leader-map (kbd "u w s") 'counsel-surfraw))
+  (define-key jws/leader-map (kbd "n s") 'counsel-surfraw))
 
 (provide 'jws-www)

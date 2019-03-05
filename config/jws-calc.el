@@ -4,8 +4,7 @@
 
 ;;; Code:
 
-;; Vi-only keybinding
-(define-key jws/leader-map (kbd "u c") 'calc)
+(define-key jws/leader-map (kbd "c") 'calc)
 
 ;; Add computer data units
 ;; see https://florian.adamsky.it/2016/03/31/emacs-calc-for-programmers-and-cs.html

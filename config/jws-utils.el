@@ -29,8 +29,8 @@
     (dired "~"))
 
   :init
-  (define-key jws/leader-map (kbd "u d") 'jws/dired-curdir)
-  (define-key jws/leader-map (kbd "u D") 'jws/dired-home))
+  (define-key jws/leader-map (kbd "d d") 'jws/dired-curdir)
+  (define-key jws/leader-map (kbd "d h") 'jws/dired-home))
 
 (use-package dired-x
   :config
