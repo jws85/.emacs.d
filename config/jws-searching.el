@@ -53,7 +53,8 @@ directories will have a trailing /, ignore it so foo.txt is after foo/."
             (ivy-switch-buffer . ivy-sort-function-buffer)
             (counsel-find-file . jws/ivy-sort-files-function)))
 
-    (define-key ivy-mode-map (kbd "C-SPC") 'ivy-restrict-to-matches)
+    (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-restrict-to-matches)
+    (define-key ivy-minibuffer-map (kbd "S-SPC") nil)
 
     ;; I'm not sure of the implication of this... but it fixes an irritating
     ;; impedance mismatch between helm/ivy and ido.  When you use RET in
