@@ -8,6 +8,7 @@
 
 (use-package yasnippet
   :ensure t
+  :defer t
   :init (require 'yasnippet)
   :config
   (progn
@@ -19,6 +20,7 @@
 
 (use-package company
   :ensure t
+  :defer t
   :init (company-mode)
   :config
   (progn
