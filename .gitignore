@@ -79,6 +79,9 @@ recentf
 # tramp cache
 tramp
 
+# transient
+transient/
+
 # junk files
 *~
 session.*
