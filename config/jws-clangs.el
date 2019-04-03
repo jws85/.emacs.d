@@ -22,6 +22,13 @@
   :config
   (add-hook 'go-mode-hook 'jws/golang-hook))
 
+;; Qt QML -- which is a JavaScript derivative and thus a curly-brace C descendant,
+;; even if it doesn't work like one!
+
+(use-package qml-mode
+  :ensure t
+  :mode "\\.qml\\'")
+
 ;; C and other similar languages
 
 (add-hook 'c-mode-common-hook
