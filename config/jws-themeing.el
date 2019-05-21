@@ -170,6 +170,7 @@
     ))
 
 (dolist (pkg theme-packages)
-  (jws/package-install pkg))
+  (if (not (package-installed-p pkg))
+      (jws/package-install pkg)))
 
 (provide 'jws-themeing)
