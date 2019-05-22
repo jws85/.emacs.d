@@ -165,11 +165,13 @@
   (if (eq system-type 'windows-nt) 'utf-16-le 'utf-8))
 (prefer-coding-system 'utf-8)
 
-;; Define a hydra with some basic emacs functionality
-(defun jws/server-shutdown ()
-  (interactive)
-  (save-some-buffers)
-  (kill-emacs))
+(defun jws/server-shutdown (yn)
+  "Prompt before killing the Emacs dæmon"
+  (interactive "cKill the Emacs dæmon (y/n)? ")
+  (if (eq yn ?y)
+      (progn
+        (save-some-buffers)
+        (kill-emacs))))
 
 ;; Basic file-handling functions
 (use-package f :ensure t)
