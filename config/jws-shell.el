@@ -159,8 +159,7 @@ more-helpful local prompt."
 (use-package eshell-bookmark
   :ensure t
   :config
-  (add-hook 'eshell-mode-hook 'eshell-bookmark-setup)
-  (eshell/alias "es-bookmark" "bookmark-set"))
+  (add-hook 'eshell-mode-hook 'eshell-bookmark-setup))
 
 ;; (ansi-)term-mode ----------------------------------------------------------
 
