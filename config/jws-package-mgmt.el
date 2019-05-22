@@ -7,15 +7,24 @@
 ;; Enable packages
 (package-initialize)
 
-;; Refresh the package only if it hasn't already been done this session
-(setq jws/package-refreshed-already nil)
+(defun jws/is-refresh-needed (refresh-interval)
+  "Determine whether a package refresh is needed -- every REFRESH-INTERVAL days"
+  (let* ((now (float-time (current-time)))
+         (package-archive-file "~/.emacs.d/elpa/archives/melpa/archive-contents")
+         (then (float-time (nth 5 (file-attributes package-archive-file))))
+         (refresh-interval-secs (* 24 60 60 refresh-interval)))
+    (> (- now then)
+       refresh-interval-secs)))
+
 (defun jws/package-refresh-once-a-session ()
+  "Refresh package list once a session, if needed"
   (if (eq jws/package-refreshed-already nil)
       (progn
         (package-refresh-contents)
         (setq jws/package-refreshed-already t))))
 
-;; Only way to be sure...
+;; Only refresh packages once every seven days
+(setq jws/package-refreshed-already (jws/is-refresh-needed 7))
 (jws/package-refresh-once-a-session)
 
 ;; Refresh the package list, then install package if it hasn't already been installed
