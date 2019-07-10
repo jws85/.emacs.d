@@ -31,6 +31,9 @@ auto-save-list/
 # bookmarks file
 bookmarks
 
+# calc.el (allow it to be user/machine-specific)
+calc.el
+
 # emms installation
 emms/
 

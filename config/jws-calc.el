@@ -2,6 +2,11 @@
 
 ;;; Commentary:
 
+;; By default, calc settings should go under ~/.emacs.d/calc.el
+;; But that file seems to be used by Calc itself to store various
+;; user settings -- as such, it might be better to use that as a
+;; machine-specific, non-version-controlled file
+
 ;;; Code:
 
 (define-key jws/leader-map (kbd "c") 'calc-dispatch)
