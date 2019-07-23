@@ -123,4 +123,12 @@
   (setq auto-mode-alist (append '(("\\.restclient$" . restclient-mode))
                                 auto-mode-alist)))
 
+(use-package ob-restclient
+  :ensure t
+  :after restclient
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((restclient . t))))
+
 (provide 'jws-web-langs)
