@@ -17,6 +17,13 @@
     (add-hook 'lisp-mode-hook #'parinfer-mode)
     (add-hook 'lisp-interaction-mode-hook #'parinfer-mode)))
 
+;; Flashes the region of the sexp being evaluated
+(use-package eval-sexp-fu
+  :ensure t
+  :config
+  (setq eval-sexp-fu-flash-error-face 'lazy-highlight-face
+        eval-sexp-fu-flash-duration 0.25))
+
 ;; Common Lisp ---------------------------------------------------------------
 ;; It is actually much easier to install SLIME via Quicklisp:
 ;;    https://www.quicklisp.org/beta/
