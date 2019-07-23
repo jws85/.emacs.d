@@ -120,6 +120,7 @@
 (use-package restclient
   :ensure t
   :config
+  (add-hook 'restclient-mode-hook 'company-mode)
   (setq auto-mode-alist (append '(("\\.restclient$" . restclient-mode))
                                 auto-mode-alist)))
 
@@ -130,5 +131,11 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((restclient . t))))
+
+(use-package company-restclient
+  :after (restclient company)
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-restclient))
 
 (provide 'jws-web-langs)
