@@ -56,6 +56,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (define-key evil-normal-state-map (kbd "[ q") 'previous-error)
   (define-key evil-normal-state-map (kbd "] q") 'next-error)
 
+  ;; evil has this doing undo -- I use 'u' for that purpose
+  (define-key evil-insert-state-map (kbd "C-/") 'comment-dwim)
+  (define-key evil-normal-state-map (kbd "C-/") 'comment-dwim)
+
   (setq evil-default-cursor t
         lazy-highlight-cleanup nil
         lazy-highlight-max-at-a-time nil
