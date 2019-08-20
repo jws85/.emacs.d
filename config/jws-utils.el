@@ -103,7 +103,13 @@
 (use-package emojify
   :ensure t
   :config
-  (setq emojify-download-emojis-p nil)
+
+  ;; I wish there was a way to "only display emojis in programming files if they
+  ;; are specifically Unicode emojis"
+  (setq emojify-download-emojis-p nil
+        emojify-emoji-styles '(unicode)
+        emojify-program-contexts '(comments))
+
   (add-hook 'after-init-hook #'global-emojify-mode)
   (define-key jws/leader-map (kbd "u j") 'emojify-insert-emoji))
 
