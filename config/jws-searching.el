@@ -79,7 +79,8 @@ directories will have a trailing /, ignore it so foo.txt is after foo/."
     (define-key jws/leader-map (kbd "f f") 'counsel-find-file)
     (define-key jws/leader-map (kbd "f r") 'counsel-recentf)
     (define-key jws/leader-map (kbd "f b") 'counsel-bookmark)
-    (define-key jws/leader-map (kbd "b b") 'ivy-switch-buffer)))
+    (define-key jws/leader-map (kbd "b b") 'ivy-switch-buffer)
+    (define-key jws/leader-map (kbd "l s") 'counsel-semantic-or-imenu)))
 
 (defun jws/switch-to-scratch ()
   (interactive)
