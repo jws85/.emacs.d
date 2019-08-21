@@ -16,6 +16,9 @@
   :hook (after-init . doom-modeline-mode)
   :config
   (column-number-mode)
-  (setq doom-modeline-buffer-file-name-style 'buffer-name))
+  (setq doom-modeline-buffer-file-name-style 'buffer-name
+        doom-modeline-icon t
+        doom-modeline-major-mode-icon t
+        doom-modeline-buffer-state-icon t))
 
 (provide 'jws-modeline)
