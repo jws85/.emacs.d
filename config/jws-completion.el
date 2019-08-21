@@ -22,6 +22,20 @@
   :after yasnippet
   :bind ("C-;" . ivy-yasnippet))
 
+(use-package string-inflection
+  :after hydra
+  :ensure t
+  :config
+  (defhydra jws/hydra-string-inflection (:color red)
+    ("i" #'string-inflection-all-cycle "Cycle all inflections")
+    ("c" #'string-inflection-java-style-cycle "Cycle C-style inflections")
+    ("p" #'string-inflection-python-style-cycle "Cycle Python-style inflections"))
+  (define-key jws/leader-map (kbd "l i") 'jws/hydra-string-inflection/body))
+
+(use-package evil-string-inflection
+  :after (string-inflection evil)
+  :ensure t)
+
 (use-package company
   :ensure t
   :defer t

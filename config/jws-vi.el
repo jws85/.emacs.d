@@ -70,10 +70,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (setq evil-collection-mode-list '(dired eshell eww ibuffer image image+))
   (evil-collection-init))
 
-(use-package evil-string-inflection
-  :after evil
-  :ensure t)
-
 (define-key jws/leader-map (kbd "<tab>") 'jws/switch-to-previous-buffer)
 (define-key jws/leader-map (kbd "k") 'kill-this-buffer)
 
