@@ -34,23 +34,6 @@
       (company-abort)
       (newline-and-indent))
 
-    (defun jws/company-yasnippet ()
-      "company-yasnippet hack
-
-Try to use company-yasnippet to complete; if the text in the buffer is
-the same as the only possible snippet completion, just expand the snippet
-instead.  Shamelessly ripped from pronobis' comment on company-mode github
-issue #205."
-      (interactive)
-      (let ((prefix (company-yasnippet 'prefix)))
-        (when prefix
-          (let ((candidates (company-yasnippet 'candidates prefix)))
-            (if (and
-                 (= (length candidates) 1)
-                 (string= prefix (car candidates)))
-                (yas-expand)
-              (company-begin-backend 'company-yasnippet))))))
-
     ;; with properly remapped keyboard, control is easier to hit than alt/meta
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous)
@@ -76,8 +59,6 @@ issue #205."
 	  company-dabbrev-downcase nil
 	  company-dabbrev-ignore-case t
           company-show-numbers t)
-
-    (define-key evil-insert-state-map (kbd "C-;") 'jws/company-yasnippet)
 
     (add-hook 'after-init-hook 'global-company-mode)))
 
