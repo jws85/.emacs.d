@@ -24,4 +24,15 @@
   :config
   (require 'evil-magit))
 
+(use-package git-gutter
+  :ensure t
+  :config
+  (global-git-gutter-mode t))
+
+(use-package git-timemachine
+  :ensure t
+  :defer t
+  :init
+  (define-key jws/leader-map (kbd "g t") 'git-timemachine))
+
 (provide 'jws-vcs)

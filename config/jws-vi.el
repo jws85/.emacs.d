@@ -67,7 +67,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   :after evil
   :ensure t
   :config
-  (setq evil-collection-mode-list '(dired eshell eww ibuffer image image+))
+  (setq evil-collection-mode-list '(dired eshell eww git-timemachine ibuffer image image+))
   (evil-collection-init))
 
 (define-key jws/leader-map (kbd "<tab>") 'jws/switch-to-previous-buffer)
