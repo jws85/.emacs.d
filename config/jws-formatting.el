@@ -4,20 +4,15 @@
 ;; This was causing havoc with web-mode...
 (setq-default indent-tabs-mode nil)
 
-;; Add guess-style
-(require 'guess-style)
-(autoload 'guess-style-set-variable "guess-style" nil t)
-(autoload 'guess-style-guess-variable "guess-style")
-(autoload 'guess-style-guess-all "guess-style" nil t)
-
-(add-hook 'c-mode-common-hook 'guess-style-guess-all)
+;; [FIXME] guess-style started throwing errors, and it's problematic
+;; anyways as it is not on MELPA.  Look into dtrt-indent??
 
 ;; Defining functions for the hydra
 (defun jws/toggle-tabs-spaces ()
   (interactive)
   (if (equal indent-tabs-mode t)
-			(setq indent-tabs-mode nil)
-		(setq indent-tabs-mode t)))
+      (setq indent-tabs-mode nil)
+    (setq indent-tabs-mode t)))
 
 (defun jws/set-tab-stop (inc)
   (setq c-basic-offset inc)
