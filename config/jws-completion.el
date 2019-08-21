@@ -8,12 +8,19 @@
 
 (use-package yasnippet
   :ensure t
-  :defer t
-  :init (require 'yasnippet)
   :config
   (yas-global-mode 1))
 
-(use-package yasnippet-snippets :ensure t :after yasnippet)
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet
+  :config
+  (yasnippet-snippets-initialize))
+
+(use-package ivy-yasnippet
+  :ensure t
+  :after yasnippet
+  :bind ("C-;" . ivy-yasnippet))
 
 (use-package company
   :ensure t
