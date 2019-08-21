@@ -53,11 +53,11 @@
       (define-key company-active-map (read-kbd-macro (format "C-%d" i)) 'company-complete-number))
 
     (setq company-idle-delay 0.1
-	  company-minimum-prefix-length 2
-	  company-tooltip-limit 20
-	  company-selection-wrap-around t
-	  company-dabbrev-downcase nil
-	  company-dabbrev-ignore-case t
+          company-minimum-prefix-length 2
+          company-tooltip-limit 20
+          company-selection-wrap-around t
+          company-dabbrev-downcase nil
+          company-dabbrev-ignore-case t
           company-show-numbers t)
 
     (add-hook 'after-init-hook 'global-company-mode)))
