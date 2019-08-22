@@ -57,6 +57,8 @@
   :after projectile
   :config
   (dumb-jump-mode)
-  (setq dumb-jump-selector 'ivy))
+  (setq dumb-jump-selector 'ivy)
+  (define-key jws/leader-map (kbd "l j") 'dumb-jump-go)
+  (define-key jws/leader-map (kbd "l b") 'dumb-jump-back))
 
 (provide 'jws-project)
