@@ -1,6 +1,14 @@
-;; C-like languages
+;;;; C-like languages
+;; Well, other than PHP and JavaScript, which I put under web languages.
 
-;; Golang
+;;; C and other similar languages
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (modify-syntax-entry ?_ "w")))  ; underscore considered part of a "word"
+
+;;; Golang
+
 ;; Useful: https://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
 (defun jws/golang-hook ()
   ;; Format code on save (needs go get golang.org/x/tools/cmd/goimports)
@@ -22,17 +30,17 @@
   :config
   (add-hook 'go-mode-hook 'jws/golang-hook))
 
+;;; C++/Qt
+;; Qt Creator is an OK IDE, but honestly not having magit available to me makes me
+;; itchy every time I go to commit from it.
+
 ;; Qt QML -- which is a JavaScript derivative and thus a curly-brace C descendant,
 ;; even if it doesn't work like one!
-
 (use-package qml-mode
   :ensure t
   :mode "\\.qml\\'")
 
-;; C and other similar languages
-
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (modify-syntax-entry ?_ "w")))  ; underscore considered part of a "word"
+;; Qt resource files are XML
+(add-to-list 'auto-mode-alist '("\\.qrc$" . nxml-mode))
 
 (provide 'jws-clangs)
