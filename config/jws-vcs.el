@@ -8,7 +8,14 @@
   (define-key jws/leader-map (kbd "g i") 'magit-init)
   (define-key jws/leader-map (kbd "g l") 'magit-log-all-branches)
   :config
-  (setq magit-last-seen-setup-instructions "1.4.0"))
+  (setq magit-last-seen-setup-instructions "1.4.0")
+
+  ;; ganked from https://stackoverflow.com/a/9440260
+  (defun jws/magit-status-full-frame ()
+    "Don't split window."
+    (interactive)
+    (let ((pop-up-windows nil))
+      (call-interactively 'magit-status))))
 
 (use-package magit-gitflow
   :ensure t
