@@ -1,12 +1,3 @@
-(require 'package)
-
-;; MELPA (forget Marmalade, it never worked for me)
-(add-to-list 'package-archives
-       '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-;; Enable packages
-(package-initialize)
-
 (defun jws/is-refresh-needed (refresh-interval)
   "Determine whether a package refresh is needed -- every REFRESH-INTERVAL days"
   (let* ((now (float-time (current-time)))
