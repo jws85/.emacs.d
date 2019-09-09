@@ -8,6 +8,7 @@
 
 (use-package yasnippet
   :ensure t
+  :bind ("C-;" . yas-expand)
   :config
   (yas-global-mode 1))
 
@@ -20,7 +21,7 @@
 (use-package ivy-yasnippet
   :ensure t
   :after yasnippet
-  :bind ("C-;" . ivy-yasnippet))
+  :bind ("C-:" . ivy-yasnippet))
 
 (use-package string-inflection
   :after hydra
