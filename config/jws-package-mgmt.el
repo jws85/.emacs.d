@@ -9,13 +9,13 @@
 
 (defun jws/package-refresh-once-a-session ()
   "Refresh package list once a session, if needed"
-  (if (eq jws/package-refreshed-already nil)
+  (if (not jws/package-refreshed-already)
       (progn
         (package-refresh-contents)
         (setq jws/package-refreshed-already t))))
 
 ;; Only refresh packages once every seven days
-(setq jws/package-refreshed-already (jws/is-refresh-needed 7))
+(setq jws/package-refreshed-already (not (jws/is-refresh-needed 7)))
 (jws/package-refresh-once-a-session)
 
 ;; Refresh the package list, then install package if it hasn't already been installed
