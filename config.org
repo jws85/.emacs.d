@@ -504,6 +504,67 @@ I like Paradox for graphical package installation.
 #+end_src
 
 ** File management
+
+** Version control
+
+I only really use ~git~ at this point.  The dirty secret of ~git~ is
+that it is the PHP of VCs -- more of a [[https://www.jwz.org/doc/worse-is-better.html]["New Jersey approach"]] to the
+problem.  It is really performant, but is otherwise pretty goofy.
+So you need good tooling -- thankfully Emacs delivers in spades.
+Starting with...
+
+[[https://magit.vc/][Magit]], the rare Emacs package that can just about pull in money,
+that's how good it is.
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t
+    :commands (magit-status
+               magit-branch-checkout
+               magit-blame
+               magit-init
+               magit-log-all-branches)
+    :config
+    ;; Otherwise it'll bother you about something or another on first run
+    (setq magit-last-seen-setup-instructions "1.4.0"))
+#+end_src
+
+I need it to behave more vim-like (e.g. ~j~ and ~k~ to move up and
+down).
+
+#+begin_src emacs-lisp
+  (use-package evil-magit :ensure t :after (evil magit))
+#+end_src
+
+I use [[https://nvie.com/posts/a-successful-git-branching-model/][git-flow]] ([[https://danielkummer.github.io/git-flow-cheatsheet/][cheatsheet]]) with some of my larger projects.  It does
+add some mental overhead, but I like the ability to separate
+development flow from a stable "live" version.
+
+#+begin_src emacs-lisp
+  (use-package magit-gitflow
+    :ensure t
+    :after magit
+    :config
+    (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+    (define-key magit-mode-map "%" 'magit-gitflow-popup))
+#+end_src
+
+This gives us the nice gutter icons when lines are added or changed
+that you can find in newer editors.
+
+#+begin_src emacs-lisp
+  (use-package git-gutter :ensure t :config (global-git-gutter-mode t))
+#+end_src
+
+~git-timemachine~ gives us a handy view of a file's history.
+
+#+begin_src emacs-lisp
+  (use-package git-timemachine
+    :ensure t
+    :commands (git-timemachine))
+#+end_src
+
+
 * Editing
 
 Supposedly some people use Emacs to edit files.  The horror!
@@ -679,6 +740,18 @@ This menu allows for manipulation of Emacs buffer objects.
     ("u" counsel-bookmark "Find bookmark"))
 #+end_src
 
+** Git/VC menu
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-git (:color blue)
+     "Git menu"
+     ("g" magit-status "Magit")
+     ("b" magit-branch-checkout "Git branch")
+     ("i" magit-init "Git new repo")
+     ("l" magit-log-all-branches "Git log")
+     ("t" git-timemachine "Git Timemachine"))
+#+end_src
+
 ** Help menu
 
 ~woman~ is an Emacs Lisp implementation of the [[https://en.wikipedia.org/wiki/Nroff][nroff]] code that
@@ -714,6 +787,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("b" jws/hydra-buffer/body "Buffers")
     ("e" jws/hydra-emacs/body "Emacs")
     ("f" jws/hydra-files/body "Files")
+    ("g" jws/hydra-git/body "Git")
     ("h" jws/hydra-help/body "Help")
     ("s" jws/hydra-windows/body "Splitting"))
 
