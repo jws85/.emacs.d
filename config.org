@@ -76,27 +76,29 @@ lot of my gripes with Emacs is that out-of-the-box it behaves
 Then, we define some helper functions to work with ~package~.
 
 #+begin_src emacs-lisp
-(defun jws/is-refresh-needed (refresh-interval)
-  "Determine whether a package refresh is needed -- every REFRESH-INTERVAL days"
-  (let* ((now (float-time (current-time)))
-         (package-archive-file "~/.emacs.d/elpa/archives/melpa/archive-contents")
-         (then (float-time (nth 5 (file-attributes package-archive-file))))
-         (refresh-interval-secs (* 24 60 60 refresh-interval)))
-    (> (- now then)
-       refresh-interval-secs)))
+  (defun jws/is-refresh-needed (refresh-interval)
+    "Determine whether a package refresh is needed -- every REFRESH-INTERVAL days"
+    (let* ((now (float-time (current-time)))
+           (package-archive-file "~/.emacs.d/elpa/archives/melpa/archive-contents")
+           (then (float-time (nth 5 (file-attributes package-archive-file))))
+           (refresh-interval-secs (* 24 60 60 refresh-interval)))
+      (if (file-exists-p package-archive-file)
+          (> (- now then)
+             refresh-interval-secs)
+        t)))
 
-(defun jws/package-refresh-once-a-session ()
-  "Refresh package list once a session, if needed"
-  (if (not jws/package-refreshed-already)
-      (progn
-        (package-refresh-contents)
-        (setq jws/package-refreshed-already t))))
+  (defun jws/package-refresh-once-a-session ()
+    "Refresh package list once a session, if needed"
+    (if (not jws/package-refreshed-already)
+        (progn
+          (package-refresh-contents)
+          (setq jws/package-refreshed-already t))))
 
-(defun jws/package-install (pkg)
-  "Install package PKG if it is not already installed"
-  (unless (package-installed-p pkg)
-    (jws/package-refresh-once-a-session)
-    (package-install pkg)))
+  (defun jws/package-install (pkg)
+    "Install package PKG if it is not already installed"
+    (unless (package-installed-p pkg)
+      (jws/package-refresh-once-a-session)
+      (package-install pkg)))
 #+end_src
 
 And, finally, we see if a package refresh is needed, and do it if
