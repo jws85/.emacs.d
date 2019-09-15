@@ -43,6 +43,7 @@ editors are going to be naturally pretty scary in that regard ^_^)
 
 (defvar jws/config-file (expand-file-name (concat user-emacs-directory "config.org")))
 (defvar jws/site-file (expand-file-name (concat user-emacs-directory "site-init.el")))
+(defvar jws/example-site-file (expand-file-name (concat user-emacs-directory "example/site-init.el")))
 (defvar jws/custom-file (expand-file-name (concat user-emacs-directory "custom.el")))
 
 (defvar jws/package-refreshed-already nil)
@@ -738,6 +739,13 @@ If I need to run specific (unpackaged) libraries, I keep them under
       (let ((default-directory jws/emacs-site-library-dir))
         (add-to-list 'load-path default-directory)
         (normal-top-level-add-subdirs-to-load-path)))
+#+end_src
+
+If a ~site-init.el~ doesn't already exist, copy the given sample.
+
+#+begin_src emacs-lisp
+  (unless (file-exists-p jws/site-file)
+    (copy-file jws/example-site-file jws/site-file))
 #+end_src
 
 My site-specific init file is kept in the same directory as this

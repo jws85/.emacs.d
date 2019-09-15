@@ -4,6 +4,7 @@ config.el
 # site-specific .emacs.d customizations
 custom.el
 site-init.el
+!example/site-init.el
 site-lisp/
 
 # Where I put the source for Emacs itself; I'll often run long-term
