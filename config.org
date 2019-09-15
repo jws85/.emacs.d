@@ -564,6 +564,36 @@ that you can find in newer editors.
     :commands (git-timemachine))
 #+end_src
 
+** Project management
+
+[[https://github.com/bbatsov/projectile][Projectile]] is the current best-in-class for this purpose.
+
+#+begin_src emacs-lisp
+  (use-package projectile
+    :ensure t
+    :commands (projectile-find-file
+               projectile-recentf
+               projectile-cache-current-file
+               projectile-remove-known-project
+               projectile-switch-to-buffer
+               projectile-invalidate-cache
+               projectile-cleanup-known-projects
+               projectile-multi-occur
+               projectile-switch-project
+               projectile-kill-buffers))
+#+end_src
+
+~counsel-projectile~ does exactly what it says on the tin.
+
+#+begin_src emacs-lisp
+  (use-package counsel-projectile
+    :ensure t
+    :after projectile
+    :commands (counsel-projectile-find-file
+               counsel-projectile-switch-project
+               counsel-projectile-switch-to-buffer))
+#+end_src
+
 
 * Editing
 
@@ -740,6 +770,34 @@ This menu allows for manipulation of Emacs buffer objects.
     ("u" counsel-bookmark "Find bookmark"))
 #+end_src
 
+** Project menu
+
+To control ~projectile~ and other associated packages.
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-project (:color teal :columns 4)
+    "Projectile"
+    ("p" counsel-projectile-find-file "Find file")
+    ("r" projectile-recentf "Recent files")
+    ("z" projectile-cache-current-file "Cache current file")
+    ("x" projectile-remove-known-project "Remove known project")
+
+    ("d" projectile-find-dir "Find directory")
+    ("b" counsel-projectile-switch-to-buffer "Switch to buffer")
+    ("c" projectile-invalidate-cache "Clear cache")
+    ("X" projectile-cleanup-known-projects "Cleanup known projects")
+
+    ;; Replace counsel-ag by a function that checks for (successively)
+    ;;  - ripgrep/rg
+    ;;  - ag
+    ;;  - ack
+    ;;  - grep
+    ("s" counsel-ag "Grep")
+    ("o" projectile-multi-occur "Multi-occur")
+    ("SPC" counsel-projectile-switch-project "Switch project")
+    ("k" projectile-kill-buffers "Kill buffers"))
+#+end_src
+
 ** Git/VC menu
 
 #+begin_src emacs-lisp
@@ -789,6 +847,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("f" jws/hydra-files/body "Files")
     ("g" jws/hydra-git/body "Git")
     ("h" jws/hydra-help/body "Help")
+    ("p" jws/hydra-project/body "Project")
     ("s" jws/hydra-windows/body "Splitting"))
 
   (define-key evil-normal-state-map (kbd "SPC") 'jws/hydra-master/body)
