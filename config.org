@@ -41,6 +41,7 @@ editors are going to be naturally pretty scary in that regard ^_^)
 (defvar jws/emacs-library-dir (expand-file-name (concat user-emacs-directory "lisp")))
 (defvar jws/emacs-site-library-dir (expand-file-name (concat user-emacs-directory "site-lisp")))
 
+(defvar jws/config-file (expand-file-name (concat user-emacs-directory "config.org")))
 (defvar jws/site-file (expand-file-name (concat user-emacs-directory "site-init.el")))
 (defvar jws/custom-file (expand-file-name (concat user-emacs-directory "custom.el")))
 
@@ -451,94 +452,25 @@ using ~ivy~.
 
 ** Text completion
 
-** Menu creation
+TBD: company and yasnippet
 
-The [[https://github.com/abo-abo/hydra][hydra]] package (by the same mad genius responsible for ~ivy~ et al)
-allows for easy-ish interactive menus.
+** Window management
+
+~winner~ allows window splits to be undone and redone at will.  It comes with
+Emacs.
 
 #+begin_src emacs-lisp
-  (use-package hydra :ensure t)
+  (use-package winner
+    :commands (winner-undo winner-redo)
+    :config (winner-mode 1))
 #+end_src
 
-Note that ~hydra~ uses a "color" system where keybinds are assigned
-a color, which determines their behavior.  For our purposes:
-
- - red (the default) runs the command and jumps right back into the
-   hydra
- - blue runs the command and exits the hydra
-
-I use blue very extensively since most commands are going to be
-fire-and-forget.
-
-*** Emacs menu
-#+begin_src emacs-lisp
-  (defhydra jws/hydra-emacs (:color blue)
-    "Buffer menu"
-    ("q" save-buffers-kill-terminal "Quit emacs")
-    ("i" package-install "Install package")
-    ("k" server-start "Start server"))
-#+end_src
-
-*** Buffer menu
-#+begin_src emacs-lisp
-  (defhydra jws/hydra-buffer (:color blue)
-    "Buffer menu"
-    ("b" ivy-switch-buffer "Switch buffer")
-    ("i" ibuffer "Buffer list")
-    ("k" kill-this-buffer "Kill buffer")
-    ("s" save-buffer "Save buffer")
-    ("S" write-file "Save buffer elsewhere")
-    ("u" bury-buffer "Bury buffer"))
-#+end_src
-
-*** File menu
-#+begin_src emacs-lisp
-  (defhydra jws/hydra-files (:color blue)
-    "File menu"
-    ("a" ff-find-other-file "Find file")
-    ("f" counsel-find-file "Find file")
-    ("r" counsel-recentf "Find recent file")
-    ("u" counsel-bookmark "Find bookmark"))
-#+end_src
-
-*** Help menu
-
-~woman~ is an Emacs Lisp implementation of the [[https://en.wikipedia.org/wiki/Nroff][nroff]] code that
-formats ~man~ pages.  This allows ~woman~ to work on Windows;
-but it does make it slower.  At some point it may be a good
-idea to use ~man~ when available; also find some way to
-present these via ~ivy~.
+~buffer-move~ allows buffers to be moved between window splits.
 
 #+begin_src emacs-lisp
-  (defhydra jws/hydra-help (:color blue)
-    "Help menu"
-    ("i" info "Info")
-    ("f" counsel-describe-function "Describe function")
-    ("m" woman "Man pages")
-    ("v" counsel-describe-variable "Describe variable"))
-#+end_src
-
-*** Master menu
-I continue to be amazed that Emacs doesn't have this...
-
-#+begin_src emacs-lisp
-  (defun jws/switch-to-previous-buffer ()
-    "Switches to the previous buffer."
-    (interactive)
-    (switch-to-buffer (other-buffer (current-buffer))))
-#+end_src
-
-#+begin_src emacs-lisp
-  (defhydra jws/hydra-master (global-map "M-j" :color blue)
-    "Master menu"
-    ("SPC" counsel-M-x "Command list")
-    ("<tab>" jws/switch-to-previous-buffer "Switch buffer")
-    ("b" jws/hydra-buffer/body "Buffers")
-    ("e" jws/hydra-emacs/body "Emacs")
-    ("f" jws/hydra-files/body "Files")
-    ("h" jws/hydra-help/body "Help"))
-
-  (define-key evil-normal-state-map (kbd "SPC") 'jws/hydra-master/body)
+  (use-package buffer-move
+    :ensure t
+    :commands (buf-move-left buf-move-down buf-move-up buf-move-right))
 #+end_src
 
 * Extras
@@ -642,6 +574,137 @@ I use the ~org~ that comes with Emacs.
     :config
     (add-to-list 'org-modules 'org-habit)
     (setq org-src-fontify-natively t))
+#+end_src
+
+* Master menu
+
+I defer the master menu definitions to the end just to make sure
+everything else has been done.
+
+The [[https://github.com/abo-abo/hydra][hydra]] package (by the same mad genius responsible for ~ivy~ et al)
+allows for easy-ish interactive menus.
+
+#+begin_src emacs-lisp
+  (use-package hydra :ensure t)
+#+end_src
+
+Note that ~hydra~ uses a "color" system where keybinds are assigned
+a color, which determines their behavior.  For our purposes:
+
+ - red (the default) runs the command and jumps right back into the
+   hydra
+ - blue runs the command and exits the hydra
+
+I use blue very extensively since most commands are going to be
+fire-and-forget.
+
+** Emacs menu
+#+begin_src emacs-lisp
+  (defun jws/open-emacs-config ()
+    "Open my emacs config file."
+    (interactive)
+    (find-file jws/config-file))
+
+  (defhydra jws/hydra-emacs (:color blue)
+    "Buffer menu"
+    ("c" jws/open-emacs-config "Edit config")
+    ("i" package-install "Install package")
+    ("q" save-buffers-kill-terminal "Quit emacs")
+    ("k" server-start "Start server"))
+#+end_src
+
+** Buffer menu
+
+This menu allows for manipulation of Emacs buffer objects.
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-buffer (:color blue)
+    "Buffer menu"
+    ("b" ivy-switch-buffer "Switch buffer")
+    ("i" ibuffer "Buffer list")
+    ("k" kill-this-buffer "Kill buffer")
+    ("s" save-buffer "Save buffer")
+    ("S" write-file "Save buffer elsewhere")
+    ("u" bury-buffer "Bury buffer"))
+#+end_src
+
+** Window menu
+
+#+BEGIN_SRC emacs-lisp
+  (defhydra jws/hydra-windows (:columns 5)
+    "Buffer splitting:"
+    ("<tab>" other-window "Prev")
+
+    ("s" ace-window "Jump to")
+    ("h" evil-window-left "Left")
+    ("j" evil-window-down "Down")
+    ("k" evil-window-up "Up")
+    ("l" evil-window-right "Right")
+
+    ("H" buf-move-left "Move left")
+    ("J" buf-move-down "Move down")
+    ("K" buf-move-up "Move up")
+    ("L" buf-move-right "Move right")
+
+    ("-" split-window-below "Horiz split")
+    ("\\" split-window-right "Vert split")
+    ("|" split-window-right "Vert split")
+    ("=" balance-windows "Balance splits")
+    ("c" delete-window "Remove current")
+    ("C" delete-other-windows "Remove others")
+    ("<left>" winner-undo "Undo split")
+    ("<right>" winner-redo "Redo split"))
+#+END_SRC
+
+** File menu
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-files (:color blue)
+    "File menu"
+    ("a" ff-find-other-file "Find file")
+    ("f" counsel-find-file "Find file")
+    ("r" counsel-recentf "Find recent file")
+    ("u" counsel-bookmark "Find bookmark"))
+#+end_src
+
+** Help menu
+
+~woman~ is an Emacs Lisp implementation of the [[https://en.wikipedia.org/wiki/Nroff][nroff]] code that
+formats ~man~ pages.  This allows ~woman~ to work on Windows;
+but it does make it slower.  At some point it may be a good
+idea to use ~man~ when available; also find some way to
+present these via ~ivy~.
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-help (:color blue)
+    "Help menu"
+    ("i" info "Info")
+    ("f" counsel-describe-function "Describe function")
+    ("m" woman "Man pages")
+    ("v" counsel-describe-variable "Describe variable"))
+#+end_src
+
+** Master menu
+I continue to be amazed that Emacs doesn't have this...
+
+#+begin_src emacs-lisp
+  (defun jws/switch-to-previous-buffer ()
+    "Switches to the previous buffer."
+    (interactive)
+    (switch-to-buffer (other-buffer (current-buffer))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-master (global-map "M-j" :color blue)
+    "Master menu"
+    ("SPC" counsel-M-x "Command list")
+    ("<tab>" jws/switch-to-previous-buffer "Switch buffer")
+    ("b" jws/hydra-buffer/body "Buffers")
+    ("e" jws/hydra-emacs/body "Emacs")
+    ("f" jws/hydra-files/body "Files")
+    ("h" jws/hydra-help/body "Help")
+    ("s" jws/hydra-windows/body "Splitting"))
+
+  (define-key evil-normal-state-map (kbd "SPC") 'jws/hydra-master/body)
 #+end_src
 
 * Site-specific code
