@@ -487,8 +487,7 @@ Emacs.
     :commands (buf-move-left buf-move-down buf-move-up buf-move-right))
 #+end_src
 
-* Extras
-** Package management
+** Emacs package management
 
 I like Paradox for graphical package installation.
 
