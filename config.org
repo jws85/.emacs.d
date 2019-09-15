@@ -48,6 +48,17 @@ editors are going to be naturally pretty scary in that regard ^_^)
 (defvar jws/package-refreshed-already nil)
 #+end_src
 
+** Customize ~Customize~
+
+Emacs has an automatic customization system, called ~Customize~, which
+will barf inscrutable s-expressions (with ugly comments telling you
+not to modify the output) through our beautiful ~init.el~ unless you
+redirect its output.  We will load this file's values later.
+
+#+begin_src emacs-lisp
+  (setq custom-file jws/custom-file)
+#+end_src
+
 ** Set up package.el
 
 This must be done before we do anything else.
@@ -737,10 +748,7 @@ this as well.
   (load jws/site-file t)
 #+end_src
 
-Finally, this is where emacs' ~Customize~ interface drops its stuff.
-I would disable ~Customize~ entirely, but there are some packages that
-document their ~Customize~ variables and do not really give the actual
-variable names to customize manually.
+And we load the ~Customize~ stuff here as well.
 
 #+begin_src emacs-lisp
   (load jws/custom-file t)
