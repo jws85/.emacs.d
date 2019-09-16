@@ -1436,11 +1436,15 @@ If I need to run specific (unpackaged) libraries, I keep them under
         (normal-top-level-add-subdirs-to-load-path)))
 #+end_src
 
-If a ~site-init.el~ doesn't already exist, copy the given sample.
+If a ~site-init.el~ doesn't already exist, write some minimal stuff
+(a theme that doesn't make my eyes bleed, a default font, and set the
+frame alist) to that location.
 
 #+begin_src emacs-lisp
   (unless (file-exists-p jws/site-file)
-    (copy-file jws/example-site-file jws/site-file))
+    (write-region (pp `(load-theme 'doom-Iosvkem t)) nil jws/site-file t)
+    (write-region (pp `(setq jws/default-font ,jws/default-font)) nil jws/site-file t)
+    (write-region (pp `(jws/set-my-default-frame-alist)) nil jws/site-file t))
 #+end_src
 
 My site-specific init file is kept in the same directory as this
