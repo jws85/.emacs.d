@@ -351,9 +351,9 @@ indicator.)
 #+end_src
 
 * Functionality
-** Vim compatibility
+** Keybindings (including Vim compatibility)
 
-This is the raison d'être of the whole guide.
+Vim compatibility is the raison d'être of the whole guide.
 
 #+begin_src emacs-lisp
   (use-package evil
@@ -384,8 +384,20 @@ Some other ~evil~ related packages:
     :config
     (setq evil-collection-mode-list '(dired eshell eww git-timemachine ibuffer image image+))
     (evil-collection-init))
-
 #+end_src
+
+~which-key~ is useful for all those crazy chained bindings -- if you
+stop on a prefix key, it'll show you what your options are so you know
+how what you've bound ~M-x butterfly~ to.
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :ensure t
+    :config
+    (which-key-mode)
+    (setq which-key-idle-delay 0.1))
+#+end_src
+
 ** Menu completion
 
 i.e. speeding up menu traversal.
@@ -420,6 +432,7 @@ library that provides the menu structure.
     :ensure t
     :after ivy
     :commands (counsel-bookmark
+               counsel-descbinds
                counsel-describe-face
                counsel-describe-function
                counsel-describe-variable
@@ -1179,6 +1192,8 @@ present these via ~ivy~.
     "Help menu"
     ("i" info "Info")
     ("f" counsel-describe-function "Describe function")
+    ("k" counsel-descbinds "Keybindings")
+    ("K" describe-key "Describe keybind")
     ("m" woman "Man pages")
     ("v" counsel-describe-variable "Describe variable"))
 #+end_src
