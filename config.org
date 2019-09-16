@@ -284,6 +284,16 @@ it shows as an annoying full-screen flash on most computers.
   (setq ring-bell-function 'ignore)
 #+end_src
 
+~beacon~ flashes the cursor's position when it is moved a long
+distance.
+
+#+begin_src emacs-lisp
+  (use-package beacon
+    :ensure t
+    :init (beacon-mode 1)
+    :config (setq beacon-color "#dfbfff"))
+#+end_src
+
 ** Icons
 
 [[https://github.com/domtronn/all-the-icons.el][all-the-icons]] pulls in several icon fonts which can be used by other
