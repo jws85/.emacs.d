@@ -1034,7 +1034,7 @@ fire-and-forget.
     (interactive)
     (find-file jws/config-file))
 
-  (defhydra jws/hydra-emacs (:color blue)
+  (defhydra jws/hydra-emacs (:color blue :columns 4)
     "Buffer menu"
     ("c" jws/open-emacs-config "Edit config")
     ("i" package-install "Install package")
@@ -1047,7 +1047,7 @@ fire-and-forget.
 This menu allows for manipulation of Emacs buffer objects.
 
 #+begin_src emacs-lisp
-  (defhydra jws/hydra-buffer (:color blue)
+  (defhydra jws/hydra-buffer (:color blue :columns 4)
     "Buffer menu"
     ("b" ivy-switch-buffer "Switch buffer")
     ("i" ibuffer "Buffer list")
@@ -1087,7 +1087,7 @@ This menu allows for manipulation of Emacs buffer objects.
 
 ** File menu
 #+begin_src emacs-lisp
-  (defhydra jws/hydra-files (:color blue)
+  (defhydra jws/hydra-files (:color blue :columns 4)
     "File menu"
     ("a" ff-find-other-file "Find file")
     ("f" counsel-find-file "Find file")
@@ -1126,7 +1126,7 @@ To control ~projectile~ and other associated packages.
 ** Git/VC menu
 
 #+begin_src emacs-lisp
-  (defhydra jws/hydra-git (:color blue)
+  (defhydra jws/hydra-git (:color blue :columns 4)
      "Git menu"
      ("g" magit-status "Magit")
      ("b" magit-branch-checkout "Git branch")
@@ -1144,7 +1144,7 @@ idea to use ~man~ when available; also find some way to
 present these via ~ivy~.
 
 #+begin_src emacs-lisp
-  (defhydra jws/hydra-help (:color blue)
+  (defhydra jws/hydra-help (:color blue :columns 4)
     "Help menu"
     ("i" info "Info")
     ("f" counsel-describe-function "Describe function")
@@ -1163,10 +1163,11 @@ I continue to be amazed that Emacs doesn't have this...
 #+end_src
 
 #+begin_src emacs-lisp
-  (defhydra jws/hydra-master (global-map "M-j" :color blue)
+  (defhydra jws/hydra-master (global-map "M-j" :color blue :columns 4)
     "Master menu"
     ("SPC" counsel-M-x "Command list")
     ("<tab>" jws/switch-to-previous-buffer "Switch buffer")
+    ("k" kill-this-buffer "Kill buffer")
     ("b" jws/hydra-buffer/body "Buffers")
     ("e" jws/hydra-emacs/body "Emacs")
     ("f" jws/hydra-files/body "Files")
