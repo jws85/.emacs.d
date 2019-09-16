@@ -594,7 +594,6 @@ that you can find in newer editors.
                counsel-projectile-switch-to-buffer))
 #+end_src
 
-
 * Editing
 
 Supposedly some people use Emacs to edit files.  The horror!
@@ -678,6 +677,332 @@ I use the ~org~ that comes with Emacs.
     :config
     (add-to-list 'org-modules 'org-habit)
     (setq org-src-fontify-natively t))
+#+end_src
+
+** Lisps
+
+I actually am a dabbler in Lisps, rather than actually doing anything
+productive with them.  But since knowing some Lisp is necessary for
+doing anything non-trivial with Emacs... here we are!
+
+[[http://shaunlebron.github.io/parinfer/index.html][Parinfer]] ([[https://github.com/DogLooksGood/parinfer-mode][emacs impl]]) is a revelation.  I couldn't stand Lisp
+editing beforehand.
+
+#+begin_src emacs-lisp
+  (use-package parinfer
+    :ensure t
+    :hook (emacs-lisp-mode-hook
+           common-lisp-mode-hook
+           scheme-mode-hook
+           lisp-mode-hook
+           lisp-interaction-mode-hook)
+    :config
+    (setq parinfer-extensions
+          '(defaults pretty-parens evil smart-tab smart-yank)))
+#+end_src
+
+~eval-sexp-fu~ flashes the region of the s-expression being evaluated.
+
+#+begin_src emacs-lisp
+  (use-package eval-sexp-fu
+    :ensure t
+    :hook (emacs-lisp-mode-hook
+           common-lisp-mode-hook
+           scheme-mode-hook
+           lisp-mode-hook
+           lisp-interaction-mode-hook)
+    :config
+    (setq eval-sexp-fu-flash-error-face 'lazy-highlight-face
+          eval-sexp-fu-flash-duration 0.25))
+#+end_src
+
+*** Emacs Lisp
+
+~nameless~ hides the namespace part of elisp function/variable names.
+
+#+begin_src emacs-lisp
+  (use-package nameless
+    :ensure t
+    :hook emacs-lisp-mode-hook)
+#+end_src
+
+[[https://github.com/cask/cask][Cask]] is like [[https://getcomposer.org/][Composer]] or ~npm~ for Emacs Lisp.  I don't use Cask much,
+but I have used it from time to time when developing plugins.
+
+#+begin_src emacs-lisp
+  (use-package cask-mode
+    :ensure t
+    :mode "Cask\\'")
+#+end_src
+
+This is a block of code that I was working on to try to enable
+Flycheck for Emacs Lisp.  I only want it in certain files because my
+personal configuration is often written more "loosely" than plugins
+that others might use... but I couldn't get it to work so it's
+disabled for now.
+
+#+begin_src emacs-lisp :tangle no
+;; I am trying to do the following: If there is a Cask file somewhere in the
+;; upwards file hierarchy for this elisp file, enable flycheck-package,
+;; otherwise do not.
+(use-package flycheck-cask :ensure t)
+(use-package flycheck-package :after flycheck-cask :ensure t)
+(jws/after (flycheck-package)
+    (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
+    (add-hook 'flycheck-mode-hook #'flycheck-package-setup)
+    (add-hook 'emacs-lisp-mode-hook #'flycheck-mode))
+#+end_src
+
+*** Common Lisp
+
+I find it easier to install [[https://common-lisp.net/project/slime/][SLIME]] via [[https://www.quicklisp.org/beta/][Quicklisp]].
+
+Once you have Quicklisp loaded, run
+
+#+begin_src common-lisp :tangle no
+  (ql:quickload "quicklisp-slime-helper")
+#+end_src
+
+and copy those lines into the ~site-init.el~ to have a site-customized
+SLIME install tied to your installed Common Lisp interpreter.
+
+** Curly-brace/C-family
+
+For curly-brace languages, I like underscores to be part of the Emacs
+"word" editing object.
+
+#+begin_src emacs-lisp
+  (defun jws/make-underscores-belong-to-words ()
+    "Make underscore characters be counted as parts of Emacs 'word' objects."
+    (modify-syntax-entry ?_ "w"))
+
+  (add-hook 'c-mode-common-hook 'jws/make-underscores-belong-to-words)
+#+end_src
+
+*** PHP
+
+I am currently paid to write PHP, so most of the effort is going to go
+here.
+
+Vim had one of the more robust PHP modes -- it worked like ~web-mode~
+(see under "Web") but was much more robust than that.
+
+PHP has a mode that works great for a file that is nothing but PHP.
+Which is of course the Platonic ideal, and much real-world PHP is...
+not that.  But if we have that (and I'm working hard on this matter)
+we're set!
+
+#+begin_src emacs-lisp
+  (use-package php-mode
+    :ensure t
+    :mode "\\.php\\'"
+    :config
+    (progn
+      (setq c-basic-offset 4)
+      (add-hook 'php-mode-hook 'jws/make-underscores-belong-to-words)
+      (add-hook 'php-mode-hook #'jws/company-php-setup)))
+#+end_src
+
+~company-php~ enables auto-completion for PHP symbols.
+
+#+begin_src emacs-lisp :tangle no
+(use-package company-php
+  :ensure t
+  :after php-mode
+  :config
+  (company-mode t)
+  (ac-php-core-eldoc-setup)
+  (make-local-variable 'company-backends)
+  (add-to-list 'company-backends 'company-ac-php-backend))
+  (progn
+    (defun jws/company-php-setup ()
+      (require 'company-php)
+      (company-mode t)
+      (ac-php-core-eldoc-setup)
+      (make-local-variable 'company-backends)
+      (add-to-list 'company-backends 'company-ac-php-backend))))
+#+end_src
+
+*** Go
+
+I like Go -- it's like a faster Python.
+
+#+begin_src emacs-lisp
+    (use-package go-mode
+      :ensure t
+      :mode "\\.go\\'"
+      :config
+      (add-hook 'go-mode-hook
+                (lambda ()
+                  ;; [FIXME] Requires go get golang.org/x/tools/cmd/goimports
+                  (set gofmt-command "goimports")
+                  (add-hook 'before-save-hook 'gofmt-before-save)
+
+                  ;; Compile
+                  (set (make-local-variable 'compile-command)
+                       "go build -v && go test -v && go vet")
+
+                  ;; Jump around code
+                  (local-set-key (kbd "M-.") 'godef-jump)
+                  (local-set-key (kbd "M-*") 'pop-tag-mark))))
+#+end_src
+
+*** JavaScript
+
+I'm just dumping these here and plan on fiddling with them later.
+
+#+begin_src emacs-lisp
+  (use-package js2-mode
+    :ensure t
+    :mode "\\.js\\'")
+
+  ;; If I ever mess with TypeScript add its hook here too
+  (use-package tide
+    :ensure t
+    :hook js2-mode-hook
+    :config
+    (defun jws/setup-tide ()
+      (interactive)
+      (tide-setup)
+      (flycheck-mode 1)
+      (setq flycheck-check-syntax-automatically '(save mode-enabled))
+      (eldoc-mode 1)
+      (tide-hl-identifier-mode 1)
+      (add-hook 'before-save-hook #'tide-format-before-save))
+    (add-hook 'js2-mode-hook #'jws/setup-tide))
+#+end_src
+
+I don't use CoffeeScript but I've had to read code using it.  I'm
+including it here because it is part of the "JavaScript ecosystem" as
+far as I'm concerned.
+
+#+begin_src emacs-lisp
+  (use-package coffee-mode
+    :ensure t
+    :mode "\\.coffee\\'"
+    :config
+    (setq coffee-tab-width 4))
+#+end_src
+
+** Web
+*** web-mode
+
+Web code is frequently "mixed-mode" (e.g. HTML mixed with CSS and
+JavaScript, PHP/templating languages mixed with... all the above).
+Emacs traditionally handled this with ~mumamo~ which tried to
+sequester major modes to the relevant sections of the file... which
+didn't work so hot.  It could have been I was no good at elisp at the
+time, but it was a giant pain to configure.
+
+I got a job some time ago where I needed support for mixed-mode PHP
+and got so frustrated that I switched to Vim for several years and
+only came back when I found ~evil~ and this package, ~web-mode~.
+~web-mode~ intends to be one large unified mode to support all
+mixed-mode files, and it mostly works.  At least, it works better than
+~mumamo~.
+
+#+begin_src emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :mode ("\\.html?\\'"
+           "\\.phtml\\'"
+           "\\.tpl\\.php\\'"
+           "\\.[agj]sp\\'"
+           "\\.as[cp]x\\'"
+           "\\.erb\\'"
+           "\\.mustache\\'"
+           "\\.djhtml\\'")
+    :init (require 'web-mode)
+    :config
+    (progn
+      (setq web-mode-enable-auto-pairing nil
+            web-mode-enable-auto-quoting nil)
+
+      ;; I consider web-mode a programming mode.
+      (add-hook 'web-mode-hook (lambda () (run-hooks 'prog-mode-hook)))
+
+      ;; still broken...
+      (add-hook 'web-mode-hook
+                (lambda ()
+                  (let ((cur-engine "php"))
+                    (cond
+                     ((string= cur-engine "php")
+                      (jws/company-php-setup))))))))
+#+end_src
+
+*** CSS/Sass
+
+I've tried to use Sass from time to time, and still like the idea of
+it.
+
+#+begin_src emacs-lisp
+  (use-package scss-mode
+    :ensure t
+    :mode "\\.scss\\'")
+#+end_src
+
+Appropriately colorize color names in CSS (and Sass/SCSS) files.
+
+#+begin_src emacs-lisp
+  (use-package rainbow-mode
+    :ensure t
+    :hook (css-mode-hook scss-mode-hook))
+#+end_src
+
+*** REST Client
+
+There is a handy [[https://github.com/pashky/restclient.el][REST client for emacs]] that uses its own DSL.
+
+#+begin_src emacs-lisp
+  (use-package restclient
+    :ensure t
+    :mode "\\.restclient$"
+    :config
+    (add-hook 'restclient-mode-hook 'company-mode))
+#+end_src
+
+This package integrates ~restclient~ with ~org-babel~.
+
+#+begin_src emacs-lisp
+  (use-package ob-restclient
+    :ensure t
+    :after (restclient)
+    :config
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((restclient . t))))
+#+end_src
+
+And this package integrates ~company~ with ~restclient~.
+
+#+begin_src emacs-lisp
+  (use-package company-restclient
+    :after (restclient company)
+    :ensure t
+    :config
+    (add-hook 'restclient-mode-hook 'company-mode)
+    (add-to-list 'company-backends 'company-restclient))
+#+end_src
+
+** Qt-specific
+
+I'm using Qt Creator for C++/QML at the moment, but I'd love it if I
+could move it all into Emacs.  At the moment, I often launch Emacs
+from Qt Creator in order to get Magit and easy macro editing.
+
+QML is Qt's "new" UI description language, written in what looks like
+curly-brace "HTML" combined with inline JavaScript.
+
+#+begin_src emacs-lisp
+  (use-package qml-mode
+    :ensure t
+    :mode "\\.qml\\'")
+#+end_src
+
+Qt's resource files (~.qrc~) are XML.
+
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.qrc$" . nxml-mode))
 #+end_src
 
 * Master menu
