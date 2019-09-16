@@ -35,18 +35,57 @@ editors are going to be naturally pretty scary in that regard ^_^)
 * Initialization
 ** Variables
 
+Let's start by defining a bunch of variables needed by this
+configuration.  I use a number of custom directories, we define these
+here.
+
 #+begin_src emacs-lisp
-(defvar jws/emacs-backup-dir (expand-file-name (concat user-emacs-directory ".cache/backups")))
-(defvar jws/emacs-desktop-dir (expand-file-name (concat user-emacs-directory ".cache/desktop")))
-(defvar jws/emacs-library-dir (expand-file-name (concat user-emacs-directory "lisp")))
-(defvar jws/emacs-site-library-dir (expand-file-name (concat user-emacs-directory "site-lisp")))
+  (defvar jws/emacs-backup-dir
+    (expand-file-name (concat user-emacs-directory ".cache/backups"))
+    "Where to put Emacs backup files")
+  (defvar jws/emacs-desktop-dir
+    (expand-file-name (concat user-emacs-directory ".cache/desktop"))
+    "Where to put Emacs .desktop files")
+  (defvar jws/emacs-library-dir
+    (expand-file-name (concat user-emacs-directory "lisp"))
+    "Contains all unpackaged libraries required by this configuration")
+  (defvar jws/emacs-site-library-dir
+    (expand-file-name (concat user-emacs-directory "site-lisp"))
+    "Contains unpackaged libraries specific to this machine")
+#+end_src
 
-(defvar jws/config-file (expand-file-name (concat user-emacs-directory "config.org")))
-(defvar jws/site-file (expand-file-name (concat user-emacs-directory "site-init.el")))
-(defvar jws/example-site-file (expand-file-name (concat user-emacs-directory "example/site-init.el")))
-(defvar jws/custom-file (expand-file-name (concat user-emacs-directory "custom.el")))
+And here are a number of important file paths.
 
-(defvar jws/package-refreshed-already nil)
+#+begin_src emacs-lisp
+  (defvar jws/config-file
+    (expand-file-name (concat user-emacs-directory "config.org"))
+    "This file")
+  (defvar jws/site-file
+    (expand-file-name (concat user-emacs-directory "site-init.el"))
+    "The site-specific configuration")
+  (defvar jws/custom-file
+    (expand-file-name (concat user-emacs-directory "custom.el"))
+    "Where Emacs Customize writes data")
+#+end_src
+
+And finally, variables that may be changed elsewhere in the config.
+
+#+begin_src emacs-lisp
+  (defvar jws/package-refreshed-already nil
+    "Has package.el been refreshed yet?")
+
+  (defvar jws/default-x-pos 0
+    "Default x-coordinate (px from top-left corner) to place GUI frame")
+  (defvar jws/default-y-pos 0
+    "Default y-coordinate (px from top-left corner) to place GUI frame")
+
+  (defvar jws/default-width-columns 100
+    "Default GUI frame width, in columns of characters")
+  (defvar jws/default-height-rows 35
+    "Default GUI frame height, in rows of characters")
+
+  (defvar jws/default-font "DejaVu Sans Mono-10.5"
+    "Default GUI frame font")
 #+end_src
 
 ** Customize ~Customize~
@@ -358,6 +397,121 @@ indicator.)
     :config
     (nyan-mode)
     (setq nyan-bar-length 20))
+#+end_src
+
+** Fonts
+
+I've set a default font I can expect to be on most machines (DejaVu
+Sans Mono) way above; now let's get "sane defaults" on other OSes.  I
+don't use macOS so I just grabbed the most recent default, figuring
+Mac folks generally upgrade.
+
+#+begin_src emacs-lisp
+  (if (or (equal system-type 'windows-nt)
+          (equal system-type 'ms-dos)
+          (equal system-type 'cygwin))
+      (setq jws/default-font "Consolas-11"))
+
+  (if (equal system-type 'darwin)
+      (setq jws/default-font "San Francisco Mono-11"))
+#+end_src
+
+Emacs functions to query fonts have the unfortunate and frustrating
+requirement that they be run from a GUI frame.  So while I'd like to
+check for the presence of Fira Sans, Pragmata, etc... I can't in a
+cross-platform way.
+
+I define a friendlier function to get said font data that returns
+the stuff I care about in a cons cell.  Again, it requires a GUI
+emacs frame to function.
+
+#+begin_src emacs-lisp
+  (defun jws/get-current-frame-font-specs ()
+    "Calculates the size of a character cell.
+
+  The data is returned in a cons cell, (height width).
+  This function must be run from a GUI frame only."
+    (let* ((font-vector (query-font (face-attribute 'default :font)))
+           (ascent (elt font-vector 4))
+           (descent (elt font-vector 5))
+           (average-width (elt font-vector 7)))
+      (cons (+ ascent descent) average-width)))
+#+end_src
+
+** Frame settings
+
+I don't really like the ~default-frame-alist~ that is used to set
+GUI frame settings e.g. font, size, position.  So I've defined my
+own functions.
+
+#+begin_src emacs-lisp
+  (defun jws/use-default-frame-alist ()
+    "Sets emacs frame to the default frame size."
+    (interactive)
+    (set-frame-font (cdr (assq 'font default-frame-alist)))
+    (set-frame-position (selected-frame)
+                        (cdr (assq 'top default-frame-alist))
+                        (cdr (assq 'left default-frame-alist)))
+    (set-frame-size (selected-frame)
+                    (cdr (assq 'width default-frame-alist))
+                    (cdr (assq 'height default-frame-alist))))
+
+  (defun jws/set-my-default-frame-alist ()
+    "Sets default emacs frame size to *my* personal specifications."
+    (delete (assq 'font default-frame-alist) default-frame-alist)
+    (add-to-list 'default-frame-alist `(font . ,jws/default-font))
+    (delete (assq 'left default-frame-alist) default-frame-alist)
+    (add-to-list 'default-frame-alist `(left . ,jws/default-x-pos))
+    (delete (assq 'top default-frame-alist) default-frame-alist)
+    (add-to-list 'default-frame-alist `(top . ,jws/default-y-pos))
+    (delete (assq 'width default-frame-alist) default-frame-alist)
+    (add-to-list 'default-frame-alist `(width . ,jws/default-width-columns))
+    (delete (assq 'height default-frame-alist) default-frame-alist)
+    (add-to-list 'default-frame-alist `(height . ,jws/default-height-rows)))
+#+end_src
+
+Set the ~default-frame-alist~ with the defaults we set early on.
+
+#+begin_src emacs-lisp
+  (jws/set-my-default-frame-alist)
+#+end_src
+
+I include a function to help calculate row/column sizes given the
+percent of the screen you want to use.  Since it uses my font
+function, it requires a GUI emacs frame as mentioned earlier.
+
+#+begin_src emacs-lisp
+  (defun jws/calculate-frame-size (percent-wide percent-high)
+    "Calculates size for Emacs frame.
+
+  This is an interactive command, and should be run from a GUI frame
+  only, as font-querying commands cannot be run from terminal emacs
+  frames.  (What an irritating limitation!)
+
+  PERCENT-WIDE and PERCENT-HIGH must be floating-point numbers between 0
+  and 1."
+    (interactive "nPercent width (0 to 1): \nnPercent height (0 to 1): ")
+    (if window-system
+        (let* ((rows-fudge-factor 3) ; we need to take about three rows off (for menubar, modeline, and minibuf)
+               (font-height (car (jws/get-current-frame-font-specs))) ; get height of current font
+               (font-width (cdr (jws/get-current-frame-font-specs))) ; get width
+               (screen-rows-high (- (/ (display-pixel-height) font-height)
+                                    rows-fudge-factor)) ; calculate the # of rows on screen given current font
+               (screen-cols-wide (/ (display-pixel-width) font-width)) ; ditto for columns
+               (frame-rows-high (floor (* percent-high screen-rows-high))) ; calculate rows for this fram
+               (frame-cols-wide (floor (* percent-wide screen-cols-wide)))) ; ditto, for columns
+
+          (message "Set your frame to %d columns wide and %d rows high."
+                   frame-cols-wide frame-rows-high))
+      (message "This command should be run from a GUI frame, sorry...")))
+#+end_src
+
+Finally, define a simple function to create a maximized frame.
+
+#+begin_src emacs-lisp
+  (defun jws/make-maximized-frame ()
+    (interactive)
+    (make-frame '((fullscreen . maximized))))
 #+end_src
 
 * Functionality
@@ -1113,7 +1267,17 @@ This menu allows for manipulation of Emacs buffer objects.
 
 ** Window menu
 
-#+BEGIN_SRC emacs-lisp
+This menu manages editor splits, which Emacs calls *windows* because
+Emacs was written well before the Macintosh/Windows-era language we
+use to talk about GUIs.
+
+If you want to manage the actual GUI windows themselves, you actually
+want to manage *frames* and should be looking at the "Frame menu."
+
+It is confusing, but I choose to use the Emacs terminology in code,
+but "normie" terminology in the menus themselves.
+
+#+begin_src emacs-lisp
   (defhydra jws/hydra-windows (:columns 5)
     "Buffer splitting:"
     ("<tab>" other-window "Prev")
@@ -1137,7 +1301,23 @@ This menu allows for manipulation of Emacs buffer objects.
     ("C" delete-other-windows "Remove others")
     ("<left>" winner-undo "Undo split")
     ("<right>" winner-redo "Redo split"))
-#+END_SRC
+#+end_src
+
+** Frame/"window" menu
+
+If you want to manage Emacs GUI windows, you want to manage *frames*.
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-frames (:exit t :columns 4)
+    ("n" make-frame "New window")
+    ("N" jws/make-maximized-frame "New maximized window")
+    ("c" delete-frame "Close window")
+
+    ("d" jws/use-default-frame-alist "Reset defaults")
+    ("x" jws/calculate-frame-size "Calculate row/cols")
+    ("m" toggle-frame-maximized "Toggle maximize")
+    ("f" toggle-frame-fullscreen "Toggle fullscreen"))
+#+end_src
 
 ** File menu
 #+begin_src emacs-lisp
@@ -1230,7 +1410,8 @@ I continue to be amazed that Emacs doesn't have this...
     ("g" jws/hydra-git/body "Git")
     ("h" jws/hydra-help/body "Help")
     ("p" jws/hydra-project/body "Project")
-    ("s" jws/hydra-windows/body "Splitting"))
+    ("s" jws/hydra-windows/body "Splitting")
+    ("w" jws/hydra-frames/body "Frames"))
 
   (define-key evil-normal-state-map (kbd "SPC") 'jws/hydra-master/body)
 #+end_src
