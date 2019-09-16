@@ -580,7 +580,8 @@ that you can find in newer editors.
                projectile-cleanup-known-projects
                projectile-multi-occur
                projectile-switch-project
-               projectile-kill-buffers))
+               projectile-kill-buffers)
+    :config (projectile-mode 1))
 #+end_src
 
 ~counsel-projectile~ does exactly what it says on the tin.
