@@ -360,7 +360,10 @@ This is the raison d'être of the whole guide.
     :ensure t
     :init (setq evil-want-keybinding nil)
     :config
-    (evil-mode t))
+    (evil-mode t)
+    (define-key evil-motion-state-map (kbd "+") 'er/expand-region)
+    (define-key evil-motion-state-map (kbd "g c") 'avy-goto-char)
+    (define-key evil-motion-state-map (kbd "g l") 'avy-goto-line))
 #+end_src
 
 Some other ~evil~ related packages:
@@ -599,7 +602,7 @@ that you can find in newer editors.
 
 Supposedly some people use Emacs to edit files.  The horror!
 
-Some odds and ends first.
+** Basic editing tools
 
 This will automatically timestamp any file with ~Time-stamp: <>~
 towards its top on save.  This is less necessary in the era of Git
@@ -634,12 +637,39 @@ Lisp.
     :init (show-paren-mode))
 #+end_src
 
-~focus~ is a neat package that only highlights the specific region of
+~focus~ is a neat package that only highlights the specific chunk of
 code that your cursor is on.
 
 #+begin_src emacs-lisp
   (use-package focus :ensure t :commands (focus-mode))
 #+end_src
+
+~expand-region~ selects increasingly large areas of text when used
+repeatedly (with Evil normal mode ~+~).
+
+#+begin_src emacs-lisp
+  (use-package expand-region
+    :ensure t
+    :commands er/expand-region)
+#+end_src
+
+~avy~ jumps to any character on screen (Evil normal ~g c~) and any
+line on screen (Evil normal ~g l~).
+
+#+begin_src emacs-lisp
+  (use-package avy
+    :ensure t
+    :commands (avy-goto-char avy-goto-line))
+#+end_src
+
+~ace-window~ jumps between windows.
+
+#+begin_src emacs-lisp
+  (use-package ace-window
+    :ensure t
+    :commands ace-window)
+#+end_src
+
 ** Character encoding
 
 I want to force UTF-8 everywhere, even on Windows; ultimately most of
