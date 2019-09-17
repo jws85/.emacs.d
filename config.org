@@ -646,7 +646,77 @@ using ~ivy~.
 
 ** Text completion
 
-TBD: company and yasnippet
+[[http://company-mode.github.io/][company-mode]] is currently the go-to for providing text completion in
+Emacs.  I had previously gotten somewhat used to [[https://github.com/auto-complete/auto-complete][auto-complete]] and in
+many ways preferred that package to ~company~ -- but it's not
+seemingly maintained anymore.  So... we just hack the heck out of
+~company~.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :init (company-mode)
+    :config
+    ;; company uses a lot of meta bindings.  I like control better
+    (define-key company-active-map (kbd "C-n") 'company-select-next)
+    (define-key company-active-map (kbd "C-p") 'company-select-previous)
+    (define-key company-active-map (kbd "C-i") 'company-complete-common-or-cycle)
+    (define-key company-active-map (kbd "C-j") 'company-complete-selection)
+    (dotimes (i 9)
+      (define-key company-active-map (read-kbd-macro (format "C-%d" i))
+        'company-complete-number))
+
+    ;; company uses Enter to complete.  Would rather it abort and do the
+    ;; usual Enter stuff.
+    (defun jws/company-abort-and-newline ()
+      "Aborts company and inserts a newline."
+      (interactive)
+      (company-abort)
+      (newline-and-indent))
+    (define-key company-active-map (kbd "<return>") 'jws/company-abort-and-newline)
+
+    ;; Abort company with Escape
+    (define-key company-active-map (kbd "ESC") 'company-abort)
+
+    (setq company-idle-delay 0.1
+          company-minimum-prefix-length 2
+          company-tooltip-limit 20
+          company-selection-wrap-around t
+          company-dabbrev-downcase nil
+          company-dabbrev-ignore-case t
+          company-show-numbers t)
+
+    (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC
+
+[[https://github.com/joaotavora/yasnippet][YASnippet]] provides "snippets" like provided by Textmate, then by every
+other fancy paid text editor thereafter.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :bind ("C-;" . yas-expand)
+    :config (yas-global-mode 1))
+#+END_SRC
+
+Install a default set of snippets.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet-snippets
+    :ensure t
+    :after yasnippet
+    :config
+    (yasnippet-snippets-initialize))
+#+END_SRC
+
+Provide an Ivy menu with all current snippets.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-yasnippet
+    :ensure t
+    :after (ivy yasnippet)
+    :bind ("C-:" . ivy-yasnippet))
+#+END_SRC
 
 ** Window management
 
@@ -1137,6 +1207,14 @@ mixed-mode files, and it mostly works.  At least, it works better than
                      ((string= cur-engine "php")
                       (jws/company-php-setup))))))))
 #+end_src
+
+Enable ~company~ in ~web-mode~.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-web
+    :ensure t
+    :after (company web-mode))
+#+END_SRC
 
 *** CSS/Sass
 
