@@ -1242,6 +1242,11 @@ fire-and-forget.
     (interactive)
     (find-file jws/config-file))
 
+  (defun jws/open-emacs-site-config ()
+    "Open my emacs site config file."
+    (interactive)
+    (find-file jws/site-file))
+
   (defun jws/server-shutdown (yn)
     "Prompt before killing the Emacs dæmon"
     (interactive "cKill the Emacs dæmon (y/n)? ")
@@ -1253,6 +1258,7 @@ fire-and-forget.
   (defhydra jws/hydra-emacs (:color blue :columns 4)
     "Buffer menu"
     ("c" jws/open-emacs-config "Edit config")
+    ("s" jws/open-emacs-site-config "Edit site config")
     ("i" package-install "Install package")
     ("q" jws/server-shutdown "Quit emacs")
     ("k" server-start "Start server"))
