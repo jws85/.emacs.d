@@ -286,6 +286,14 @@ that one does not have to hunt the buffer down to close it.
   (setq help-window-select t)
 #+end_src
 
+And here I define a setting that confuses *me*; ~C-x C-z~ minimizes
+the window by default, which I cannot stand because it's next to a
+whole plethora of ~C-x~ commands.
+
+#+begin_src emacs-lisp :tangle yes
+  (global-unset-key (kbd "C-x C-z"))
+#+end_src
+
 * Appearance
 I like a very minimal Emacs (and Vim) window since both were
 made to be driven from the keyboard.
