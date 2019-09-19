@@ -993,26 +993,26 @@ editing beforehand.
 #+begin_src emacs-lisp
   (use-package parinfer
     :ensure t
-    :hook (emacs-lisp-mode-hook
-           common-lisp-mode-hook
-           scheme-mode-hook
-           lisp-mode-hook
-           lisp-interaction-mode-hook)
+    :hook ((emacs-lisp-mode . parinfer-mode)
+           (common-lisp-mode . parinfer-mode)
+           (scheme-mode . parinfer-mode)
+           (lisp-mode . parinfer-mode)
+           (lisp-interaction-mode . parinfer-mode))
     :config
     (setq parinfer-extensions
           '(defaults pretty-parens evil smart-tab smart-yank)))
 #+end_src
 
-~eval-sexp-fu~ flashes the region of the s-expression being evaluated.
+[[https://github.com/hchbaw/eval-sexp-fu.el][eval-sexp-fu]] flashes the region of the s-expression being evaluated.
 
 #+begin_src emacs-lisp
   (use-package eval-sexp-fu
     :ensure t
-    :hook (emacs-lisp-mode-hook
-           common-lisp-mode-hook
-           scheme-mode-hook
-           lisp-mode-hook
-           lisp-interaction-mode-hook)
+    :hook ((emacs-lisp-mode . eval-sexp-fu-flash-mode)
+           (common-lisp-mode . eval-sexp-fu-flash-mode)
+           (scheme-mode . eval-sexp-fu-flash-mode)
+           (lisp-mode . eval-sexp-fu-flash-mode)
+           (lisp-interaction-mode . eval-sexp-fu-flash-mode))
     :config
     (setq eval-sexp-fu-flash-error-face 'lazy-highlight-face
           eval-sexp-fu-flash-duration 0.25))
@@ -1020,12 +1020,12 @@ editing beforehand.
 
 *** Emacs Lisp
 
-~nameless~ hides the namespace part of elisp function/variable names.
+[[https://github.com/Malabarba/Nameless][nameless]] hides the namespace part of elisp function/variable names.
 
 #+begin_src emacs-lisp
   (use-package nameless
     :ensure t
-    :hook emacs-lisp-mode-hook)
+    :hook (emacs-lisp-mode . nameless-mode))
 #+end_src
 
 [[https://github.com/cask/cask][Cask]] is like [[https://getcomposer.org/][Composer]] or ~npm~ for Emacs Lisp.  I don't use Cask much,
@@ -1154,7 +1154,7 @@ I'm just dumping these here and plan on fiddling with them later.
   ;; If I ever mess with TypeScript add its hook here too
   (use-package tide
     :ensure t
-    :hook js2-mode-hook
+    :hook js2-mode
     :config
     (defun jws/setup-tide ()
       (interactive)
@@ -1249,7 +1249,7 @@ Appropriately colorize color names in CSS (and Sass/SCSS) files.
 #+begin_src emacs-lisp
   (use-package rainbow-mode
     :ensure t
-    :hook (css-mode-hook scss-mode-hook))
+    :hook (css-mode scss-mode))
 #+end_src
 
 *** REST Client
@@ -1261,7 +1261,7 @@ There is a handy [[https://github.com/pashky/restclient.el][REST client for emac
     :ensure t
     :mode "\\.restclient$"
     :config
-    (add-hook 'restclient-mode-hook 'company-mode))
+    (require 'restclient))
 #+end_src
 
 This package integrates ~restclient~ with ~org-babel~.
@@ -1279,12 +1279,14 @@ This package integrates ~restclient~ with ~org-babel~.
 And this package integrates ~company~ with ~restclient~.
 
 #+begin_src emacs-lisp
-  (use-package company-restclient
-    :after (restclient company)
-    :ensure t
-    :config
-    (add-hook 'restclient-mode-hook 'company-mode)
-    (add-to-list 'company-backends 'company-restclient))
+    (use-package company-restclient
+      :after (restclient company)
+      :ensure t
+      :hook (restclient-mode . company-mode)
+      :config
+      (add-hook 'restclient-mode-hook
+                (lambda ()
+                  (add-to-list 'company-backends 'company-restclient))))
 #+end_src
 
 ** Qt-specific
