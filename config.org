@@ -1216,20 +1216,11 @@ mixed-mode files, and it mostly works.  At least, it works better than
            "\\.djhtml\\'")
     :init (require 'web-mode)
     :config
-    (progn
-      (setq web-mode-enable-auto-pairing nil
-            web-mode-enable-auto-quoting nil)
+    (setq web-mode-enable-auto-pairing nil
+          web-mode-enable-auto-quoting nil)
 
-      ;; I consider web-mode a programming mode.
-      (add-hook 'web-mode-hook (lambda () (run-hooks 'prog-mode-hook)))
-
-      ;; still broken...
-      (add-hook 'web-mode-hook
-                (lambda ()
-                  (let ((cur-engine "php"))
-                    (cond
-                     ((string= cur-engine "php")
-                      (jws/company-php-setup))))))))
+    ;; I consider web-mode a programming mode.
+    (add-hook 'web-mode-hook (lambda () (run-hooks 'prog-mode-hook))))
 #+end_src
 
 Enable ~company~ in ~web-mode~.
