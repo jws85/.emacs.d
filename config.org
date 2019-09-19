@@ -693,6 +693,13 @@ seemingly maintained anymore.  So... we just hack the heck out of
     (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  (use-package company-quickhelp
+    :ensure t
+    :after company
+    :config (company-quickhelp-mode))
+#+END_SRC
+
 [[https://github.com/joaotavora/yasnippet][YASnippet]] provides "snippets" like provided by Textmate, then by every
 other fancy paid text editor thereafter.
 
