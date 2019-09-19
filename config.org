@@ -921,6 +921,26 @@ line on screen (Evil normal ~g l~).
     :commands ace-window)
 #+end_src
 
+[[https://github.com/akicho8/string-inflection][string-inflection]] allows the user to change how a string is
+capitalized and punctuated according to language specifications.  For
+instance, the below "Java style" function changes ~testString~ to
+~TEST_STRING~ to ~TestString~ and back to ~testString~ again.
+
+[[https://github.com/ninrod/evil-string-inflection][evil-string-inflection]] wraps the above and makes it available as the
+Evil command ~g~~
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package string-inflection
+     :ensure t
+     :commands (string-inflection-all-cycle
+                string-inflection-java-style-cycle
+                string-inflection-python-style-cycle))
+
+  (use-package evil-string-inflection
+    :ensure t
+    :after (string-inflection evil))
+#+end_src
+
 ** Character encoding
 
 I want to force UTF-8 everywhere, even on Windows; ultimately most of
