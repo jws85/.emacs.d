@@ -578,12 +578,15 @@ how what you've bound ~M-x butterfly~ to.
 i.e. speeding up menu traversal.
 
 I like [[https://github.com/abo-abo/swiper][counsel and ivy]] to do this for me.  ~ivy~ is the backend
-library that provides the menu structure.
+library that provides the menu structure.  I explictly init
+~ivy-mode~ since that turns on ivy-style completion everywhere,
+and I got used to this inside... for instance, magit.
 
 #+begin_src emacs-lisp
   (use-package ivy
     :ensure t
     :commands (ivy-switch-buffer)
+    :init (ivy-mode 1)
     :config
     (setq ivy-use-virtual-buffers t
           ivy-count-format "(%d/%d)"
