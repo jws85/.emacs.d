@@ -527,7 +527,10 @@ Vim compatibility is the raison d'être of the whole guide.
     (evil-mode t)
     (define-key evil-motion-state-map (kbd "+") 'er/expand-region)
     (define-key evil-motion-state-map (kbd "g c") 'avy-goto-char)
-    (define-key evil-motion-state-map (kbd "g l") 'avy-goto-line))
+    (define-key evil-motion-state-map (kbd "g l") 'avy-goto-line)
+    (define-key evil-motion-state-map (kbd ";") 'counsel-M-x)
+    (define-key evil-motion-state-map (kbd "/") 'swiper)
+    (define-key evil-motion-state-map (kbd "?") 'swiper-backward))
 #+end_src
 
 Some other ~evil~ related packages:
@@ -640,7 +643,8 @@ using ~ivy~.
 #+begin_src emacs-lisp
   (use-package swiper
     :ensure t
-    :commands (swiper)
+    :bind ("C-s" . swiper)
+    :commands (swiper swiper-backward)
     :after ivy)
 #+end_src
 
