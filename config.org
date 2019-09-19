@@ -1079,30 +1079,23 @@ we're set!
     :ensure t
     :mode "\\.php\\'"
     :config
-    (progn
-      (setq c-basic-offset 4)
-      (add-hook 'php-mode-hook 'jws/make-underscores-belong-to-words)
-      (add-hook 'php-mode-hook #'jws/company-php-setup)))
+    (setq c-basic-offset 4)
+    (add-hook 'php-mode-hook 'jws/make-underscores-belong-to-words))
 #+end_src
 
 ~company-php~ enables auto-completion for PHP symbols.
 
-#+begin_src emacs-lisp :tangle no
-(use-package company-php
-  :ensure t
-  :after php-mode
-  :config
-  (company-mode t)
-  (ac-php-core-eldoc-setup)
-  (make-local-variable 'company-backends)
-  (add-to-list 'company-backends 'company-ac-php-backend))
-  (progn
-    (defun jws/company-php-setup ()
-      (require 'company-php)
-      (company-mode t)
+#+begin_src emacs-lisp
+  (use-package company-php
+    :ensure t
+    :after (php-mode company)
+    :hook php-mode
+    :config
+    (defun jws/company-php-hook-function ()
       (ac-php-core-eldoc-setup)
-      (make-local-variable 'company-backends)
-      (add-to-list 'company-backends 'company-ac-php-backend))))
+      (set (make-local-variable 'company-backends)
+           '((company-dabbrev-code company-ac-php-backend))))
+    (add-hook 'php-mode-hook 'jws/company-php-hook-function))
 #+end_src
 
 *** Go
