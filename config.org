@@ -985,18 +985,124 @@ settings you enable.
 
 ** org-mode
 
-Hoo boy.
+[[https://orgmode.org/][Hoo boy]], the tool that basically shows what is possible with plain
+text.  My ~org-mode~ settings reflect my past attempts to use it for
+journaling and all... expect changes as I figure out what works for
+me.
+
+First, let's define some more paths.
+
+#+begin_src emacs-lisp
+  (defvar jws/org-dir (expand-file-name "~/Org/")
+    "The directory where `org-mode' files live.")
+
+  (defvar jws/org-agenda-dir (concat jws/org-dir "agenda/")
+    "The directory where `org-mode' agenda files live.")
+
+  (defvar jws/org-agenda-files '("inbox.org" "gtd.org" "tickler.org" "recurring.org")
+    "Specific `org-mode` agenda files.")
+
+  (defvar jws/org-journal-dir (concat jws/org-dir "journal/")
+    "The directory where `org-mode' journal files live.")
+
+  (defvar jws/org-notes-dir (concat jws/org-dir "notes/")
+    "The directory where `deft' notes files live.")
+#+end_src
 
 I use the ~org~ that comes with Emacs.
 
 #+begin_src emacs-lisp
   (use-package org
     :commands (org-agenda org-capture org-export-dispatch org-store-link)
-    :ensure t
     :mode (("\\.org\\'" . org-mode))
     :config
     (add-to-list 'org-modules 'org-habit)
     (setq org-src-fontify-natively t))
+#+end_src
+
+I would like to use ~org-agenda~ again in the future, but at the
+moment I've avoided it -- mostly because there is no good way for
+emacs to annoy me to actually do the stuff I dump in my agenda.  I've
+moved back to a mix of Google Calendar and a bullet journal, sadly.
+
+#+begin_src emacs-lisp
+  (use-package org-agenda
+    :after org
+    :config
+    (setq org-log-done t
+          org-refile-targets '((nil . (:maxlevel . 9))
+                               (org-agenda-files . (:maxlevel . 9)))
+          org-refile-use-outline-path t
+          org-outline-path-complete-in-steps nil
+          org-archive-location "finished.org::datetree/*"
+          org-agenda-span 14
+          org-use-fast-todo-selection t
+          org-log-into-drawer t
+          org-startup-indented t
+          org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
+          org-tag-alist '(("@personal" . ?p) ("@career" . ?c) ("@errand" . ?e) ("@travel" . ?t)))
+
+    ;; Agenda vim key bindings
+    (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
+    (define-key org-agenda-mode-map (kbd "L") 'org-agenda-log-mode)
+    (define-key org-agenda-mode-map (kbd "C") 'org-agenda-capture)
+    (define-key org-agenda-mode-map (kbd "d") 'org-agenda-goto-date)
+
+    ;; Save after various edits in org-mode/org-agenda
+    (advice-add 'org-deadline :after 'org-save-all-org-buffers)
+    (advice-add 'org-refile :after 'org-save-all-org-buffers))
+
+  ;; Use this to launch an emacs frame containing nothing but org-agenda
+  (defun jws/org-agenda-single-window ()
+    (interactive)
+    (org-agenda)
+    (delete-other-windows))
+#+end_src
+
+~org-capture~ is another tool I make regrettably minimal usage of.
+At this point all I use is the journaling stuff.
+
+#+begin_src emacs-lisp
+  (use-package org-capture
+    :after org
+    :config
+    (setq org-capture-templates
+          '(("t" "Todo" entry (file (lambda () (concat jws/org-agenda-dir "inbox.org")))
+             "* TODO %?\n  %i")
+            ("T" "Tickler" entry (file (lambda () (concat jws/org-agenda-dir "tickler.org")))
+             "* TODO %i%?\n  %T")
+            ("l" "Link" entry (file+headline (lambda () (concat jws/org-dir "links.org")) "Uncategorized")
+             "* %?")
+            ("j" "Journal" entry (file+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
+             "* %?\n  Entered on %U\n  %i")
+            ("s" "Shopping list" entry (file+headline (lambda () (concat jws/org-dir "shopping.org")) "Unfiled Shopping")
+             "* %?\n  Entered on %U\n  %i"))))
+
+  ;; Use this to launch an emacs frame containing nothing but org-capture
+  (defun jws/org-capture-single-window ()
+    (interactive)
+    (org-capture)
+    (delete-other-windows))
+#+end_src
+
+[[https://github.com/jrblevin/deft][Deft]] is a quick-notes tool that I've already gotten some mileage out
+of.  It doesn't require ~org~, but my set up marries the two.
+
+#+begin_src emacs-lisp
+  (use-package deft
+    :ensure t
+    :after org
+    :commands deft
+    :config
+    (setq deft-directory jws/org-notes-dir
+          deft-extensions '("org" "md" "markdown" "txt")
+          deft-default-extension "org"
+          deft-use-filename-as-title nil
+          deft-use-filter-string-for-filename t
+          deft-file-naming-rules
+          '((noslash . "-")
+            (nospace . "-")
+            (case-fn . downcase))))
 #+end_src
 
 ** Lisps
@@ -1449,6 +1555,18 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
     ("u" counsel-bookmark "Find bookmark"))
 #+end_src
 
+** Org-mode menu
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-org (:color blue :columns 4)
+    "Org-mode menu"
+    ("a" org-agenda "Agenda")
+    ("c" org-capture "Capture")
+    ("e" org-export-dispatch "Export")
+    ("l" org-store-link "Store link")
+    ("n" deft "Notes")
+    ("r" jws/load-org-settings "Reload settings"))
+#+end_src
+
 ** Project menu
 
 To control ~projectile~ and other associated packages.
@@ -1529,6 +1647,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("f" jws/hydra-files/body "Files")
     ("g" jws/hydra-git/body "Git")
     ("h" jws/hydra-help/body "Help")
+    ("o" jws/hydra-org/body "Org")
     ("p" jws/hydra-project/body "Project")
     ("s" jws/hydra-windows/body "Splitting")
     ("w" jws/hydra-frames/body "Frames"))
