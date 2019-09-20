@@ -253,6 +253,14 @@ Here are some settings to make Emacs more usable in general.
 A warning:  I am disabling a number of "safety measures" that Emacs
 enables.  Some are silly and the equivalent of [[https://en.wikipedia.org/wiki/Office_Assistant][Clippy]] getting in your
 way in Office 2000.  Some are pretty sensible; I will note those.
+Most of the other changes here are from [[https://github.com/technomancy/better-defaults][better-defaults]].
+
+Use the X clipboard rather than whatever skanky "selection" Emacs
+uses.
+
+#+begin_src emacs-lisp
+  (setq save-interprogram-paste-before-kill t)
+#+end_src
 
 Sometimes Emacs wants a ~y~ or ~n~ for yes/no questions, sometimes it
 requires a ~yes~ or ~no~.  Make everything ~y~ / ~n~.
@@ -284,6 +292,12 @@ that one does not have to hunt the buffer down to close it.
 
 #+begin_src emacs-lisp
   (setq help-window-select t)
+#+end_src
+
+Do not load elisp bytecode if the associated elisp source is newer.
+
+#+begin_src emacs-lisp
+  (setq load-prefer-newer t)
 #+end_src
 
 And here I define a setting that confuses *me*; ~C-x C-z~ minimizes
