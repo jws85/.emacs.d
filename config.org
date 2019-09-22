@@ -791,6 +791,24 @@ I like Paradox for graphical package installation.
 
 ** File management
 
+** Calculator
+
+Emacs Calc looks like a toy RPN calculator at first glance, until you
+hit the manual and the "ugly" truth hits -- there's almost too much
+functionality to really easily learn!
+
+#+begin_src emacs-lisp
+  (use-package calc
+    :commands calc-dispatch
+    :config
+    ;; Logical/data size units
+    (setq math-additional-units
+          '((bit nil "Bit")
+            (byte "8 * bit" "Byte")
+            (bps "bit / s" "Bytes per second"))
+          math-units-table nil))
+#+end_src
+
 ** Version control
 
 I only really use ~git~ at this point.  The dirty secret of ~git~ is
@@ -1679,6 +1697,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("<tab>" jws/switch-to-previous-buffer "Switch buffer")
     ("k" kill-this-buffer "Kill buffer")
     ("b" jws/hydra-buffer/body "Buffers")
+    ("c" calc-dispatch "Calc")
     ("e" jws/hydra-emacs/body "Emacs")
     ("f" jws/hydra-files/body "Files")
     ("g" jws/hydra-git/body "Git")
