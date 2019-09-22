@@ -1815,7 +1815,7 @@ I continue to be amazed that Emacs doesn't have this...
 #+end_src
 
 #+begin_src emacs-lisp
-  (defhydra jws/hydra-master (global-map "M-j" :color blue :columns 4)
+  (defhydra jws/hydra-master (:color blue :columns 4)
     "Master menu"
     ("SPC" counsel-M-x "Command list")
     ("<tab>" jws/switch-to-previous-buffer "Switch buffer")
@@ -1833,6 +1833,8 @@ I continue to be amazed that Emacs doesn't have this...
     ("w" jws/hydra-frames/body "Frames")
     ("x" eshell "Shell"))
 
+  (global-set-key (kbd "<f2>") 'jws/hydra-master/body)
+  (global-set-key (kbd "M-j") 'jws/hydra-master/body)
   (define-key evil-normal-state-map (kbd "SPC") 'jws/hydra-master/body)
 #+end_src
 
