@@ -1,8 +1,0 @@
-# -*- mode:snippet -*-
-# name: procedure
-# key: procedure
-# --
-procedure ${1:ProcedureName}(${2:nil});
-begin
-  $0;
-end;
