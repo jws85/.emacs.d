@@ -919,6 +919,42 @@ There is also ~ansi-term~, which attempts to be a VT terminal emulator.
 I find it even more janky than ~eshell~, and only use it as a fallback
 for ~ncurses~ commands like ~htop~ as above.
 
+** Web browser
+
+~eww~ is built into emacs.  Unlike some of the other tools here, ~eww~
+is kind of a tool of last resort, since probably 90% of the web now
+expects robust JavaScript/CSS support that emacs simply can't easily
+provide.
+
+#+begin_src emacs-lisp
+  (use-package eww
+    :commands (eww eww-browse-url))
+#+end_src
+
+We want to use ~eww~ whenever a web link is clicked.
+
+#+begin_src emacs-lisp
+  (setq browse-url-browse-function 'eww-browse-url)
+#+end_src
+
+Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to load it.
+
+#+begin_src emacs-lisp :tangle yes
+  (defvar jws/eww-home-page "https://duckduckgo.com/html/?kd=1")
+
+  (defun jws/eww-home ()
+    (interactive)
+    (eww jws/eww-home-page))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package ace-link
+    :ensure t
+    :after avy
+    :config
+    (ace-link-setup-default))
+#+end_src
+
 ** Version control
 
 I only really use ~git~ at this point.  The dirty secret of ~git~ is
@@ -1828,6 +1864,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("g" jws/hydra-git/body "Git")
     ("h" jws/hydra-help/body "Help")
     ("o" jws/hydra-org/body "Org")
+    ("n" jws/eww-home "Net")
     ("p" jws/hydra-project/body "Project")
     ("s" jws/hydra-windows/body "Splitting")
     ("w" jws/hydra-frames/body "Frames")
