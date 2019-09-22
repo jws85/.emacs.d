@@ -873,6 +873,52 @@ functionality to really easily learn!
           math-units-table nil))
 #+end_src
 
+** Terminal
+
+~eshell~ is Emacs' built-in terminal.  It is *not* a Bash variant, but
+is instead configured entirely with Emacs Lisp and renders solely to
+an Emacs buffer (rather than a VT TTY emulator).  The result is that
+at first it looks like a toy; when in fact you have the full power of
+Emacs from ~eshell~ if you should want it.  The disadvantage is that
+sometimes muscle memory from old-school term/shells gets in one's way.
+
+#+begin_src emacs-lisp
+  (use-package eshell
+    :commands eshell
+    :config
+    (setq eshell-scroll-to-bottom-on-input 'all
+          eshell-error-if-no-glob t
+          eshell-hist-ignoredups t
+          eshell-save-history-on-exit t
+          eshell-prefer-lisp-functions nil
+          eshell-destroy-buffer-when-process-dies t)
+
+    ;; Instead of ranger, why not use dired?
+    ;; Instead of tig, why not use magit?
+    ;; Still, in the off case these are used, use ansi-term
+    (add-to-list 'eshell-visual-commands "htop")
+    (add-to-list 'eshell-visual-commands "iotop")
+    (add-to-list 'eshell-visual-commands "iftop")
+    (add-to-list 'eshell-visual-commands "ranger")
+    (add-to-list 'eshell-visual-commands "tig"))
+#+end_src
+
+Any function or alias with a name beginning with ~eshell/~ becomes a
+command inside ~eshell~ itself.  The result being that I can do
+~open ~/.emacs.d/config.org~ from inside ~eshell~ and it'll open up
+that file in a new buffer.
+
+#+begin_src emacs-lisp
+  (defalias 'eshell/open 'find-file)
+  (defalias 'eshell/emacs 'find-file)
+  (defalias 'eshell/magit 'magit-status)
+  (defalias 'eshell/dired 'dired-jump)
+#+end_src
+
+There is also ~ansi-term~, which attempts to be a VT terminal emulator.
+I find it even more janky than ~eshell~, and only use it as a fallback
+for ~ncurses~ commands like ~htop~ as above.
+
 ** Version control
 
 I only really use ~git~ at this point.  The dirty secret of ~git~ is
@@ -1784,7 +1830,8 @@ I continue to be amazed that Emacs doesn't have this...
     ("o" jws/hydra-org/body "Org")
     ("p" jws/hydra-project/body "Project")
     ("s" jws/hydra-windows/body "Splitting")
-    ("w" jws/hydra-frames/body "Frames"))
+    ("w" jws/hydra-frames/body "Frames")
+    ("x" eshell "Shell"))
 
   (define-key evil-normal-state-map (kbd "SPC") 'jws/hydra-master/body)
 #+end_src
