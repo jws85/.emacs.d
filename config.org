@@ -855,6 +855,21 @@ Finally, a function to open the home directory in Dired.
     (dired "/"))
 #+end_src
 
+** Image display
+
+Emacs is horribly unoptimized for this, but if we are viewing files,
+we'll necessarily bump into multimedia files from time to time.
+
+#+begin_src emacs-lisp
+  (use-package image :commands image-mode)
+
+  (use-package image+
+    :ensure t
+    :after image
+    :config
+    (eval-after-load 'image '(require 'image+)))
+#+end_src
+
 ** Calculator
 
 Emacs Calc looks like a toy RPN calculator at first glance, until you
