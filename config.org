@@ -1,0 +1,1715 @@
+#+TITLE: My emacs config
+#+AUTHOR: Justin Smith
+#+TOC: true
+#+STARTUP: indent
+#+PROPERTY: header-args :tangle yes
+
+* Introduction
+
+This is my [[https://www.gnu.org/software/emacs/][GNU Emacs]] configuration.
+
+This configuration is oriented around the following:
+
+ - Vim-style keybindings via evil
+ - One menu to access most features, like spacemacs
+ - An attempt to look OK-ish
+ - A focus on ~org-mode~, "curly-brace" languages (C/C++, Go, PHP,
+   some JavaScript), and webdev
+
+I am not using spacemacs (which offers all of the above) because I
+found myself turning on features and then later wondering why my emacs
+was running so slow.  That's not so much spacemacs' fault, but since
+it's not my code, it gets tricky to suss out where the problem lies.
+I am not claiming my code is better than spacemacs; actually it's
+probably the reverse.
+
+This configuration is opinionated; it assumes you are heavily sold
+on vim keybindings and moreover that you... ahem... agree with me,
+I suppose.  In particular, while I like all the packages here, I
+may indulge in some... rants... about functionality I find... odd.
+
+(After all, this is a realm of thought where the very choice of
+typographical whitespace is fraught with [[https://www.youtube.com/watch?v=SsoOG6ZeyUI][religious significance]]; text
+editors are going to be naturally pretty scary in that regard ^_^)
+
+* Initialization
+** Variables
+
+Let's start by defining a bunch of variables needed by this
+configuration.  I use a number of custom directories, we define these
+here.
+
+#+begin_src emacs-lisp
+  (defvar jws/emacs-backup-dir
+    (expand-file-name (concat user-emacs-directory ".cache/backups"))
+    "Where to put Emacs backup files")
+  (defvar jws/emacs-desktop-dir
+    (expand-file-name (concat user-emacs-directory ".cache/desktop"))
+    "Where to put Emacs .desktop files")
+  (defvar jws/emacs-library-dir
+    (expand-file-name (concat user-emacs-directory "lisp"))
+    "Contains all unpackaged libraries required by this configuration")
+  (defvar jws/emacs-site-library-dir
+    (expand-file-name (concat user-emacs-directory "site-lisp"))
+    "Contains unpackaged libraries specific to this machine")
+#+end_src
+
+And here are a number of important file paths.
+
+#+begin_src emacs-lisp
+  (defvar jws/config-file
+    (expand-file-name (concat user-emacs-directory "config.org"))
+    "This file")
+  (defvar jws/site-file
+    (expand-file-name (concat user-emacs-directory "site-init.el"))
+    "The site-specific configuration")
+  (defvar jws/custom-file
+    (expand-file-name (concat user-emacs-directory "custom.el"))
+    "Where Emacs Customize writes data")
+#+end_src
+
+And finally, variables that may be changed elsewhere in the config.
+
+#+begin_src emacs-lisp
+  (defvar jws/package-refreshed-already nil
+    "Has package.el been refreshed yet?")
+
+  (defvar jws/default-x-pos 0
+    "Default x-coordinate (px from top-left corner) to place GUI frame")
+  (defvar jws/default-y-pos 0
+    "Default y-coordinate (px from top-left corner) to place GUI frame")
+
+  (defvar jws/default-width-columns 100
+    "Default GUI frame width, in columns of characters")
+  (defvar jws/default-height-rows 35
+    "Default GUI frame height, in rows of characters")
+
+  (defvar jws/default-font "DejaVu Sans Mono-10.5"
+    "Default GUI frame font")
+#+end_src
+
+** Customize ~Customize~
+
+Emacs has an automatic customization system, called ~Customize~, which
+will barf inscrutable s-expressions (with ugly comments telling you
+not to modify the output) through our beautiful ~init.el~ unless you
+redirect its output.  We will load this file's values later.
+
+#+begin_src emacs-lisp
+  (setq custom-file jws/custom-file)
+#+end_src
+
+** Set up package.el
+
+This must be done before we do anything else.
+
+First of all, we ensure ~package~ is loaded, and use MELPA as package
+server.
+
+#+begin_src emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.milkbox.net/packages/") t)
+#+end_src
+
+Next, I *would* initialize ~package~ with
+
+#+begin_src emacs-lisp :tangle no
+  (package-initialize)
+#+end_src
+
+but Emacs insists on sticking it on the first line of the first
+init file it reads.  *No.  Matter.  What.*  In fact I find that a
+lot of my gripes with Emacs is that out-of-the-box it behaves
+[[https://en.wikipedia.org/wiki/In_loco_parentis][in loco parentis]] and I prefer the Unixy "I should be able to
+~rm -rf /~ if I want to" mindset.
+
+Then, we define some helper functions to work with ~package~.
+
+#+begin_src emacs-lisp
+  (defun jws/is-refresh-needed (refresh-interval)
+    "Determine whether a package refresh is needed -- every REFRESH-INTERVAL days"
+    (let* ((now (float-time (current-time)))
+           (package-archive-file "~/.emacs.d/elpa/archives/melpa/archive-contents")
+           (then (float-time (nth 5 (file-attributes package-archive-file))))
+           (refresh-interval-secs (* 24 60 60 refresh-interval)))
+      (if (file-exists-p package-archive-file)
+          (> (- now then)
+             refresh-interval-secs)
+        t)))
+
+  (defun jws/package-refresh-once-a-session ()
+    "Refresh package list once a session, if needed"
+    (if (not jws/package-refreshed-already)
+        (progn
+          (package-refresh-contents)
+          (setq jws/package-refreshed-already t))))
+
+  (defun jws/package-install (pkg)
+    "Install package PKG if it is not already installed"
+    (unless (package-installed-p pkg)
+      (jws/package-refresh-once-a-session)
+      (package-install pkg)))
+#+end_src
+
+And, finally, we see if a package refresh is needed, and do it if
+necessary.
+
+#+begin_src emacs-lisp
+;; If it's been seven days since we've refreshed packages, force a refresh
+;; Otherwise, don't bother
+(setq jws/package-refreshed-already (not (jws/is-refresh-needed 7)))
+
+;; Perform the package refresh, if needed.
+;(jws/package-refresh-once-a-session)
+#+end_src
+
+** Set up use-package
+
+[[https://github.com/jwiegley/use-package][use-package]] is an invaluable library that allows one to isolate
+different libraries being loaded in one's ~.emacs~ blob and load them
+efficiently.  The rest of the config relies heavily upon ~use-package~,
+so it is loaded very early as well.
+
+Everywhere else, stuff is automatically installed by ~use-package~
+where possible.  However, you run into a bit of the good ol'
+[[https://en.wikipedia.org/wiki/Chicken_or_the_egg][chicken-and-egg dilemma]] when installing ~use-package~ itself, so we
+install it using the functions we defined earlier:
+
+#+begin_src emacs-lisp
+  (jws/package-install 'use-package)
+#+end_src
+
+and load it manually:
+
+#+begin_src emacs-lisp
+  (eval-when-compile
+    (require 'use-package))
+#+end_src
+
+** Load unpackaged libraries
+
+Libraries included with this config, but not in MELPA, are under
+~lisp/~:
+
+#+begin_src emacs-lisp
+  (if (file-exists-p jws/emacs-library-dir)
+      (let ((default-directory jws/emacs-library-dir))
+        (add-to-list 'load-path default-directory)
+        (normal-top-level-add-subdirs-to-load-path)))
+#+end_src
+
+* Preferences
+** Backups
+
+I really dislike how Emacs handles backups and do some pretty
+substantial changes to same.
+
+First off, let's create the backup directory:
+
+#+begin_src emacs-lisp
+  (if (not (file-exists-p jws/emacs-backup-dir))
+      (make-directory jws/emacs-backup-dir t))
+#+end_src
+
+And have Emacs use it:
+
+#+begin_src emacs-lisp
+  (setq backup-directory-alist `(("." . ,jws/emacs-backup-dir)))
+#+end_src
+
+And finally change a bunch more settings:
+
+#+begin_src emacs-lisp
+  ;; Backup by copying files
+  (setq backup-by-copying t)
+
+  ;; Prune old backups
+  (setq delete-old-versions t)
+
+  ;; Control how many old backups are kept
+  (setq kept-old-versions 6)
+  (setq kept-new-versions 2)
+
+  ;; Always number the backups
+  (setq version-control t)
+
+  ;; Make backup files, even if the file's in version control
+  (setq vc-make-backup-files t)
+#+end_src
+
+Disable auto-save; otherwise IIRC Emacs prompts you annoyingly
+to save them at some inconvenient point.  I generally remember
+to save my files on my own and do not need this.
+
+#+begin_src emacs-lisp
+  (setq auto-save-default nil)
+#+end_src
+
+** Usability
+
+Here are some settings to make Emacs more usable in general.
+
+A warning:  I am disabling a number of "safety measures" that Emacs
+enables.  Some are silly and the equivalent of [[https://en.wikipedia.org/wiki/Office_Assistant][Clippy]] getting in your
+way in Office 2000.  Some are pretty sensible; I will note those.
+Most of the other changes here are from [[https://github.com/technomancy/better-defaults][better-defaults]].
+
+Use the X clipboard rather than whatever skanky "selection" Emacs
+uses.
+
+#+begin_src emacs-lisp
+  (setq save-interprogram-paste-before-kill t)
+#+end_src
+
+Sometimes Emacs wants a ~y~ or ~n~ for yes/no questions, sometimes it
+requires a ~yes~ or ~no~.  Make everything ~y~ / ~n~.
+
+#+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+Enable some disabled functions that confuse some new (l)users:
+
+#+begin_src emacs-lisp
+  (put 'narrow-to-region 'disabled nil) ;; C-x n n
+  (put 'narrow-to-defun 'disabled nil) ;; C-x n d
+  (put 'dired-find-alternate-file 'disabled nil)
+#+end_src
+
+Set all theme files as "safe" and thus do not prompt when loading
+them.  This is a legit concern.  I only install the ~doom-themes~
+and I trust them, but still there's nothing stopping the owner from,
+say, selling to a malevolent person who sneaks elisp to mine BTC
+into the themes.
+
+#+begin_src emacs-lisp
+  (setq custom-safe-themes t)
+#+end_src
+
+Always put point in help windows (info, describe-variable...) so
+that one does not have to hunt the buffer down to close it.
+
+#+begin_src emacs-lisp
+  (setq help-window-select t)
+#+end_src
+
+Do not load elisp bytecode if the associated elisp source is newer.
+
+#+begin_src emacs-lisp
+  (setq load-prefer-newer t)
+#+end_src
+
+And here I define a setting that confuses *me*; ~C-x C-z~ minimizes
+the window by default, which I cannot stand because it's next to a
+whole plethora of ~C-x~ commands.
+
+#+begin_src emacs-lisp :tangle yes
+  (global-unset-key (kbd "C-x C-z"))
+#+end_src
+
+* Appearance
+I like a very minimal Emacs (and Vim) window since both were
+made to be driven from the keyboard.
+
+#+begin_src emacs-lisp
+  (if (functionp 'tool-bar-mode) (tool-bar-mode -1))
+  (if (functionp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode -1))
+  (if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
+  (if (functionp 'menu-bar-mode) (menu-bar-mode -1))
+#+end_src
+
+This disables the buffer that has all the GNU Project boilerplate
+and how to use Info and blahblahblah just show me an emacs window
+
+(We'll put in a more useful startup buffer later.)
+
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)
+#+end_src
+
+I have this labeled "Vim-style line-by-line scrolling" and
+I wish I knew exactly what it did.  I do recall not liking how
+Emacs scrolled out-of-the-box.
+
+#+begin_src emacs-lisp
+  (setq scroll-step 1)
+  (setq scroll-conservatively 10000)
+#+end_src
+
+Turn the "system bell" off.  The last time this was relevant to
+computers, I was not alive yet and bell bottoms were en vogue; in 2019
+it shows as an annoying full-screen flash on most computers.
+
+#+begin_src emacs-lisp
+  (setq ring-bell-function 'ignore)
+#+end_src
+
+~beacon~ flashes the cursor's position when it is moved a long
+distance.
+
+#+begin_src emacs-lisp
+  (use-package beacon
+    :ensure t
+    :init (beacon-mode 1)
+    :config (setq beacon-color "#dfbfff"))
+#+end_src
+
+** Icons
+
+[[https://github.com/domtronn/all-the-icons.el][all-the-icons]] pulls in several icon fonts which can be used by other
+packages (e.g. ~doom-modeline~).
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons :ensure t)
+#+end_src
+
+Installation of the fonts must be done (once per machine) via the
+command
+
+#+begin_src emacs-lisp :tangle no
+  (all-the-icons-install-fonts)
+#+end_src
+
+** Themes
+
+Install doom-themes, which are a nice set of themes that work with a
+lot of libraries and look nice:
+
+#+begin_src emacs-lisp
+  (use-package doom-themes :ensure t)
+#+end_src
+
+** Modeline
+
+[[https://github.com/seagle0128/doom-modeline][doom-modeline]] is an attractive, featureful, and performant modeline
+replacement.
+
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :ensure t
+    :hook (after-init . doom-modeline-mode)
+    :config
+    (column-number-mode)
+    (setq doom-modeline-buffer-file-name-style 'buffer-name
+          doom-modeline-icon t
+          doom-modeline-major-mode-icon t
+          doom-modeline-buffer-state-icon t))
+#+end_src
+
+[[https://github.com/tarsius/minions][minions]] hides all those pesky minor-modes behind a clickable menu.
+Unlike the more popular [[https://github.com/myrjola/diminish.el][diminish]], ~minions~ just hides everything,
+which is fine by me.
+
+#+begin_src emacs-lisp
+  (use-package minions
+    :ensure t
+    :config
+    (minions-mode 1))
+#+end_src
+
+Sometimes you just gotta have fun, nyan~ ^_^
+
+(In all seriousness, ~nyan-mode~ is a nice document position
+indicator.)
+
+#+begin_src emacs-lisp
+  (use-package nyan-mode
+    :ensure t
+    :config
+    (nyan-mode)
+    (setq nyan-bar-length 20))
+#+end_src
+
+** Fonts
+
+I've set a default font I can expect to be on most machines (DejaVu
+Sans Mono) way above; now let's get "sane defaults" on other OSes.  I
+don't use macOS so I just grabbed the most recent default, figuring
+Mac folks generally upgrade.
+
+#+begin_src emacs-lisp
+  (if (or (equal system-type 'windows-nt)
+          (equal system-type 'ms-dos)
+          (equal system-type 'cygwin))
+      (setq jws/default-font "Consolas-11"))
+
+  (if (equal system-type 'darwin)
+      (setq jws/default-font "San Francisco Mono-11"))
+#+end_src
+
+Emacs functions to query fonts have the unfortunate and frustrating
+requirement that they be run from a GUI frame.  So while I'd like to
+check for the presence of Fira Sans, Pragmata, etc... I can't in a
+cross-platform way.
+
+I define a friendlier function to get said font data that returns
+the stuff I care about in a cons cell.  Again, it requires a GUI
+emacs frame to function.
+
+#+begin_src emacs-lisp
+  (defun jws/get-current-frame-font-specs ()
+    "Calculates the size of a character cell.
+
+  The data is returned in a cons cell, (height width).
+  This function must be run from a GUI frame only."
+    (let* ((font-vector (query-font (face-attribute 'default :font)))
+           (ascent (elt font-vector 4))
+           (descent (elt font-vector 5))
+           (average-width (elt font-vector 7)))
+      (cons (+ ascent descent) average-width)))
+#+end_src
+
+** Frame settings
+
+I don't really like the ~default-frame-alist~ that is used to set
+GUI frame settings e.g. font, size, position.  So I've defined my
+own functions.
+
+#+begin_src emacs-lisp
+  (defun jws/use-default-frame-alist ()
+    "Sets emacs frame to the default frame size."
+    (interactive)
+    (set-frame-font (cdr (assq 'font default-frame-alist)))
+    (set-frame-position (selected-frame)
+                        (cdr (assq 'top default-frame-alist))
+                        (cdr (assq 'left default-frame-alist)))
+    (set-frame-size (selected-frame)
+                    (cdr (assq 'width default-frame-alist))
+                    (cdr (assq 'height default-frame-alist))))
+
+  (defun jws/set-my-default-frame-alist ()
+    "Sets default emacs frame size to *my* personal specifications."
+    (delete (assq 'font default-frame-alist) default-frame-alist)
+    (add-to-list 'default-frame-alist `(font . ,jws/default-font))
+    (delete (assq 'left default-frame-alist) default-frame-alist)
+    (add-to-list 'default-frame-alist `(left . ,jws/default-x-pos))
+    (delete (assq 'top default-frame-alist) default-frame-alist)
+    (add-to-list 'default-frame-alist `(top . ,jws/default-y-pos))
+    (delete (assq 'width default-frame-alist) default-frame-alist)
+    (add-to-list 'default-frame-alist `(width . ,jws/default-width-columns))
+    (delete (assq 'height default-frame-alist) default-frame-alist)
+    (add-to-list 'default-frame-alist `(height . ,jws/default-height-rows)))
+#+end_src
+
+Set the ~default-frame-alist~ with the defaults we set early on.
+
+#+begin_src emacs-lisp
+  (jws/set-my-default-frame-alist)
+#+end_src
+
+I include a function to help calculate row/column sizes given the
+percent of the screen you want to use.  Since it uses my font
+function, it requires a GUI emacs frame as mentioned earlier.
+
+#+begin_src emacs-lisp
+  (defun jws/calculate-frame-size (percent-wide percent-high)
+    "Calculates size for Emacs frame.
+
+  This is an interactive command, and should be run from a GUI frame
+  only, as font-querying commands cannot be run from terminal emacs
+  frames.  (What an irritating limitation!)
+
+  PERCENT-WIDE and PERCENT-HIGH must be floating-point numbers between 0
+  and 1."
+    (interactive "nPercent width (0 to 1): \nnPercent height (0 to 1): ")
+    (if window-system
+        (let* ((rows-fudge-factor 3) ; we need to take about three rows off (for menubar, modeline, and minibuf)
+               (font-height (car (jws/get-current-frame-font-specs))) ; get height of current font
+               (font-width (cdr (jws/get-current-frame-font-specs))) ; get width
+               (screen-rows-high (- (/ (display-pixel-height) font-height)
+                                    rows-fudge-factor)) ; calculate the # of rows on screen given current font
+               (screen-cols-wide (/ (display-pixel-width) font-width)) ; ditto for columns
+               (frame-rows-high (floor (* percent-high screen-rows-high))) ; calculate rows for this fram
+               (frame-cols-wide (floor (* percent-wide screen-cols-wide)))) ; ditto, for columns
+
+          (message "Set your frame to %d columns wide and %d rows high."
+                   frame-cols-wide frame-rows-high))
+      (message "This command should be run from a GUI frame, sorry...")))
+#+end_src
+
+Finally, define a simple function to create a maximized frame.
+
+#+begin_src emacs-lisp
+  (defun jws/make-maximized-frame ()
+    (interactive)
+    (make-frame '((fullscreen . maximized))))
+#+end_src
+
+* Functionality
+** Keybindings (including Vim compatibility)
+
+Vim compatibility is the raison d'être of the whole guide.
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :ensure t
+    :init (setq evil-want-keybinding nil)
+    :config
+    (evil-mode t)
+    (define-key evil-motion-state-map (kbd "+") 'er/expand-region)
+    (define-key evil-motion-state-map (kbd "g c") 'avy-goto-char)
+    (define-key evil-motion-state-map (kbd "g l") 'avy-goto-line)
+    (define-key evil-motion-state-map (kbd ";") 'counsel-M-x)
+    (define-key evil-motion-state-map (kbd "/") 'swiper)
+    (define-key evil-motion-state-map (kbd "?") 'swiper-backward))
+#+end_src
+
+Some other ~evil~ related packages:
+
+ - ~evil-surround~ is a port of [[https://github.com/tpope/vim-surround][surround.vim]]
+ - ~evil-collection~ tries to bring vi/evil keybindings to other Emacs modes
+
+#+begin_src emacs-lisp
+  (use-package evil-surround
+    :after evil
+    :ensure t
+    :config
+    (global-evil-surround-mode 1))
+
+  (use-package evil-collection
+    :after evil
+    :ensure t
+    :config
+    (setq evil-collection-mode-list '(dired eshell eww git-timemachine ibuffer image image+))
+    (evil-collection-init))
+#+end_src
+
+~which-key~ is useful for all those crazy chained bindings -- if you
+stop on a prefix key, it'll show you what your options are so you know
+how what you've bound ~M-x butterfly~ to.
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :ensure t
+    :config
+    (which-key-mode)
+    (setq which-key-idle-delay 0.1))
+#+end_src
+
+** Menu completion
+
+i.e. speeding up menu traversal.
+
+I like [[https://github.com/abo-abo/swiper][counsel and ivy]] to do this for me.  ~ivy~ is the backend
+library that provides the menu structure.  I explictly init
+~ivy-mode~ since that turns on ivy-style completion everywhere,
+and I got used to this inside... for instance, magit.
+
+#+begin_src emacs-lisp
+  (use-package ivy
+    :ensure t
+    :commands (ivy-switch-buffer)
+    :init (ivy-mode 1)
+    :config
+    (setq ivy-use-virtual-buffers t
+          ivy-count-format "(%d/%d)"
+          ivy-magic-tilde nil)
+
+    ;; Makes RET in counsel-find-file actually work correctly
+    ;; and not dump you in dired for whatever reason
+    (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
+
+    ;; Move ivy-restrict-to-matches from S-SPC to C-RET
+    ;; I do not like emacs bindings using Super; that's for my
+    ;; window manager only!
+    (define-key ivy-minibuffer-map (kbd "S-SPC") nil)
+    (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-restrict-to-matches))
+#+end_src
+
+~counsel~ provides some useful functions built on top of ~ivy~.
+
+#+begin_src emacs-lisp
+  (use-package counsel
+    :ensure t
+    :after ivy
+    :commands (counsel-bookmark
+               counsel-descbinds
+               counsel-describe-face
+               counsel-describe-function
+               counsel-describe-variable
+               counsel-find-file
+               counsel-grep-or-swiper
+               counsel-M-x
+               counsel-recentf
+               counsel-semantic-or-imenu)
+    :config
+    (setq counsel-find-file-at-point t))
+#+end_src
+
+[[https://github.com/Yevgnen/ivy-rich][ivy-rich-mode]] makes some of the more frequently used ~counsel~
+commands function slightly nicer.
+
+#+begin_src emacs-lisp
+  (use-package ivy-rich
+    :ensure t
+    :after counsel
+    :config (ivy-rich-mode 1))
+#+end_src
+
+[[https://github.com/lewang/flx][flx]] provides a fuzzy search algorithm, which is picked up
+automatically by ~ivy~ and ~counsel~.
+
+#+begin_src emacs-lisp
+  (use-package flx :ensure t :after ivy)
+#+end_src
+
+[[https://github.com/nonsequitur/smex][smex]] provides an even more efficient ~M-x~ command, which is picked up
+automatically by ~counsel-M-x~.
+
+#+begin_src emacs-lisp
+  (use-package smex :ensure t :after counsel)
+#+end_src
+
+~swiper~ is developed by the same guy that did ~ivy~ and ~counsel~,
+and in the same GitHub repository; it provides a text search menu
+using ~ivy~.
+
+#+begin_src emacs-lisp
+  (use-package swiper
+    :ensure t
+    :bind ("C-s" . swiper)
+    :commands (swiper swiper-backward)
+    :after ivy)
+#+end_src
+
+** Text completion
+
+[[http://company-mode.github.io/][company-mode]] is currently the go-to for providing text completion in
+Emacs.  I had previously gotten somewhat used to [[https://github.com/auto-complete/auto-complete][auto-complete]] and in
+many ways preferred that package to ~company~ -- but it's not
+seemingly maintained anymore.  So... we just hack the heck out of
+~company~.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :init (company-mode)
+    :config
+    ;; company uses a lot of meta bindings.  I like control better
+    (define-key company-active-map (kbd "C-n") 'company-select-next)
+    (define-key company-active-map (kbd "C-p") 'company-select-previous)
+    (define-key company-active-map (kbd "C-i") 'company-complete-common-or-cycle)
+    (define-key company-active-map (kbd "C-j") 'company-complete-selection)
+    (dotimes (i 9)
+      (define-key company-active-map (read-kbd-macro (format "C-%d" i))
+        'company-complete-number))
+
+    ;; company uses Enter to complete.  Would rather it abort and do the
+    ;; usual Enter stuff.
+    (defun jws/company-abort-and-newline ()
+      "Aborts company and inserts a newline."
+      (interactive)
+      (company-abort)
+      (newline-and-indent))
+    (define-key company-active-map (kbd "<return>") 'jws/company-abort-and-newline)
+
+    ;; Abort company with Escape
+    (define-key company-active-map (kbd "ESC") 'company-abort)
+
+    (setq company-idle-delay 0.1
+          company-minimum-prefix-length 2
+          company-tooltip-limit 20
+          company-selection-wrap-around t
+          company-dabbrev-downcase nil
+          company-dabbrev-ignore-case t
+          company-show-numbers t)
+
+    (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-quickhelp
+    :ensure t
+    :after company
+    :config (company-quickhelp-mode))
+#+END_SRC
+
+[[https://github.com/joaotavora/yasnippet][YASnippet]] provides "snippets" like provided by Textmate, then by every
+other fancy paid text editor thereafter.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :bind ("C-;" . yas-expand)
+    :config (yas-global-mode 1))
+#+END_SRC
+
+Install a default set of snippets.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet-snippets
+    :ensure t
+    :after yasnippet
+    :config
+    (yasnippet-snippets-initialize))
+#+END_SRC
+
+Provide an Ivy menu with all current snippets.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-yasnippet
+    :ensure t
+    :after (ivy yasnippet)
+    :bind ("C-:" . ivy-yasnippet))
+#+END_SRC
+
+** Window management
+
+~winner~ allows window splits to be undone and redone at will.  It comes with
+Emacs.
+
+#+begin_src emacs-lisp
+  (use-package winner
+    :commands (winner-undo winner-redo)
+    :config (winner-mode 1))
+#+end_src
+
+~buffer-move~ allows buffers to be moved between window splits.
+
+#+begin_src emacs-lisp
+  (use-package buffer-move
+    :ensure t
+    :commands (buf-move-left buf-move-down buf-move-up buf-move-right))
+#+end_src
+
+** Emacs package management
+
+I like Paradox for graphical package installation.
+
+#+begin_src emacs-lisp
+  (use-package paradox
+    :ensure t
+    :commands (paradox-list-packages paradox-upgrade-packages)
+    :config
+    (setq paradox-github-token t) ;; disable GitHub integration
+    (with-eval-after-load 'evil
+      (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode))
+    (define-key paradox-menu-mode-map (kbd "j") 'next-line)
+    (define-key paradox-menu-mode-map (kbd "k") 'previous-line))
+#+end_src
+
+** File management
+
+** Version control
+
+I only really use ~git~ at this point.  The dirty secret of ~git~ is
+that it is the PHP of VCs -- more of a [[https://www.jwz.org/doc/worse-is-better.html]["New Jersey approach"]] to the
+problem.  It is really performant, but is otherwise pretty goofy.
+So you need good tooling -- thankfully Emacs delivers in spades.
+Starting with...
+
+[[https://magit.vc/][Magit]], the rare Emacs package that can just about pull in money,
+that's how good it is.
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t
+    :commands (magit-status
+               magit-branch-checkout
+               magit-blame
+               magit-init
+               magit-log-all-branches)
+    :config
+    ;; Otherwise it'll bother you about something or another on first run
+    (setq magit-last-seen-setup-instructions "1.4.0"))
+#+end_src
+
+I need it to behave more vim-like (e.g. ~j~ and ~k~ to move up and
+down).
+
+#+begin_src emacs-lisp
+  (use-package evil-magit :ensure t :after (evil magit))
+#+end_src
+
+I use [[https://nvie.com/posts/a-successful-git-branching-model/][git-flow]] ([[https://danielkummer.github.io/git-flow-cheatsheet/][cheatsheet]]) with some of my larger projects.  It does
+add some mental overhead, but I like the ability to separate
+development flow from a stable "live" version.
+
+#+begin_src emacs-lisp
+  (use-package magit-gitflow
+    :ensure t
+    :after magit
+    :config
+    (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+    (define-key magit-mode-map "%" 'magit-gitflow-popup))
+#+end_src
+
+This gives us the nice gutter icons when lines are added or changed
+that you can find in newer editors.
+
+#+begin_src emacs-lisp
+  (use-package git-gutter :ensure t :config (global-git-gutter-mode t))
+#+end_src
+
+~git-timemachine~ gives us a handy view of a file's history.
+
+#+begin_src emacs-lisp
+  (use-package git-timemachine
+    :ensure t
+    :commands (git-timemachine))
+#+end_src
+
+** Project management
+
+[[https://github.com/bbatsov/projectile][Projectile]] is the current best-in-class for this purpose.
+
+#+begin_src emacs-lisp
+  (use-package projectile
+    :ensure t
+    :commands (projectile-find-file
+               projectile-recentf
+               projectile-cache-current-file
+               projectile-remove-known-project
+               projectile-switch-to-buffer
+               projectile-invalidate-cache
+               projectile-cleanup-known-projects
+               projectile-multi-occur
+               projectile-switch-project
+               projectile-kill-buffers)
+    :config (projectile-mode 1))
+#+end_src
+
+~counsel-projectile~ does exactly what it says on the tin.
+
+#+begin_src emacs-lisp
+  (use-package counsel-projectile
+    :ensure t
+    :after projectile
+    :commands (counsel-projectile-find-file
+               counsel-projectile-switch-project
+               counsel-projectile-switch-to-buffer))
+#+end_src
+
+* Editing
+
+Supposedly some people use Emacs to edit files.  The horror!
+
+** Basic editing tools
+
+This will automatically timestamp any file with ~Time-stamp: <>~
+towards its top on save.  This is less necessary in the era of Git
+everywhere, but hey.
+
+#+begin_src emacs-lisp
+  (add-hook 'before-save-hook 'time-stamp)
+#+end_src
+
+If the file you're editing has a shebang (~#!~) at its top, Emacs
+can make it executable, which we will do after saving.
+
+#+begin_src emacs-lisp
+  (add-hook 'after-save-hook
+            'executable-make-buffer-file-executable-if-script-p)
+#+end_src
+
+I want Emacs to remember where I was in a file when I had it open
+last; ~save-place-mode~ accomplishes that.
+
+#+begin_src emacs-lisp
+  (use-package saveplace
+    :init (save-place-mode))
+#+end_src
+
+I like highlighting the matching paren.  It's good for all languages,
+but I would be reduced to a gibbering mess without this enabled for
+Lisp.
+
+#+begin_src emacs-lisp
+  (use-package paren
+    :init (show-paren-mode))
+#+end_src
+
+~focus~ is a neat package that only highlights the specific chunk of
+code that your cursor is on.
+
+#+begin_src emacs-lisp
+  (use-package focus :ensure t :commands (focus-mode))
+#+end_src
+
+~expand-region~ selects increasingly large areas of text when used
+repeatedly (with Evil normal mode ~+~).
+
+#+begin_src emacs-lisp
+  (use-package expand-region
+    :ensure t
+    :commands er/expand-region)
+#+end_src
+
+~avy~ jumps to any character on screen (Evil normal ~g c~) and any
+line on screen (Evil normal ~g l~).
+
+#+begin_src emacs-lisp
+  (use-package avy
+    :ensure t
+    :commands (avy-goto-char avy-goto-line))
+#+end_src
+
+~ace-window~ jumps between windows.
+
+#+begin_src emacs-lisp
+  (use-package ace-window
+    :ensure t
+    :commands ace-window)
+#+end_src
+
+[[https://github.com/akicho8/string-inflection][string-inflection]] allows the user to change how a string is
+capitalized and punctuated according to language specifications.  For
+instance, the below "Java style" function changes ~testString~ to
+~TEST_STRING~ to ~TestString~ and back to ~testString~ again.
+
+[[https://github.com/ninrod/evil-string-inflection][evil-string-inflection]] wraps the above and makes it available as the
+Evil command ~g~~
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package string-inflection
+     :ensure t
+     :commands (string-inflection-all-cycle
+                string-inflection-java-style-cycle
+                string-inflection-python-style-cycle))
+
+  (use-package evil-string-inflection
+    :ensure t
+    :after (string-inflection evil))
+#+end_src
+
+** Character encoding
+
+I want to force UTF-8 everywhere, even on Windows; ultimately most of
+my code is compiled/run on Unixes and Windows settings actively get in
+the way of that.  Some resources on the matter:
+
+ - [[https://stackoverflow.com/a/2903256]]
+ - [[https://rufflewind.com/2014-07-20/pasting-unicode-in-emacs-on-windows]]
+
+The latter notes that you must be careful on Windows as to which
+settings you enable.
+
+#+begin_src emacs-lisp
+  (setq utf-translate-cjk-mode nil ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+        locale-coding-system 'utf-8)
+  (set-language-environment 'utf-8)
+  (set-keyboard-coding-system 'utf-8-mac) ; For old Carbon emacs on OS X only
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-selection-coding-system
+    (if (eq system-type 'windows-nt) 'utf-16-le 'utf-8))
+  (prefer-coding-system 'utf-8)
+#+end_src
+
+** org-mode
+
+[[https://orgmode.org/][Hoo boy]], the tool that basically shows what is possible with plain
+text.  My ~org-mode~ settings reflect my past attempts to use it for
+journaling and all... expect changes as I figure out what works for
+me.
+
+First, let's define some more paths.
+
+#+begin_src emacs-lisp
+  (defvar jws/org-dir (expand-file-name "~/Org/")
+    "The directory where `org-mode' files live.")
+
+  (defvar jws/org-agenda-dir (concat jws/org-dir "agenda/")
+    "The directory where `org-mode' agenda files live.")
+
+  (defvar jws/org-agenda-files '("inbox.org" "gtd.org" "tickler.org" "recurring.org")
+    "Specific `org-mode` agenda files.")
+
+  (defvar jws/org-journal-dir (concat jws/org-dir "journal/")
+    "The directory where `org-mode' journal files live.")
+
+  (defvar jws/org-notes-dir (concat jws/org-dir "notes/")
+    "The directory where `deft' notes files live.")
+#+end_src
+
+I use the ~org~ that comes with Emacs.
+
+#+begin_src emacs-lisp
+  (use-package org
+    :commands (org-agenda org-capture org-export-dispatch org-store-link)
+    :mode (("\\.org\\'" . org-mode))
+    :config
+    (add-to-list 'org-modules 'org-habit)
+    (setq org-src-fontify-natively t))
+#+end_src
+
+I would like to use ~org-agenda~ again in the future, but at the
+moment I've avoided it -- mostly because there is no good way for
+emacs to annoy me to actually do the stuff I dump in my agenda.  I've
+moved back to a mix of Google Calendar and a bullet journal, sadly.
+
+#+begin_src emacs-lisp
+  (use-package org-agenda
+    :after org
+    :config
+    (setq org-log-done t
+          org-refile-targets '((nil . (:maxlevel . 9))
+                               (org-agenda-files . (:maxlevel . 9)))
+          org-refile-use-outline-path t
+          org-outline-path-complete-in-steps nil
+          org-archive-location "finished.org::datetree/*"
+          org-agenda-span 14
+          org-use-fast-todo-selection t
+          org-log-into-drawer t
+          org-startup-indented t
+          org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
+          org-tag-alist '(("@personal" . ?p) ("@career" . ?c) ("@errand" . ?e) ("@travel" . ?t)))
+
+    ;; Agenda vim key bindings
+    (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
+    (define-key org-agenda-mode-map (kbd "L") 'org-agenda-log-mode)
+    (define-key org-agenda-mode-map (kbd "C") 'org-agenda-capture)
+    (define-key org-agenda-mode-map (kbd "d") 'org-agenda-goto-date)
+
+    ;; Save after various edits in org-mode/org-agenda
+    (advice-add 'org-deadline :after 'org-save-all-org-buffers)
+    (advice-add 'org-refile :after 'org-save-all-org-buffers))
+
+  ;; Use this to launch an emacs frame containing nothing but org-agenda
+  (defun jws/org-agenda-single-window ()
+    (interactive)
+    (org-agenda)
+    (delete-other-windows))
+#+end_src
+
+~org-capture~ is another tool I make regrettably minimal usage of.
+At this point all I use is the journaling stuff.
+
+#+begin_src emacs-lisp
+  (use-package org-capture
+    :after org
+    :config
+    (setq org-capture-templates
+          '(("t" "Todo" entry (file (lambda () (concat jws/org-agenda-dir "inbox.org")))
+             "* TODO %?\n  %i")
+            ("T" "Tickler" entry (file (lambda () (concat jws/org-agenda-dir "tickler.org")))
+             "* TODO %i%?\n  %T")
+            ("l" "Link" entry (file+headline (lambda () (concat jws/org-dir "links.org")) "Uncategorized")
+             "* %?")
+            ("j" "Journal" entry (file+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
+             "* %?\n  Entered on %U\n  %i")
+            ("s" "Shopping list" entry (file+headline (lambda () (concat jws/org-dir "shopping.org")) "Unfiled Shopping")
+             "* %?\n  Entered on %U\n  %i"))))
+
+  ;; Use this to launch an emacs frame containing nothing but org-capture
+  (defun jws/org-capture-single-window ()
+    (interactive)
+    (org-capture)
+    (delete-other-windows))
+#+end_src
+
+[[https://github.com/jrblevin/deft][Deft]] is a quick-notes tool that I've already gotten some mileage out
+of.  It doesn't require ~org~, but my set up marries the two.
+
+#+begin_src emacs-lisp
+  (use-package deft
+    :ensure t
+    :after org
+    :commands deft
+    :config
+    (setq deft-directory jws/org-notes-dir
+          deft-extensions '("org" "md" "markdown" "txt")
+          deft-default-extension "org"
+          deft-use-filename-as-title nil
+          deft-use-filter-string-for-filename t
+          deft-file-naming-rules
+          '((noslash . "-")
+            (nospace . "-")
+            (case-fn . downcase))))
+#+end_src
+
+** Lisps
+
+I actually am a dabbler in Lisps, rather than actually doing anything
+productive with them.  But since knowing some Lisp is necessary for
+doing anything non-trivial with Emacs... here we are!
+
+[[http://shaunlebron.github.io/parinfer/index.html][Parinfer]] ([[https://github.com/DogLooksGood/parinfer-mode][emacs impl]]) is a revelation.  I couldn't stand Lisp
+editing beforehand.
+
+#+begin_src emacs-lisp
+  (use-package parinfer
+    :ensure t
+    :hook ((emacs-lisp-mode . parinfer-mode)
+           (common-lisp-mode . parinfer-mode)
+           (scheme-mode . parinfer-mode)
+           (lisp-mode . parinfer-mode)
+           (lisp-interaction-mode . parinfer-mode))
+    :config
+    (setq parinfer-extensions
+          '(defaults pretty-parens evil smart-tab smart-yank)))
+#+end_src
+
+[[https://github.com/hchbaw/eval-sexp-fu.el][eval-sexp-fu]] flashes the region of the s-expression being evaluated.
+
+#+begin_src emacs-lisp
+  (use-package eval-sexp-fu
+    :ensure t
+    :hook ((emacs-lisp-mode . eval-sexp-fu-flash-mode)
+           (common-lisp-mode . eval-sexp-fu-flash-mode)
+           (scheme-mode . eval-sexp-fu-flash-mode)
+           (lisp-mode . eval-sexp-fu-flash-mode)
+           (lisp-interaction-mode . eval-sexp-fu-flash-mode))
+    :config
+    (setq eval-sexp-fu-flash-error-face 'lazy-highlight-face
+          eval-sexp-fu-flash-duration 0.25))
+#+end_src
+
+*** Emacs Lisp
+
+[[https://github.com/Malabarba/Nameless][nameless]] hides the namespace part of elisp function/variable names.
+
+#+begin_src emacs-lisp
+  (use-package nameless
+    :ensure t
+    :hook (emacs-lisp-mode . nameless-mode))
+#+end_src
+
+[[https://github.com/cask/cask][Cask]] is like [[https://getcomposer.org/][Composer]] or ~npm~ for Emacs Lisp.  I don't use Cask much,
+but I have used it from time to time when developing plugins.
+
+#+begin_src emacs-lisp
+  (use-package cask-mode
+    :ensure t
+    :mode "Cask\\'")
+#+end_src
+
+This is a block of code that I was working on to try to enable
+Flycheck for Emacs Lisp.  I only want it in certain files because my
+personal configuration is often written more "loosely" than plugins
+that others might use... but I couldn't get it to work so it's
+disabled for now.
+
+#+begin_src emacs-lisp :tangle no
+;; I am trying to do the following: If there is a Cask file somewhere in the
+;; upwards file hierarchy for this elisp file, enable flycheck-package,
+;; otherwise do not.
+(use-package flycheck-cask :ensure t)
+(use-package flycheck-package :after flycheck-cask :ensure t)
+(jws/after (flycheck-package)
+    (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
+    (add-hook 'flycheck-mode-hook #'flycheck-package-setup)
+    (add-hook 'emacs-lisp-mode-hook #'flycheck-mode))
+#+end_src
+
+*** Common Lisp
+
+I find it easier to install [[https://common-lisp.net/project/slime/][SLIME]] via [[https://www.quicklisp.org/beta/][Quicklisp]].
+
+Once you have Quicklisp loaded, run
+
+#+begin_src common-lisp :tangle no
+  (ql:quickload "quicklisp-slime-helper")
+#+end_src
+
+and copy those lines into the ~site-init.el~ to have a site-customized
+SLIME install tied to your installed Common Lisp interpreter.
+
+** Curly-brace/C-family
+
+For curly-brace languages, I like underscores to be part of the Emacs
+"word" editing object.
+
+#+begin_src emacs-lisp
+  (defun jws/make-underscores-belong-to-words ()
+    "Make underscore characters be counted as parts of Emacs 'word' objects."
+    (modify-syntax-entry ?_ "w"))
+
+  (add-hook 'c-mode-common-hook 'jws/make-underscores-belong-to-words)
+#+end_src
+
+*** PHP
+
+I am currently paid to write PHP, so most of the effort is going to go
+here.
+
+Vim had one of the more robust PHP modes -- it worked like ~web-mode~
+(see under "Web") but was much more robust than that.
+
+PHP has a mode that works great for a file that is nothing but PHP.
+Which is of course the Platonic ideal, and much real-world PHP is...
+not that.  But if we have that (and I'm working hard on this matter)
+we're set!
+
+#+begin_src emacs-lisp
+  (use-package php-mode
+    :ensure t
+    :mode "\\.php\\'"
+    :config
+    (setq c-basic-offset 4)
+    (add-hook 'php-mode-hook 'jws/make-underscores-belong-to-words))
+#+end_src
+
+~company-php~ enables auto-completion for PHP symbols.
+
+#+begin_src emacs-lisp
+  (use-package company-php
+    :ensure t
+    :after (php-mode company)
+    :hook php-mode
+    :config
+    (defun jws/company-php-hook-function ()
+      (ac-php-core-eldoc-setup)
+      (set (make-local-variable 'company-backends)
+           '((company-dabbrev-code company-ac-php-backend))))
+    (add-hook 'php-mode-hook 'jws/company-php-hook-function))
+#+end_src
+
+*** Go
+
+I like Go -- it's like a faster Python.
+
+#+begin_src emacs-lisp
+    (use-package go-mode
+      :ensure t
+      :mode "\\.go\\'"
+      :config
+      (add-hook 'go-mode-hook
+                (lambda ()
+                  ;; [FIXME] Requires go get golang.org/x/tools/cmd/goimports
+                  (set gofmt-command "goimports")
+                  (add-hook 'before-save-hook 'gofmt-before-save)
+
+                  ;; Compile
+                  (set (make-local-variable 'compile-command)
+                       "go build -v && go test -v && go vet")
+
+                  ;; Jump around code
+                  (local-set-key (kbd "M-.") 'godef-jump)
+                  (local-set-key (kbd "M-*") 'pop-tag-mark))))
+#+end_src
+
+*** JavaScript
+
+I'm just dumping these here and plan on fiddling with them later.
+
+#+begin_src emacs-lisp
+  (use-package js2-mode
+    :ensure t
+    :mode "\\.js\\'")
+
+  ;; If I ever mess with TypeScript add its hook here too
+  (use-package tide
+    :ensure t
+    :hook js2-mode
+    :config
+    (defun jws/setup-tide ()
+      (interactive)
+      (tide-setup)
+      (flycheck-mode 1)
+      (setq flycheck-check-syntax-automatically '(save mode-enabled))
+      (eldoc-mode 1)
+      (tide-hl-identifier-mode 1)
+      (add-hook 'before-save-hook #'tide-format-before-save))
+    (add-hook 'js2-mode-hook #'jws/setup-tide))
+#+end_src
+
+I don't use CoffeeScript but I've had to read code using it.  I'm
+including it here because it is part of the "JavaScript ecosystem" as
+far as I'm concerned.
+
+#+begin_src emacs-lisp
+  (use-package coffee-mode
+    :ensure t
+    :mode "\\.coffee\\'"
+    :config
+    (setq coffee-tab-width 4))
+#+end_src
+
+** Web
+*** web-mode
+
+Web code is frequently "mixed-mode" (e.g. HTML mixed with CSS and
+JavaScript, PHP/templating languages mixed with... all the above).
+Emacs traditionally handled this with ~mumamo~ which tried to
+sequester major modes to the relevant sections of the file... which
+didn't work so hot.  It could have been I was no good at elisp at the
+time, but it was a giant pain to configure.
+
+I got a job some time ago where I needed support for mixed-mode PHP
+and got so frustrated that I switched to Vim for several years and
+only came back when I found ~evil~ and this package, ~web-mode~.
+~web-mode~ intends to be one large unified mode to support all
+mixed-mode files, and it mostly works.  At least, it works better than
+~mumamo~.
+
+#+begin_src emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :mode ("\\.html?\\'"
+           "\\.phtml\\'"
+           "\\.tpl\\.php\\'"
+           "\\.[agj]sp\\'"
+           "\\.as[cp]x\\'"
+           "\\.erb\\'"
+           "\\.mustache\\'"
+           "\\.djhtml\\'")
+    :init (require 'web-mode)
+    :config
+    (setq web-mode-enable-auto-pairing nil
+          web-mode-enable-auto-quoting nil)
+
+    ;; I consider web-mode a programming mode.
+    (add-hook 'web-mode-hook (lambda () (run-hooks 'prog-mode-hook))))
+#+end_src
+
+Enable ~company~ in ~web-mode~.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-web
+    :ensure t
+    :after (company web-mode))
+#+END_SRC
+
+*** CSS/Sass
+
+I've tried to use Sass from time to time, and still like the idea of
+it.
+
+#+begin_src emacs-lisp
+  (use-package scss-mode
+    :ensure t
+    :mode "\\.scss\\'")
+#+end_src
+
+Appropriately colorize color names in CSS (and Sass/SCSS) files.
+
+#+begin_src emacs-lisp
+  (use-package rainbow-mode
+    :ensure t
+    :hook (css-mode scss-mode))
+#+end_src
+
+*** REST Client
+
+There is a handy [[https://github.com/pashky/restclient.el][REST client for emacs]] that uses its own DSL.
+
+#+begin_src emacs-lisp
+  (use-package restclient
+    :ensure t
+    :mode "\\.restclient$"
+    :config
+    (require 'restclient))
+#+end_src
+
+This package integrates ~restclient~ with ~org-babel~.
+
+#+begin_src emacs-lisp
+  (use-package ob-restclient
+    :ensure t
+    :after (restclient)
+    :config
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((restclient . t))))
+#+end_src
+
+And this package integrates ~company~ with ~restclient~.
+
+#+begin_src emacs-lisp
+    (use-package company-restclient
+      :after (restclient company)
+      :ensure t
+      :hook (restclient-mode . company-mode)
+      :config
+      (add-hook 'restclient-mode-hook
+                (lambda ()
+                  (add-to-list 'company-backends 'company-restclient))))
+#+end_src
+
+** Qt-specific
+
+I'm using Qt Creator for C++/QML at the moment, but I'd love it if I
+could move it all into Emacs.  At the moment, I often launch Emacs
+from Qt Creator in order to get Magit and easy macro editing.
+
+QML is Qt's "new" UI description language, written in what looks like
+curly-brace "HTML" combined with inline JavaScript.
+
+#+begin_src emacs-lisp
+  (use-package qml-mode
+    :ensure t
+    :mode "\\.qml\\'")
+#+end_src
+
+Qt's resource files (~.qrc~) are XML.
+
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.qrc$" . nxml-mode))
+#+end_src
+
+* Master menu
+
+I defer the master menu definitions to the end just to make sure
+everything else has been done.
+
+The [[https://github.com/abo-abo/hydra][hydra]] package (by the same mad genius responsible for ~ivy~ et al)
+allows for easy-ish interactive menus.
+
+#+begin_src emacs-lisp
+  (use-package hydra :ensure t)
+#+end_src
+
+Note that ~hydra~ uses a "color" system where keybinds are assigned
+a color, which determines their behavior.  For our purposes:
+
+ - red (the default) runs the command and jumps right back into the
+   hydra
+ - blue runs the command and exits the hydra
+
+I use blue very extensively since most commands are going to be
+fire-and-forget.
+
+** Emacs menu
+#+begin_src emacs-lisp
+  (defun jws/open-emacs-config ()
+    "Open my emacs config file."
+    (interactive)
+    (find-file jws/config-file))
+
+  (defun jws/open-emacs-site-config ()
+    "Open my emacs site config file."
+    (interactive)
+    (find-file jws/site-file))
+
+  (defun jws/server-shutdown (yn)
+    "Prompt before killing the Emacs dæmon"
+    (interactive "cKill the Emacs dæmon (y/n)? ")
+    (if (eq yn ?y)
+        (progn
+          (save-some-buffers)
+          (kill-emacs))))
+
+  (defhydra jws/hydra-emacs (:color blue :columns 4)
+    "Buffer menu"
+    ("c" jws/open-emacs-config "Edit config")
+    ("s" jws/open-emacs-site-config "Edit site config")
+    ("i" package-install "Install package")
+    ("q" jws/server-shutdown "Quit emacs")
+    ("k" server-start "Start server"))
+#+end_src
+
+** Buffer menu
+
+This menu allows for manipulation of Emacs buffer objects.
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-buffer (:color blue :columns 4)
+    "Buffer menu"
+    ("b" ivy-switch-buffer "Switch buffer")
+    ("i" ibuffer "Buffer list")
+    ("k" kill-this-buffer "Kill buffer")
+    ("s" save-buffer "Save buffer")
+    ("S" write-file "Save buffer elsewhere")
+    ("u" bury-buffer "Bury buffer"))
+#+end_src
+
+** Window menu
+
+This menu manages editor splits, which Emacs calls *windows* because
+Emacs was written well before the Macintosh/Windows-era language we
+use to talk about GUIs.
+
+If you want to manage the actual GUI windows themselves, you actually
+want to manage *frames* and should be looking at the "Frame menu."
+
+It is confusing, but I choose to use the Emacs terminology in code,
+but "normie" terminology in the menus themselves.
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-windows (:columns 5)
+    "Buffer splitting:"
+    ("<tab>" other-window "Prev")
+
+    ("s" ace-window "Jump to")
+    ("h" evil-window-left "Left")
+    ("j" evil-window-down "Down")
+    ("k" evil-window-up "Up")
+    ("l" evil-window-right "Right")
+
+    ("H" buf-move-left "Move left")
+    ("J" buf-move-down "Move down")
+    ("K" buf-move-up "Move up")
+    ("L" buf-move-right "Move right")
+
+    ("-" split-window-below "Horiz split")
+    ("\\" split-window-right "Vert split")
+    ("|" split-window-right "Vert split")
+    ("=" balance-windows "Balance splits")
+    ("c" delete-window "Remove current")
+    ("C" delete-other-windows "Remove others")
+    ("<left>" winner-undo "Undo split")
+    ("<right>" winner-redo "Redo split"))
+#+end_src
+
+** Frame/"window" menu
+
+If you want to manage Emacs GUI windows, you want to manage *frames*.
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-frames (:exit t :columns 4)
+    ("n" make-frame "New window")
+    ("N" jws/make-maximized-frame "New maximized window")
+    ("c" delete-frame "Close window")
+
+    ("d" jws/use-default-frame-alist "Reset defaults")
+    ("x" jws/calculate-frame-size "Calculate row/cols")
+    ("m" toggle-frame-maximized "Toggle maximize")
+    ("f" toggle-frame-fullscreen "Toggle fullscreen"))
+#+end_src
+
+** File menu
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-files (:color blue :columns 4)
+    "File menu"
+    ("a" ff-find-other-file "Find file")
+    ("f" counsel-find-file "Find file")
+    ("r" counsel-recentf "Find recent file")
+    ("u" counsel-bookmark "Find bookmark"))
+#+end_src
+
+** Org-mode menu
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-org (:color blue :columns 4)
+    "Org-mode menu"
+    ("a" org-agenda "Agenda")
+    ("c" org-capture "Capture")
+    ("e" org-export-dispatch "Export")
+    ("l" org-store-link "Store link")
+    ("n" deft "Notes")
+    ("r" jws/load-org-settings "Reload settings"))
+#+end_src
+
+** Project menu
+
+To control ~projectile~ and other associated packages.
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-project (:color teal :columns 4)
+    "Projectile"
+    ("p" counsel-projectile-find-file "Find file")
+    ("r" projectile-recentf "Recent files")
+    ("z" projectile-cache-current-file "Cache current file")
+    ("x" projectile-remove-known-project "Remove known project")
+
+    ("d" projectile-find-dir "Find directory")
+    ("b" counsel-projectile-switch-to-buffer "Switch to buffer")
+    ("c" projectile-invalidate-cache "Clear cache")
+    ("X" projectile-cleanup-known-projects "Cleanup known projects")
+
+    ;; Replace counsel-ag by a function that checks for (successively)
+    ;;  - ripgrep/rg
+    ;;  - ag
+    ;;  - ack
+    ;;  - grep
+    ("s" counsel-ag "Grep")
+    ("o" projectile-multi-occur "Multi-occur")
+    ("SPC" counsel-projectile-switch-project "Switch project")
+    ("k" projectile-kill-buffers "Kill buffers"))
+#+end_src
+
+** Git/VC menu
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-git (:color blue :columns 4)
+     "Git menu"
+     ("g" magit-status "Magit")
+     ("b" magit-branch-checkout "Git branch")
+     ("i" magit-init "Git new repo")
+     ("l" magit-log-all-branches "Git log")
+     ("t" git-timemachine "Git Timemachine"))
+#+end_src
+
+** Help menu
+
+~woman~ is an Emacs Lisp implementation of the [[https://en.wikipedia.org/wiki/Nroff][nroff]] code that
+formats ~man~ pages.  This allows ~woman~ to work on Windows;
+but it does make it slower.  At some point it may be a good
+idea to use ~man~ when available; also find some way to
+present these via ~ivy~.
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-help (:color blue :columns 4)
+    "Help menu"
+    ("i" info "Info")
+    ("f" counsel-describe-function "Describe function")
+    ("k" counsel-descbinds "Keybindings")
+    ("K" describe-key "Describe keybind")
+    ("m" woman "Man pages")
+    ("v" counsel-describe-variable "Describe variable"))
+#+end_src
+
+** Master menu
+I continue to be amazed that Emacs doesn't have this...
+
+#+begin_src emacs-lisp
+  (defun jws/switch-to-previous-buffer ()
+    "Switches to the previous buffer."
+    (interactive)
+    (switch-to-buffer (other-buffer (current-buffer))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-master (global-map "M-j" :color blue :columns 4)
+    "Master menu"
+    ("SPC" counsel-M-x "Command list")
+    ("<tab>" jws/switch-to-previous-buffer "Switch buffer")
+    ("k" kill-this-buffer "Kill buffer")
+    ("b" jws/hydra-buffer/body "Buffers")
+    ("e" jws/hydra-emacs/body "Emacs")
+    ("f" jws/hydra-files/body "Files")
+    ("g" jws/hydra-git/body "Git")
+    ("h" jws/hydra-help/body "Help")
+    ("o" jws/hydra-org/body "Org")
+    ("p" jws/hydra-project/body "Project")
+    ("s" jws/hydra-windows/body "Splitting")
+    ("w" jws/hydra-frames/body "Frames"))
+
+  (define-key evil-normal-state-map (kbd "SPC") 'jws/hydra-master/body)
+#+end_src
+
+* Site-specific code
+
+As much as I'd like to have a one-size-fits-all config, I've found
+that impossible.  The easiest example would be fonts; on some machines
+I might not have access to my preferred fonts, on others I might want
+a bigger font size or whatever.
+
+Furthermore, I might need a very specific mode, or set up mappings
+to certain file extensions.
+
+If I need to run specific (unpackaged) libraries, I keep them under
+~site-lisp/~ in this directory:
+
+#+begin_src emacs-lisp
+  (if (file-exists-p jws/emacs-site-library-dir)
+      (let ((default-directory jws/emacs-site-library-dir))
+        (add-to-list 'load-path default-directory)
+        (normal-top-level-add-subdirs-to-load-path)))
+#+end_src
+
+If a ~site-init.el~ doesn't already exist, write some minimal stuff
+(a theme that doesn't make my eyes bleed, a default font, and set the
+frame alist) to that location.
+
+#+begin_src emacs-lisp
+  (unless (file-exists-p jws/site-file)
+    (write-region (pp `(load-theme 'doom-Iosvkem t)) nil jws/site-file t)
+    (write-region (pp `(setq jws/default-font ,jws/default-font)) nil jws/site-file t)
+    (write-region (pp `(jws/set-my-default-frame-alist)) nil jws/site-file t))
+#+end_src
+
+My site-specific init file is kept in the same directory as this
+file, at ~site-init.el~.  I may look into making an org file out of
+this as well.
+
+#+begin_src emacs-lisp
+  (load jws/site-file t)
+#+end_src
+
+And we load the ~Customize~ stuff here as well.
+
+#+begin_src emacs-lisp
+  (load jws/custom-file t)
+#+end_src
