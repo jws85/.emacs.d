@@ -304,7 +304,7 @@ And here I define a setting that confuses *me*; ~C-x C-z~ minimizes
 the window by default, which I cannot stand because it's next to a
 whole plethora of ~C-x~ commands.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (global-unset-key (kbd "C-x C-z"))
 #+end_src
 
@@ -791,6 +791,70 @@ I like Paradox for graphical package installation.
 
 ** File management
 
+#+begin_src emacs-lisp
+  (use-package dired
+    :commands dired
+    :bind (:map dired-mode-map
+           ("<return>" . dired-find-alternate-file))
+    :config)
+#+end_src
+
+~dired-x~ is a set of extensions to ~dired~; I use ~dired-omit-mode~
+to hide and toggle the view of "hidden files"
+
+#+begin_src emacs-lisp
+  (use-package dired-x
+    :ensure t
+    :after dired
+    :hook ((dired-mode . dired-omit-mode))
+    :bind (:map dired-mode-map
+           ("C-c h" . dired-omit-mode))
+    :config
+    (setq dired-omit-files "^\\...+$"))
+#+end_src
+
+~dired-rainbow~ colorizes files; I've set it up here to colorize
+executables.
+
+#+begin_src emacs-lisp
+  (use-package dired-rainbow
+    :ensure t
+    :after dired
+    :config
+    (dired-rainbow-define-chmod executable-unix "Green" "-[rw-]+x.*"))
+#+end_src
+
+And some other packages that I forgot the exact intent of.
+
+#+begin_src emacs-lisp
+  (use-package dired-subtree
+    :ensure t
+    :after dired
+    :bind (:map dired-mode-map
+           ("C-c s a" . dired-subtree-insert)
+           ("C-c s d" . dired-subtree-remove)))
+
+  (use-package dired-collapse
+    :ensure t
+    :after dired
+    :bind (:map dired-mode-map
+           ("C-c c" . dired-collapse-mode)))
+#+end_src
+
+Finally, a function to open the home directory in Dired.
+
+#+begin_src emacs-lisp
+  (defun jws/dired-home ()
+    "Open user's home directory in Dired"
+    (interactive)
+    (dired "~"))
+
+  (defun jws/dired-root ()
+    "Open / in Dired"
+    (interactive)
+    (dired "/"))
+#+end_src
+
 ** Calculator
 
 Emacs Calc looks like a toy RPN calculator at first glance, until you
@@ -979,7 +1043,7 @@ instance, the below "Java style" function changes ~testString~ to
 [[https://github.com/ninrod/evil-string-inflection][evil-string-inflection]] wraps the above and makes it available as the
 Evil command ~g~~
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package string-inflection
      :ensure t
      :commands (string-inflection-all-cycle
@@ -1609,6 +1673,20 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
     ("u" counsel-bookmark "Find bookmark"))
 #+end_src
 
+** File manager/dired menu
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-dired (:color blue :columns 4)
+    "Dired"
+    ("d" dired-jump "Curdir")
+    ("h" jws/dired-home "Home")
+    ("r" jws/dired-root "Root")
+
+    ("." dired-jump "Curdir")
+    ("~" jws/dired-home "Home")
+    ("/" jws/dired-root "Root"))
+#+end_src
+
 ** Org-mode menu
 #+begin_src emacs-lisp
   (defhydra jws/hydra-org (:color blue :columns 4)
@@ -1698,6 +1776,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("k" kill-this-buffer "Kill buffer")
     ("b" jws/hydra-buffer/body "Buffers")
     ("c" calc-dispatch "Calc")
+    ("d" jws/hydra-dired/body "Dired")
     ("e" jws/hydra-emacs/body "Emacs")
     ("f" jws/hydra-files/body "Files")
     ("g" jws/hydra-git/body "Git")
