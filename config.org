@@ -1737,6 +1737,7 @@ fire-and-forget.
     ("c" jws/open-emacs-config "Edit config")
     ("s" jws/open-emacs-site-config "Edit site config")
     ("i" package-install "Install package")
+    ("p" paradox-list-packages "List packages")
     ("q" jws/server-shutdown "Quit emacs")
     ("k" server-start "Start server"))
 #+end_src
