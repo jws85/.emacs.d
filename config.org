@@ -1119,6 +1119,28 @@ of.  It doesn't require ~org~, but my set up marries the two.
             (case-fn . downcase))))
 #+end_src
 
+** Markdown
+
+Ideally I'd stay in org-mode, but I live in the real world.
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :ensure t
+    :mode ("\\.md\\'" "\\.markdown\\'" "\\.mdown\\'"))
+#+end_src
+
+** Config files
+
+JSON will be handled by whatever JavaScript mode I pull in.
+
+YAML isn't so lucky...
+
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :ensure t
+    :mode ("\\.yml\\'" "\\.yaml\\'"))
+#+end_src
+
 ** Lisps
 
 I actually am a dabbler in Lisps, rather than actually doing anything
