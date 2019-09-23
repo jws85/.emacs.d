@@ -589,7 +589,12 @@ A few more functions to handle the Emacs frame's transparency.
 * Functionality
 ** Keybindings (including Vim compatibility)
 
-Vim compatibility is the raison d'être of the whole guide.
+Vim compatibility is the raison d'être of the whole guide.  This is
+done with the [[https://github.com/emacs-evil/evil][evil]] package.  ~evil~ is so foundational to the whole
+thing that I'd rather not take the chance of deferring its loading.
+While I can get by with ~C-p~ ~C-n~ and ~C-s~ I am usually cringing
+similarly like if I were forced into single-user mode on a Linux box
+or similar.
 
 #+begin_src emacs-lisp
   (use-package evil
@@ -608,7 +613,8 @@ Vim compatibility is the raison d'être of the whole guide.
 Some other ~evil~ related packages:
 
  - ~evil-surround~ is a port of [[https://github.com/tpope/vim-surround][surround.vim]]
- - ~evil-collection~ tries to bring vi/evil keybindings to other Emacs modes
+ - ~evil-collection~ tries to bring vi/evil keybindings to other
+   Emacs modes
 
 #+begin_src emacs-lisp
   (use-package evil-surround
@@ -841,12 +847,25 @@ I like Paradox for graphical package installation.
 
 ** File management
 
+~dired~ is the built-in Emacs file manager.
+
 #+begin_src emacs-lisp
   (use-package dired
-    :commands dired
+    :commands dired)
+#+end_src
+
+~dired~ barfs a bunch of directory buffers every time you change a
+directory.  Ticks me off.  I do this to try to control the madness.
+Due to ~evil-collection~ I had to specially map ~^~.
+
+#+begin_src emacs-lisp
+  (use-package dired-single
+    :ensure t
+    :after dired
     :bind (:map dired-mode-map
-           ("<return>" . dired-find-alternate-file))
-    :config)
+           ("^" . dired-single-up-directory)
+           ("<return>" . dired-single-buffer))
+    :hook (evil-collection-setup . (lambda (&rest a) (evil-define-key 'normal 'dired-mode-map (kbd "^") 'dired-single-up-directory))))
 #+end_src
 
 ~dired-x~ is a set of extensions to ~dired~; I use ~dired-omit-mode~
@@ -855,6 +874,7 @@ to hide and toggle the view of "hidden files"
 #+begin_src emacs-lisp
   (use-package dired-x
     :after dired
+    :commands dired-jump
     :hook ((dired-mode . dired-omit-mode))
     :bind (:map dired-mode-map
            ("C-c h" . dired-omit-mode))
