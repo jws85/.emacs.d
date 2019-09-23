@@ -854,7 +854,6 @@ to hide and toggle the view of "hidden files"
 
 #+begin_src emacs-lisp
   (use-package dired-x
-    :ensure t
     :after dired
     :hook ((dired-mode . dired-omit-mode))
     :bind (:map dired-mode-map
