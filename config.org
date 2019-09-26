@@ -1533,7 +1533,6 @@ we're set!
   (use-package company-php
     :ensure t
     :after (php-mode company)
-    :hook php-mode
     :config
     (defun jws/company-php-hook-function ()
       (ac-php-core-eldoc-setup)
