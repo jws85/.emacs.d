@@ -1095,7 +1095,9 @@ that you can find in newer editors.
 #+begin_src emacs-lisp
   (use-package git-timemachine
     :ensure t
-    :commands (git-timemachine))
+    :commands (git-timemachine)
+    :config
+    (git-timemachine-mode))
 #+end_src
 
 ** Project management
