@@ -1129,6 +1129,20 @@ that you can find in newer editors.
                counsel-projectile-switch-to-buffer))
 #+end_src
 
+** Junk files
+
+[[https://www.emacswiki.org/emacs/open-junk-file.el][open-junk-file]] lets you open a throwaway file, which can be
+used for small code experiments or throwaway notes that you'd
+otherwise junk up the ~*scratch*~ buffer with...
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package open-junk-file
+    :ensure t
+    :commands open-junk-file
+    :config
+    (setq open-junk-file-directory "~/.junk/%Y/%m/%d-%H%M%S."))
+#+end_src
+
 * Editing
 
 Supposedly some people use Emacs to edit files.  The horror!
@@ -1836,6 +1850,7 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
     "File menu"
     ("a" ff-find-other-file "Find file")
     ("f" counsel-find-file "Find file")
+    ("j" open-junk-file "Junk file")
     ("r" counsel-recentf "Find recent file")
     ("u" counsel-bookmark "Find bookmark"))
 #+end_src
