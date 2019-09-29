@@ -22,11 +22,13 @@ obvious.  On Windows you can find it through Win+R and search for
 Start up Emacs and pray that something isn't broken.  If it is, fix
 it.  Ain't the bleeding edge fun?
 
-I have been using this ~.emacs.d~ with the Emacs version that comes
-with the latest Ubuntu LTS release.  As of writing, the current LTS
-release is 18.04, and comes with Emacs 25.2.1.  Since this is a
+I have been using this ~.emacs.d~ with Emacs 26.3.  Since this is a
 personal configuration, this may change at any moment, and there are
 some plugins that may force me to move to a newer version...
+
+(If you are on Ubuntu 18.04 like me, install ~emacs26~ from [[https://launchpad.net/~kelleyk/+archive/ubuntu/emacs][this PPA]]
+to get Emacs 26.3.  I ran into some annoying bugs with ~evil~ and with
+the main GNU package server that forced this change!)
 
 NOTE: If you're changing Emacs versions, especially if you're going
 backwards (e.g. trying out a development build, then going back to
