@@ -1625,6 +1625,30 @@ far as I'm concerned.
 #+end_src
 
 ** Web
+
+*** Emmet
+
+[[https://github.com/smihica/emmet-mode][emmet-mode]] implements the [[https://emmet.io/][Emmet]] syntax, which can speed up creation of
+heavily-nested HTML.
+
+For instance, ~ol#nav>li.color*3>a~ is an Emmet shortcut for:
+
+#+begin_src html :tangle no
+  <ol id="nav">
+    <li class="color"><a href=""></a></li>
+    <li class="color"><a href=""></a></li>
+    <li class="color"><a href=""></a></li>
+  </ol>
+#+end_src
+
+You would expand the former into the latter with ~C-j~.
+
+#+begin_src emacs-lisp
+  (use-package emmet-mode
+    :ensure t
+    :hook (sgml-mode php-mode web-mode css-mode))
+#+end_src
+
 *** web-mode
 
 Web code is frequently "mixed-mode" (e.g. HTML mixed with CSS and
