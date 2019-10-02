@@ -1237,6 +1237,28 @@ Evil command ~g~~
     :after (string-inflection evil))
 #+end_src
 
+** Whitespace settings
+
+a/k/a tabs vs. spaces, which has now found its way into a major HBO
+comedy show as mentioned in the introduction.
+
+I personally prefer spaces and 4-spaces-per-indent, but don't
+particularly care so long as there is some consistency.  I work with
+folks who prefer tabs, again, I don't care so long as there's
+consistency.
+
+[[https://editorconfig.org/][EditorConfig]] ([[https://github.com/editorconfig/editorconfig-emacs][Emacs implementation]]) solves the consistency issue (in
+theory...) with an ~.editorconfig~ file per project; put the project
+settings in there and hope everyone else uses an editor set up with
+EditorConfig.
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package editorconfig
+    :ensure t
+    :config
+    (editorconfig-mode 1))
+#+end_src
+
 ** Character encoding
 
 I want to force UTF-8 everywhere, even on Windows; ultimately most of
