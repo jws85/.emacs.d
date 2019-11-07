@@ -2,7 +2,7 @@
 #+AUTHOR: Justin Smith
 #+TOC: true
 #+STARTUP: indent
-#+PROPERTY: header-args :tangle yes
+#+PROPERTY: header-args :tangle yes :results output silent
 
 * Introduction
 
