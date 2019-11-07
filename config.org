@@ -1828,6 +1828,38 @@ fire-and-forget.
     ("k" server-start "Start server"))
 #+end_src
 
+** Text editing menu
+#+begin_src emacs-lisp
+  ;; Defining functions for the hydra
+  (defun jws/toggle-tabs-spaces ()
+    (interactive)
+    (if (equal indent-tabs-mode t)
+        (setq indent-tabs-mode nil)
+      (setq indent-tabs-mode t)))
+
+  (defun jws/set-tab-stop (inc)
+    (setq c-basic-offset inc)
+    (setq tab-width inc))
+
+  (defun jws/get-indent-char ()
+    (interactive)
+    (if (equal indent-tabs-mode t) "tabs" "spaces"))
+
+  ;; Defining a hydra to change text editing settings...
+  (defhydra jws/hydra-text-editing (:exit nil :columns 4)
+    "
+  INDENTATION | Char: %s(jws/get-indent-char) | Size: %`tab-width | Electric: %`electric-indent-mode
+  "
+    ("2" (jws/set-tab-stop 2) "Set tab stop to 2")
+    ("4" (jws/set-tab-stop 4) "Set tab stop to 4")
+    ("8" (jws/set-tab-stop 8) "Set tab stop to 8")
+    ("t" jws/toggle-tabs-spaces "Toggle tab/space indent")
+    ("e" electric-indent-mode "Toggle electric indent")
+    ("TAB" tabify "Tabify the selection")
+    ("RET" untabify "Spacify the selection")
+    ("w" whitespace-mode "Display whitespace"))
+#+end_src
+
 ** Buffer menu
 
 This menu allows for manipulation of Emacs buffer objects.
@@ -2044,6 +2076,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("n" jws/eww-home "Net")
     ("p" jws/hydra-project/body "Project")
     ("s" jws/hydra-windows/body "Splitting")
+    ("t" jws/hydra-text-editing/body "Text")
     ("w" jws/hydra-frames/body "Frames")
     ("x" eshell "Shell"))
 
