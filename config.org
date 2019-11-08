@@ -1829,6 +1829,9 @@ fire-and-forget.
 #+end_src
 
 ** Text editing menu
+
+This menu allows fine-tuning of various text editing settings.
+
 #+begin_src emacs-lisp
   ;; Defining functions for the hydra
   (defun jws/toggle-tabs-spaces ()
@@ -1856,7 +1859,7 @@ fire-and-forget.
     ("t" jws/toggle-tabs-spaces "Toggle tab/space indent")
     ("e" electric-indent-mode "Toggle electric indent")
     ("TAB" tabify "Tabify the selection")
-    ("RET" untabify "Spacify the selection")
+    ("SPC" untabify "Spacify the selection")
     ("w" whitespace-mode "Display whitespace"))
 #+end_src
 
