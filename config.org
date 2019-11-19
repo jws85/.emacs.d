@@ -980,11 +980,7 @@ sometimes muscle memory from old-school term/shells gets in one's way.
     ;; Instead of ranger, why not use dired?
     ;; Instead of tig, why not use magit?
     ;; Still, in the off case these are used, use ansi-term
-    (add-to-list 'eshell-visual-commands "htop")
-    (add-to-list 'eshell-visual-commands "iotop")
-    (add-to-list 'eshell-visual-commands "iftop")
-    (add-to-list 'eshell-visual-commands "ranger")
-    (add-to-list 'eshell-visual-commands "tig"))
+    (setq eshell-visual-commands '("htop" "iotop" "iftop" "less" "lynx" "minicom" "more" "pine" "ranger" "screen" "top" "tig" "vi")))
 #+end_src
 
 Any function or alias with a name beginning with ~eshell/~ becomes a
