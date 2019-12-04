@@ -1363,16 +1363,10 @@ At this point all I use is the journaling stuff.
     :after org
     :config
     (setq org-capture-templates
-          '(("t" "Todo" entry (file (lambda () (concat jws/org-agenda-dir "inbox.org")))
-             "* TODO %?\n  %i")
-            ("T" "Tickler" entry (file (lambda () (concat jws/org-agenda-dir "tickler.org")))
-             "* TODO %i%?\n  %T")
-            ("l" "Link" entry (file+headline (lambda () (concat jws/org-dir "links.org")) "Uncategorized")
-             "* %?")
+          '(("b" "Bookmark" entry (file+headline (lambda () (concat jws/org-dir "links.org")) "Uncategorized")
+             "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-lines 1)
             ("j" "Journal" entry (file+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
-             "* %?\n  Entered on %U\n  %i")
-            ("s" "Shopping list" entry (file+headline (lambda () (concat jws/org-dir "shopping.org")) "Unfiled Shopping")
-             "* %?\n  Entered on %U\n  %i"))))
+             "* %?\nEntered on %U\n%i"))))
 
   ;; Use this to launch an emacs frame containing nothing but org-capture
   (defun jws/org-capture-single-window ()
