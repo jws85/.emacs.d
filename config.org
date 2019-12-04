@@ -1867,6 +1867,7 @@ This menu allows for manipulation of Emacs buffer objects.
   (defhydra jws/hydra-buffer (:color blue :columns 4)
     "Buffer menu"
     ("b" ivy-switch-buffer "Switch buffer")
+    ("c" clone-indirect-buffer-other-window "Clone buffer")
     ("i" ibuffer "Buffer list")
     ("k" kill-this-buffer "Kill buffer")
     ("s" save-buffer "Save buffer")
