@@ -1290,6 +1290,7 @@ settings you enable.
   (prefer-coding-system 'utf-8)
 #+end_src
 
+* Writing
 ** org-mode
 
 [[https://orgmode.org/][Hoo boy]], the tool that basically shows what is possible with plain
@@ -1416,6 +1417,7 @@ Ideally I'd stay in org-mode, but I live in the real world.
     :mode ("\\.md\\'" "\\.markdown\\'" "\\.mdown\\'"))
 #+end_src
 
+* Coding
 ** Config files
 
 JSON will be handled by whatever JavaScript mode I pull in.
