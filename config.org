@@ -38,7 +38,13 @@ may indulge in some... rants... about functionality I find... odd.
 typographical whitespace is fraught with [[https://www.youtube.com/watch?v=SsoOG6ZeyUI][religious significance]]; text
 editors are going to be naturally pretty scary in that regard ^_^)
 
-* Initialization
+* Basic setup
+
+Basically, all the rough edges that can be changed from within vanilla
+Emacs are sanded, and my preferred way of installing and loading
+libraries is set up.  The rest of the guide leans heavily on
+~use-package~ so it gets a section here as well.
+
 ** Variables
 
 Let's start by defining a bunch of variables needed by this
@@ -205,7 +211,6 @@ Libraries included with this config, but not in MELPA, are under
         (normal-top-level-add-subdirs-to-load-path)))
 #+end_src
 
-* Preferences
 ** Backups
 
 I really dislike how Emacs handles backups and do some pretty
