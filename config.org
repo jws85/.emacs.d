@@ -1418,6 +1418,53 @@ Ideally I'd stay in org-mode, but I live in the real world.
 #+end_src
 
 * Coding
+** LSP support
+
+[[https://en.wikipedia.org/wiki/Language_Server_Protocol][LSP]] is a protocol that allows text editors to communicate with servers
+that can parse and introspect source code.  Microsoft created it for
+VS Code; thankfully Microsoft made the protocol open this time (and
+hopefully they stick to that in the future...)
+
+To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]:
+
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :hook (php-mode . lsp)
+    :commands lsp)
+#+end_src
+
+https://github.com/emacs-lsp/lsp-ui adds some fancy features on top
+of ~lsp-mode~:
+
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :ensure t
+    :requires lsp-mode flycheck
+    :hook lsp-mode
+    :config
+    (setq lsp-ui-doc-enable t
+          lsp-ui-doc-use-childframe t
+          lsp-ui-doc-position 'top
+          lsp-ui-doc-include-signature t
+          lsp-ui-sideline-enable nil
+          lsp-ui-flycheck-enable t
+          lsp-ui-flycheck-list-position 'right
+          lsp-ui-flycheck-live-reporting t
+          lsp-ui-peek-enable t
+          lsp-ui-peek-list-width 60
+          lsp-ui-peek-peek-height 25
+          lsp-ui-sideline-enable nil))
+#+end_src
+
+[[https://github.com/tigersoldier/company-lsp][company-lsp]] provides connectivity to Company:
+
+#+begin_src emacs-lisp
+  (use-package company-lsp
+    :ensure t
+    :commands company-lsp)
+#+end_src
+
 ** Config files
 
 JSON will be handled by whatever JavaScript mode I pull in.
@@ -1550,20 +1597,6 @@ we're set!
     :config
     (setq c-basic-offset 4)
     (add-hook 'php-mode-hook 'jws/make-underscores-belong-to-words))
-#+end_src
-
-~company-php~ enables auto-completion for PHP symbols.
-
-#+begin_src emacs-lisp
-  (use-package company-php
-    :ensure t
-    :after (php-mode company)
-    :config
-    (defun jws/company-php-hook-function ()
-      (ac-php-core-eldoc-setup)
-      (set (make-local-variable 'company-backends)
-           '((company-dabbrev-code company-ac-php-backend))))
-    (add-hook 'php-mode-hook 'jws/company-php-hook-function))
 #+end_src
 
 *** Go
