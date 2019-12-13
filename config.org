@@ -1970,17 +1970,6 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
 #+end_src
 
 ** File menu
-#+begin_src emacs-lisp
-  (defhydra jws/hydra-files (:color blue :columns 4)
-    "File menu"
-    ("a" ff-find-other-file "Find file")
-    ("f" counsel-find-file "Find file")
-    ("j" open-junk-file "Junk file")
-    ("r" counsel-recentf "Find recent file")
-    ("u" counsel-bookmark "Find bookmark"))
-#+end_src
-
-** File manager/dired menu
 
 #+begin_src emacs-lisp
   (defhydra jws/hydra-dired (:color blue :columns 4)
@@ -1992,6 +1981,17 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
     ("." dired-jump "Curdir")
     ("~" jws/dired-home "Home")
     ("/" jws/dired-root "Root"))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-files (:color blue :columns 4)
+    "File menu"
+    ("a" ff-find-other-file "Find file")
+    ("d" jws/hydra-dired/body "Dired")
+    ("f" counsel-find-file "Find file")
+    ("j" open-junk-file "Junk file")
+    ("r" counsel-recentf "Find recent file")
+    ("u" counsel-bookmark "Find bookmark"))
 #+end_src
 
 ** Org-mode menu
@@ -2107,7 +2107,6 @@ I continue to be amazed that Emacs doesn't have this...
     ("a" jws/hydra-appearance/body "Appearance")
     ("b" jws/hydra-buffer/body "Buffers")
     ("c" calc-dispatch "Calc")
-    ("d" jws/hydra-dired/body "Dired")
     ("e" jws/hydra-emacs/body "Emacs")
     ("f" jws/hydra-files/body "Files")
     ("g" jws/hydra-git/body "Git")
