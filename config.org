@@ -1418,6 +1418,20 @@ Ideally I'd stay in org-mode, but I live in the real world.
 #+end_src
 
 * Coding
+** Toggle web-mode
+
+~web-mode~ is useful for files containing mixed code and templating.
+Problem is it's not useful for much else, so it's nice to have a way
+to switch to a more appropriate mode.
+
+#+begin_src emacs-lisp
+  (defun jws/toggle-web-mode ()
+    (interactive)
+    (if (eq major-mode 'web-mode)
+        (set-auto-mode)
+      (web-mode)))
+#+end_src
+
 ** LSP support
 
 [[https://en.wikipedia.org/wiki/Language_Server_Protocol][LSP]] is a protocol that allows text editors to communicate with servers
@@ -1921,6 +1935,15 @@ This menu allows fine-tuning of various text editing settings.
     ("w" whitespace-mode "Display whitespace"))
 #+end_src
 
+** Development menu
+
+#+begin_src emacs-lisp
+  (defhydra jws/hydra-development (:color blue :columns 4)
+    "Development menu"
+    ("w" jws/toggle-web-mode "Toggle web-mode")
+    ("z" zeal-at-point "Zeal"))
+#+end_src
+
 ** Buffer menu
 
 This menu allows for manipulation of Emacs buffer objects.
@@ -2129,6 +2152,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("a" jws/hydra-appearance/body "Appearance")
     ("b" jws/hydra-buffer/body "Buffers")
     ("c" calc-dispatch "Calc")
+    ("d" jws/hydra-development/body "Development")
     ("e" jws/hydra-emacs/body "Emacs")
     ("f" jws/hydra-files/body "Files")
     ("g" jws/hydra-git/body "Git")
