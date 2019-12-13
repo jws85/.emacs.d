@@ -1465,6 +1465,28 @@ of ~lsp-mode~:
     :commands company-lsp)
 #+end_src
 
+** Browse Dash docsets
+
+I wanted to use [[https://github.com/dash-docs-el/counsel-dash][counsel-dash]] but there's [[https://github.com/dash-docs-el/helm-dash/issues/188][some kind of issue]] with
+Emacs' handling of HTTPS that breaks all of the in-Emacs Dash
+libraries.
+
+#+begin_src emacs-lisp :tangle no
+  (use-package counsel-dash
+    :ensure t
+    :commands (counsel-dash-install-docset counsel-dash-at-point))
+#+end_src
+
+As such, I'm going the backup route and just using [[https://zealdocs.org/][Zeal]].  Obviously
+you have to install Zeal for this to work.  Once that issue is fixed,
+I'm going to turn ~counsel-dash~ back on.
+
+#+begin_src emacs-lisp :tangle no
+  (use-package zeal-at-point
+    :ensure t
+    :commands zeal-at-point)
+#+end_src
+
 ** Config files
 
 JSON will be handled by whatever JavaScript mode I pull in.
