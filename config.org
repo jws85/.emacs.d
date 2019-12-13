@@ -559,7 +559,7 @@ none to actually reset it!
 
 A few more functions to handle the Emacs frame's transparency.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (defun jws/get-frame-transparency ()
     "Get transparency of current frame."
     (let ((trans (frame-parameter (selected-frame) 'alpha)))
@@ -1030,7 +1030,7 @@ We want to use ~eww~ whenever a web link is clicked.
 
 Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to load it.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (defvar jws/eww-home-page "https://duckduckgo.com/html/?kd=1")
 
   (defun jws/eww-home ()
@@ -1038,7 +1038,7 @@ Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to l
     (eww jws/eww-home-page))
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package ace-link
     :ensure t
     :after avy
@@ -1144,7 +1144,7 @@ that you can find in newer editors.
 used for small code experiments or throwaway notes that you'd
 otherwise junk up the ~*scratch*~ buffer with...
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package open-junk-file
     :ensure t
     :commands open-junk-file
@@ -1259,7 +1259,7 @@ theory...) with an ~.editorconfig~ file per project; put the project
 settings in there and hope everyone else uses an editor set up with
 EditorConfig.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package editorconfig
     :ensure t
     :config
