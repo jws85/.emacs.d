@@ -1456,6 +1456,8 @@ of ~lsp-mode~:
     :ensure t
     :requires lsp-mode flycheck
     :hook lsp-mode
+    :commands (lsp-ui-peek-find-definitions
+               lsp-ui-peek-find-references)
     :config
     (setq lsp-ui-doc-enable t
           lsp-ui-doc-use-childframe t
@@ -1941,6 +1943,8 @@ This menu allows fine-tuning of various text editing settings.
 #+begin_src emacs-lisp
   (defhydra jws/hydra-development (:color blue :columns 4)
     "Development menu"
+    ("d" lsp-ui-peek-find-definitions "Find definitions")
+    ("r" lsp-ui-peek-find-references "Find references")
     ("w" jws/toggle-web-mode "Toggle web-mode")
     ("z" zeal-at-point "Zeal"))
 #+end_src
