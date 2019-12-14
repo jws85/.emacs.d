@@ -1448,8 +1448,7 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
     :commands lsp)
 #+end_src
 
-https://github.com/emacs-lsp/lsp-ui adds some fancy features on top
-of ~lsp-mode~:
+[[https://github.com/emacs-lsp/lsp-ui][lsp-ui]] adds some fancy features on top of ~lsp-mode~:
 
 #+begin_src emacs-lisp
   (use-package lsp-ui
