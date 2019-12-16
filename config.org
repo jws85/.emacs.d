@@ -1668,26 +1668,21 @@ meal in the US for a "perpetual" multimachine license).
 
 *** Go
 
-I like Go -- it's like a faster Python.
+I like Go a lot, despite some irritating parts.  It is like a
+stricter but much faster curly-brace Python.
+
+Again here we enable ~lsp-mode~, this time using [[https://github.com/golang/tools/tree/master/gopls][gopls]].
 
 #+begin_src emacs-lisp
-    (use-package go-mode
-      :ensure t
-      :mode "\\.go\\'"
-      :config
-      (add-hook 'go-mode-hook
-                (lambda ()
-                  ;; [FIXME] Requires go get golang.org/x/tools/cmd/goimports
-                  (set gofmt-command "goimports")
-                  (add-hook 'before-save-hook 'gofmt-before-save)
-
-                  ;; Compile
-                  (set (make-local-variable 'compile-command)
-                       "go build -v && go test -v && go vet")
-
-                  ;; Jump around code
-                  (local-set-key (kbd "M-.") 'godef-jump)
-                  (local-set-key (kbd "M-*") 'pop-tag-mark))))
+  (use-package go-mode
+    :ensure t
+    :mode "\\.go\\'"
+    :config
+    (add-hook 'go-mode-hook 'lsp)
+    (add-hook 'go-mode-hook
+              (lambda ()
+                (set (make-local-variable 'compile-command)
+                     "go build -v && go test -v && go vet"))))
 #+end_src
 
 *** JavaScript
