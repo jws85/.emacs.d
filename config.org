@@ -598,6 +598,16 @@ A few more functions to handle the Emacs frame's transparency.
 #+end_src
 
 * Functionality
+** Environment variables
+
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :if (or (eq window-system nil) (memq window-system '(x ns mac)))
+    :init
+    (exec-path-from-shell-initialize))
+#+end_src
+
 ** Keybindings (including Vim compatibility)
 
 Vim compatibility is the raison d'être of the whole guide.  This is
