@@ -1444,7 +1444,6 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
 #+begin_src emacs-lisp
   (use-package lsp-mode
     :ensure t
-    :hook (php-mode . lsp)
     :commands (lsp
                lsp-workspace-restart
                lsp-workspace-folders-remove
@@ -1625,15 +1624,16 @@ For curly-brace languages, I like underscores to be part of the Emacs
 *** PHP
 
 I am currently paid to write PHP, so most of the effort is going to go
-here.
+here.  ~php-mode~ is useful for files with very little HTML/CSS/JS in
+them; if your PHP is more like HTML template code, use ~web-mode~
+instead.
 
-Vim had one of the more robust PHP modes -- it worked like ~web-mode~
-(see under "Web") but was much more robust than that.
-
-PHP has a mode that works great for a file that is nothing but PHP.
-Which is of course the Platonic ideal, and much real-world PHP is...
-not that.  But if we have that (and I'm working hard on this matter)
-we're set!
+~lsp-mode~ is great.  If you are on a recent-ish version of PHP,
+you'll need [[https://www.npmjs.com/package/intelephense][Intelephense]], which requires NodeJS/NPM to install.
+Intelephense is not "Free Software" but its free version works fine
+for autocompletion and linting.  I haven't tried the paid version
+yet; but it's not expensive (about as much as a decent restaurant
+meal in the US for a "perpetual" multimachine license).
 
 #+begin_src emacs-lisp
   (use-package php-mode
@@ -1641,6 +1641,7 @@ we're set!
     :mode "\\.php\\'"
     :config
     (setq c-basic-offset 4)
+    (add-hook 'php-mode-hook 'lsp)
     (add-hook 'php-mode-hook 'jws/make-underscores-belong-to-words))
 #+end_src
 
