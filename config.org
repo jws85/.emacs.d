@@ -1621,6 +1621,17 @@ For curly-brace languages, I like underscores to be part of the Emacs
   (add-hook 'c-mode-common-hook 'jws/make-underscores-belong-to-words)
 #+end_src
 
+*** C and its immediate relatives
+
+Let's enable ~lsp-mode~ for these folks.
+
+For ~c-mode~ and ~c++-mode~ you'll want the ~clangd~ from ~clang-tools-8~.
+
+#+begin_src emacs-lisp
+  (add-hook 'c-mode-hook 'lsp)
+  (add-hook 'c++-mode-hook 'lsp)
+#+end_src
+
 *** PHP
 
 I am currently paid to write PHP, so most of the effort is going to go
