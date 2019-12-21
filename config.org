@@ -763,23 +763,23 @@ seemingly maintained anymore.  So... we just hack the heck out of
     :ensure t
     :init (company-mode)
     :config
+    (add-to-list 'company-frontends 'company-tng-frontend)
+
     ;; company uses a lot of meta bindings.  I like control better
+    (define-key company-active-map [(tab)] 'company-select-next)
+    (define-key company-active-map (kbd "TAB") 'company-select-next)
+    (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
     (define-key company-active-map (kbd "C-n") 'company-select-next)
     (define-key company-active-map (kbd "C-p") 'company-select-previous)
     (define-key company-active-map (kbd "C-i") 'company-complete-common-or-cycle)
     (define-key company-active-map (kbd "C-j") 'company-complete-selection)
+
     (dotimes (i 9)
       (define-key company-active-map (read-kbd-macro (format "C-%d" i))
         'company-complete-number))
 
-    ;; company uses Enter to complete.  Would rather it abort and do the
-    ;; usual Enter stuff.
-    (defun jws/company-abort-and-newline ()
-      "Aborts company and inserts a newline."
-      (interactive)
-      (company-abort)
-      (newline-and-indent))
-    (define-key company-active-map (kbd "<return>") 'jws/company-abort-and-newline)
+    (define-key company-active-map (kbd "<return>") nil)
+    (define-key company-active-map (kbd "RET") nil)
 
     ;; Abort company with Escape
     (define-key company-active-map (kbd "ESC") 'company-abort)
@@ -790,7 +790,8 @@ seemingly maintained anymore.  So... we just hack the heck out of
           company-selection-wrap-around t
           company-dabbrev-downcase nil
           company-dabbrev-ignore-case t
-          company-show-numbers t)
+          company-show-numbers t
+          company-require-match nil)
 
     (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
@@ -809,7 +810,12 @@ other fancy paid text editor thereafter.
   (use-package yasnippet
     :ensure t
     :bind ("C-;" . yas-expand)
-    :config (yas-global-mode 1))
+    :config
+    (yas-global-mode 1)
+    (define-key yas-keymap "\C-j" 'yas-next-field-or-maybe-expand)
+    (dolist (keymap (list yas-minor-mode-map yas-keymap))
+      (define-key keymap (kbd "TAB") nil)
+      (define-key keymap [(tab)] nil)))
 #+END_SRC
 
 Install a default set of snippets.
