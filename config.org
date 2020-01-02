@@ -984,6 +984,23 @@ functionality to really easily learn!
           math-units-table nil))
 #+end_src
 
+** Timer
+
+[[https://github.com/dxknight/chronos][chronos]] is a handy package for most timing-related purposes (e.g.
+"pomodoro" timers and the like)
+
+#+begin_src emacs-lisp
+  (use-package chronos
+    :ensure t
+    :commands (chronos-add-timer
+               chronos-add-timers-from-string)
+    :config
+    (add-to-list 'evil-emacs-state-modes 'chronos-mode)
+    (evil-add-hjkl-bindings chronos-mode-map 'emacs
+      (kbd "L") 'chronos-lap-selected-line)
+    (setq chronos-expiry-functions '(chronos-desktop-notifications-notify)))
+#+end_src
+
 ** Terminal
 
 ~eshell~ is Emacs' built-in terminal.  It is *not* a Bash variant, but
@@ -2207,7 +2224,8 @@ I continue to be amazed that Emacs doesn't have this...
     ("s" jws/hydra-windows/body "Splitting")
     ("t" jws/hydra-text-editing/body "Text")
     ("w" jws/hydra-frames/body "Frames")
-    ("x" eshell "Shell"))
+    ("x" eshell "Shell")
+    ("@" chronos-add-timer "Timer"))
 
   (global-set-key (kbd "<f2>") 'jws/hydra-master/body)
   (global-set-key (kbd "M-j") 'jws/hydra-master/body)
