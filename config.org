@@ -1504,7 +1504,7 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
           lsp-ui-doc-delay 1
           lsp-ui-sideline-enable nil
           lsp-ui-flycheck-enable t
-          lsp-ui-flycheck-list-position 'right
+          lsp-ui-flycheck-list-position 'at-point
           lsp-ui-flycheck-live-reporting t
           lsp-ui-peek-enable t
           lsp-ui-peek-list-width 60
