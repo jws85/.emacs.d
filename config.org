@@ -1546,12 +1546,30 @@ I'm going to turn ~counsel-dash~ back on.
 
 JSON will be handled by whatever JavaScript mode I pull in.
 
-YAML isn't so lucky...
+*** YAML
 
 #+begin_src emacs-lisp
   (use-package yaml-mode
     :ensure t
     :mode ("\\.yml\\'" "\\.yaml\\'"))
+#+end_src
+
+*** TOML
+
+#+begin_src emacs-lisp
+  (use-package toml-mode
+    :ensure t
+    :mode "\\.toml\\'")
+#+end_src
+
+** Build files
+
+*** Docker
+
+#+begin_src emacs-lisp
+  (use-package dockerfile-mode
+    :ensure t
+    :mode "Dockerfile\\'")
 #+end_src
 
 ** Lisps
