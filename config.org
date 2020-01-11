@@ -1282,15 +1282,29 @@ Evil command ~g~~
 a/k/a tabs vs. spaces, which has now found its way into a major HBO
 comedy show as mentioned in the introduction.
 
-I personally prefer spaces and 4-spaces-per-indent, but don't
-particularly care so long as there is some consistency.  I work with
-folks who prefer tabs, again, I don't care so long as there's
-consistency.
+And lo and behold, emacs' tabs/spaces settings are wacky and I'm not
+sure I properly understand them tbh.
 
-[[https://editorconfig.org/][EditorConfig]] ([[https://github.com/editorconfig/editorconfig-emacs][Emacs implementation]]) solves the consistency issue (in
-theory...) with an ~.editorconfig~ file per project; put the project
-settings in there and hope everyone else uses an editor set up with
-EditorConfig.
+I personally prefer spaces and 4-spaces-per-indent, but don't
+particularly care so long as there is some consistency.  However, I've
+been finding that with ~indent-tabs-mode~ turned off by default, that
+my indentation in a few modes (namely ~web-mode~, ~css-mode~, probably
+others) gets all hashed up.  Every eight spaces of indentation is
+replaced with a hard tab, and the rest of the spaces are left.  This
+is like literally the worst of all worlds, so I smash this setting
+into place.
+
+(Don't worry, I turn this back on for Makefiles.)
+
+#+begin_src emacs-lisp
+  (setq-default indent-tabs-mode nil)
+#+end_src
+
+For all other projects, I'll probably start requiring the use of
+[[https://editorconfig.org/][EditorConfig]] ([[https://github.com/editorconfig/editorconfig-emacs][Emacs implementation]]).  This should solve the
+consistency issue (in theory...) with an ~.editorconfig~ file per
+project; put the project settings in there and hope everyone else uses
+an editor set up with EditorConfig.
 
 #+begin_src emacs-lisp
   (use-package editorconfig
@@ -1563,6 +1577,16 @@ JSON will be handled by whatever JavaScript mode I pull in.
 #+end_src
 
 ** Build files
+
+*** Makefiles
+
+The below is super super super important, as one of the few exceptions
+to my "I don't like tabs but so long as the code is consistent" stance
+-- Makefiles require tabs, full stop.
+
+#+begin_src emacs-lisp
+  (add-hook 'makefile-mode-hook (setq-local indent-tabs-mode t))
+#+end_src
 
 *** Docker
 
