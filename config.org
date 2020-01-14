@@ -1348,19 +1348,18 @@ me.
 First, let's define some more paths.
 
 #+begin_src emacs-lisp
-  (defvar jws/org-dir (expand-file-name "~/Org/")
-    "The directory where `org-mode' files live.")
+  (setq org-directory (expand-file-name "~/Org/"))
 
-  (defvar jws/org-agenda-dir (concat jws/org-dir "agenda/")
+  (defvar jws/org-agenda-dir (concat org-directory "agenda/")
     "The directory where `org-mode' agenda files live.")
 
   (defvar jws/org-agenda-files '("inbox.org" "gtd.org" "tickler.org" "recurring.org")
     "Specific `org-mode` agenda files.")
 
-  (defvar jws/org-journal-dir (concat jws/org-dir "journal/")
+  (defvar jws/org-journal-dir (concat org-directory "journal/")
     "The directory where `org-mode' journal files live.")
 
-  (defvar jws/org-notes-dir (concat jws/org-dir "notes/")
+  (defvar jws/org-notes-dir (concat org-directory "notes/")
     "The directory where `deft' notes files live.")
 #+end_src
 
@@ -1422,7 +1421,7 @@ At this point all I use is the journaling stuff.
     :after org
     :config
     (setq org-capture-templates
-          '(("b" "Bookmark" entry (file+headline (lambda () (concat jws/org-dir "links.org")) "Uncategorized")
+          '(("b" "Bookmark" entry (file+headline "links.org" "Uncategorized")
              "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-lines 1)
             ("j" "Journal" entry (file+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
              "* %?\nEntered on %U\n%i"))))
