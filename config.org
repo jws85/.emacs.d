@@ -1513,6 +1513,8 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
     (setq lsp-ui-doc-enable t
           lsp-ui-doc-use-childframe t
           lsp-ui-doc-position 'at-point
+          lsp-ui-doc-max-height 20
+          lsp-ui-doc-max-width 40
           lsp-ui-doc-include-signature t
           lsp-ui-doc-delay 1
           lsp-ui-sideline-enable nil
