@@ -2039,12 +2039,12 @@ This menu allows fine-tuning of various text editing settings.
 #+begin_src emacs-lisp
   (defhydra jws/hydra-development (:color blue :columns 4)
     "Development menu"
-    ("d" lsp-ui-peek-find-definitions "Find definitions")
-    ("g" lsp-ui-doc-glance "Documentation")
-    ("r" lsp-ui-peek-find-references "Find references")
+    ("f d" lsp-ui-peek-find-definitions "Find definitions")
+    ("f r" lsp-ui-peek-find-references "Find references")
+    ("d d" counsel-dash-at-point "Show docs")
+    ("d i" counsel-dash-install-docset "Add docs")
     ("w" jws/toggle-web-mode "Toggle web-mode")
-    ("l" jws/hydra-lsp/body "Control LSP")
-    ("z" zeal-at-point "Zeal"))
+    ("l" jws/hydra-lsp/body "Control LSP"))
 #+end_src
 
 ** Buffer menu
