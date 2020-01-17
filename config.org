@@ -1423,7 +1423,7 @@ At this point all I use is the journaling stuff.
     (setq org-capture-templates
           '(("b" "Bookmark" entry (file+headline "links.org" "Uncategorized")
              "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-lines 1)
-            ("j" "Journal" entry (file+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
+            ("j" "Journal" entry (file+olp+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
              "* %?\nEntered on %U\n%i"))))
 
   ;; Use this to launch an emacs frame containing nothing but org-capture
