@@ -2320,6 +2320,7 @@ I continue to be amazed that Emacs doesn't have this...
   (defhydra jws/hydra-master (:color blue :columns 4)
     "Master menu"
     ("SPC" counsel-M-x "Command list")
+    ("<delete>" delete-frame "Close window")
     ("<tab>" jws/switch-to-previous-buffer "Switch buffer")
     ("k" kill-this-buffer "Kill buffer")
 
