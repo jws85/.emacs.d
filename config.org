@@ -2278,8 +2278,8 @@ present these via ~ivy~.
     "Help menu"
     ("i" info "Info")
     ("f" counsel-describe-function "Describe function")
-    ("k" counsel-descbinds "Keybindings")
-    ("K" describe-key "Describe keybind")
+    ("K" counsel-descbinds "Keybindings")
+    ("k" describe-key "Describe keybind")
     ("m" woman "Man pages")
     ("v" counsel-describe-variable "Describe variable"))
 #+end_src
