@@ -1845,6 +1845,15 @@ far as I'm concerned.
     (setq coffee-tab-width 4))
 #+end_src
 
+** Other
+*** Lua
+
+#+begin_src emacs-lisp
+  (use-package lua-mode
+    :ensure t
+    :mode "\\.lua\\'")
+#+end_src
+
 ** Web
 
 *** Emmet
