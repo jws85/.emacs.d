@@ -1475,7 +1475,7 @@ as a basis for building my own "GTD" system.
             ("j" "Journal" entry (file+olp+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
              "* %?\nEntered on %U\n%i")
             ("s" "Code snippet" entry (file+headline jws/org-snippets-file "Uncategorized")
-             "* %?\t%^g\n#+BEGIN_SRC %^{language}\n%i\n#+END_SRC"))))
+             "* %?\t\n#+BEGIN_SRC %^{language}\n%i\n#+END_SRC"))))
 #+end_src
 
 Similarly to the ~jws/org-agenda-single-window~ function, this runs
