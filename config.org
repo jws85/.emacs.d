@@ -1393,7 +1393,47 @@ First, let's define some paths into my ~org-mode~ files.
     (setq org-src-fontify-natively t))
 #+end_src
 
-*** org-agenda
+*** Capturing new notes
+
+~org-capture~ is a really convenient way of automating the entry of
+new todo items, etc; it can also be effectively used for journaling
+and other such things.  So if I had some code I wanted to remember,
+instead of making a junk file, I'd create a code snippet entry.  If I
+wanted to remember a web site for later, I'd bookmark it with the
+bookmark entry.
+
+A few of these were lifted from [[https://github.com/munen/emacs.d/blob/master/configuration.org][this config]], which I've been using
+as a basis for building my own "GTD" system.
+
+#+begin_src emacs-lisp
+  (use-package org-capture
+    :after org
+    :config
+    (setq org-capture-templates
+          '(("d" "Daily focus" plain (file+olp jws/org-todo-file "Daily")
+             (file "templates/daily.org"))
+            ("t" "Todo" entry (file+olp jws/org-todo-file "Inbox" "Tasks")
+             "* TODO %?\n%U\n%i\n")
+            ("b" "Bookmark" entry (file+headline jws/org-links-file "Uncategorized")
+             "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-lines 1)
+            ("j" "Journal" entry (file+olp+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
+             "* %?\nEntered on %U\n%i")
+            ("s" "Code snippet" entry (file+headline jws/org-snippets-file "Uncategorized")
+             "* %?\t\n#+BEGIN_SRC %^{language}\n%i\n#+END_SRC"))))
+#+end_src
+
+Similarly to the ~jws/org-agenda-single-window~ function, this runs
+~org-capture~ inside a single frame.
+
+#+begin_src emacs-lisp
+  ;; Use this to launch an emacs frame containing nothing but org-capture
+  (defun jws/org-capture-single-window ()
+    (interactive)
+    (org-capture)
+    (delete-other-windows))
+#+end_src
+
+*** Agenda
 
 ~org-agenda~ is the PIM component; it relies on "keywords" in subject
 headers to detect things to act upon.
@@ -1449,47 +1489,7 @@ and be more or less off to the races.
     (delete-other-windows))
 #+end_src
 
-*** org-capture
-
-~org-capture~ is a really convenient way of automating the entry of
-new todo items, etc; it can also be effectively used for journaling
-and other such things.  So if I had some code I wanted to remember,
-instead of making a junk file, I'd create a code snippet entry.  If I
-wanted to remember a web site for later, I'd bookmark it with the
-bookmark entry.
-
-A few of these were lifted from [[https://github.com/munen/emacs.d/blob/master/configuration.org][this config]], which I've been using
-as a basis for building my own "GTD" system.
-
-#+begin_src emacs-lisp
-  (use-package org-capture
-    :after org
-    :config
-    (setq org-capture-templates
-          '(("d" "Daily focus" plain (file+olp jws/org-todo-file "Daily")
-             (file "templates/daily.org"))
-            ("t" "Todo" entry (file+olp jws/org-todo-file "Inbox" "Tasks")
-             "* TODO %?\n%U\n%i\n")
-            ("b" "Bookmark" entry (file+headline jws/org-links-file "Uncategorized")
-             "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-lines 1)
-            ("j" "Journal" entry (file+olp+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
-             "* %?\nEntered on %U\n%i")
-            ("s" "Code snippet" entry (file+headline jws/org-snippets-file "Uncategorized")
-             "* %?\t\n#+BEGIN_SRC %^{language}\n%i\n#+END_SRC"))))
-#+end_src
-
-Similarly to the ~jws/org-agenda-single-window~ function, this runs
-~org-capture~ inside a single frame.
-
-#+begin_src emacs-lisp
-  ;; Use this to launch an emacs frame containing nothing but org-capture
-  (defun jws/org-capture-single-window ()
-    (interactive)
-    (org-capture)
-    (delete-other-windows))
-#+end_src
-
-*** Deft (note-taking; integrated with org-mode)
+*** Note taking
 
 [[https://github.com/jrblevin/deft][Deft]] is a quick-notes tool that I've already gotten some mileage out
 of.  It doesn't require ~org~, but my set up marries the two.
