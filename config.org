@@ -1722,6 +1722,7 @@ editing beforehand.
     :ensure t
     :hook ((emacs-lisp-mode . parinfer-mode)
            (common-lisp-mode . parinfer-mode)
+           (clojure-mode . parinfer-mode)
            (scheme-mode . parinfer-mode)
            (lisp-mode . parinfer-mode)
            (lisp-interaction-mode . parinfer-mode))
@@ -1737,6 +1738,7 @@ editing beforehand.
     :ensure t
     :hook ((emacs-lisp-mode . eval-sexp-fu-flash-mode)
            (common-lisp-mode . eval-sexp-fu-flash-mode)
+           (clojure-mode . eval-sexp-fu-flash-mode)
            (scheme-mode . eval-sexp-fu-flash-mode)
            (lisp-mode . eval-sexp-fu-flash-mode)
            (lisp-interaction-mode . eval-sexp-fu-flash-mode))
@@ -1794,6 +1796,19 @@ Once you have Quicklisp loaded, run
 
 and copy those lines into the ~site-init.el~ to have a site-customized
 SLIME install tied to your installed Common Lisp interpreter.
+
+*** Clojure
+
+#+begin_src emacs-lisp
+  (use-package clojure-mode
+    :ensure t
+    :mode "\\.clj\\'")
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package cider
+    :ensure t)
+#+end_src
 
 ** Curly-brace/C-family
 
