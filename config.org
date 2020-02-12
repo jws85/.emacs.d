@@ -1398,12 +1398,25 @@ First, let's define some paths into my ~org-mode~ files.
 ~org-capture~ is a really convenient way of automating the entry of
 new todo items, etc; it can also be effectively used for journaling
 and other such things.  So if I had some code I wanted to remember,
-instead of making a junk file, I'd create a code snippet entry.  If I
-wanted to remember a web site for later, I'd bookmark it with the
-bookmark entry.
+instead of making a junk file, I'd create a code snippet entry.
 
-A few of these were lifted from [[https://github.com/munen/emacs.d/blob/master/configuration.org][this config]], which I've been using
-as a basis for building my own "GTD" system.
+I'm interested in maintaining my web bookmarks via ~org-mode~; this
+fails without a convenient way of capturing via my web browser.
+This function is part of that setup; it removes square brackets from
+input so they don't break the ~org-mode~ parser:
+
+#+begin_src emacs-lisp
+  ;; achtung! for whatever reason ?[ breaks parinfer because it ASSumes every Lisp is Clojure :angry:
+  (defun transform-square-brackets-to-round-ones (string-to-transform)
+    "Transforms [ into ( and ] into ), other chars left unchanged."
+    (concat
+     (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform)))
+#+end_src
+
+And here are the actual capture templates.  The latter two (~p~ and
+~L~) are called by the browser extensions; the rest can be called
+manually.  A few of these were lifted from [[https://github.com/munen/emacs.d/blob/master/configuration.org][this config]], which I've
+been using as a basis for building my own "GTD" system.
 
 #+begin_src emacs-lisp
   (use-package org-capture
@@ -1419,7 +1432,11 @@ as a basis for building my own "GTD" system.
             ("j" "Journal" entry (file+olp+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
              "* %?\nEntered on %U\n%i")
             ("s" "Code snippet" entry (file+headline jws/org-snippets-file "Uncategorized")
-             "* %?\t\n#+BEGIN_SRC %^{language}\n%i\n#+END_SRC"))))
+             "* %?\t\n#+BEGIN_SRC %^{language}\n%i\n#+END_SRC")
+            ("p" "Bookmark via org-protocol" entry (file+headline jws/org-links-file "Uncategorized")
+             "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+            ("L" "Bookmark/link via org-protocol" entry (file+headline jws/org-links-file "Uncategorized")
+             "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"))))
 #+end_src
 
 Similarly to the ~jws/org-agenda-single-window~ function, this runs
@@ -1432,6 +1449,47 @@ Similarly to the ~jws/org-agenda-single-window~ function, this runs
     (org-capture)
     (delete-other-windows))
 #+end_src
+
+*** Capturing from external applications
+
+I'm using [[https://github.com/sprig/org-capture-extension][this WebExtension]] ([[https://addons.mozilla.org/en-US/firefox/addon/org-capture/][Firefox]], [[https://chrome.google.com/webstore/detail/org-capture/kkkjlfejijcjgjllecmnejhogpbcigdc][Chrome]]) to accomplish this.  But it needs
+pretty substantial configuration, which I replicate for GTK-based Linux here.
+KDE and other OSes have different steps.
+
+First off, create ~~/.local/share/applications/org-protocol.desktop~ containing:
+
+#+begin_src conf :tangle no
+  [Desktop Entry]
+  Name=org-protocol
+  Exec=emacsclient %u
+  Type=Application
+  Terminal=false
+  Categories=System;
+  MimeType=x-scheme-handler/org-protocol;
+#+end_src
+
+Secondly, run the below, which updates ~~/.local/share/applications/mimeinfo.cache~:
+
+#+begin_src shell :tangle no
+  update-desktop-database ~/.local/share/applications/
+#+end_src
+
+Then, in Emacs, you must have a running server.  The usual recommendation is as
+below, but I prefer starting my Emacs server process other ways:
+
+#+begin_src emacs-lisp :tangle no
+  (server-start)
+#+end_src
+
+Finally, kick off ~org-protocol~ itself:
+
+#+begin_src emacs-lisp
+  (use-package org-protocol)
+#+end_src
+
+and that should cover everything!  Now you can click the org-mode
+unicorn icon in your browser, and it should pop up a Emacsclient frame
+somewhere with an org-mode link in it.
 
 *** Agenda
 
