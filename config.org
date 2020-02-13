@@ -2274,24 +2274,34 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
 #+end_src
 
 #+begin_src emacs-lisp
+  (defhydra jws/hydra-org-files (:color blue :columns 4)
+    "Org files"
+    ("t" (find-file jws/org-todo-file) "TODOs")
+    ("r" (find-file jws/org-reminder-file) "Reminders")
+    ("l" (find-file jws/org-links-file) "Links")
+    ("s" (find-file jws/org-snippets-file) "Snippets"))
+#+end_src
+
+#+begin_src emacs-lisp
   (defhydra jws/hydra-files (:color blue :columns 4)
     "File menu"
     ("a" ff-find-other-file "Find file")
     ("d" jws/hydra-dired/body "Dired")
     ("f" counsel-find-file "Find file")
     ("j" open-junk-file "Junk file")
+    ("o" jws/hydra-org-files/body "Org files")
     ("r" counsel-recentf "Find recent file")
     ("u" counsel-bookmark "Find bookmark"))
 #+end_src
 
 ** Org-mode menu
+
+~jws/hydra-org-files~ is defined under "File menu" above.
+
 #+begin_src emacs-lisp
   (defhydra jws/hydra-org (:color blue :columns 4)
     "Org-mode menu"
-    ("f t" (find-file jws/org-todo-file) "Open TODOs")
-    ("f r" (find-file jws/org-reminder-file) "Open reminders")
-    ("f l" (find-file jws/org-links-file) "Open links")
-    ("f s" (find-file jws/org-snippets-file) "Open snippets")
+    ("f" jws/hydra-org-files/body "Open files")
     ("a" org-agenda "Agenda")
     ("c" org-capture "Capture")
     ("e" org-export-dispatch "Export")
