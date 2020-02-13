@@ -1406,7 +1406,8 @@ This function is part of that setup; it removes square brackets from
 input so they don't break the ~org-mode~ parser:
 
 #+begin_src emacs-lisp
-  ;; achtung! for whatever reason ?[ breaks parinfer because it ASSumes every Lisp is Clojure :angry:
+  ;; achtung: parinfer tries to treat [] as syntactically significant (it is in elisp
+  ;; and clojure) and so will make a hash of this if you aren't careful
   (defun transform-square-brackets-to-round-ones (string-to-transform)
     "Transforms [ into ( and ] into ), other chars left unchanged."
     (concat
@@ -1434,7 +1435,7 @@ been using as a basis for building my own "GTD" system.
             ("s" "Code snippet" entry (file+headline jws/org-snippets-file "Uncategorized")
              "* %?\n#+BEGIN_SRC %^{language}\n%i\n#+END_SRC")
             ("p" "Bookmark via org-protocol" entry (file+headline jws/org-links-file "Uncategorized")
-             "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+             "* %?[[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n")
             ("L" "Bookmark/link via org-protocol" entry (file+headline jws/org-links-file "Uncategorized")
              "* %?[[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"))))
 #+end_src
@@ -1512,7 +1513,8 @@ I define the following keywords:
     :config
     (setq org-log-done t
           org-refile-targets '((nil . (:maxlevel . 9))
-                               (org-agenda-files . (:maxlevel . 9)))
+                               (org-agenda-files . (:maxlevel . 9))
+                               (jws/org-snippets-file . (:maxlevel . 1)))
           org-refile-use-outline-path t
           org-outline-path-complete-in-steps nil
           org-archive-location "finished.org::datetree/*"
