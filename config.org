@@ -1432,11 +1432,11 @@ been using as a basis for building my own "GTD" system.
             ("j" "Journal" entry (file+olp+datetree (lambda () (concat jws/org-journal-dir (format-time-string "%Y") ".org")))
              "* %?\nEntered on %U\n%i")
             ("s" "Code snippet" entry (file+headline jws/org-snippets-file "Uncategorized")
-             "* %?\t\n#+BEGIN_SRC %^{language}\n%i\n#+END_SRC")
+             "* %?\n#+BEGIN_SRC %^{language}\n%i\n#+END_SRC")
             ("p" "Bookmark via org-protocol" entry (file+headline jws/org-links-file "Uncategorized")
              "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
             ("L" "Bookmark/link via org-protocol" entry (file+headline jws/org-links-file "Uncategorized")
-             "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"))))
+             "* %?[[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"))))
 #+end_src
 
 Similarly to the ~jws/org-agenda-single-window~ function, this runs
