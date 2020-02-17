@@ -1300,6 +1300,16 @@ into place.
   (setq-default indent-tabs-mode nil)
 #+end_src
 
+~untabify~ on backspace is an amazingly bassackwards way of handling
+things.  I hack on other peoples' projects that use tabs, and one
+thing I know for sure is that folks who use tabs do NOT want their
+tabs turned into spaces.  Just incomprehensibly broken.  Whomever
+decided this has worms in their brains.  Why.
+
+#+begin_src emacs-lisp
+  (setq backward-delete-char-untabify-method nil)
+#+end_src
+
 For all other projects, I'll probably start requiring the use of
 [[https://editorconfig.org/][EditorConfig]] ([[https://github.com/editorconfig/editorconfig-emacs][Emacs implementation]]).  This should solve the
 consistency issue (in theory...) with an ~.editorconfig~ file per
