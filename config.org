@@ -1571,6 +1571,7 @@ of.  It doesn't require ~org~, but my set up marries the two.
     :commands deft
     :config
     (setq deft-directory jws/org-notes-dir
+          deft-recursive t
           deft-extensions '("org" "md" "markdown" "txt")
           deft-default-extension "org"
           deft-use-filename-as-title nil
