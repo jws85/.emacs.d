@@ -2229,11 +2229,13 @@ It is confusing, but I choose to use the Emacs terminology in code,
 but "normie" terminology in the menus themselves.
 
 #+begin_src emacs-lisp
-  (defhydra jws/hydra-windows (:columns 5)
+  (defhydra jws/hydra-windows (:columns 4)
     "Buffer splitting:"
     ("<tab>" other-window "Prev")
-
     ("s" ace-window "Jump to")
+    ("<left>" winner-undo "Undo split")
+    ("<right>" winner-redo "Redo split")
+
     ("h" evil-window-left "Left")
     ("j" evil-window-down "Down")
     ("k" evil-window-up "Up")
@@ -2244,14 +2246,18 @@ but "normie" terminology in the menus themselves.
     ("K" buf-move-up "Move up")
     ("L" buf-move-right "Move right")
 
+    ("<" shrink-window-horizontally "Shrink width")
+    (">" enlarge-window-horizontally "Enlarge width")
+    ("-" shrink-window "Shrink height")
+    ("+" enlarge-window "Enlarge height")
+
     ("-" split-window-below "Horiz split")
     ("\\" split-window-right "Vert split")
     ("|" split-window-right "Vert split")
     ("=" balance-windows "Balance splits")
+
     ("c" delete-window "Remove current")
-    ("C" delete-other-windows "Remove others")
-    ("<left>" winner-undo "Undo split")
-    ("<right>" winner-redo "Redo split"))
+    ("C" delete-other-windows "Remove others"))
 #+end_src
 
 ** Frame/"window" menu
