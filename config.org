@@ -2246,10 +2246,10 @@ but "normie" terminology in the menus themselves.
     ("K" buf-move-up "Move up")
     ("L" buf-move-right "Move right")
 
-    ("<" shrink-window-horizontally "Shrink width")
-    (">" enlarge-window-horizontally "Enlarge width")
-    ("-" shrink-window "Shrink height")
-    ("+" enlarge-window "Enlarge height")
+    ("C-h" shrink-window-horizontally "Shrink width")
+    ("C-l" enlarge-window-horizontally "Enlarge width")
+    ("C-k" shrink-window "Shrink height")
+    ("C-j" enlarge-window "Enlarge height")
 
     ("-" split-window-below "Horiz split")
     ("\\" split-window-right "Vert split")
