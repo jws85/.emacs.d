@@ -1940,6 +1940,20 @@ far as I'm concerned.
     :mode "\\.lua\\'")
 #+end_src
 
+*** Python
+
+To install [[https://github.com/palantir/python-language-server][the Python language server]] (note: Py3 only), run the
+following:
+
+#+begin_src shell :tangle no
+  sudo apt install python3-pip
+  sudo -H pip3 install python-language-server
+#+end_src
+
+#+begin_src emacs-lisp
+  (add-hook 'python-mode-hook 'lsp)
+#+end_src
+
 ** Web
 
 *** Emmet
