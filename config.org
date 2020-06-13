@@ -1140,6 +1140,15 @@ that you can find in newer editors.
     (git-timemachine-mode))
 #+end_src
 
+I like [[https://gitahead.github.io/gitahead.com/][GitAhead]] as a nice GUI client; usually I use it to look over
+multiple commits that I'm about to merge into master or make live.
+
+#+begin_src emacs-lisp
+  (defun jws/launch-git-ahead ()
+    (interactive)
+    (start-process "git-ahead" nil "git-ahead"))
+#+end_src
+
 ** Project management
 
 [[https://github.com/bbatsov/projectile][Projectile]] is the current best-in-class for this purpose.
@@ -2382,6 +2391,7 @@ To control ~projectile~ and other associated packages.
 #+begin_src emacs-lisp
   (defhydra jws/hydra-git (:color blue :columns 4)
      "Git menu"
+     ("a" jws/launch-git-ahead "GitAhead")
      ("g" magit-status "Magit")
      ("b" magit-branch-checkout "Git branch")
      ("i" magit-init "Git new repo")
