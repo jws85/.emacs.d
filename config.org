@@ -626,6 +626,7 @@ or similar.
     (define-key evil-motion-state-map (kbd "+") 'er/expand-region)
     (define-key evil-motion-state-map (kbd "g c") 'avy-goto-char)
     (define-key evil-motion-state-map (kbd "g l") 'avy-goto-line)
+    (define-key evil-motion-state-map (kbd "g o") 'ace-link)
     (define-key evil-motion-state-map (kbd ";") 'counsel-M-x)
     (define-key evil-motion-state-map (kbd "/") 'swiper)
     (define-key evil-motion-state-map (kbd "?") 'swiper-backward))
@@ -1074,9 +1075,7 @@ Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to l
 #+begin_src emacs-lisp
   (use-package ace-link
     :ensure t
-    :after avy
-    :config
-    (ace-link-setup-default))
+    :after avy)
 #+end_src
 
 ** Version control
