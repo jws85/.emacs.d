@@ -1569,26 +1569,22 @@ and be more or less off to the races.
 
 *** Note taking
 
-[[https://github.com/jrblevin/deft][Deft]] is a quick-notes tool that I've already gotten some mileage out
-of.  It doesn't require ~org~, but my set up marries the two.
+Trying to do a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]].  I ended up settling on [[https://www.orgroam.com/][org-roam]].
 
 #+begin_src emacs-lisp
-  (use-package deft
+  (use-package org-roam
     :ensure t
-    :after org
-    :commands deft
+    :hook ((after-init . org-roam-mode))
+    :commands (org-roam org-roam-find-file)
     :config
-    (setq deft-directory jws/org-notes-dir
-          deft-recursive t
-          deft-extensions '("org" "md" "markdown" "txt")
-          deft-default-extension "org"
-          deft-use-filename-as-title nil
-          deft-use-filter-string-for-filename t
-          deft-file-naming-rules
-          '((noslash . "-")
-            (nospace . "-")
-            (case-fn . downcase))))
+    (setq org-roam-directory jws/org-notes-dir))
 #+end_src
+
+I had Deft previously, but I filled it with a lot of junk (quick notes
+that never got processed properly).  I think I need a little more
+structure (e.g. tagging, easy internal linking).  Zetteldeft is nice,
+but it doesn't natively support org links.  I may bring back Deft by
+itself if I want another searching method.
 
 ** Markdown
 
@@ -2346,6 +2342,16 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
 ~jws/hydra-org-files~ is defined under "File menu" above.
 
 #+begin_src emacs-lisp
+  (defhydra jws/hydra-zettel (:color blue :columns 4)
+    "Zettelkasten"
+    ("z" org-roam-find-file "Find file")
+    ("i" org-roam-insert "Insert")
+    ("g" org-roam-graph "Graph")
+    ("o" org-roam-find-index "Open index")
+    ("s" org-roam "Sidebar"))
+#+end_src
+
+#+begin_src emacs-lisp
   (defhydra jws/hydra-org (:color blue :columns 4)
     "Org-mode menu"
     ("f" jws/hydra-org-files/body "Open files")
@@ -2353,7 +2359,7 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
     ("c" org-capture "Capture")
     ("e" org-export-dispatch "Export")
     ("l" org-store-link "Store link")
-    ("n" deft "Notes")
+    ("z" jws/hydra-zettel/body "Zettelkasten")
     ("r" jws/load-org-settings "Reload settings"))
 #+end_src
 
