@@ -1577,7 +1577,8 @@ Trying to do a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]].  I 
     :hook ((after-init . org-roam-mode))
     :commands (org-roam org-roam-find-file)
     :config
-    (setq org-roam-directory jws/org-notes-dir))
+    (setq org-roam-directory jws/org-notes-dir)
+    (require 'org-roam-protocol))
 #+end_src
 
 I had Deft previously, but I filled it with a lot of junk (quick notes
