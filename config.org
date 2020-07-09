@@ -1581,11 +1581,22 @@ Trying to do a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]].  I 
     (require 'org-roam-protocol))
 #+end_src
 
-I had Deft previously, but I filled it with a lot of junk (quick notes
-that never got processed properly).  I think I need a little more
-structure (e.g. tagging, easy internal linking).  Zetteldeft is nice,
-but it doesn't natively support org links.  I may bring back Deft by
-itself if I want another searching method.
+I used to use [[https://github.com/jrblevin/deft][Deft]] as a quick-notes tool but found that my notes
+became structureless.  However, ~org-roam~ lacks a fulltext search,
+and Deft has it... so we're bringing it back on board.
+
+#+begin_src emacs-lisp
+  (use-package deft
+    :ensure t
+    :after org
+    :commands deft
+    :config
+    (setq deft-directory jws/org-notes-dir
+          deft-recursive t
+          deft-extensions '("org")
+          deft-default-extension "org"
+          deft-new-file-format "%Y%m%d%H%M%S"))
+#+end_src
 
 ** Markdown
 
@@ -2346,6 +2357,7 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
   (defhydra jws/hydra-zettel (:color blue :columns 4)
     "Zettelkasten"
     ("z" org-roam-find-file "Find file")
+    ("f" deft "Fulltext search (Deft)")
     ("i" org-roam-insert "Insert")
     ("g" org-roam-graph "Graph")
     ("o" org-roam-find-index "Open index")
