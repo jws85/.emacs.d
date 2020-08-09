@@ -1061,6 +1061,10 @@ that file in a new buffer.
   (defalias 'eshell/emacs 'find-file)
   (defalias 'eshell/magit 'magit-status)
   (defalias 'eshell/dired 'dired-jump)
+  (defun eshell/x ()
+    (interactive)
+    (eshell/exit)
+    (delete-window))
 #+end_src
 
 There is also ~ansi-term~, which attempts to be a VT terminal emulator.
