@@ -2208,6 +2208,20 @@ a color, which determines their behavior.  For our purposes:
 I use blue very extensively since most commands are going to be
 fire-and-forget.
 
+It's sometimes handy to make a hydra that can "change colors," so that
+you have one menu that only works for one operation, and one that
+works for multiple operations.  My lisp-fu is terrible and so I stole
+the following macro to do exactly this from [[https://github.com/abo-abo/hydra/issues/230][here]]:
+
+#+begin_src emacs-lisp
+  (defmacro jws/defmultihydra (names-body &optional docstring &rest heads)
+    "Taken from https://github.com/abo-abo/hydra/issues/230"
+    (cons 'progn
+          (mapcar (lambda (nb)
+                    `(defhydra ,(car nb) ,(cdr nb) ,docstring ,@heads))
+                  names-body)))
+#+end_src
+
 ** Emacs menu
 #+begin_src emacs-lisp
   (defun jws/open-emacs-config ()
@@ -2323,7 +2337,8 @@ It is confusing, but I choose to use the Emacs terminology in code,
 but "normie" terminology in the menus themselves.
 
 #+begin_src emacs-lisp
-  (defhydra jws/hydra-windows (:columns 4)
+  (jws/defmultihydra ((jws/hydra-windows :columns 4 :color blue)
+                      (jws/hydra-windows-sticky :columns 4))
     "Buffer splitting:"
     ("<tab>" other-window "Prev")
     ("s" ace-window "Jump to")
@@ -2543,7 +2558,8 @@ I continue to be amazed that Emacs doesn't have this...
     ("o" jws/hydra-org/body "Org")
     ("n" jws/eww-home "Net")
     ("p" jws/hydra-project/body "Project")
-    ("s" jws/hydra-windows/body "Splitting")
+    ("s" jws/hydra-windows/body "Split")
+    ("S" jws/hydra-windows-sticky/body "MultiSplit")
     ("t" jws/hydra-text-editing/body "Text")
     ("w" jws/hydra-frames/body "Frames")
     ("x" eshell "Shell")
