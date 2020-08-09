@@ -1967,6 +1967,17 @@ Again here we enable ~lsp-mode~, this time using [[https://github.com/golang/too
                      "go build -v && go test -v && go vet"))))
 #+end_src
 
+*** Rust
+
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :ensure t
+    :mode "\\.rs\\'"
+    :config
+    (add-hook 'rust-mode-hook 'lsp)
+    (add-hook 'rust-mode-hook (lambda () (setq-local counsel-dash-docsets '("Rust")))))
+#+end_src
+
 *** JavaScript
 
 I'm just dumping these here and plan on fiddling with them later.
