@@ -623,11 +623,22 @@ or similar.
     :init (setq evil-want-keybinding nil)
     :config
     (evil-mode t)
+
+    ;;; Define various normal-mode bindings:
+    ;; Select an incrementally larger region of text
     (define-key evil-motion-state-map (kbd "+") 'er/expand-region)
+    ;; Jump to character/line
     (define-key evil-motion-state-map (kbd "g c") 'avy-goto-char)
     (define-key evil-motion-state-map (kbd "g l") 'avy-goto-line)
+    ;; Jump to link and view it
     (define-key evil-motion-state-map (kbd "g o") 'ace-link)
+    ;; Jump to definition/references with LSP
+    (define-key evil-motion-state-map (kbd "g d") nil)
+    (define-key evil-motion-state-map (kbd "g d d") 'lsp-ui-peek-find-definitions)
+    (define-key evil-motion-state-map (kbd "g d r") 'lsp-ui-peek-find-references)
+    ;; Command menu via counsel
     (define-key evil-motion-state-map (kbd ";") 'counsel-M-x)
+    ;; Search text with swiper
     (define-key evil-motion-state-map (kbd "/") 'swiper)
     (define-key evil-motion-state-map (kbd "?") 'swiper-backward))
 #+end_src
