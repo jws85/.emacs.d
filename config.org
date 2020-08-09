@@ -963,6 +963,24 @@ Finally, a function to open the home directory in Dired.
     (dired "/"))
 #+end_src
 
+** Diffing
+
+[[https://oremacs.com/2015/01/17/setting-up-ediff/][These settings]] beat the hell out of the defaults:
+
+#+begin_src emacs-lisp
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain
+        ediff-split-window-function 'split-window-horizontally)
+
+  (defun jws/ediff-hook ()
+    "Taken from https://oremacs.com/2015/01/17/setting-up-ediff/"
+    (ediff-setup-keymap)
+    (define-key ediff-mode-map "j" 'ediff-next-difference)
+    (define-key ediff-mode-map "k" 'ediff-previous-difference))
+  (add-hook 'ediff-mode-hook 'jws/ediff-hook)
+
+  (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+#+end_src
+
 ** Image display
 
 Emacs is horribly unoptimized for this, but if we are viewing files,
