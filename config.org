@@ -1022,6 +1022,9 @@ sometimes muscle memory from old-school term/shells gets in one's way.
           eshell-prefer-lisp-functions nil
           eshell-destroy-buffer-when-process-dies t)
 
+    ;; Open eshell in a split
+    (add-to-list 'display-buffer-alist '(("\\`\\*e?shell" display-buffer-pop-up-window)))
+
     ;; Instead of ranger, why not use dired?
     ;; Instead of tig, why not use magit?
     ;; Still, in the off case these are used, use ansi-term
@@ -1044,7 +1047,7 @@ sometimes muscle memory from old-school term/shells gets in one's way.
                              'face `(:foreground "#bbfc20" :weight bold)))
              "\n"
              (propertize (if (= (user-uid) 0) "#" ">") 'face `(:foreground "#d02b61" :weight bold))
-             (propertize " " 'face `(:foreground "white"))))
+             (propertize " " 'face `(:foreground "white" :weight bold))))
           eshell-prompt-regexp "[#>] "))
 #+end_src
 
