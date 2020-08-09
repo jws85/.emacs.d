@@ -1025,7 +1025,27 @@ sometimes muscle memory from old-school term/shells gets in one's way.
     ;; Instead of ranger, why not use dired?
     ;; Instead of tig, why not use magit?
     ;; Still, in the off case these are used, use ansi-term
-    (setq eshell-visual-commands '("htop" "iotop" "iftop" "less" "lynx" "minicom" "more" "pine" "ranger" "screen" "top" "tig" "vi")))
+    (setq eshell-visual-commands
+          '("htop" "iotop" "iftop" "less" "lynx" "minicom" "more" "pine" "ranger" "screen" "top" "tig" "vi"))
+
+    ;; Set eshell prompt + regex
+    (setq eshell-prompt-function
+          (lambda ()
+            (concat
+             "\n"
+             (propertize (concat "\xf07c " (eshell/pwd))
+                         'face `(:foreground "#6c9ef8" :weight bold))
+             " "
+             (propertize (concat "\xf017 " (format-time-string "%H:%M" (current-time)))
+                         'face `(:foreground "#5699af" :weight bold))
+             " "
+             (if (magit-get-current-branch)
+                 (propertize (concat "\xf020 " (magit-get-current-branch))
+                             'face `(:foreground "#bbfc20" :weight bold)))
+             "\n"
+             (propertize (if (= (user-uid) 0) "#" ">") 'face `(:foreground "#d02b61" :weight bold))
+             (propertize " " 'face `(:foreground "white"))))
+          eshell-prompt-regexp "[#>] "))
 #+end_src
 
 Any function or alias with a name beginning with ~eshell/~ becomes a
