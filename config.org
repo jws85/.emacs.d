@@ -1151,6 +1151,7 @@ that's how good it is.
     :commands (magit-status
                magit-branch-checkout
                magit-blame
+               magit-get-current-branch
                magit-init
                magit-log-all-branches)
     :config
