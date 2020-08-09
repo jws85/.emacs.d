@@ -1088,6 +1088,7 @@ that file in a new buffer.
 #+begin_src emacs-lisp
   (defalias 'eshell/open 'find-file)
   (defalias 'eshell/emacs 'find-file)
+  (defalias 'eshell/edit 'find-file)
   (defalias 'eshell/magit 'magit-status)
   (defalias 'eshell/dired 'dired-jump)
   (defun eshell/x ()
