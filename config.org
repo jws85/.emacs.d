@@ -1487,7 +1487,7 @@ input so they don't break the ~org-mode~ parser:
   (defun transform-square-brackets-to-round-ones (string-to-transform)
     "Transforms [ into ( and ] into ), other chars left unchanged."
     (concat
-     (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform)))
+     (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
 #+end_src
 
 And here are the actual capture templates.  The latter two (~p~ and
