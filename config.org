@@ -2346,9 +2346,6 @@ use to talk about GUIs.
 If you want to manage the actual GUI windows themselves, you actually
 want to manage *frames* and should be looking at the "Frame menu."
 
-It is confusing, but I choose to use the Emacs terminology in code,
-but "normie" terminology in the menus themselves.
-
 #+begin_src emacs-lisp
   (jws/defmultihydra ((jws/hydra-windows :columns 4 :color blue)
                       (jws/hydra-windows-sticky :columns 4))
@@ -2378,8 +2375,17 @@ but "normie" terminology in the menus themselves.
     ("|" split-window-right "Vert split")
     ("=" balance-windows "Balance splits")
 
+    ("w" evil-window-next "Next window")
+    ("C-w" evil-window-next "Next window")
     ("c" delete-window "Remove current")
     ("C" delete-other-windows "Remove others"))
+#+end_src
+
+Finally, let's replace Evil's split menu with mine, because I know
+my keybindings better...
+
+#+begin_src emacs-lisp
+  (define-key evil-normal-state-map (kbd "C-w") 'jws/hydra-windows/body)
 #+end_src
 
 ** Frame/"window" menu
