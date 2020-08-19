@@ -1593,6 +1593,7 @@ I define the following keywords:
                                (jws/org-snippets-file . (:maxlevel . 1)))
           org-refile-use-outline-path t
           org-outline-path-complete-in-steps nil
+          org-icalendar-combined-agenda-file (concat jws/org-agenda-dir "combined.ics")
           org-archive-location "finished.org::datetree/*"
           org-agenda-span 14
           org-agenda-files (list jws/org-todo-file jws/org-reminder-file)
