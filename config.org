@@ -2489,7 +2489,7 @@ To control ~projectile~ and other associated packages.
     ;;  - ag
     ;;  - ack
     ;;  - grep
-    ("s" counsel-ag "Grep")
+    ("s" counsel-rg "Grep")
     ("o" projectile-multi-occur "Multi-occur")
     ("SPC" counsel-projectile-switch-project "Switch project")
     ("k" projectile-kill-buffers "Kill buffers"))
