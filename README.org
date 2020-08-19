@@ -4,7 +4,7 @@ Oriented around vim-style keybindings and PHP programming... for the
 moment.
 
 Warning: If you want a good easy Emacs starter pack, please go look at
-[[https://github.com/bbatsov/prelude][Emacs Prelude]] or [[http://spacemacs.org/][Spacemacs]] or similar.  I've run this code in various
+[[https://github.com/hlissner/doom-emacs][Doom Emacs]] or [[http://spacemacs.org/][Spacemacs]] or similar.  I've run this code in various
 states of breakage, and anticipate more breakage in the future.  That
 said, I try to sorta-test before pushing to GitHub.
 
@@ -22,18 +22,12 @@ obvious.  On Windows you can find it through Win+R and search for
 Start up Emacs and pray that something isn't broken.  If it is, fix
 it.  Ain't the bleeding edge fun?
 
-I have been using this ~.emacs.d~ with Emacs 26.3.  Since this is a
-personal configuration, this may change at any moment, and there are
-some plugins that may force me to move to a newer version...
+I have been using this ~.emacs.d~ with the nightly snapshots.  I had
+been using it with Emacs 26, but ~lsp-mode~ is much faster with the
+new JSON stuff.
 
-(If you are on Ubuntu 18.04 like me, install ~emacs26~ from [[https://launchpad.net/~kelleyk/+archive/ubuntu/emacs][this PPA]]
-to get Emacs 26.3.  I ran into some annoying bugs with ~evil~ and with
-the main GNU package server that forced this change!)
-
-NOTE: If you're changing Emacs versions, especially if you're going
-backwards (e.g. trying out a development build, then going back to
-stable), you may need to blow away the ~elpa/~ directory to get rid of
-~.elc~ files built against the newer version.
+If you're on Ubuntu (or Pop_OS) install ~emacs-snapshot~ from [[https://launchpad.net/~ubuntu-elisp/+archive/ubuntu/ppa][this
+PPA]].
 
 * Keybindings
 
@@ -42,8 +36,8 @@ date.  A while back, I re-oriented myself to work more like Spacemacs,
 so almost everything that isn't some kind of Evil binding is hanging
 off the Space key.
 
-If you're in a mode where Space doesn't work, ~M-j~ *should* do the
-same thing.
+If you're in a mode where Space doesn't work, ~M-j~ or ~F2~ *should*
+do the same thing.
 
 Specifically, ~SPC f f~ should open a file switcher and ~SPC b b~
 should open a buffer switcher.  But I can't even guarantee those
