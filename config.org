@@ -903,8 +903,7 @@ Due to ~evil-collection~ I had to specially map ~^~.
     :after dired
     :bind (:map dired-mode-map
            ("^" . dired-single-up-directory)
-           ("<return>" . dired-single-buffer))
-    :hook (evil-collection-setup . (lambda (&rest a) (evil-define-key 'normal 'dired-mode-map (kbd "^") 'dired-single-up-directory))))
+           ("<return>" . dired-single-buffer)))
 #+end_src
 
 ~dired-x~ is a set of extensions to ~dired~; I use ~dired-omit-mode~
@@ -1611,7 +1610,7 @@ I define the following keywords:
     (define-key org-agenda-mode-map (kbd "d") 'org-agenda-goto-date)
 
     ;; Save after various edits in org-mode/org-agenda
-    (advice-add 'org-deadline :after 'org-save-all-org-buffers)
+    ;(advice-add 'org-deadline :after 'org-save-all-org-buffers)
     (advice-add 'org-refile :after 'org-save-all-org-buffers))
 #+end_src
 
@@ -1816,7 +1815,7 @@ editing beforehand.
            (lisp-interaction-mode . parinfer-mode))
     :config
     (setq parinfer-extensions
-          '(defaults pretty-parens evil smart-tab smart-yank)))
+          '(defaults pretty-parens evil smart-yank)))
 #+end_src
 
 [[https://github.com/hchbaw/eval-sexp-fu.el][eval-sexp-fu]] flashes the region of the s-expression being evaluated.
