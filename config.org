@@ -1501,7 +1501,9 @@ been using as a basis for building my own "GTD" system.
     (setq org-capture-templates
           '(("d" "Daily focus" plain (file+olp jws/org-todo-file "Daily")
              (file "templates/daily.org"))
-            ("t" "Todo" entry (file+olp jws/org-todo-file "Inbox" "Tasks")
+            ("r" "Reminder" entry (file+olp jws/org-reminder-file "Scheduled")
+             "* %?\n%U\n%i\n")
+            ("t" "Task" entry (file+olp jws/org-todo-file "Inbox")
              "* TODO %?\n%U\n%i\n")
             ("b" "Bookmark" entry (file+headline jws/org-links-file "Uncategorized")
              "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n" :empty-lines 1)
