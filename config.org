@@ -1084,6 +1084,30 @@ time the prompt was generated, etc:
      (propertize (if (= (user-uid) 0) "#" ">") 'face `(:foreground "#d02b61" :weight bold))
      (propertize " " 'face `(:foreground "white" :weight bold))))
 #+end_src
+
+Nice history autocompletion for eshell via company:
+
+#+begin_src emacs-lisp
+  (use-package esh-autosuggest
+    :after eshell
+    :hook (eshell-mode . esh-autosuggest-mode)
+    :ensure t)
+#+end_src
+
+Ivy completion of file names and the like:
+
+#+begin_src emacs-lisp
+  (defun jws/setup-eshell-ivy-completion ()
+    (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
+    ;; only if you want to use the minibuffer for completions instead of the
+    ;; in-buffer interface
+    (setq-local ivy-display-functions-alist
+                (remq (assoc 'ivy-completion-in-region ivy-display-functions-alist)
+                      ivy-display-functions-alist)))
+
+  (add-hook 'eshell-mode-hook #'jws/setup-eshell-ivy-completion)
+#+end_src
+
 Any function or alias with a name beginning with ~eshell/~ becomes a
 command inside ~eshell~ itself.  The result being that I can do
 ~open ~/.emacs.d/config.org~ from inside ~eshell~ and it'll open up
