@@ -98,3 +98,4 @@ transient/
 session.*
 tags
 TAGS
+/.org-id-locations
