@@ -1060,25 +1060,30 @@ sometimes muscle memory from old-school term/shells gets in one's way.
           '("htop" "iotop" "iftop" "less" "lynx" "minicom" "more" "pine" "ranger" "screen" "top" "tig" "vi"))
 
     ;; Set eshell prompt + regex
-    (setq eshell-prompt-function
-          (lambda ()
-            (concat
-             "\n"
-             (propertize (concat "\xf07c " (eshell/pwd))
-                         'face `(:foreground "#6c9ef8" :weight bold))
-             " "
-             (propertize (concat "\xf017 " (format-time-string "%H:%M" (current-time)))
-                         'face `(:foreground "#5699af" :weight bold))
-             " "
-             (if (magit-get-current-branch)
-                 (propertize (concat "\xf020 " (magit-get-current-branch))
-                             'face `(:foreground "#bbfc20" :weight bold)))
-             "\n"
-             (propertize (if (= (user-uid) 0) "#" ">") 'face `(:foreground "#d02b61" :weight bold))
-             (propertize " " 'face `(:foreground "white" :weight bold))))
+    (setq eshell-prompt-function #'jws/eshell-prompt
           eshell-prompt-regexp "[#>] "))
 #+end_src
 
+The eshell prompt itself, which displays the current Git branch, the
+time the prompt was generated, etc:
+
+#+begin_src emacs-lisp
+  (defun jws/eshell-prompt ()
+    (concat
+     "\n"
+     (propertize (concat "\xf07c " (eshell/pwd))
+                 'face `(:foreground "#6c9ef8" :weight bold))
+     " "
+     (propertize (concat "\xf017 " (format-time-string "%H:%M" (current-time)))
+                 'face `(:foreground "#5699af" :weight bold))
+     " "
+     (if (magit-get-current-branch)
+         (propertize (concat "\xf020 " (magit-get-current-branch))
+                     'face `(:foreground "#bbfc20" :weight bold)))
+     "\n"
+     (propertize (if (= (user-uid) 0) "#" ">") 'face `(:foreground "#d02b61" :weight bold))
+     (propertize " " 'face `(:foreground "white" :weight bold))))
+#+end_src
 Any function or alias with a name beginning with ~eshell/~ becomes a
 command inside ~eshell~ itself.  The result being that I can do
 ~open ~/.emacs.d/config.org~ from inside ~eshell~ and it'll open up
