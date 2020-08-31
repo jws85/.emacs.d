@@ -1042,6 +1042,7 @@ sometimes muscle memory from old-school term/shells gets in one's way.
 #+begin_src emacs-lisp
   (use-package eshell
     :commands eshell
+    :hook (eshell-banner-load . jws/eshell-banner)
     :config
     (setq eshell-scroll-to-bottom-on-input 'all
           eshell-error-if-no-glob t
@@ -1083,6 +1084,31 @@ time the prompt was generated, etc:
      "\n"
      (propertize (if (= (user-uid) 0) "#" ">") 'face `(:foreground "#d02b61" :weight bold))
      (propertize " " 'face `(:foreground "white" :weight bold))))
+#+end_src
+
+If you haven't figured out yet, I like pointlessly goofy displays;
+this will display every time I open the prompt:
+
+#+begin_src emacs-lisp
+  (use-package lolcat :ensure t :commands (lolcat lolcat-this-buffer))
+  (use-package figlet :ensure t :commands (figlet))
+
+  (defun jws/eshell-banner ()
+    "Display an 'informative' banner on eshell startup"
+    (with-temp-buffer
+      ;; equivalent to `hostname | figlet | lolcat` in shell
+      (figlet (system-name))
+      (lolcat-this-buffer)
+      (insert "\n")
+
+      ;; print fortune if command installed
+      (if (executable-find "fortune")
+          (insert
+           (concat (shell-command-to-string "fortune -s")
+                   "\n")))
+
+      ;; dump to string and set banner to that
+      (setq eshell-banner-message (buffer-string))))
 #+end_src
 
 Nice history autocompletion for eshell via company:
