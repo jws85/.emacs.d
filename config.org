@@ -1743,6 +1743,21 @@ and Deft has it... so we're bringing it back on board.
           deft-new-file-format "%Y%m%d%H%M%S"))
 #+end_src
 
+*** Conversion
+
+~ox-wk~ provides conversion to [[https://www.dokuwiki.org/dokuwiki][Dokuwiki]]; I often start documents for
+work in Org and then copy it into our work wiki.
+
+#+begin_src emacs-lisp
+  (use-package ox-wk
+    :ensure t
+    :after org
+    :commands (ox-wk-export-as-wiki
+               ox-wk-export-to-wiki)
+    :config
+    (setq ox-wk-org-verbatim 'monospace))
+#+end_src
+
 ** Markdown
 
 Ideally I'd stay in org-mode, but I live in the real world.
