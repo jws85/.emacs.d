@@ -1097,15 +1097,21 @@ this will display every time I open the prompt:
     "Display an 'informative' banner on eshell startup"
     (with-temp-buffer
       ;; equivalent to `hostname | figlet | lolcat` in shell
+      (setq-local figlet-default-font "slant")
       (figlet (system-name))
       (lolcat-this-buffer)
-      (insert "\n")
+      (insert "running EmacsOS v.")
+      (insert emacs-version)
+      (insert "\n\n")
+
+      ;; print uptime
+      (insert
+       (concat (string-trim-left (shell-command-to-string "uptime"))
+               "\n"))
 
       ;; print fortune if command installed
       (if (executable-find "fortune")
-          (insert
-           (concat (shell-command-to-string "fortune -s")
-                   "\n")))
+          (insert (shell-command-to-string "fortune -s")))
 
       ;; dump to string and set banner to that
       (setq eshell-banner-message (buffer-string))))
