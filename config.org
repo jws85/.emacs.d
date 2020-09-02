@@ -1097,9 +1097,15 @@ this will display every time I open the prompt:
     "Display an 'informative' banner on eshell startup"
     (with-temp-buffer
       ;; equivalent to `hostname | figlet | lolcat` in shell
+      (setq-local figlet-default-font "slant")
       (figlet (system-name))
       (lolcat-this-buffer)
       (insert "\n")
+
+      ;; print uptime
+      (insert
+       (concat (shell-command-to-string "uptime")
+               "\n"))
 
       ;; print fortune if command installed
       (if (executable-find "fortune")
