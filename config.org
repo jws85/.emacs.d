@@ -2143,16 +2143,21 @@ far as I'm concerned.
 
 *** Python
 
-To install [[https://github.com/palantir/python-language-server][the Python language server]] (note: Py3 only), run the
-following:
-
-#+begin_src shell :tangle no
-  sudo apt install python3-pip
-  sudo -H pip3 install python-language-server
-#+end_src
+I'm using [[https://github.com/microsoft/pyright][Pyright]] for Python completions:
 
 #+begin_src emacs-lisp
-  (add-hook 'python-mode-hook 'lsp)
+  (use-package lsp-pyright
+    :ensure t
+    :hook (python-mode . (lambda ()
+                            (require 'lsp-pyright)
+                            (lsp-deferred))))
+#+end_src
+
+To install Pyright, install NodeJS v12.x or greater (on Ubuntu 20.04,
+you'll need the [[https://github.com/nodesource/distributions/blob/master/README.md][Node repositories]] added) and then:
+
+#+begin_src shell :tangle no
+  sudo npm install -g pyright
 #+end_src
 
 ** Web
