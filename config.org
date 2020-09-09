@@ -2034,26 +2034,41 @@ For ~c-mode~ and ~c++-mode~ you'll want the ~clangd~ from ~clang-tools-8~.
 *** PHP
 
 I am currently paid to write PHP, so most of the effort is going to go
-here.  ~php-mode~ is useful for files with very little HTML/CSS/JS in
-them; if your PHP is more like HTML template code, use ~web-mode~
+here.  =php-mode= is useful for files with very little HTML/CSS/JS in
+them; if your PHP is more like HTML template code, use =web-mode=
 instead.
 
-~lsp-mode~ is great.  If you are on a recent-ish version of PHP,
+=lsp-mode= is great.  If you are on a recent-ish version of PHP,
 you'll need [[https://www.npmjs.com/package/intelephense][Intelephense]], which requires NodeJS/NPM to install.
 Intelephense is not "Free Software" but its free version works fine
-for autocompletion and linting.  I haven't tried the paid version
-yet; but it's not expensive (about as much as a decent restaurant
-meal in the US for a "perpetual" multimachine license).
+for autocompletion and linting, and I used it this way for a few
+months before buying it for $10.  I can confirm that at least
+Intelephense's class renaming (one of the paid features) works with
+=lsp-mode=.
 
 #+begin_src emacs-lisp
   (use-package php-mode
     :ensure t
-    :mode "\\.php\\'"
+    :commands php-mode
     :config
     (setq c-basic-offset 4)
     (add-hook 'php-mode-hook 'lsp)
     (add-hook 'php-mode-hook 'jws/make-underscores-belong-to-words)
     (add-hook 'php-mode-hook (lambda () (setq-local counsel-dash-docsets '("PHP")))))
+#+end_src
+
+=auto-mode-alist= loads by precedence; the first match wins.  As such,
+I want to specifically load =.blade.php= with =web-mode= and defer the
+rest to =php-mode=.  =add-to-list= appends, so we want to put the Blade
+(and other templates) matcher *after* the default PHP matcher.  Whew!
+
+(Unfortunately, [[https://emacs.stackexchange.com/questions/12500/exclude-a-string-in-emacs-regexp/12502][elisp regex cannot do lookahead]], so you [[https://stackoverflow.com/a/1732454][can't simply
+match]] "not =blade=".)
+
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
+  (add-to-list 'auto-mode-alist '("\\.blade\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\.php\\'" . web-mode))
 #+end_src
 
 *** Go
@@ -2204,9 +2219,9 @@ mixed-mode files, and it mostly works.  At least, it works better than
 #+begin_src emacs-lisp
   (use-package web-mode
     :ensure t
+    :commands web-mode
     :mode ("\\.html?\\'"
            "\\.phtml\\'"
-           "\\.tpl\\.php\\'"
            "\\.[agj]sp\\'"
            "\\.as[cp]x\\'"
            "\\.erb\\'"
