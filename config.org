@@ -1473,6 +1473,24 @@ settings you enable.
   (prefer-coding-system 'utf-8)
 #+end_src
 
+** Regular expressions
+
+You can use =re-builder= to try regular expressions against your
+current text and see what it'd match (including capturing groups).
+Unfortunately it only supports the regexes that Emacs supports -- no
+PCRE.
+
+Out of the box, it'll use the unwieldy "escaped in a string" syntax
+(=read=); set it to =string= instead ([[https://www.masteringemacs.org/article/re-builder-interactive-regexp-builder][see here]]) to not barf slashes
+everywhere.  Use the =C-c C-w= syntax to copy said expression to a
+format that can be used as an elisp string instead.
+
+#+begin_src emacs-lisp
+  (use-package re-builder
+    :config
+    (setq reb-re-syntax 'string))
+#+end_src
+
 * Writing
 ** org-mode
 
