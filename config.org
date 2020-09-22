@@ -2217,7 +2217,10 @@ You would expand the former into the latter with ~C-j~.
 #+begin_src emacs-lisp
   (use-package emmet-mode
     :ensure t
-    :hook (sgml-mode php-mode web-mode css-mode))
+    :bind (("C-," . emmet-expand-line))
+    :hook (sgml-mode php-mode web-mode css-mode)
+    :config
+    (unbind-key "C-j" emmet-mode-keymap))
 #+end_src
 
 *** web-mode
