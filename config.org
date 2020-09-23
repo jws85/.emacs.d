@@ -2479,6 +2479,7 @@ This menu allows for manipulation of Emacs buffer objects.
 #+begin_src emacs-lisp
   (defhydra jws/hydra-buffer (:color blue :columns 4)
     "Buffer menu"
+    ("SPC" jws/scratch-switch "Switch to scratch")
     ("b" ivy-switch-buffer "Switch buffer")
     ("c" clone-indirect-buffer-other-window "Clone buffer")
     ("i" ibuffer "Buffer list")
@@ -2486,6 +2487,16 @@ This menu allows for manipulation of Emacs buffer objects.
     ("s" save-buffer "Save buffer")
     ("S" write-file "Save buffer elsewhere")
     ("u" bury-buffer "Bury buffer"))
+#+end_src
+
+A simple function to jump back to the =*scratch*= buffer, which I'll
+sometimes use to prototype elisp and sometimes to slice and dice
+clipboard text:
+
+#+begin_src emacs-lisp
+  (defun jws/scratch-switch ()
+    (interactive)
+    (switch-to-buffer "*scratch*"))
 #+end_src
 
 ** Window menu
