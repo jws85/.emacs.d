@@ -777,8 +777,6 @@ seemingly maintained anymore.  So... we just hack the heck out of
     :ensure t
     :init (company-mode)
     :config
-    (add-to-list 'company-frontends 'company-tng-frontend)
-
     ;; company uses a lot of meta bindings.  I like control better
     (define-key company-active-map [(tab)] 'company-select-next)
     (define-key company-active-map (kbd "TAB") 'company-select-next)
@@ -801,11 +799,14 @@ seemingly maintained anymore.  So... we just hack the heck out of
     (setq company-idle-delay 0.1
           company-minimum-prefix-length 2
           company-tooltip-limit 20
+          company-tooltip-align-annotations t
           company-selection-wrap-around t
           company-dabbrev-downcase nil
           company-dabbrev-ignore-case t
           company-show-numbers t
-          company-require-match nil)
+          company-require-match nil
+          company-frontends '(company-pseudo-tooltip-frontend
+                              company-echo-metadata-frontend))
 
     (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
