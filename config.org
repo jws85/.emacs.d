@@ -1745,7 +1745,13 @@ I define the following keywords:
           org-startup-indented t
           org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")
                               (sequence "AGENDA(a)" "|" "MINUTES(m)"))
-          org-tag-alist '(("@personal" . ?p) ("@career" . ?c) ("@errand" . ?e) ("@travel" . ?t)))
+          org-tag-alist '(("@career" . ?c)
+                          ("@event" . ?e)
+                          ("@gtd" . ?g)
+                          ("@hobby" . ?h)
+                          ("@life" . ?l)
+                          ("@recurring" . ?r)
+                          ("@travel" . ?t)))
 
     ;; Agenda vim key bindings
     (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
@@ -1767,9 +1773,15 @@ heckuva lot easier to read.
     :after org-agenda
     :config
     (org-super-agenda-mode)
+
     (setq org-super-agenda-groups
           '((:name "Today" :time-grid t :deadline today)
             (:name "Important" :priority "A")
+            (:name "GTD" :tag "@gtd")
+            (:name "Career" :tag "@career")
+            (:name "Events" :tag "@life" :tag "@event")
+            (:name "Hobby" :tag "@hobby")
+            (:name "Travel" :tag "@travel")
             (:auto-category t))))
 #+end_src
 
