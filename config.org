@@ -1360,6 +1360,31 @@ code that your cursor is on.
   (use-package focus :ensure t :commands (focus-mode))
 #+end_src
 
+~prism~, on the other hand, colorizes *everything* according to the
+code's nesting depth -- which can be handy for Lisp/JS callback hell!
+
+#+begin_src emacs-lisp
+  (use-package prism
+    :ensure t
+    :commands (prism-mode prism-whitespace-mode)
+    :config
+    (prism-set-colors :num 16
+      :desaturations (cl-loop for i from 0 below 16
+                              collect (* i 2.5))
+      :lightens (cl-loop for i from 0 below 16
+                         collect (* i 2.5))
+      :colors (list "dodgerblue" "medium sea green" "sandy brown")
+
+      :comments-fn
+      (lambda (color)
+        (prism-blend color
+                     (face-attribute 'font-lock-comment-face :foreground) 0.25))
+
+      :strings-fn
+      (lambda (color)
+        (prism-blend color "white" 0.5))))
+#+end_src
+
 ~expand-region~ selects increasingly large areas of text when used
 repeatedly (with Evil normal mode ~+~).
 
@@ -2711,6 +2736,8 @@ present these via ~ivy~.
   (defhydra jws/hydra-appearance (:columns 4)
     "Appearance"
     ("f" focus-mode "Focus")
+    ("p" prism-mode "Prism")
+    ("P" prism-whitespace-mode "Prism whitespace")
     ("t" load-theme "Load theme")
 
     ("=" jws/text-scale-reset "Reset font size")
