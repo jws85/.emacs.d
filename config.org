@@ -1708,7 +1708,8 @@ I define the following keywords:
           org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
           org-icalendar-store-UID t
           org-archive-location "finished.org::datetree/*"
-          org-agenda-span 14
+          org-agenda-span 'day
+          org-agenda-default-appointment-duration 60
           org-agenda-files (list jws/org-todo-file jws/org-reminder-file)
           org-use-fast-todo-selection t
           org-log-into-drawer t
@@ -1726,6 +1727,21 @@ I define the following keywords:
     ;; Save after various edits in org-mode/org-agenda
     ;(advice-add 'org-deadline :after 'org-save-all-org-buffers)
     (advice-add 'org-refile :after 'org-save-all-org-buffers))
+#+end_src
+
+[[https://github.com/alphapapa/org-super-agenda][This package]] groups agenda items together, which makes the agenda a
+heckuva lot easier to read.
+
+#+begin_src emacs-lisp
+  (use-package org-super-agenda
+    :ensure t
+    :after org-agenda
+    :config
+    (org-super-agenda-mode)
+    (setq org-super-agenda-groups
+          '((:name "Today" :time-grid t :deadline today)
+            (:name "Important" :priority "A")
+            (:auto-category t))))
 #+end_src
 
 If one wants a quick look at their agenda without having to hunt through
