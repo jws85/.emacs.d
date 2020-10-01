@@ -2384,14 +2384,15 @@ This package integrates ~restclient~ with ~org-babel~.
 And this package integrates ~company~ with ~restclient~.
 
 #+begin_src emacs-lisp
-    (use-package company-restclient
-      :after (restclient company)
-      :ensure t
-      :hook (restclient-mode . company-mode)
-      :config
-      (add-hook 'restclient-mode-hook
-                (lambda ()
-                  (add-to-list 'company-backends 'company-restclient))))
+  (use-package company-restclient
+    :after (restclient company)
+    :ensure t
+    :hook (restclient-mode . company-mode)
+    :config
+    (add-hook 'restclient-mode-hook
+              (lambda ()
+                (make-local-variable 'company-backends)
+                (add-to-list 'company-backends 'company-restclient))))
 #+end_src
 
 ** Qt-specific
