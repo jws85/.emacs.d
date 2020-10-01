@@ -777,6 +777,13 @@ seemingly maintained anymore.  So... we just hack the heck out of
     :ensure t
     :init (company-mode)
     :config
+    (setq company-backends
+          '((company-files          ; files & directory
+             company-keywords       ; keywords
+             company-capf
+             company-yasnippet)
+            (company-abbrev company-dabbrev)))
+
     ;; company uses a lot of meta bindings.  I like control better
     (define-key company-active-map [(tab)] 'company-select-next)
     (define-key company-active-map (kbd "TAB") 'company-select-next)
