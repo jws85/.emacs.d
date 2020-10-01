@@ -319,7 +319,7 @@ whole plethora of ~C-x~ commands.
   (global-unset-key (kbd "C-x C-z"))
 #+end_src
 
-* Appearance
+* Appearance/visuals
 I like a very minimal Emacs (and Vim) window since both were
 made to be driven from the keyboard.
 
@@ -2684,9 +2684,9 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
     "Zettelkasten"
     ("z" org-roam-find-file "Find file")
     ("f" deft "Fulltext search (Deft)")
-    ("i" org-roam-insert "Insert")
+    ("l" org-roam-insert "Link")
     ("g" org-roam-graph "Graph")
-    ("o" org-roam-find-index "Open index")
+    ("i" org-roam-find-index "Index")
     ("s" org-roam "Sidebar"))
 #+end_src
 
@@ -2762,11 +2762,11 @@ present these via ~ivy~.
     ("v" counsel-describe-variable "Describe variable"))
 #+end_src
 
-** Appearance menu
+** Visuals menu
 
 #+begin_src emacs-lisp
-  (defhydra jws/hydra-appearance (:columns 4)
-    "Appearance"
+  (defhydra jws/hydra-visuals (:columns 4)
+    "Visuals"
     ("f" focus-mode "Focus")
     ("p" prism-mode "Prism")
     ("P" prism-whitespace-mode "Prism whitespace")
@@ -2804,7 +2804,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("<tab>" jws/switch-to-previous-buffer "Switch buffer")
     ("k" kill-this-buffer "Kill buffer")
 
-    ("a" jws/hydra-appearance/body "Appearance")
+    ("a" org-agenda "Agenda")
     ("b" jws/hydra-buffer/body "Buffers")
     ("c" calc-dispatch "Calc")
     ("d" jws/hydra-development/body "Development")
@@ -2818,8 +2818,11 @@ I continue to be amazed that Emacs doesn't have this...
     ("s" jws/hydra-windows/body "Split")
     ("S" jws/hydra-windows-sticky/body "MultiSplit")
     ("t" jws/hydra-text-editing/body "Text")
+    ("v" jws/hydra-visuals/body "Visual")
     ("w" jws/hydra-frames/body "Frames")
     ("x" eshell "Shell")
+    ("z" jws/hydra-zettel/body "Zettel")
+
     ("@" chronos-add-timer "Timer"))
 
   (global-set-key (kbd "<f2>") 'jws/hydra-master/body)
