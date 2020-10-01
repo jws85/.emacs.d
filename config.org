@@ -1654,19 +1654,6 @@ been using as a basis for building my own "GTD" system.
             ("s" "Code snippet" entry
              (file+headline jws/org-snippets-file "Uncategorized")
              "* %?\n#+BEGIN_SRC %^{language}\n%i\n#+END_SRC"
-             :empty-lines 1)
-
-            ;; org-protocol links
-            ("p" "Bookmark via org-protocol" entry
-             (file+headline jws/org-links-file "Uncategorized")
-             (concat
-              "* %?[[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
-              "#+BEGIN_QUOTE\n%i\n"
-              "#+END_QUOTE\n")
-             :empty-lines 1)
-            ("L" "Bookmark/link via org-protocol" entry
-             (file+headline jws/org-links-file "Uncategorized")
-             "* %?[[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"
              :empty-lines 1))))
 #+end_src
 
