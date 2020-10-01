@@ -1640,7 +1640,7 @@ been using as a basis for building my own "GTD" system.
 
             ; enter a reminder -- agenda entry without TODO
             ("r" "Reminder" entry
-             (file+olp jws/org-reminder-file "Scheduled")
+             (file+olp jws/org-reminder-file "Inbox")
              "* %?\n%U\n%i\n"
              :empty-lines 1)
 
