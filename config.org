@@ -83,9 +83,6 @@ And here are a number of important file paths.
 And finally, variables that may be changed elsewhere in the config.
 
 #+begin_src emacs-lisp
-  (defvar jws/package-refreshed-already nil
-    "Has package.el been refreshed yet?")
-
   (defvar jws/default-x-pos 0
     "Default x-coordinate (px from top-left corner) to place GUI frame")
   (defvar jws/default-y-pos 0
@@ -111,69 +108,30 @@ redirect its output.  We will load this file's values later.
   (setq custom-file jws/custom-file)
 #+end_src
 
-** Set up package.el
+** Set up straight.el
 
-This must be done before we do anything else.
+This must be done before we do anything else -- bootstrapping
+=straight.el=:
 
-First of all, we ensure ~package~ is loaded, and use MELPA as package
-server.
-
-#+begin_src emacs-lisp
-  (require 'package)
-  (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/") t)
+#+begin_src emacs-lisp :tangle yes
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
 #+end_src
 
-Next, I *would* initialize ~package~ with
+Automatically install packages listed in =use-package= invocations:
 
-#+begin_src emacs-lisp :tangle no
-  (package-initialize)
-#+end_src
-
-but Emacs insists on sticking it on the first line of the first
-init file it reads.  *No.  Matter.  What.*  In fact I find that a
-lot of my gripes with Emacs is that out-of-the-box it behaves
-[[https://en.wikipedia.org/wiki/In_loco_parentis][in loco parentis]] and I prefer the Unixy "I should be able to
-~rm -rf /~ if I want to" mindset.
-
-Then, we define some helper functions to work with ~package~.
-
-#+begin_src emacs-lisp
-  (defun jws/is-refresh-needed (refresh-interval)
-    "Determine whether a package refresh is needed -- every REFRESH-INTERVAL days"
-    (let* ((now (float-time (current-time)))
-           (package-archive-file "~/.emacs.d/elpa/archives/melpa/archive-contents")
-           (then (float-time (nth 5 (file-attributes package-archive-file))))
-           (refresh-interval-secs (* 24 60 60 refresh-interval)))
-      (if (file-exists-p package-archive-file)
-          (> (- now then)
-             refresh-interval-secs)
-        t)))
-
-  (defun jws/package-refresh-once-a-session ()
-    "Refresh package list once a session, if needed"
-    (if (not jws/package-refreshed-already)
-        (progn
-          (package-refresh-contents)
-          (setq jws/package-refreshed-already t))))
-
-  (defun jws/package-install (pkg)
-    "Install package PKG if it is not already installed"
-    (unless (package-installed-p pkg)
-      (jws/package-refresh-once-a-session)
-      (package-install pkg)))
-#+end_src
-
-And, finally, we see if a package refresh is needed, and do it if
-necessary.
-
-#+begin_src emacs-lisp
-;; If it's been seven days since we've refreshed packages, force a refresh
-;; Otherwise, don't bother
-(setq jws/package-refreshed-already (not (jws/is-refresh-needed 7)))
-
-;; Perform the package refresh, if needed.
-;(jws/package-refresh-once-a-session)
+#+begin_src emacs-lisp :tangle yes
+  (setq straight-use-package-by-default t)
 #+end_src
 
 ** Set up use-package
@@ -183,20 +141,8 @@ different libraries being loaded in one's ~.emacs~ blob and load them
 efficiently.  The rest of the config relies heavily upon ~use-package~,
 so it is loaded very early as well.
 
-Everywhere else, stuff is automatically installed by ~use-package~
-where possible.  However, you run into a bit of the good ol'
-[[https://en.wikipedia.org/wiki/Chicken_or_the_egg][chicken-and-egg dilemma]] when installing ~use-package~ itself, so we
-install it using the functions we defined earlier:
-
 #+begin_src emacs-lisp
-  (jws/package-install 'use-package)
-#+end_src
-
-and load it manually:
-
-#+begin_src emacs-lisp
-  (eval-when-compile
-    (require 'use-package))
+  (straight-use-package 'use-package)
 #+end_src
 
 ** Load unpackaged libraries
@@ -361,7 +307,6 @@ distance.
 
 #+begin_src emacs-lisp
   (use-package beacon
-    :ensure t
     :init (beacon-mode 1)
     :config (setq beacon-color "#dfbfff"))
 #+end_src
@@ -372,7 +317,7 @@ distance.
 packages (e.g. ~doom-modeline~).
 
 #+begin_src emacs-lisp
-  (use-package all-the-icons :ensure t)
+  (use-package all-the-icons)
 #+end_src
 
 Installation of the fonts must be done (once per machine) via the
@@ -388,7 +333,7 @@ Install doom-themes, which are a nice set of themes that work with a
 lot of libraries and look nice:
 
 #+begin_src emacs-lisp
-  (use-package doom-themes :ensure t)
+  (use-package doom-themes)
 #+end_src
 
 ** Modeline
@@ -398,7 +343,6 @@ replacement.
 
 #+begin_src emacs-lisp
   (use-package doom-modeline
-    :ensure t
     :hook (after-init . doom-modeline-mode)
     :config
     (column-number-mode)
@@ -414,7 +358,6 @@ which is fine by me.
 
 #+begin_src emacs-lisp
   (use-package minions
-    :ensure t
     :config
     (minions-mode 1))
 #+end_src
@@ -426,7 +369,6 @@ indicator.)
 
 #+begin_src emacs-lisp
   (use-package nyan-mode
-    :ensure t
     :config
     (nyan-mode)
     (setq nyan-bar-length 20))
@@ -602,7 +544,6 @@ A few more functions to handle the Emacs frame's transparency.
 
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
-    :ensure t
     :if (or (eq window-system nil) (memq window-system '(x ns mac)))
     :init
     (exec-path-from-shell-initialize))
@@ -619,7 +560,6 @@ or similar.
 
 #+begin_src emacs-lisp
   (use-package evil
-    :ensure t
     :init (setq evil-want-keybinding nil)
     :config
     (evil-mode t)
@@ -652,13 +592,11 @@ Some other ~evil~ related packages:
 #+begin_src emacs-lisp
   (use-package evil-surround
     :after evil
-    :ensure t
     :config
     (global-evil-surround-mode 1))
 
   (use-package evil-collection
     :after evil
-    :ensure t
     :config
     (setq evil-collection-mode-list '(dired eshell eww git-timemachine ibuffer image image+))
     (evil-collection-init))
@@ -670,7 +608,6 @@ how what you've bound ~M-x butterfly~ to.
 
 #+begin_src emacs-lisp
   (use-package which-key
-    :ensure t
     :config
     (which-key-mode)
     (setq which-key-idle-delay 0.1))
@@ -687,7 +624,6 @@ and I got used to this inside... for instance, magit.
 
 #+begin_src emacs-lisp
   (use-package ivy
-    :ensure t
     :commands (ivy-switch-buffer)
     :init (ivy-mode 1)
     :config
@@ -710,7 +646,6 @@ and I got used to this inside... for instance, magit.
 
 #+begin_src emacs-lisp
   (use-package counsel
-    :ensure t
     :after ivy
     :commands (counsel-bookmark
                counsel-descbinds
@@ -731,7 +666,6 @@ commands function slightly nicer.
 
 #+begin_src emacs-lisp
   (use-package ivy-rich
-    :ensure t
     :after counsel
     :config
     (setq ivy-rich-parse-remote-buffer nil)
@@ -742,14 +676,14 @@ commands function slightly nicer.
 automatically by ~ivy~ and ~counsel~.
 
 #+begin_src emacs-lisp
-  (use-package flx :ensure t :after ivy)
+  (use-package flx :after ivy)
 #+end_src
 
 [[https://github.com/nonsequitur/smex][smex]] provides an even more efficient ~M-x~ command, which is picked up
 automatically by ~counsel-M-x~.
 
 #+begin_src emacs-lisp
-  (use-package smex :ensure t :after counsel)
+  (use-package smex :after counsel)
 #+end_src
 
 ~swiper~ is developed by the same guy that did ~ivy~ and ~counsel~,
@@ -758,7 +692,6 @@ using ~ivy~.
 
 #+begin_src emacs-lisp
   (use-package swiper
-    :ensure t
     :bind ("C-s" . swiper)
     :commands (swiper swiper-backward)
     :after ivy)
@@ -774,7 +707,6 @@ seemingly maintained anymore.  So... we just hack the heck out of
 
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :ensure t
     :init (company-mode)
     :config
     ;; These are where company gets its completion data from, and their
@@ -828,7 +760,6 @@ seemingly maintained anymore.  So... we just hack the heck out of
 
 #+BEGIN_SRC emacs-lisp
   (use-package company-quickhelp
-    :ensure t
     :after company
     :config (company-quickhelp-mode))
 #+END_SRC
@@ -838,7 +769,6 @@ other fancy paid text editor thereafter.
 
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
-    :ensure t
     :bind ("C-;" . yas-expand)
     :config
     (yas-global-mode 1)
@@ -852,7 +782,6 @@ Install a default set of snippets.
 
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet-snippets
-    :ensure t
     :after yasnippet
     :config
     (yasnippet-snippets-initialize))
@@ -862,7 +791,6 @@ Provide an Ivy menu with all current snippets.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ivy-yasnippet
-    :ensure t
     :after (ivy yasnippet)
     :bind ("C-:" . ivy-yasnippet))
 #+END_SRC
@@ -882,7 +810,6 @@ Emacs.
 
 #+begin_src emacs-lisp
   (use-package buffer-move
-    :ensure t
     :commands (buf-move-left buf-move-down buf-move-up buf-move-right))
 #+end_src
 
@@ -892,7 +819,6 @@ I like Paradox for graphical package installation.
 
 #+begin_src emacs-lisp
   (use-package paradox
-    :ensure t
     :commands (paradox-list-packages paradox-upgrade-packages)
     :config
     (setq paradox-github-token t) ;; disable GitHub integration
@@ -908,6 +834,7 @@ I like Paradox for graphical package installation.
 
 #+begin_src emacs-lisp
   (use-package dired
+    :straight nil
     :commands dired)
 #+end_src
 
@@ -917,7 +844,6 @@ Due to ~evil-collection~ I had to specially map ~^~.
 
 #+begin_src emacs-lisp
   (use-package dired-single
-    :ensure t
     :after dired
     :bind (:map dired-mode-map
            ("^" . dired-single-up-directory)
@@ -929,6 +855,7 @@ to hide and toggle the view of "hidden files"
 
 #+begin_src emacs-lisp
   (use-package dired-x
+    :straight nil
     :after dired
     :commands dired-jump
     :hook ((dired-mode . dired-omit-mode))
@@ -943,7 +870,6 @@ executables.
 
 #+begin_src emacs-lisp
   (use-package dired-rainbow
-    :ensure t
     :after dired
     :config
     (dired-rainbow-define-chmod executable-unix "Green" "-[rw-]+x.*"))
@@ -953,14 +879,12 @@ And some other packages that I forgot the exact intent of.
 
 #+begin_src emacs-lisp
   (use-package dired-subtree
-    :ensure t
     :after dired
     :bind (:map dired-mode-map
            ("C-c s a" . dired-subtree-insert)
            ("C-c s d" . dired-subtree-remove)))
 
   (use-package dired-collapse
-    :ensure t
     :after dired
     :bind (:map dired-mode-map
            ("C-c c" . dired-collapse-mode)))
@@ -1004,10 +928,11 @@ Emacs is horribly unoptimized for this, but if we are viewing files,
 we'll necessarily bump into multimedia files from time to time.
 
 #+begin_src emacs-lisp
-  (use-package image :commands image-mode)
+  (use-package image :straight nil :commands image-mode)
+#+end_src
 
+#+begin_src emacs-lisp
   (use-package image+
-    :ensure t
     :after image
     :config
     (eval-after-load 'image '(require 'image+)))
@@ -1021,6 +946,7 @@ functionality to really easily learn!
 
 #+begin_src emacs-lisp
   (use-package calc
+    :straight nil
     :commands calc-dispatch
     :config
     ;; Logical/data size units
@@ -1038,7 +964,6 @@ functionality to really easily learn!
 
 #+begin_src emacs-lisp
   (use-package chronos
-    :ensure t
     :commands (chronos-add-timer
                chronos-add-timers-from-string)
     :config
@@ -1059,6 +984,7 @@ sometimes muscle memory from old-school term/shells gets in one's way.
 
 #+begin_src emacs-lisp
   (use-package eshell
+    :straight nil
     :commands eshell
     :hook (eshell-banner-load . jws/eshell-banner)
     :config
@@ -1108,8 +1034,8 @@ If you haven't figured out yet, I like pointlessly goofy displays;
 this will display every time I open the prompt:
 
 #+begin_src emacs-lisp
-  (use-package lolcat :ensure t :commands (lolcat lolcat-this-buffer))
-  (use-package figlet :ensure t :commands (figlet))
+  (use-package lolcat :commands (lolcat lolcat-this-buffer))
+  (use-package figlet :commands (figlet))
 
   (defun jws/eshell-banner ()
     "Display an 'informative' banner on eshell startup"
@@ -1140,8 +1066,7 @@ Nice history autocompletion for eshell via company:
 #+begin_src emacs-lisp
   (use-package esh-autosuggest
     :after eshell
-    :hook (eshell-mode . esh-autosuggest-mode)
-    :ensure t)
+    :hook (eshell-mode . esh-autosuggest-mode))
 #+end_src
 
 Ivy completion of file names and the like:
@@ -1188,6 +1113,7 @@ provide.
 
 #+begin_src emacs-lisp
   (use-package eww
+    :straight nil
     :commands (eww eww-browse-url))
 #+end_src
 
@@ -1209,7 +1135,6 @@ Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to l
 
 #+begin_src emacs-lisp
   (use-package ace-link
-    :ensure t
     :after avy)
 #+end_src
 
@@ -1226,7 +1151,6 @@ that's how good it is.
 
 #+begin_src emacs-lisp
   (use-package magit
-    :ensure t
     :commands (magit-status
                magit-branch-checkout
                magit-blame
@@ -1242,7 +1166,7 @@ I need it to behave more vim-like (e.g. ~j~ and ~k~ to move up and
 down).
 
 #+begin_src emacs-lisp
-  (use-package evil-magit :ensure t :after (evil magit))
+  (use-package evil-magit :after (evil magit))
 #+end_src
 
 I use [[https://nvie.com/posts/a-successful-git-branching-model/][git-flow]] ([[https://danielkummer.github.io/git-flow-cheatsheet/][cheatsheet]]) with some of my larger projects.  It does
@@ -1251,7 +1175,6 @@ development flow from a stable "live" version.
 
 #+begin_src emacs-lisp
   (use-package magit-gitflow
-    :ensure t
     :after magit
     :config
     (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
@@ -1262,14 +1185,13 @@ This gives us the nice gutter icons when lines are added or changed
 that you can find in newer editors.
 
 #+begin_src emacs-lisp
-  (use-package git-gutter :ensure t :config (global-git-gutter-mode t))
+  (use-package git-gutter :config (global-git-gutter-mode t))
 #+end_src
 
 ~git-timemachine~ gives us a handy view of a file's history.
 
 #+begin_src emacs-lisp
   (use-package git-timemachine
-    :ensure t
     :commands (git-timemachine)
     :config
     (git-timemachine-mode))
@@ -1290,7 +1212,6 @@ multiple commits that I'm about to merge into master or make live.
 
 #+begin_src emacs-lisp
   (use-package projectile
-    :ensure t
     :commands (projectile-find-file
                projectile-recentf
                projectile-cache-current-file
@@ -1308,7 +1229,6 @@ multiple commits that I'm about to merge into master or make live.
 
 #+begin_src emacs-lisp
   (use-package counsel-projectile
-    :ensure t
     :after projectile
     :commands (counsel-projectile-find-file
                counsel-projectile-switch-project
@@ -1323,7 +1243,6 @@ otherwise junk up the ~*scratch*~ buffer with...
 
 #+begin_src emacs-lisp
   (use-package open-junk-file
-    :ensure t
     :commands open-junk-file
     :config
     (setq open-junk-file-directory "~/.junk/%Y/%m/%d-%H%M%S."))
@@ -1372,7 +1291,7 @@ Lisp.
 code that your cursor is on.
 
 #+begin_src emacs-lisp
-  (use-package focus :ensure t :commands (focus-mode))
+  (use-package focus :commands (focus-mode))
 #+end_src
 
 ~prism~, on the other hand, colorizes *everything* according to the
@@ -1380,7 +1299,6 @@ code's nesting depth -- which can be handy for Lisp/JS callback hell!
 
 #+begin_src emacs-lisp
   (use-package prism
-    :ensure t
     :commands (prism-mode prism-whitespace-mode)
     :config
     (prism-set-colors :num 16
@@ -1405,7 +1323,6 @@ repeatedly (with Evil normal mode ~+~).
 
 #+begin_src emacs-lisp
   (use-package expand-region
-    :ensure t
     :commands er/expand-region)
 #+end_src
 
@@ -1414,7 +1331,6 @@ line on screen (Evil normal ~g l~).
 
 #+begin_src emacs-lisp
   (use-package avy
-    :ensure t
     :commands (avy-goto-char avy-goto-line))
 #+end_src
 
@@ -1422,7 +1338,6 @@ line on screen (Evil normal ~g l~).
 
 #+begin_src emacs-lisp
   (use-package ace-window
-    :ensure t
     :commands ace-window)
 #+end_src
 
@@ -1436,13 +1351,11 @@ Evil command ~g~~
 
 #+begin_src emacs-lisp
   (use-package string-inflection
-     :ensure t
      :commands (string-inflection-all-cycle
                 string-inflection-java-style-cycle
                 string-inflection-python-style-cycle))
 
   (use-package evil-string-inflection
-    :ensure t
     :after (string-inflection evil))
 #+end_src
 
@@ -1487,7 +1400,6 @@ an editor set up with EditorConfig.
 
 #+begin_src emacs-lisp
   (use-package editorconfig
-    :ensure t
     :config
     (editorconfig-mode 1))
 #+end_src
@@ -1583,6 +1495,7 @@ First, let's define some paths into my ~org-mode~ files.
 
 #+begin_src emacs-lisp
   (use-package org
+    :straight nil
     :commands (org-agenda org-capture org-export-dispatch org-store-link)
     :mode (("\\.org\\'" . org-mode))
     :config
@@ -1623,6 +1536,7 @@ been using as a basis for building my own "GTD" system.
 #+begin_src emacs-lisp
   (use-package org-capture
     :after org
+    :straight nil
     :config
     (setq org-capture-templates
           '(("d" "Daily focus" plain
@@ -1702,7 +1616,7 @@ below, but I prefer starting my Emacs server process other ways:
 Finally, kick off ~org-protocol~ itself:
 
 #+begin_src emacs-lisp
-  (use-package org-protocol)
+  (use-package org-protocol :straight nil)
 #+end_src
 
 and that should cover everything!  Now you can click the org-mode
@@ -1726,6 +1640,7 @@ I define the following keywords:
 
 #+begin_src emacs-lisp
   (use-package org-agenda
+    :straight nil
     :after org
     :config
     (setq org-log-done t
@@ -1771,7 +1686,6 @@ heckuva lot easier to read.
 
 #+begin_src emacs-lisp
   (use-package org-super-agenda
-    :ensure t
     :after org-agenda
     :config
     (org-super-agenda-mode)
@@ -1804,7 +1718,6 @@ Trying to do a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]].  I 
 
 #+begin_src emacs-lisp
   (use-package org-roam
-    :ensure t
     :hook ((after-init . org-roam-mode))
     :commands (org-roam org-roam-find-file)
     :config
@@ -1818,7 +1731,6 @@ and Deft has it... so we're bringing it back on board.
 
 #+begin_src emacs-lisp
   (use-package deft
-    :ensure t
     :after org
     :commands deft
     :config
@@ -1836,7 +1748,6 @@ work in Org and then copy it into our work wiki.
 
 #+begin_src emacs-lisp
   (use-package ox-wk
-    :ensure t
     :after org
     :commands (ox-wk-export-as-wiki
                ox-wk-export-to-wiki)
@@ -1850,7 +1761,6 @@ Ideally I'd stay in org-mode, but I live in the real world.
 
 #+begin_src emacs-lisp
   (use-package markdown-mode
-    :ensure t
     :mode ("\\.md\\'" "\\.markdown\\'" "\\.mdown\\'"))
 #+end_src
 
@@ -1880,7 +1790,6 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
 
 #+begin_src emacs-lisp
   (use-package lsp-mode
-    :ensure t
     :commands (lsp
                lsp-workspace-restart
                lsp-workspace-folders-remove
@@ -1894,7 +1803,6 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
 
 #+begin_src emacs-lisp
   (use-package lsp-ui
-    :ensure t
     :after lsp-mode
     :requires lsp-mode flycheck
     :hook (lsp-mode . lsp-ui-mode)
@@ -1923,7 +1831,6 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
 
 #+begin_src emacs-lisp
   (use-package company-lsp
-    :ensure t
     :commands company-lsp)
 #+end_src
 
@@ -1934,7 +1841,6 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
 
 #+begin_src emacs-lisp
   (use-package counsel-dash
-    :ensure t
     :commands (counsel-dash-install-docset counsel-dash-at-point)
     :config
     (setq counsel-dash-common-docsets '("JavaScript" "HTML")
@@ -1951,7 +1857,6 @@ JSON will be handled by whatever JavaScript mode I pull in.
 
 #+begin_src emacs-lisp
   (use-package yaml-mode
-    :ensure t
     :mode ("\\.yml\\'" "\\.yaml\\'"))
 #+end_src
 
@@ -1959,7 +1864,6 @@ JSON will be handled by whatever JavaScript mode I pull in.
 
 #+begin_src emacs-lisp
   (use-package toml-mode
-    :ensure t
     :mode "\\.toml\\'")
 #+end_src
 
@@ -1979,7 +1883,6 @@ to my "I don't like tabs but so long as the code is consistent" stance
 
 #+begin_src emacs-lisp
   (use-package dockerfile-mode
-    :ensure t
     :mode "Dockerfile\\'")
 #+end_src
 
@@ -1994,7 +1897,6 @@ editing beforehand.
 
 #+begin_src emacs-lisp
   (use-package parinfer
-    :ensure t
     :hook ((emacs-lisp-mode . parinfer-mode)
            (common-lisp-mode . parinfer-mode)
            (clojure-mode . parinfer-mode)
@@ -2010,7 +1912,6 @@ editing beforehand.
 
 #+begin_src emacs-lisp
   (use-package eval-sexp-fu
-    :ensure t
     :hook ((emacs-lisp-mode . eval-sexp-fu-flash-mode)
            (common-lisp-mode . eval-sexp-fu-flash-mode)
            (clojure-mode . eval-sexp-fu-flash-mode)
@@ -2028,7 +1929,6 @@ editing beforehand.
 
 #+begin_src emacs-lisp
   (use-package nameless
-    :ensure t
     :hook (emacs-lisp-mode . nameless-mode))
 #+end_src
 
@@ -2037,7 +1937,6 @@ but I have used it from time to time when developing plugins.
 
 #+begin_src emacs-lisp
   (use-package cask-mode
-    :ensure t
     :mode "Cask\\'")
 #+end_src
 
@@ -2048,15 +1947,15 @@ that others might use... but I couldn't get it to work so it's
 disabled for now.
 
 #+begin_src emacs-lisp :tangle no
-;; I am trying to do the following: If there is a Cask file somewhere in the
-;; upwards file hierarchy for this elisp file, enable flycheck-package,
-;; otherwise do not.
-(use-package flycheck-cask :ensure t)
-(use-package flycheck-package :after flycheck-cask :ensure t)
-(jws/after (flycheck-package)
-    (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
-    (add-hook 'flycheck-mode-hook #'flycheck-package-setup)
-    (add-hook 'emacs-lisp-mode-hook #'flycheck-mode))
+  ;; I am trying to do the following: If there is a Cask file somewhere in the
+  ;; upwards file hierarchy for this elisp file, enable flycheck-package,
+  ;; otherwise do not.
+  (use-package flycheck-cask)
+  (use-package flycheck-package :after flycheck-cask)
+  (jws/after (flycheck-package)
+      (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
+      (add-hook 'flycheck-mode-hook #'flycheck-package-setup)
+      (add-hook 'emacs-lisp-mode-hook #'flycheck-mode))
 #+end_src
 
 *** Common Lisp
@@ -2076,13 +1975,11 @@ SLIME install tied to your installed Common Lisp interpreter.
 
 #+begin_src emacs-lisp
   (use-package clojure-mode
-    :ensure t
     :mode "\\.clj\\'")
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package cider
-    :ensure t)
+  (use-package cider)
 #+end_src
 
 ** Curly-brace/C-family
@@ -2128,7 +2025,6 @@ Intelephense's class renaming (one of the paid features) works with
 
 #+begin_src emacs-lisp
   (use-package php-mode
-    :ensure t
     :commands php-mode
     :config
     (setq c-basic-offset 4)
@@ -2160,7 +2056,6 @@ Again here we enable ~lsp-mode~, this time using [[https://github.com/golang/too
 
 #+begin_src emacs-lisp
   (use-package go-mode
-    :ensure t
     :mode "\\.go\\'"
     :config
     (add-hook 'go-mode-hook 'lsp)
@@ -2175,7 +2070,6 @@ Again here we enable ~lsp-mode~, this time using [[https://github.com/golang/too
 
 #+begin_src emacs-lisp
   (use-package rust-mode
-    :ensure t
     :mode "\\.rs\\'"
     :config
     (add-hook 'rust-mode-hook 'lsp)
@@ -2188,12 +2082,10 @@ I'm just dumping these here and plan on fiddling with them later.
 
 #+begin_src emacs-lisp
   (use-package js2-mode
-    :ensure t
     :mode "\\.js\\'")
 
   ;; If I ever mess with TypeScript add its hook here too
   (use-package tide
-    :ensure t
     :hook js2-mode
     :config
     (defun jws/setup-tide ()
@@ -2213,7 +2105,6 @@ far as I'm concerned.
 
 #+begin_src emacs-lisp
   (use-package coffee-mode
-    :ensure t
     :mode "\\.coffee\\'"
     :config
     (setq coffee-tab-width 4))
@@ -2223,7 +2114,6 @@ far as I'm concerned.
 
 #+begin_src emacs-lisp
   (use-package kotlin-mode
-    :ensure t
     :mode ("\\.kt\\'" "\\.kts\\'"))
 #+end_src
 
@@ -2232,7 +2122,6 @@ far as I'm concerned.
 
 #+begin_src emacs-lisp
   (use-package lua-mode
-    :ensure t
     :mode "\\.lua\\'")
 #+end_src
 
@@ -2242,7 +2131,6 @@ I'm using [[https://github.com/microsoft/pyright][Pyright]] for Python completio
 
 #+begin_src emacs-lisp
   (use-package lsp-pyright
-    :ensure t
     :hook (python-mode . (lambda ()
                             (require 'lsp-pyright)
                             (lsp-deferred))))
@@ -2276,7 +2164,6 @@ You would expand the former into the latter with ~C-j~.
 
 #+begin_src emacs-lisp
   (use-package emmet-mode
-    :ensure t
     :bind (("C-," . emmet-expand-line))
     :hook (sgml-mode php-mode web-mode css-mode)
     :config
@@ -2301,7 +2188,6 @@ mixed-mode files, and it mostly works.  At least, it works better than
 
 #+begin_src emacs-lisp
   (use-package web-mode
-    :ensure t
     :commands web-mode
     :mode ("\\.html?\\'"
            "\\.phtml\\'"
@@ -2329,7 +2215,6 @@ Enable ~company~ in ~web-mode~.
 
 #+BEGIN_SRC emacs-lisp
   (use-package company-web
-    :ensure t
     :after (company web-mode))
 #+END_SRC
 
@@ -2340,7 +2225,6 @@ it.
 
 #+begin_src emacs-lisp
   (use-package scss-mode
-    :ensure t
     :mode "\\.scss\\'")
 #+end_src
 
@@ -2348,7 +2232,6 @@ Appropriately colorize color names in CSS (and Sass/SCSS) files.
 
 #+begin_src emacs-lisp
   (use-package rainbow-mode
-    :ensure t
     :hook (css-mode scss-mode))
 #+end_src
 
@@ -2358,7 +2241,6 @@ There is a handy [[https://github.com/pashky/restclient.el][REST client for emac
 
 #+begin_src emacs-lisp
   (use-package restclient
-    :ensure t
     :mode "\\.restclient$"
     :config
     (require 'restclient))
@@ -2368,7 +2250,6 @@ This package integrates ~restclient~ with ~org-babel~.
 
 #+begin_src emacs-lisp
   (use-package ob-restclient
-    :ensure t
     :after (restclient)
     :config
     (org-babel-do-load-languages
@@ -2381,7 +2262,6 @@ And this package integrates ~company~ with ~restclient~.
 #+begin_src emacs-lisp
   (use-package company-restclient
     :after (restclient company)
-    :ensure t
     :hook (restclient-mode . company-mode)
     :config
     (add-hook 'restclient-mode-hook
@@ -2401,7 +2281,6 @@ curly-brace "HTML" combined with inline JavaScript.
 
 #+begin_src emacs-lisp
   (use-package qml-mode
-    :ensure t
     :mode "\\.qml\\'")
 #+end_src
 
@@ -2420,7 +2299,7 @@ The [[https://github.com/abo-abo/hydra][hydra]] package (by the same mad genius 
 allows for easy-ish interactive menus.
 
 #+begin_src emacs-lisp
-  (use-package hydra :ensure t)
+  (use-package hydra)
 #+end_src
 
 Note that ~hydra~ uses a "color" system where keybinds are assigned
@@ -2471,7 +2350,7 @@ the following macro to do exactly this from [[https://github.com/abo-abo/hydra/i
     "Buffer menu"
     ("c" jws/open-emacs-config "Edit config")
     ("s" jws/open-emacs-site-config "Edit site config")
-    ("i" package-install "Install package")
+    ("i" straight-install-package "Install package")
     ("p" paradox-list-packages "List packages")
     ("q" jws/server-shutdown "Quit emacs")
     ("k" server-start "Start server"))

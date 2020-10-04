@@ -87,6 +87,10 @@ projectile-bookmarks.eld
 # recentf
 recentf
 
+# straight.el
+straight/
+!straight/versions/
+
 # tramp cache
 tramp
 
