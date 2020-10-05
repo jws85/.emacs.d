@@ -103,3 +103,4 @@ session.*
 tags
 TAGS
 /.org-id-locations
+/currency-convert-rates.json

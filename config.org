@@ -957,6 +957,17 @@ functionality to really easily learn!
           math-units-table nil))
 #+end_src
 
+Playing around with currency conversion in Calc:
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package currency-convert
+    :straight (currency-convert
+               :host github :repo "jws85/emacs-currency-convert"
+               :branch "emacs-calc-interop")
+    :config
+    (add-hook 'calc-start-hook 'currency-convert-calc-load))
+#+end_src
+
 ** Timer
 
 [[https://github.com/dxknight/chronos][chronos]] is a handy package for most timing-related purposes (e.g.
