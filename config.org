@@ -2089,25 +2089,16 @@ Again here we enable ~lsp-mode~, this time using [[https://github.com/golang/too
 
 *** JavaScript
 
-I'm just dumping these here and plan on fiddling with them later.
+I installed the (currently unmaintained, but works at the moment)
+[[https://github.com/theia-ide/typescript-language-server][typescript-language-server]].  There are [[https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/][installation instructions here]].
+Previously I had [[https://github.com/ananthakumaran/tide][tide]] but I hadn't completely configured it and I'm
+already going in on the LSP model for things going forwards so...
 
 #+begin_src emacs-lisp
   (use-package js2-mode
-    :mode "\\.js\\'")
-
-  ;; If I ever mess with TypeScript add its hook here too
-  (use-package tide
-    :hook js2-mode
+    :mode "\\.js\\'"
     :config
-    (defun jws/setup-tide ()
-      (interactive)
-      (tide-setup)
-      (flycheck-mode 1)
-      (setq flycheck-check-syntax-automatically '(save mode-enabled))
-      (eldoc-mode 1)
-      (tide-hl-identifier-mode 1)
-      (add-hook 'before-save-hook #'tide-format-before-save))
-    (add-hook 'js2-mode-hook #'jws/setup-tide))
+    (add-hook 'js2-mode-hook 'lsp))
 #+end_src
 
 I don't use CoffeeScript but I've had to read code using it.  I'm
