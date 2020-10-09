@@ -105,3 +105,4 @@ TAGS
 /.org-id-locations
 /currency-convert-rates.json
 /org-roam.db
+/early-init.el

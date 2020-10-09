@@ -45,6 +45,50 @@ Emacs are sanded, and my preferred way of installing and loading
 libraries is set up.  The rest of the guide leans heavily on
 ~use-package~ so it gets a section here as well.
 
+** Early init
+
+You can speed up Emacs' init a bit by certain configurations in
+=early-init.el=, which runs earlier in the Emacs bootup process,
+before =init.el= runs.
+
+I stole much of this from [[https://github.com/hlissner/doom-emacs/blob/develop/early-init.el][Doom Emacs]], but the org-babel style of
+loading from [[https://etienne.depar.is/emacs.d/init.html][this config]] ([[https://git.umaneti.net/emacs.d/tree/init.org][org]]).
+
+#+begin_src emacs-lisp :tangle early-init.el :exports code
+  ;;;; Defer garbage collection further back in the startup process
+  ;;(setq gc-cons-threshold most-positive-fixnum)
+
+  ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
+  (if (functionp 'tool-bar-mode) (tool-bar-mode -1))
+  (if (functionp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode -1))
+  (if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
+  (if (functionp 'menu-bar-mode) (menu-bar-mode -1))
+
+  ;; Disable package.el
+  (setq package-enable-at-startup nil)
+
+  ;; Resizing the Emacs frame can be a terribly expensive part of changing the
+  ;; font. By inhibiting this, we easily halve startup times with fonts that are
+  ;; larger than the system default.
+  (setq frame-inhibit-implied-resize t)
+
+  ;; Ignore X resources
+  (advice-add #'x-apply-session-resources :override #'ignore)
+
+  ;; Prevent unwanted runtime builds in gccemacs (native-comp)
+  (setq comp-deferred-compilation nil)
+
+  ;; Disable startup screen
+  (setq inhibit-startup-screen t)
+
+  ;; Darkula bg/fg colors -- overridden by theme but there in case this all
+  ;; fails, nothing is worse than fixing a broken emacs with BRIGHT WHITE
+  ;; BACKGROUND at 2am with a throbbing headache
+  (when (display-graphic-p)
+    (set-face-background 'default "#282a36" nil)
+    (set-face-foreground 'default "#f8f8f2" nil))
+#+end_src
+
 ** Variables
 
 Let's start by defining a bunch of variables needed by this
@@ -268,22 +312,6 @@ whole plethora of ~C-x~ commands.
 * Appearance/visuals
 I like a very minimal Emacs (and Vim) window since both were
 made to be driven from the keyboard.
-
-#+begin_src emacs-lisp
-  (if (functionp 'tool-bar-mode) (tool-bar-mode -1))
-  (if (functionp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode -1))
-  (if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
-  (if (functionp 'menu-bar-mode) (menu-bar-mode -1))
-#+end_src
-
-This disables the buffer that has all the GNU Project boilerplate
-and how to use Info and blahblahblah just show me an emacs window
-
-(We'll put in a more useful startup buffer later.)
-
-#+begin_src emacs-lisp
-  (setq inhibit-startup-message t)
-#+end_src
 
 I have this labeled "Vim-style line-by-line scrolling" and
 I wish I knew exactly what it did.  I do recall not liking how
