@@ -1811,7 +1811,8 @@ Ideally I'd stay in org-mode, but I live in the real world.
 #+end_src
 
 * Coding
-** Xref
+** Coding tools
+*** Xref
 
 =xref= is emacs' built-in, basic functionality to jump to definitions
 and refereneces.  For non-Lisp languages it relies on =ctags= and the
@@ -1831,21 +1832,7 @@ like.
     (add-to-list 'evil-emacs-state-modes 'xref--xref-buffer-mode))
 #+end_src
 
-** Toggle web-mode
-
-~web-mode~ is useful for files containing mixed code and templating.
-Problem is it's not useful for much else, so it's nice to have a way
-to switch to a more appropriate mode.
-
-#+begin_src emacs-lisp
-  (defun jws/toggle-web-mode ()
-    (interactive)
-    (if (eq major-mode 'web-mode)
-        (set-auto-mode)
-      (web-mode)))
-#+end_src
-
-** LSP support
+*** LSP support
 
 [[https://en.wikipedia.org/wiki/Language_Server_Protocol][LSP]] is a protocol that allows text editors to communicate with servers
 that can parse and introspect source code.  Microsoft created it for
@@ -1911,7 +1898,7 @@ to use =lsp-ui-peek= instead.
     :commands company-lsp)
 #+end_src
 
-** Browse Dash docsets
+*** Browse Dash docsets
 
 [[https://github.com/dash-docs-el/counsel-dash][counsel-dash]] lets one look up documentation easily (using the
 "docsets" used in Dash for OS X and also Zeal for the other OSes).
@@ -2212,7 +2199,6 @@ you'll need the [[https://github.com/nodesource/distributions/blob/master/README
 #+end_src
 
 ** Web
-
 *** Emmet
 
 [[https://github.com/smihica/emmet-mode][emmet-mode]] implements the [[https://emmet.io/][Emmet]] syntax, which can speed up creation of
@@ -2240,19 +2226,8 @@ You would expand the former into the latter with ~C-j~.
 
 *** web-mode
 
-Web code is frequently "mixed-mode" (e.g. HTML mixed with CSS and
-JavaScript, PHP/templating languages mixed with... all the above).
-Emacs traditionally handled this with ~mumamo~ which tried to
-sequester major modes to the relevant sections of the file... which
-didn't work so hot.  It could have been I was no good at elisp at the
-time, but it was a giant pain to configure.
-
-I got a job some time ago where I needed support for mixed-mode PHP
-and got so frustrated that I switched to Vim for several years and
-only came back when I found ~evil~ and this package, ~web-mode~.
-~web-mode~ intends to be one large unified mode to support all
-mixed-mode files, and it mostly works.  At least, it works better than
-~mumamo~.
+This mode handles mixed-mode code (e.g. PHP with HTML/CSS/JS mixed
+in), as well as template languages (Blade, Mustache, Jinja2...).
 
 #+begin_src emacs-lisp
   (use-package web-mode
@@ -2285,6 +2260,19 @@ Enable ~company~ in ~web-mode~.
   (use-package company-web
     :after (company web-mode))
 #+END_SRC
+
+Increasingly, in this era of LSP everywhere, I find myself wanting
+to live in the native language mode.  But I have to maintain a
+depressing amount of legacy mixed-mode code.  I define the below
+function to hop in and out of =web-mode=.
+
+#+begin_src emacs-lisp
+  (defun jws/toggle-web-mode ()
+    (interactive)
+    (if (eq major-mode 'web-mode)
+        (set-auto-mode)
+      (web-mode)))
+#+end_src
 
 *** CSS/Sass
 
