@@ -1811,6 +1811,26 @@ Ideally I'd stay in org-mode, but I live in the real world.
 #+end_src
 
 * Coding
+** Xref
+
+=xref= is emacs' built-in, basic functionality to jump to definitions
+and refereneces.  For non-Lisp languages it relies on =ctags= and the
+like.
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package xref
+    :straight nil
+    :bind (:map xref--xref-buffer-mode-map
+                ("j" . xref-next-line)
+                ("k" . xref-prev-line))
+    :config
+    ;; by default, xref-find-references prompts, even when you're on a usable symbol
+    ;; turn that off...
+    (setq xref-prompt-for-identifier nil)
+    ;; put user in emacs mode for xref's buffer
+    (add-to-list 'evil-emacs-state-modes 'xref--xref-buffer-mode))
+#+end_src
+
 ** Toggle web-mode
 
 ~web-mode~ is useful for files containing mixed code and templating.
