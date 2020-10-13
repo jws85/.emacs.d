@@ -1710,10 +1710,10 @@ I define the following keywords:
                           ("@travel" . ?t)))
 
     ;; Agenda vim key bindings
-    (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
-    (define-key org-agenda-mode-map (kbd "L") 'org-agenda-log-mode)
-    (define-key org-agenda-mode-map (kbd "C") 'org-agenda-capture)
-    (define-key org-agenda-mode-map (kbd "d") 'org-agenda-goto-date)
+    (evil-add-hjkl-bindings org-agenda-mode-map 'emacs
+      (kbd "L") 'org-agenda-log-mode
+      (kbd "C") 'org-agenda-capture
+      (kbd "d") 'org-agenda-goto-date)
 
     ;; Save after various edits in org-mode/org-agenda
     ;(advice-add 'org-deadline :after 'org-save-all-org-buffers)
@@ -1728,6 +1728,11 @@ heckuva lot easier to read.
     :after org-agenda
     :config
     (org-super-agenda-mode)
+
+    (evil-add-hjkl-bindings org-super-agenda-header-map 'emacs
+      (kbd "L") 'org-agenda-log-mode
+      (kbd "C") 'org-agenda-capture
+      (kbd "d") 'org-agenda-goto-date)
 
     (setq org-super-agenda-groups
           '((:name "Today" :time-grid t :deadline today)
