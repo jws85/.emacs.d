@@ -2385,8 +2385,7 @@ the following macro to do exactly this from [[https://github.com/abo-abo/hydra/i
     "Buffer menu"
     ("c" jws/open-emacs-config "Edit config")
     ("s" jws/open-emacs-site-config "Edit site config")
-    ("i" straight-install-package "Install package")
-    ("p" paradox-list-packages "List packages")
+    ("u" straight-pull-all "Update packages")
     ("q" jws/server-shutdown "Quit emacs")
     ("k" server-start "Start server"))
 #+end_src
