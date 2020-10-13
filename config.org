@@ -600,10 +600,10 @@ or similar.
     (define-key evil-motion-state-map (kbd "g l") 'avy-goto-line)
     ;; Jump to link and view it
     (define-key evil-motion-state-map (kbd "g o") 'ace-link)
-    ;; Jump to definition/references with LSP
+    ;; Jump to definition/references
     (define-key evil-motion-state-map (kbd "g d") nil)
-    (define-key evil-motion-state-map (kbd "g d d") 'lsp-ui-peek-find-definitions)
-    (define-key evil-motion-state-map (kbd "g d r") 'lsp-ui-peek-find-references)
+    (define-key evil-motion-state-map (kbd "g d d") 'xref-find-definitions)
+    (define-key evil-motion-state-map (kbd "g d r") 'xref-find-references)
     ;; Command menu via counsel
     (define-key evil-motion-state-map (kbd ";") 'counsel-M-x)
     ;; Search text with swiper
@@ -1854,6 +1854,11 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
                lsp-ui-peek-find-references
                lsp-ui-doc-glance)
     :init
+    ;; The lsp-ui-peek functions are fancy versions of the xref
+    ;; functions already defined by emacs
+    (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+    (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+    :config
     (setq lsp-ui-doc-enable t
           lsp-ui-doc-use-childframe t
           lsp-ui-doc-position 'at-point
@@ -2438,8 +2443,8 @@ This menu allows fine-tuning of various text editing settings.
 #+begin_src emacs-lisp
   (defhydra jws/hydra-development (:color blue :columns 4)
     "Development menu"
-    ("f d" lsp-ui-peek-find-definitions "Find definitions")
-    ("f r" lsp-ui-peek-find-references "Find references")
+    ("f d" xref-find-definitions "Find definitions")
+    ("f r" xref-find-references "Find references")
     ("d d" counsel-dash-at-point "Show docs")
     ("d i" counsel-dash-install-docset "Add docs")
     ("w" jws/toggle-web-mode "Toggle web-mode")
