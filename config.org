@@ -604,6 +604,7 @@ or similar.
     (define-key evil-motion-state-map (kbd "g d") nil)
     (define-key evil-motion-state-map (kbd "g d d") 'xref-find-definitions)
     (define-key evil-motion-state-map (kbd "g d r") 'xref-find-references)
+    (define-key evil-motion-state-map (kbd "g d i") 'imenu)
     ;; Command menu via counsel
     (define-key evil-motion-state-map (kbd ";") 'counsel-M-x)
     ;; Search text with swiper
@@ -2447,6 +2448,8 @@ This menu allows fine-tuning of various text editing settings.
     ("f r" xref-find-references "Find references")
     ("d d" counsel-dash-at-point "Show docs")
     ("d i" counsel-dash-install-docset "Add docs")
+    ("i" imenu "Imenu")
+    ("I" lsp-ui-imenu "Imenu sidebar")
     ("w" jws/toggle-web-mode "Toggle web-mode")
     ("l" jws/hydra-lsp/body "Control LSP"))
 #+end_src
