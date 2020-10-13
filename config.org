@@ -2069,7 +2069,7 @@ Intelephense's class renaming (one of the paid features) works with
     (setq c-basic-offset 4)
     (add-hook 'php-mode-hook 'lsp)
     (add-hook 'php-mode-hook 'jws/make-underscores-belong-to-words)
-    (add-hook 'php-mode-hook (lambda () (setq-local counsel-dash-docsets '("PHP")))))
+    (add-hook 'php-mode-hook (lambda () (setq-local counsel-dash-docsets '("PHP" "Laravel")))))
 #+end_src
 
 =auto-mode-alist= loads by precedence; the first match wins.  As such,
