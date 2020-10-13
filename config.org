@@ -1876,9 +1876,6 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
                lsp-ui-peek-find-references
                lsp-ui-doc-glance
                lsp-ui-imenu)
-    :bind (:map lsp-ui-mode-map
-                ([remap xref-find-definitions] . #'lsp-ui-peek-find-definitions)
-                ([remap xref-find-references] . #'lsp-ui-peek-find-references))
     :config
     (setq lsp-ui-doc-enable t
           lsp-ui-doc-use-childframe t
@@ -1895,6 +1892,16 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
           lsp-ui-peek-list-width 60
           lsp-ui-peek-peek-height 25
           lsp-ui-sideline-enable nil))
+#+end_src
+
+When =lsp-mode= is loaded in a buffer, override the =xref= keybindings
+to use =lsp-ui-peek= instead.
+
+#+begin_src emacs-lisp :tangle yes
+  (add-hook 'lsp-mode-hook
+            (lambda ()
+              (evil-local-set-key 'normal (kbd "g d d") #'lsp-ui-peek-find-definitions)
+              (evil-local-set-key 'normal (kbd "g d r") #'lsp-ui-peek-find-references)))
 #+end_src
 
 [[https://github.com/tigersoldier/company-lsp][company-lsp]] provides connectivity to Company:
