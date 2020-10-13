@@ -1832,6 +1832,17 @@ like.
     (add-to-list 'evil-emacs-state-modes 'xref--xref-buffer-mode))
 #+end_src
 
+*** Flymake
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package flymake
+    :bind (:map flymake-diagnostics-buffer-mode-map
+                ("j" . next-line)
+                ("k" . previous-line))
+    :config
+    (add-to-list 'evil-emacs-state-modes 'flymake-diagnostics-buffer-mode))
+#+end_src
+
 *** LSP support
 
 [[https://en.wikipedia.org/wiki/Language_Server_Protocol][LSP]] is a protocol that allows text editors to communicate with servers
