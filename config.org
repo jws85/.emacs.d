@@ -1544,7 +1544,6 @@ First, let's define some paths into my ~org-mode~ files.
     :config
     (add-to-list 'org-modules 'org-habit)
     (setq org-src-fontify-natively t
-          org-highlight-latex-and-related t
           ;; easily link to various sites
           org-link-abbrev-alist '(("wikipedia"    . "https://en.wikipedia.org/wiki/%s")
                                   ("wikivoyage"   . "https://en.wikivoyage.org/wiki/%s")
