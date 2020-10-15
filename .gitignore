@@ -39,6 +39,9 @@ bookmarks
 # calc.el (allow it to be user/machine-specific)
 calc.el
 
+# currency-convert
+currency-convert-rates.json
+
 # emms installation
 emms/
 
@@ -78,6 +81,9 @@ lsp-cache
 # multiple-cursors
 .mc-lists.el
 
+# org-roam
+org-roam.db
+
 # places file
 places
 
@@ -104,5 +110,3 @@ session.*
 tags
 TAGS
 /.org-id-locations
-/currency-convert-rates.json
-/org-roam.db
