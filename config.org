@@ -1489,6 +1489,15 @@ format that can be used as an elisp string instead.
     (setq reb-re-syntax 'string))
 #+end_src
 
+** Comma-separated-value files
+
+=csv-align-mode= is worth it by itself.
+
+#+begin_src emacs-lisp
+  (use-package csv-mode
+    :mode ("\\.[Cc][Ss][Vv]\\'"))
+#+end_src
+
 * Writing
 ** org-mode
 
