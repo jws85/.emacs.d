@@ -54,9 +54,10 @@ before =init.el= runs.
 I stole much of this from [[https://github.com/hlissner/doom-emacs/blob/develop/early-init.el][Doom Emacs]], but the org-babel style of
 loading from [[https://etienne.depar.is/emacs.d/init.html][this config]] ([[https://git.umaneti.net/emacs.d/tree/init.org][org]]).
 
-#+begin_src emacs-lisp :tangle early-init.el :exports code
-  ;;;; Defer garbage collection further back in the startup process
-  ;;(setq gc-cons-threshold most-positive-fixnum)
+#+begin_src emacs-lisp :tangle early-init.el
+  ;; Disable garbage collection while booting Emacs; it is re-enabled at the end
+  ;; of the config
+  (setq gc-cons-threshold most-positive-fixnum)
 
   ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
   (if (functionp 'tool-bar-mode) (tool-bar-mode -1))
@@ -2809,4 +2810,13 @@ And we load the ~Customize~ stuff here as well.
 
 #+begin_src emacs-lisp
   (load jws/custom-file t)
+#+end_src
+
+* Cleanup
+
+Set the =gc-cons-threshold= (set in =early-init.el=) back to its
+default:
+
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold 800000)
 #+end_src
