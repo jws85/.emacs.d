@@ -1,5 +1,6 @@
 # Automatically generated from config.org
-config.el
+init.el
+early-init.el
 
 # site-specific .emacs.d customizations
 custom.el
@@ -105,4 +106,3 @@ TAGS
 /.org-id-locations
 /currency-convert-rates.json
 /org-roam.db
-/early-init.el
