@@ -2430,10 +2430,17 @@ the following macro to do exactly this from [[https://github.com/abo-abo/hydra/i
           (save-some-buffers)
           (kill-emacs))))
 
+  (defun jws/reload-emacs ()
+    (interactive)
+    (org-babel-tangle-file jws/config-file)
+    (load-file (concat user-emacs-directory "early-init.el"))
+    (load-file (concat user-emacs-directory "init.el")))
+
   (defhydra jws/hydra-emacs (:color blue :columns 4)
     "Buffer menu"
     ("c" jws/open-emacs-config "Edit config")
     ("s" jws/open-emacs-site-config "Edit site config")
+    ("r" jws/reload-emacs "Reload emacs")
     ("u" straight-pull-all "Update packages")
     ("q" jws/server-shutdown "Quit emacs")
     ("k" server-start "Start server"))
