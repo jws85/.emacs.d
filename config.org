@@ -1086,26 +1086,30 @@ this will display every time I open the prompt:
 
   (defun jws/eshell-banner ()
     "Display an 'informative' banner on eshell startup"
-    (with-temp-buffer
-      ;; equivalent to `hostname | figlet | lolcat` in shell
-      (setq-local figlet-default-font "slant")
-      (figlet (system-name))
-      (lolcat-this-buffer)
-      (insert "running EmacsOS v.")
-      (insert emacs-version)
-      (insert "\n\n")
+    ;; First off, don't do any of this junk over TRAMP!!!!
+    (if (not (file-remote-p default-directory))
+        (with-temp-buffer
+          ;; equivalent to `hostname | figlet | lolcat` in shell
+          (if (executable-find "figlet")
+              (progn
+                (setq-local figlet-default-font "slant")
+                (figlet (system-name))
+                (lolcat-this-buffer)
+                (insert "running EmacsOS v.")
+                (insert emacs-version)
+                (insert "\n\n")))
 
-      ;; print uptime
-      (insert
-       (concat (string-trim-left (shell-command-to-string "uptime"))
-               "\n"))
+          ;; print uptime
+          (insert
+           (concat (string-trim-left (shell-command-to-string "uptime"))
+                   "\n"))
 
-      ;; print fortune if command installed
-      (if (executable-find "fortune")
-          (insert (shell-command-to-string "fortune -s")))
+          ;; print fortune if command installed
+          (if (executable-find "fortune")
+              (insert (shell-command-to-string "fortune -s")))
 
-      ;; dump to string and set banner to that
-      (setq eshell-banner-message (buffer-string))))
+          ;; dump to string and set banner to that
+          (setq eshell-banner-message (buffer-string)))))
 #+end_src
 
 Nice history autocompletion for eshell via company:
