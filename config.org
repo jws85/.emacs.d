@@ -609,10 +609,7 @@ or similar.
     (define-key evil-motion-state-map (kbd "g d i") 'imenu)
     (define-key evil-motion-state-map (kbd "g d e") 'flymake-show-diagnostics-buffer)
     ;; Command menu via counsel
-    (define-key evil-motion-state-map (kbd ";") 'counsel-M-x)
-    ;; Search text with swiper
-    (define-key evil-motion-state-map (kbd "/") 'swiper)
-    (define-key evil-motion-state-map (kbd "?") 'swiper-backward))
+    (define-key evil-motion-state-map (kbd ";") 'counsel-M-x))
 #+end_src
 
 Some other ~evil~ related packages:
@@ -685,7 +682,6 @@ and I got used to this inside... for instance, magit.
                counsel-describe-function
                counsel-describe-variable
                counsel-find-file
-               counsel-grep-or-swiper
                counsel-M-x
                counsel-recentf
                counsel-semantic-or-imenu)
@@ -718,15 +714,21 @@ automatically by ~counsel-M-x~.
   (use-package smex :after counsel)
 #+end_src
 
-~swiper~ is developed by the same guy that did ~ivy~ and ~counsel~,
-and in the same GitHub repository; it provides a text search menu
-using ~ivy~.
+** Text search
+
+I had been using =swiper= for this (in the same repo as =ivy= and
+=counsel=) but I've seen some glitchiness with it.
+
+I'm keeping my eyes on [[https://github.com/raxod502/ctrlf][ctrlf]] but it doesn't interoperate with evil's
+bindings yet.  [[https://github.com/emacsorphanage/anzu][anzu]] implements =ctrlf='s match counts while staying
+mostly pretty simple.
 
 #+begin_src emacs-lisp
-  (use-package swiper
-    :bind ("C-s" . swiper)
-    :commands (swiper swiper-backward)
-    :after ivy)
+  (use-package anzu
+    :bind (([remap query-replace] . 'anzu-query-replace)
+	   ([remap query-replace-regexp] . 'anzu-query-replace-regexp))
+    :config
+    (global-anzu-mode +1))
 #+end_src
 
 ** Text completion
