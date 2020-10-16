@@ -84,9 +84,7 @@ loading from [[https://etienne.depar.is/emacs.d/init.html][this config]] ([[http
   ;; Disable startup screen
   (setq inhibit-startup-screen t)
 
-  ;; Darkula bg/fg colors -- overridden by theme but there in case this all
-  ;; fails, nothing is worse than fixing a broken emacs with BRIGHT WHITE
-  ;; BACKGROUND at 2am with a throbbing headache
+  ;; Darkula bg/fg colors
   (when (display-graphic-p)
     (set-face-background 'default "#282a36" nil)
     (set-face-foreground 'default "#f8f8f2" nil))
@@ -2822,7 +2820,7 @@ frame alist) to that location.
 
 #+begin_src emacs-lisp
   (unless (file-exists-p jws/site-file)
-    (write-region (pp `(load-theme 'doom-Iosvkem t)) nil jws/site-file t)
+    (write-region (pp `(load-theme 'doom-dracula t)) nil jws/site-file t)
     (write-region (pp `(setq jws/default-font ,jws/default-font)) nil jws/site-file t)
     (write-region (pp `(jws/set-my-default-frame-alist)) nil jws/site-file t))
 #+end_src
