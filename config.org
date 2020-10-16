@@ -1548,7 +1548,11 @@ First, let's define some paths into my ~org-mode~ files.
 #+begin_src emacs-lisp
   (use-package org
     :straight nil
-    :commands (org-agenda org-capture org-export-dispatch org-store-link)
+    :commands (org-agenda
+               org-capture
+               org-export-dispatch
+               org-store-link
+               org-babel-tangle-file)
     :mode (("\\.org\\'" . org-mode))
     :config
     (add-to-list 'org-modules 'org-habit)
