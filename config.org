@@ -807,6 +807,7 @@ other fancy paid text editor thereafter.
     :config
     (yas-global-mode 1)
     (define-key yas-keymap "\C-j" 'yas-next-field-or-maybe-expand)
+    (define-key yas-keymap "\C-k" 'yas-prev-field)
     (dolist (keymap (list yas-minor-mode-map yas-keymap))
       (define-key keymap (kbd "TAB") nil)
       (define-key keymap [(tab)] nil)))
