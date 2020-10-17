@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: for
+# key: _for
+# --
+for (${1:$i = 0}; ${2:$i < $MAX}; ${3:$i++}) {
+    $0
+}
