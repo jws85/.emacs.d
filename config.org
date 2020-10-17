@@ -18,7 +18,7 @@ This configuration is oriented around the following:
  - Vim-style keybindings via evil
  - One menu to access most features, like spacemacs
  - An attempt to look OK-ish
- - A focus on ~org-mode~, "curly-brace" languages (C/C++, Go, PHP,
+ - A focus on =org-mode=, "curly-brace" languages (C/C++, Go, PHP,
    some JavaScript), and webdev
 
 I am not using spacemacs (which offers all of the above) because I
@@ -42,7 +42,7 @@ editors are going to be naturally pretty scary in that regard ^_^)
 Basically, all the rough edges that can be changed from within vanilla
 Emacs are sanded, and my preferred way of installing and loading
 libraries is set up.  The rest of the guide leans heavily on
-~use-package~ so it gets a section here as well.
+=use-package= so it gets a section here as well.
 
 ** Early init
 
@@ -142,11 +142,11 @@ And finally, variables that may be changed elsewhere in the config.
     "Default GUI frame font")
 #+end_src
 
-** Customize ~Customize~
+** Customize =Customize=
 
-Emacs has an automatic customization system, called ~Customize~, which
+Emacs has an automatic customization system, called =Customize=, which
 will barf inscrutable s-expressions (with ugly comments telling you
-not to modify the output) through our beautiful ~init.el~ unless you
+not to modify the output) through our beautiful =init.el= unless you
 redirect its output.  We will load this file's values later.
 
 #+begin_src emacs-lisp
@@ -182,8 +182,8 @@ Automatically install packages listed in =use-package= invocations:
 ** Set up use-package
 
 [[https://github.com/jwiegley/use-package][use-package]] is an invaluable library that allows one to isolate
-different libraries being loaded in one's ~.emacs~ blob and load them
-efficiently.  The rest of the config relies heavily upon ~use-package~,
+different libraries being loaded in one's =.emacs= blob and load them
+efficiently.  The rest of the config relies heavily upon =use-package=,
 so it is loaded very early as well.
 
 #+begin_src emacs-lisp
@@ -193,7 +193,7 @@ so it is loaded very early as well.
 ** Load unpackaged libraries
 
 Libraries included with this config, but not in MELPA, are under
-~lisp/~:
+=lisp/=:
 
 #+begin_src emacs-lisp
   (if (file-exists-p jws/emacs-library-dir)
@@ -264,8 +264,8 @@ uses.
   (setq save-interprogram-paste-before-kill t)
 #+end_src
 
-Sometimes Emacs wants a ~y~ or ~n~ for yes/no questions, sometimes it
-requires a ~yes~ or ~no~.  Make everything ~y~ / ~n~.
+Sometimes Emacs wants a =y= or =n= for yes/no questions, sometimes it
+requires a =yes= or =no=.  Make everything =y= / =n=.
 
 #+begin_src emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
@@ -280,7 +280,7 @@ Enable some disabled functions that confuse some new (l)users:
 #+end_src
 
 Set all theme files as "safe" and thus do not prompt when loading
-them.  This is a legit concern.  I only install the ~doom-themes~
+them.  This is a legit concern.  I only install the =doom-themes=
 and I trust them, but still there's nothing stopping the owner from,
 say, selling to a malevolent person who sneaks elisp to mine BTC
 into the themes.
@@ -302,9 +302,9 @@ Do not load elisp bytecode if the associated elisp source is newer.
   (setq load-prefer-newer t)
 #+end_src
 
-And here I define a setting that confuses *me*; ~C-x C-z~ minimizes
+And here I define a setting that confuses *me*; =C-x C-z= minimizes
 the window by default, which I cannot stand because it's next to a
-whole plethora of ~C-x~ commands.
+whole plethora of =C-x= commands.
 
 #+begin_src emacs-lisp
   (global-unset-key (kbd "C-x C-z"))
@@ -331,7 +331,7 @@ it shows as an annoying full-screen flash on most computers.
   (setq ring-bell-function 'ignore)
 #+end_src
 
-~beacon~ flashes the cursor's position when it is moved a long
+=beacon= flashes the cursor's position when it is moved a long
 distance.
 
 #+begin_src emacs-lisp
@@ -343,7 +343,7 @@ distance.
 ** Icons
 
 [[https://github.com/domtronn/all-the-icons.el][all-the-icons]] pulls in several icon fonts which can be used by other
-packages (e.g. ~doom-modeline~).
+packages (e.g. =doom-modeline=).
 
 #+begin_src emacs-lisp
   (use-package all-the-icons)
@@ -382,7 +382,7 @@ replacement.
 #+end_src
 
 [[https://github.com/tarsius/minions][minions]] hides all those pesky minor-modes behind a clickable menu.
-Unlike the more popular [[https://github.com/myrjola/diminish.el][diminish]], ~minions~ just hides everything,
+Unlike the more popular [[https://github.com/myrjola/diminish.el][diminish]], =minions= just hides everything,
 which is fine by me.
 
 #+begin_src emacs-lisp
@@ -393,7 +393,7 @@ which is fine by me.
 
 Sometimes you just gotta have fun, nyan~ ^_^
 
-(In all seriousness, ~nyan-mode~ is a nice document position
+(In all seriousness, =nyan-mode= is a nice document position
 indicator.)
 
 #+begin_src emacs-lisp
@@ -444,7 +444,7 @@ emacs frame to function.
 
 ** Frame settings
 
-I don't really like the ~default-frame-alist~ that is used to set
+I don't really like the =default-frame-alist= that is used to set
 GUI frame settings e.g. font, size, position.  So I've defined my
 own functions.
 
@@ -474,7 +474,7 @@ own functions.
     (add-to-list 'default-frame-alist `(height . ,jws/default-height-rows)))
 #+end_src
 
-Set the ~default-frame-alist~ with the defaults we set early on.
+Set the =default-frame-alist= with the defaults we set early on.
 
 #+begin_src emacs-lisp
   (jws/set-my-default-frame-alist)
@@ -581,9 +581,9 @@ A few more functions to handle the Emacs frame's transparency.
 ** Keybindings (including Vim compatibility)
 
 Vim compatibility is the raison d'être of the whole guide.  This is
-done with the [[https://github.com/emacs-evil/evil][evil]] package.  ~evil~ is so foundational to the whole
+done with the [[https://github.com/emacs-evil/evil][evil]] package.  =evil= is so foundational to the whole
 thing that I'd rather not take the chance of deferring its loading.
-While I can get by with ~C-p~ ~C-n~ and ~C-s~ I am usually cringing
+While I can get by with =C-p= =C-n= and =C-s= I am usually cringing
 similarly like if I were forced into single-user mode on a Linux box
 or similar.
 
@@ -612,10 +612,10 @@ or similar.
     (define-key evil-motion-state-map (kbd ";") 'counsel-M-x))
 #+end_src
 
-Some other ~evil~ related packages:
+Some other =evil= related packages:
 
- - ~evil-surround~ is a port of [[https://github.com/tpope/vim-surround][surround.vim]]
- - ~evil-collection~ tries to bring vi/evil keybindings to other
+ - =evil-surround= is a port of [[https://github.com/tpope/vim-surround][surround.vim]]
+ - =evil-collection= tries to bring vi/evil keybindings to other
    Emacs modes
 
 #+begin_src emacs-lisp
@@ -631,9 +631,9 @@ Some other ~evil~ related packages:
     (evil-collection-init))
 #+end_src
 
-~which-key~ is useful for all those crazy chained bindings -- if you
+=which-key= is useful for all those crazy chained bindings -- if you
 stop on a prefix key, it'll show you what your options are so you know
-how what you've bound ~M-x butterfly~ to.
+how what you've bound =M-x butterfly= to.
 
 #+begin_src emacs-lisp
   (use-package which-key
@@ -646,9 +646,9 @@ how what you've bound ~M-x butterfly~ to.
 
 i.e. speeding up menu traversal.
 
-I like [[https://github.com/abo-abo/swiper][counsel and ivy]] to do this for me.  ~ivy~ is the backend
+I like [[https://github.com/abo-abo/swiper][counsel and ivy]] to do this for me.  =ivy= is the backend
 library that provides the menu structure.  I explictly init
-~ivy-mode~ since that turns on ivy-style completion everywhere,
+=ivy-mode= since that turns on ivy-style completion everywhere,
 and I got used to this inside... for instance, magit.
 
 #+begin_src emacs-lisp
@@ -671,7 +671,7 @@ and I got used to this inside... for instance, magit.
     (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-restrict-to-matches))
 #+end_src
 
-~counsel~ provides some useful functions built on top of ~ivy~.
+=counsel= provides some useful functions built on top of =ivy=.
 
 #+begin_src emacs-lisp
   (use-package counsel
@@ -689,7 +689,7 @@ and I got used to this inside... for instance, magit.
     (setq counsel-find-file-at-point t))
 #+end_src
 
-[[https://github.com/Yevgnen/ivy-rich][ivy-rich-mode]] makes some of the more frequently used ~counsel~
+[[https://github.com/Yevgnen/ivy-rich][ivy-rich-mode]] makes some of the more frequently used =counsel=
 commands function slightly nicer.
 
 #+begin_src emacs-lisp
@@ -701,14 +701,14 @@ commands function slightly nicer.
 #+end_src
 
 [[https://github.com/lewang/flx][flx]] provides a fuzzy search algorithm, which is picked up
-automatically by ~ivy~ and ~counsel~.
+automatically by =ivy= and =counsel=.
 
 #+begin_src emacs-lisp
   (use-package flx :after ivy)
 #+end_src
 
-[[https://github.com/DarwinAwardWinner/amx][amx]] provides an even more efficient ~M-x~ command, which is picked up
-automatically by ~counsel-M-x~.
+[[https://github.com/DarwinAwardWinner/amx][amx]] provides an even more efficient =M-x= command, which is picked up
+automatically by =counsel-M-x=.
 
 #+begin_src emacs-lisp
   (use-package amx :after counsel)
@@ -735,9 +735,9 @@ mostly pretty simple.
 
 [[http://company-mode.github.io/][company-mode]] is currently the go-to for providing text completion in
 Emacs.  I had previously gotten somewhat used to [[https://github.com/auto-complete/auto-complete][auto-complete]] and in
-many ways preferred that package to ~company~ -- but it's not
+many ways preferred that package to =company= -- but it's not
 seemingly maintained anymore.  So... we just hack the heck out of
-~company~.
+=company=.
 
 #+begin_src emacs-lisp
   (use-package company
@@ -832,7 +832,7 @@ Provide an Ivy menu with all current snippets.
 
 ** Window management
 
-~winner~ allows window splits to be undone and redone at will.  It comes with
+=winner= allows window splits to be undone and redone at will.  It comes with
 Emacs.
 
 #+begin_src emacs-lisp
@@ -841,7 +841,7 @@ Emacs.
     :config (winner-mode 1))
 #+end_src
 
-~buffer-move~ allows buffers to be moved between window splits.
+=buffer-move= allows buffers to be moved between window splits.
 
 #+begin_src emacs-lisp
   (use-package buffer-move
@@ -865,7 +865,7 @@ I like Paradox for graphical package installation.
 
 ** File management
 
-~dired~ is the built-in Emacs file manager.
+=dired= is the built-in Emacs file manager.
 
 #+begin_src emacs-lisp
   (use-package dired
@@ -873,9 +873,9 @@ I like Paradox for graphical package installation.
     :commands dired)
 #+end_src
 
-~dired~ barfs a bunch of directory buffers every time you change a
+=dired= barfs a bunch of directory buffers every time you change a
 directory.  Ticks me off.  I do this to try to control the madness.
-Due to ~evil-collection~ I had to specially map ~^~.
+Due to =evil-collection= I had to specially map =^=.
 
 #+begin_src emacs-lisp
   (use-package dired-single
@@ -885,7 +885,7 @@ Due to ~evil-collection~ I had to specially map ~^~.
            ("<return>" . dired-single-buffer)))
 #+end_src
 
-~dired-x~ is a set of extensions to ~dired~; I use ~dired-omit-mode~
+=dired-x= is a set of extensions to =dired=; I use =dired-omit-mode=
 to hide and toggle the view of "hidden files"
 
 #+begin_src emacs-lisp
@@ -900,7 +900,7 @@ to hide and toggle the view of "hidden files"
     (setq dired-omit-files "^\\...+$"))
 #+end_src
 
-~dired-rainbow~ colorizes files; I've set it up here to colorize
+=dired-rainbow= colorizes files; I've set it up here to colorize
 executables.
 
 #+begin_src emacs-lisp
@@ -1021,11 +1021,11 @@ Playing around with currency conversion in Calc:
 
 ** Terminal
 
-~eshell~ is Emacs' built-in terminal.  It is *not* a Bash variant, but
+=eshell= is Emacs' built-in terminal.  It is *not* a Bash variant, but
 is instead configured entirely with Emacs Lisp and renders solely to
 an Emacs buffer (rather than a VT TTY emulator).  The result is that
 at first it looks like a toy; when in fact you have the full power of
-Emacs from ~eshell~ if you should want it.  The disadvantage is that
+Emacs from =eshell= if you should want it.  The disadvantage is that
 sometimes muscle memory from old-school term/shells gets in one's way.
 
 #+begin_src emacs-lisp
@@ -1133,9 +1133,9 @@ Ivy completion of file names and the like:
   (add-hook 'eshell-mode-hook #'jws/setup-eshell-ivy-completion)
 #+end_src
 
-Any function or alias with a name beginning with ~eshell/~ becomes a
-command inside ~eshell~ itself.  The result being that I can do
-~open ~/.emacs.d/config.org~ from inside ~eshell~ and it'll open up
+Any function or alias with a name beginning with =eshell/= becomes a
+command inside =eshell= itself.  The result being that I can do
+=open ~/.emacs.d/config.org= from inside =eshell= and it'll open up
 that file in a new buffer.
 
 #+begin_src emacs-lisp
@@ -1150,13 +1150,13 @@ that file in a new buffer.
     (delete-window))
 #+end_src
 
-There is also ~ansi-term~, which attempts to be a VT terminal emulator.
-I find it even more janky than ~eshell~, and only use it as a fallback
-for ~ncurses~ commands like ~htop~ as above.
+There is also =ansi-term=, which attempts to be a VT terminal emulator.
+I find it even more janky than =eshell=, and only use it as a fallback
+for =ncurses= commands like =htop= as above.
 
 ** Web browser
 
-~eww~ is built into emacs.  Unlike some of the other tools here, ~eww~
+=eww= is built into emacs.  Unlike some of the other tools here, =eww=
 is kind of a tool of last resort, since probably 90% of the web now
 expects robust JavaScript/CSS support that emacs simply can't easily
 provide.
@@ -1167,7 +1167,7 @@ provide.
     :commands (eww eww-browse-url))
 #+end_src
 
-We want to use ~eww~ whenever a web link is clicked.
+We want to use =eww= whenever a web link is clicked.
 
 #+begin_src emacs-lisp
   (setq browse-url-browse-function 'eww-browse-url)
@@ -1190,7 +1190,7 @@ Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to l
 
 ** Version control
 
-I only really use ~git~ at this point.  The dirty secret of ~git~ is
+I only really use =git= at this point.  The dirty secret of =git= is
 that it is the PHP of VCs -- more of a [[https://www.jwz.org/doc/worse-is-better.html]["New Jersey approach"]] to the
 problem.  It is really performant, but is otherwise pretty goofy.
 So you need good tooling -- thankfully Emacs delivers in spades.
@@ -1212,7 +1212,7 @@ that's how good it is.
     (setq magit-last-seen-setup-instructions "1.4.0"))
 #+end_src
 
-I need it to behave more vim-like (e.g. ~j~ and ~k~ to move up and
+I need it to behave more vim-like (e.g. =j= and =k= to move up and
 down).
 
 #+begin_src emacs-lisp
@@ -1238,7 +1238,7 @@ that you can find in newer editors.
   (use-package git-gutter :config (global-git-gutter-mode t))
 #+end_src
 
-~git-timemachine~ gives us a handy view of a file's history.
+=git-timemachine= gives us a handy view of a file's history.
 
 #+begin_src emacs-lisp
   (use-package git-timemachine
@@ -1275,7 +1275,7 @@ multiple commits that I'm about to merge into master or make live.
     :config (projectile-mode 1))
 #+end_src
 
-~counsel-projectile~ does exactly what it says on the tin.
+=counsel-projectile= does exactly what it says on the tin.
 
 #+begin_src emacs-lisp
   (use-package counsel-projectile
@@ -1337,7 +1337,7 @@ Treemacs integration with other modes:
 
 [[https://www.emacswiki.org/emacs/open-junk-file.el][open-junk-file]] lets you open a throwaway file, which can be
 used for small code experiments or throwaway notes that you'd
-otherwise junk up the ~*scratch*~ buffer with...
+otherwise junk up the =*scratch*= buffer with...
 
 #+begin_src emacs-lisp
   (use-package open-junk-file
@@ -1352,7 +1352,7 @@ Supposedly some people use Emacs to edit files.  The horror!
 
 ** Basic editing tools
 
-This will automatically timestamp any file with ~Time-stamp: <>~
+This will automatically timestamp any file with =Time-stamp: <>=
 towards its top on save.  This is less necessary in the era of Git
 everywhere, but hey.
 
@@ -1360,7 +1360,7 @@ everywhere, but hey.
   (add-hook 'before-save-hook 'time-stamp)
 #+end_src
 
-If the file you're editing has a shebang (~#!~) at its top, Emacs
+If the file you're editing has a shebang (=#!=) at its top, Emacs
 can make it executable, which we will do after saving.
 
 #+begin_src emacs-lisp
@@ -1369,7 +1369,7 @@ can make it executable, which we will do after saving.
 #+end_src
 
 I want Emacs to remember where I was in a file when I had it open
-last; ~save-place-mode~ accomplishes that.
+last; =save-place-mode= accomplishes that.
 
 #+begin_src emacs-lisp
   (use-package saveplace
@@ -1385,14 +1385,14 @@ Lisp.
     :init (show-paren-mode))
 #+end_src
 
-~focus~ is a neat package that only highlights the specific chunk of
+=focus= is a neat package that only highlights the specific chunk of
 code that your cursor is on.
 
 #+begin_src emacs-lisp
   (use-package focus :commands (focus-mode))
 #+end_src
 
-~prism~, on the other hand, colorizes *everything* according to the
+=prism=, on the other hand, colorizes *everything* according to the
 code's nesting depth -- which can be handy for Lisp/JS callback hell!
 
 #+begin_src emacs-lisp
@@ -1416,23 +1416,23 @@ code's nesting depth -- which can be handy for Lisp/JS callback hell!
         (prism-blend color "white" 0.5))))
 #+end_src
 
-~expand-region~ selects increasingly large areas of text when used
-repeatedly (with Evil normal mode ~+~).
+=expand-region= selects increasingly large areas of text when used
+repeatedly (with Evil normal mode =+=).
 
 #+begin_src emacs-lisp
   (use-package expand-region
     :commands er/expand-region)
 #+end_src
 
-~avy~ jumps to any character on screen (Evil normal ~g c~) and any
-line on screen (Evil normal ~g l~).
+=avy= jumps to any character on screen (Evil normal =g c=) and any
+line on screen (Evil normal =g l=).
 
 #+begin_src emacs-lisp
   (use-package avy
     :commands (avy-goto-char avy-goto-line))
 #+end_src
 
-~ace-window~ jumps between windows.
+=ace-window= jumps between windows.
 
 #+begin_src emacs-lisp
   (use-package ace-window
@@ -1441,11 +1441,11 @@ line on screen (Evil normal ~g l~).
 
 [[https://github.com/akicho8/string-inflection][string-inflection]] allows the user to change how a string is
 capitalized and punctuated according to language specifications.  For
-instance, the below "Java style" function changes ~testString~ to
-~TEST_STRING~ to ~TestString~ and back to ~testString~ again.
+instance, the below "Java style" function changes =testString= to
+=TEST_STRING= to =TestString= and back to =testString= again.
 
 [[https://github.com/ninrod/evil-string-inflection][evil-string-inflection]] wraps the above and makes it available as the
-Evil command ~g~~
+Evil command =g~=
 
 #+begin_src emacs-lisp
   (use-package string-inflection
@@ -1467,8 +1467,8 @@ sure I properly understand them tbh.
 
 I personally prefer spaces and 4-spaces-per-indent, but don't
 particularly care so long as there is some consistency.  However, I've
-been finding that with ~indent-tabs-mode~ turned off by default, that
-my indentation in a few modes (namely ~web-mode~, ~css-mode~, probably
+been finding that with =indent-tabs-mode= turned off by default, that
+my indentation in a few modes (namely =web-mode=, =css-mode=, probably
 others) gets all hashed up.  Every eight spaces of indentation is
 replaced with a hard tab, and the rest of the spaces are left.  This
 is like literally the worst of all worlds, so I smash this setting
@@ -1480,7 +1480,7 @@ into place.
   (setq-default indent-tabs-mode nil)
 #+end_src
 
-~untabify~ on backspace is an amazingly bassackwards way of handling
+=untabify= on backspace is an amazingly bassackwards way of handling
 things.  I hack on other peoples' projects that use tabs, and one
 thing I know for sure is that folks who use tabs do NOT want their
 tabs turned into spaces.  Just incomprehensibly broken.  Whomever
@@ -1492,7 +1492,7 @@ decided this has worms in their brains.  Why.
 
 For all other projects, I'll probably start requiring the use of
 [[https://editorconfig.org/][EditorConfig]] ([[https://github.com/editorconfig/editorconfig-emacs][Emacs implementation]]).  This should solve the
-consistency issue (in theory...) with an ~.editorconfig~ file per
+consistency issue (in theory...) with an =.editorconfig= file per
 project; put the project settings in there and hope everyone else uses
 an editor set up with EditorConfig.
 
@@ -1559,10 +1559,10 @@ format that can be used as an elisp string instead.
 [[https://orgmode.org/][org-mode]] is one of the commonly cited "Emacs killer apps" (next to
 Magit, which we configure elsewhere).
 
-If you aren't familiar with ~org-mode~, it's a markup format not
+If you aren't familiar with =org-mode=, it's a markup format not
 unlike Markdown.
 
-But the format contains syntax (and ~org-mode~ itself contains
+But the format contains syntax (and =org-mode= itself contains
 functionality) for a *very* full-featured, customizable personal
 information manager; a full-on [[https://en.wikipedia.org/wiki/Literate_programming][literate programming]] system (which is
 used to create this very Emacs config); and more.
@@ -1571,7 +1571,7 @@ Like a lot of folks, I tend to use it as an always-available personal
 wiki of sorts; this is easy to accomplish with
 Dropbox/Nextcloud/Syncthing/etc.
 
-First, let's define some paths into my ~org-mode~ files.
+First, let's define some paths into my =org-mode= files.
 
 #+begin_src emacs-lisp
   (setq org-directory (expand-file-name "~/Org/"))
@@ -1620,15 +1620,15 @@ Do some basic configuration of =org-mode=.
 
 *** Capturing new notes
 
-~org-capture~ is a really convenient way of automating the entry of
+=org-capture= is a really convenient way of automating the entry of
 new todo items, etc; it can also be effectively used for journaling
 and other such things.  So if I had some code I wanted to remember,
 instead of making a junk file, I'd create a code snippet entry.
 
-I'm interested in maintaining my web bookmarks via ~org-mode~; this
+I'm interested in maintaining my web bookmarks via =org-mode=; this
 fails without a convenient way of capturing via my web browser.
 This function is part of that setup; it removes square brackets from
-input so they don't break the ~org-mode~ parser:
+input so they don't break the =org-mode= parser:
 
 #+begin_src emacs-lisp
   ;; achtung: parinfer tries to treat [] as syntactically significant (it is in elisp
@@ -1639,8 +1639,8 @@ input so they don't break the ~org-mode~ parser:
      (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
 #+end_src
 
-And here are the actual capture templates.  The latter two (~p~ and
-~L~) are called by the browser extensions; the rest can be called
+And here are the actual capture templates.  The latter two (=p= and
+=L=) are called by the browser extensions; the rest can be called
 manually.  A few of these were lifted from [[https://github.com/munen/emacs.d/blob/master/configuration.org][this config]], which I've
 been using as a basis for building my own "GTD" system.
 
@@ -1682,8 +1682,8 @@ been using as a basis for building my own "GTD" system.
              :empty-lines 1))))
 #+end_src
 
-Similarly to the ~jws/org-agenda-single-window~ function, this runs
-~org-capture~ inside a single frame.
+Similarly to the =jws/org-agenda-single-window= function, this runs
+=org-capture= inside a single frame.
 
 #+begin_src emacs-lisp
   ;; Use this to launch an emacs frame containing nothing but org-capture
@@ -1699,7 +1699,7 @@ I'm using [[https://github.com/sprig/org-capture-extension][this WebExtension]] 
 pretty substantial configuration, which I replicate for GTK-based Linux here.
 KDE and other OSes have different steps.
 
-First off, create ~~/.local/share/applications/org-protocol.desktop~ containing:
+First off, create =~/.local/share/applications/org-protocol.desktop= containing:
 
 #+begin_src conf :tangle no
   [Desktop Entry]
@@ -1711,7 +1711,7 @@ First off, create ~~/.local/share/applications/org-protocol.desktop~ containing:
   MimeType=x-scheme-handler/org-protocol;
 #+end_src
 
-Secondly, run the below, which updates ~~/.local/share/applications/mimeinfo.cache~:
+Secondly, run the below, which updates =~/.local/share/applications/mimeinfo.cache=:
 
 #+begin_src shell :tangle no
   update-desktop-database ~/.local/share/applications/
@@ -1724,7 +1724,7 @@ below, but I prefer starting my Emacs server process other ways:
   (server-start)
 #+end_src
 
-Finally, kick off ~org-protocol~ itself:
+Finally, kick off =org-protocol= itself:
 
 #+begin_src emacs-lisp
   (use-package org-protocol :straight nil)
@@ -1736,18 +1736,18 @@ somewhere with an org-mode link in it.
 
 *** Agenda
 
-~org-agenda~ is the PIM component; it relies on "keywords" in subject
+=org-agenda= is the PIM component; it relies on "keywords" in subject
 headers to detect things to act upon.
 
 I define the following keywords:
 
- - ~TODO~ (as applied to something without dependencies) is a unit of
+ - =TODO= (as applied to something without dependencies) is a unit of
    work that, as far as I know, can be done now.
- - ~WAITING~ relies on something else that is out of my control
- - ~DONE~ is something that is finished
- - ~CANCELLED~ is something that was aborted before finishing
- - ~AGENDA~ is a plan of action
- - ~MINUTES~ is a backup of that plan of action
+ - =WAITING= relies on something else that is out of my control
+ - =DONE= is something that is finished
+ - =CANCELLED= is something that was aborted before finishing
+ - =AGENDA= is a plan of action
+ - =MINUTES= is a backup of that plan of action
 
 #+begin_src emacs-lisp
   (use-package org-agenda
@@ -1813,7 +1813,7 @@ heckuva lot easier to read.
 #+end_src
 
 If one wants a quick look at their agenda without having to hunt through
-emacs keybindings, they could run the below function from an ~emacsclient~
+emacs keybindings, they could run the below function from an =emacsclient=
 and be more or less off to the races.
 
 #+begin_src emacs-lisp
@@ -1838,7 +1838,7 @@ Trying to do a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]].  I 
 #+end_src
 
 I used to use [[https://github.com/jrblevin/deft][Deft]] as a quick-notes tool but found that my notes
-became structureless.  However, ~org-roam~ lacks a fulltext search,
+became structureless.  However, =org-roam= lacks a fulltext search,
 and Deft has it... so we're bringing it back on board.
 
 #+begin_src emacs-lisp
@@ -1855,7 +1855,7 @@ and Deft has it... so we're bringing it back on board.
 
 *** Conversion
 
-~ox-wk~ provides conversion to [[https://www.dokuwiki.org/dokuwiki][Dokuwiki]]; I often start documents for
+=ox-wk= provides conversion to [[https://www.dokuwiki.org/dokuwiki][Dokuwiki]]; I often start documents for
 work in Org and then copy it into our work wiki.
 
 #+begin_src emacs-lisp
@@ -1929,7 +1929,7 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
     (setq lsp-file-watch-threshold 10000))
 #+end_src
 
-[[https://github.com/emacs-lsp/lsp-ui][lsp-ui]] adds some fancy features on top of ~lsp-mode~:
+[[https://github.com/emacs-lsp/lsp-ui][lsp-ui]] adds some fancy features on top of =lsp-mode=:
 
 #+begin_src emacs-lisp
   (use-package lsp-ui
@@ -2088,7 +2088,7 @@ editing beforehand.
     :hook (emacs-lisp-mode . nameless-mode))
 #+end_src
 
-[[https://github.com/cask/cask][Cask]] is like [[https://getcomposer.org/][Composer]] or ~npm~ for Emacs Lisp.  I don't use Cask much,
+[[https://github.com/cask/cask][Cask]] is like [[https://getcomposer.org/][Composer]] or =npm= for Emacs Lisp.  I don't use Cask much,
 but I have used it from time to time when developing plugins.
 
 #+begin_src emacs-lisp
@@ -2124,7 +2124,7 @@ Once you have Quicklisp loaded, run
   (ql:quickload "quicklisp-slime-helper")
 #+end_src
 
-and copy those lines into the ~site-init.el~ to have a site-customized
+and copy those lines into the =site-init.el= to have a site-customized
 SLIME install tied to your installed Common Lisp interpreter.
 
 *** Clojure
@@ -2153,9 +2153,9 @@ For curly-brace languages, I like underscores to be part of the Emacs
 
 *** C and its immediate relatives
 
-Let's enable ~lsp-mode~ for these folks.
+Let's enable =lsp-mode= for these folks.
 
-For ~c-mode~ and ~c++-mode~ you'll want the ~clangd~ from ~clang-tools-8~.
+For =c-mode= and =c++-mode= you'll want the =clangd= from =clang-tools-8=.
 
 #+begin_src emacs-lisp
   (add-hook 'c-mode-hook 'lsp)
@@ -2208,7 +2208,7 @@ match]] "not =blade=".)
 I like Go a lot, despite some irritating parts.  It is like a
 stricter but much faster curly-brace Python.
 
-Again here we enable ~lsp-mode~, this time using [[https://github.com/golang/tools/tree/master/gopls][gopls]].
+Again here we enable =lsp-mode=, this time using [[https://github.com/golang/tools/tree/master/gopls][gopls]].
 
 #+begin_src emacs-lisp
   (use-package go-mode
@@ -2296,7 +2296,7 @@ you'll need the [[https://github.com/nodesource/distributions/blob/master/README
 [[https://github.com/smihica/emmet-mode][emmet-mode]] implements the [[https://emmet.io/][Emmet]] syntax, which can speed up creation of
 heavily-nested HTML.
 
-For instance, ~ol#nav>li.color*3>a~ is an Emmet shortcut for:
+For instance, =ol#nav>li.color*3>a= is an Emmet shortcut for:
 
 #+begin_src html :tangle no
   <ol id="nav">
@@ -2306,7 +2306,7 @@ For instance, ~ol#nav>li.color*3>a~ is an Emmet shortcut for:
   </ol>
 #+end_src
 
-You would expand the former into the latter with ~C-j~.
+You would expand the former into the latter with =C-j=.
 
 #+begin_src emacs-lisp
   (use-package emmet-mode
@@ -2346,7 +2346,7 @@ in), as well as template languages (Blade, Mustache, Jinja2...).
     (add-hook 'web-mode-hook (lambda () (run-hooks 'prog-mode-hook))))
 #+end_src
 
-Enable ~company~ in ~web-mode~.
+Enable =company= in =web-mode=.
 
 #+begin_src emacs-lisp
   (use-package company-web
@@ -2394,7 +2394,7 @@ There is a handy [[https://github.com/pashky/restclient.el][REST client for emac
     (require 'restclient))
 #+end_src
 
-This package integrates ~restclient~ with ~org-babel~.
+This package integrates =restclient= with =org-babel=.
 
 #+begin_src emacs-lisp
   (use-package ob-restclient
@@ -2405,7 +2405,7 @@ This package integrates ~restclient~ with ~org-babel~.
      '((restclient . t))))
 #+end_src
 
-And this package integrates ~company~ with ~restclient~.
+And this package integrates =company= with =restclient=.
 
 #+begin_src emacs-lisp
   (use-package company-restclient
@@ -2432,7 +2432,7 @@ curly-brace "HTML" combined with inline JavaScript.
     :mode "\\.qml\\'")
 #+end_src
 
-Qt's resource files (~.qrc~) are XML.
+Qt's resource files (=.qrc=) are XML.
 
 #+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.qrc$" . nxml-mode))
@@ -2443,14 +2443,14 @@ Qt's resource files (~.qrc~) are XML.
 I defer the master menu definitions to the end just to make sure
 everything else has been done.
 
-The [[https://github.com/abo-abo/hydra][hydra]] package (by the same mad genius responsible for ~ivy~ et al)
+The [[https://github.com/abo-abo/hydra][hydra]] package (by the same mad genius responsible for =ivy= et al)
 allows for easy-ish interactive menus.
 
 #+begin_src emacs-lisp
   (use-package hydra)
 #+end_src
 
-Note that ~hydra~ uses a "color" system where keybinds are assigned
+Note that =hydra= uses a "color" system where keybinds are assigned
 a color, which determines their behavior.  For our purposes:
 
  - red (the default) runs the command and jumps right back into the
@@ -2701,7 +2701,7 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
 
 ** Org-mode menu
 
-~jws/hydra-org-files~ is defined under "File menu" above.
+=jws/hydra-org-files= is defined under "File menu" above.
 
 #+begin_src emacs-lisp
   (defhydra jws/hydra-zettel (:color blue :columns 4)
@@ -2728,7 +2728,7 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
 
 ** Project menu
 
-To control ~projectile~ and other associated packages.
+To control =projectile= and other associated packages.
 
 #+begin_src emacs-lisp
   (defhydra jws/hydra-project (:color teal :columns 4)
@@ -2769,11 +2769,11 @@ To control ~projectile~ and other associated packages.
 
 ** Help menu
 
-~woman~ is an Emacs Lisp implementation of the [[https://en.wikipedia.org/wiki/Nroff][nroff]] code that
-formats ~man~ pages.  This allows ~woman~ to work on Windows;
+=woman= is an Emacs Lisp implementation of the [[https://en.wikipedia.org/wiki/Nroff][nroff]] code that
+formats =man= pages.  This allows =woman= to work on Windows;
 but it does make it slower.  At some point it may be a good
-idea to use ~man~ when available; also find some way to
-present these via ~ivy~.
+idea to use =man= when available; also find some way to
+present these via =ivy=.
 
 #+begin_src emacs-lisp
   (defhydra jws/hydra-help (:color blue :columns 4)
@@ -2866,7 +2866,7 @@ Furthermore, I might need a very specific mode, or set up mappings
 to certain file extensions.
 
 If I need to run specific (unpackaged) libraries, I keep them under
-~site-lisp/~ in this directory:
+=site-lisp/= in this directory:
 
 #+begin_src emacs-lisp
   (if (file-exists-p jws/emacs-site-library-dir)
@@ -2875,7 +2875,7 @@ If I need to run specific (unpackaged) libraries, I keep them under
         (normal-top-level-add-subdirs-to-load-path)))
 #+end_src
 
-If a ~site-init.el~ doesn't already exist, write some minimal stuff
+If a =site-init.el= doesn't already exist, write some minimal stuff
 (a theme that doesn't make my eyes bleed, a default font, and set the
 frame alist) to that location.
 
@@ -2887,14 +2887,14 @@ frame alist) to that location.
 #+end_src
 
 My site-specific init file is kept in the same directory as this
-file, at ~site-init.el~.  I may look into making an org file out of
+file, at =site-init.el=.  I may look into making an org file out of
 this as well.
 
 #+begin_src emacs-lisp
   (load jws/site-file t)
 #+end_src
 
-And we load the ~Customize~ stuff here as well.
+And we load the =Customize= stuff here as well.
 
 #+begin_src emacs-lisp
   (load jws/custom-file t)
