@@ -766,7 +766,7 @@ seemingly maintained anymore.  So... we just hack the heck out of
           company-dabbrev-downcase nil
           company-dabbrev-ignore-case t
           company-show-numbers t
-          company-require-match nil)
+          company-require-match 'never)
 
     ;; company uses a lot of meta bindings.  I like control better
     (define-key company-active-map [(tab)] 'company-select-next)
