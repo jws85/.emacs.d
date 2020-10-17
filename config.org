@@ -1959,11 +1959,12 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
 #+end_src
 
 When =lsp-mode= is loaded in a buffer, override the =xref= keybindings
-to use =lsp-ui-peek= instead.
+to use =lsp-ui-peek= instead.  Also, add a binding for code actions!
 
 #+begin_src emacs-lisp
   (add-hook 'lsp-mode-hook
             (lambda ()
+              (evil-local-set-key 'normal (kbd "g d a") #'lsp-execute-code-action)
               (evil-local-set-key 'normal (kbd "g d d") #'lsp-ui-peek-find-definitions)
               (evil-local-set-key 'normal (kbd "g d r") #'lsp-ui-peek-find-references)))
 #+end_src
