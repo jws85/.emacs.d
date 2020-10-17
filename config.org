@@ -1695,9 +1695,13 @@ Similarly to the =jws/org-agenda-single-window= function, this runs
 
 *** Capturing from external applications
 
-I'm using [[https://github.com/sprig/org-capture-extension][this WebExtension]] ([[https://addons.mozilla.org/en-US/firefox/addon/org-capture/][Firefox]], [[https://chrome.google.com/webstore/detail/org-capture/kkkjlfejijcjgjllecmnejhogpbcigdc][Chrome]]) to accomplish this.  But it needs
-pretty substantial configuration, which I replicate for GTK-based Linux here.
-KDE and other OSes have different steps.
+At the moment, this is being used by org-roam, [[https://www.orgroam.com/manual/The-roam_002dref-protocol.html][like so]].  You can also
+use [[https://github.com/sprig/org-capture-extension][this WebExtension]] ([[https://addons.mozilla.org/en-US/firefox/addon/org-capture/][Firefox]], [[https://chrome.google.com/webstore/detail/org-capture/kkkjlfejijcjgjllecmnejhogpbcigdc][Chrome]]) to accomplish this.
+
+Either way, some pretty substantial "outside of Emacs" configuration
+has to be done.  The below are settings for "GTK-based Linux
+environments" like GNOME.  Other environments will probably need
+various changes.
 
 First off, create =~/.local/share/applications/org-protocol.desktop= containing:
 
