@@ -796,6 +796,8 @@ seemingly maintained anymore.  So... we just hack the heck out of
     :config (company-quickhelp-mode))
 #+END_SRC
 
+** Snippets
+
 [[https://github.com/joaotavora/yasnippet][YASnippet]] provides "snippets" like provided by Textmate, then by every
 other fancy paid text editor thereafter.
 
