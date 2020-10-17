@@ -1549,11 +1549,10 @@ First, let's define some paths into my ~org-mode~ files.
     "The directory where `deft' notes files live.")
 #+end_src
 
-~org-mode~ comes with Emacs, and I'd rather use that version if possible.
+Do some basic configuration of =org-mode=.
 
 #+begin_src emacs-lisp
   (use-package org
-    :straight nil
     :commands (org-agenda
                org-capture
                org-export-dispatch
