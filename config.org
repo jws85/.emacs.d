@@ -1871,6 +1871,18 @@ work in Org and then copy it into our work wiki.
     (setq ox-wk-org-verbatim 'monospace))
 #+end_src
 
+*** Other stuff
+
+Fancy bullets in =org-mode=!
+
+#+begin_src emacs-lisp
+  (use-package org-superstar
+    :config
+    (org-superstar-mode 1)
+    ;; just in case
+    (setq inhibit-compacting-font-caches t))
+#+end_src
+
 ** Markdown
 
 Ideally I'd stay in org-mode, but I live in the real world.
