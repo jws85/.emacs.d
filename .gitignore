@@ -27,6 +27,10 @@ src/*
 # propensity to crap files everywhere; I am anal enough about it that
 # it really sticks in my craw.
 
+# amx/smex
+amx-items
+smex-items
+
 # auto-complete
 ac-comphist.dat
 
@@ -69,7 +73,6 @@ helm-adaptive-history
 
 # ido cruft
 ido.last
-smex-items
 
 # Something to do with emacs' IME
 kkcrc

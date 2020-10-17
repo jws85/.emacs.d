@@ -707,11 +707,11 @@ automatically by ~ivy~ and ~counsel~.
   (use-package flx :after ivy)
 #+end_src
 
-[[https://github.com/nonsequitur/smex][smex]] provides an even more efficient ~M-x~ command, which is picked up
+[[https://github.com/DarwinAwardWinner/amx][amx]] provides an even more efficient ~M-x~ command, which is picked up
 automatically by ~counsel-M-x~.
 
 #+begin_src emacs-lisp
-  (use-package smex :after counsel)
+  (use-package amx :after counsel)
 #+end_src
 
 ** Text search
