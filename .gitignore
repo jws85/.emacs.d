@@ -46,6 +46,10 @@ calc.el
 # currency-convert
 currency-convert-rates.json
 
+# ctags/etags
+tags
+TAGS
+
 # emms installation
 emms/
 
@@ -84,6 +88,9 @@ lsp-cache
 # multiple-cursors
 .mc-lists.el
 
+# org-agenda
+/.org-id-locations
+
 # org-roam
 org-roam.db
 
@@ -110,6 +117,3 @@ transient/
 # junk files
 *~
 session.*
-tags
-TAGS
-/.org-id-locations
