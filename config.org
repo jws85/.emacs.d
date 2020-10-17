@@ -1285,6 +1285,54 @@ multiple commits that I'm about to merge into master or make live.
                counsel-projectile-switch-to-buffer))
 #+end_src
 
+** IDE-style sidebar
+
+[[https://github.com/Alexander-Miller/treemacs][Treemacs]] provides a sidebar that lists projects that you add to it,
+and allows you to navigate said projects' directory trees.
+
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :defer t
+    :init
+    (with-eval-after-load 'winum
+      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+    :config
+    (progn
+      (treemacs-follow-mode t)
+      (treemacs-filewatch-mode t)
+      (treemacs-fringe-indicator-mode t))
+    :bind
+    (:map global-map
+          ("M-0"       . treemacs-select-window)
+          ("C-x t 1"   . treemacs-delete-other-windows)
+          ("C-x t t"   . treemacs)
+          ("C-x t B"   . treemacs-bookmark)
+          ("C-x t C-t" . treemacs-find-file)
+          ("C-x t M-t" . treemacs-find-tag)))
+
+#+end_src
+
+Treemacs integration with other modes:
+
+#+begin_src emacs-lisp
+  (use-package treemacs-evil
+    :after treemacs evil
+    :ensure t)
+
+  (use-package treemacs-projectile
+    :after treemacs projectile
+    :ensure t)
+
+  (use-package treemacs-icons-dired
+    :after treemacs dired
+    :ensure t
+    :config (treemacs-icons-dired-mode))
+
+  (use-package treemacs-magit
+    :after treemacs magit
+    :ensure t)
+#+end_src
+
 ** Junk files
 
 [[https://www.emacswiki.org/emacs/open-junk-file.el][open-junk-file]] lets you open a throwaway file, which can be
@@ -2761,6 +2809,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("SPC" counsel-M-x "Command list")
     ("<delete>" delete-frame "Close window")
     ("<tab>" jws/switch-to-previous-buffer "Switch buffer")
+    ("RET" treemacs "Show treemacs")
     ("k" kill-this-buffer "Kill buffer")
 
     ("a" org-agenda "Agenda")
