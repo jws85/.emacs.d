@@ -1877,6 +1877,7 @@ Fancy bullets in =org-mode=!
 
 #+begin_src emacs-lisp
   (use-package org-superstar
+    :after org
     :config
     (org-superstar-mode 1)
     ;; just in case
