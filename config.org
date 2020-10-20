@@ -685,6 +685,8 @@ and I got used to this inside... for instance, magit.
                counsel-M-x
                counsel-recentf
                counsel-semantic-or-imenu)
+    :bind (:map evil-insert-state-map
+                ("C-." . 'counsel-unicode-char))
     :config
     (setq counsel-find-file-at-point t))
 #+end_src
