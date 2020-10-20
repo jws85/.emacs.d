@@ -1880,8 +1880,8 @@ Fancy bullets in =org-mode=!
 #+begin_src emacs-lisp
   (use-package org-superstar
     :after org
+    :hook (org-mode . org-superstar-mode)
     :config
-    (org-superstar-mode 1)
     ;; just in case
     (setq inhibit-compacting-font-caches t))
 #+end_src
