@@ -652,23 +652,23 @@ library that provides the menu structure.  I explictly init
 and I got used to this inside... for instance, magit.
 
 #+begin_src emacs-lisp
-  (use-package ivy
-    :commands (ivy-switch-buffer)
-    :init (ivy-mode 1)
-    :config
-    (setq ivy-use-virtual-buffers t
-          ivy-count-format "(%d/%d)"
-          ivy-magic-tilde nil)
+    (use-package ivy
+      :commands (ivy-switch-buffer)
+      :init (ivy-mode 1)
+      :config
+      (setq ivy-use-virtual-buffers t
+            ivy-count-format "(%d/%d)"
+            ivy-magic-tilde nil)
 
-    ;; Makes RET in counsel-find-file actually work correctly
-    ;; and not dump you in dired for whatever reason
-    (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
+      ;; Makes RET in counsel-find-file actually work correctly
+      ;; and not dump you in dired for whatever reason
+      (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
 
-    ;; Move ivy-restrict-to-matches from S-SPC to C-RET
-    ;; I do not like emacs bindings using Super; that's for my
-    ;; window manager only!
-    (define-key ivy-minibuffer-map (kbd "S-SPC") nil)
-    (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-restrict-to-matches))
+      ;; Move ivy-restrict-to-matches from S-SPC to C-RET
+      ;; I do not like emacs bindings using Super; that's for my
+      ;; window manager only!
+      (define-key ivy-minibuffer-map (kbd "S-SPC") nil)
+      (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-restrict-to-matches))
 #+end_src
 
 =counsel= provides some useful functions built on top of =ivy=.
