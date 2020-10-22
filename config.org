@@ -1026,6 +1026,8 @@ you need to set up =mpd= first.)
            ("?" . 'search-backward))
     :commands (mingus
                mingus-search
+               mingus-load-playlist
+               mingus-save-playlist
                mingus-vol-up
                mingus-vol-down)
     :config
@@ -1050,6 +1052,8 @@ Make a hydra to control =mpd= via mingus (stolen from [[https://writequit.org/eo
     ("/" mingus-search "Search" :exit t)
     ("m" mingus "Mingus" :exit t)
     ("p" mpc-prev "Previous")
+    ("l" mingus-load-playlist "Load playlist")
+    ("s" mingus-save-playlist "Save playlist")
     ("n" mpc-next "Next")
     ("+" (dotimes (i 5) (mingus-vol-up)) "Louder")
     ("-" (dotimes (i 5) (mingus-vol-down)) "Quieter")
