@@ -1011,6 +1011,10 @@ Playing around with currency conversion in Calc:
 you need to set up =mpd= first.)
 
 #+begin_src emacs-lisp
+  (use-package mpc
+    :commands (mpc-next
+               mpc-prev))
+
   (use-package mingus
     :bind (:map mingus-*-map
            ("j" . 'next-line)
@@ -1020,6 +1024,10 @@ you need to set up =mpd= first.)
            :map mingus-playlist-map
            ("/" . 'search-forward)
            ("?" . 'search-backward))
+    :commands (mingus
+               mingus-search
+               mingus-vol-up
+               mingus-vol-down)
     :config
     (add-to-list 'evil-emacs-state-modes 'mingus-playlist-mode)
     (add-to-list 'evil-emacs-state-modes 'mingus-browse-mode))
