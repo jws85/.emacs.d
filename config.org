@@ -1895,18 +1895,18 @@ Using [[https://www.orgroam.com/][org-roam]] for a [[https://en.wikipedia.org/wi
     :config
     (require 'org-roam-protocol)
     (setq org-roam-directory jws/org-notes-dir
-          ;; capture template from inside Emacs
-          org-roam-capture-templates
-          '(("d" "default" plain #'org-roam-capture--get-point "%?"
-             :file-name "%<%Y%m%d%H%M%S>-${slug}"
-             :head "#+title: ${title}\n#+roam_tags: \n"
-             :unnarrowed t))
-          ;; capture template from web link outside Emacs
-          org-roam-capture-ref-templates
-          '(("r" "references" plain #'org-roam-capture--get-point "%?"
-             :file-name "%<%Y%m%d%H%M%S>-${slug}"
-             :head "#+title: ${title}\n#+roam_key: ${ref}\n#+roam_tags: links \n"
-             :unnarrowed t))))
+	  ;; capture template from inside Emacs
+	  org-roam-capture-templates
+	  '(("d" "default" plain #'org-roam-capture--get-point "\n%?\n\nEntered on %U\n"
+	     :file-name "%<%Y%m%d%H%M%S>-${slug}"
+	     :head "#+title: ${title}\n#+roam_tags: \n"
+	     :unnarrowed t))
+	  ;; capture template from web link outside Emacs
+	  org-roam-capture-ref-templates
+	  '(("r" "references" plain #'org-roam-capture--get-point "\n%?\n\nEntered on %U\n"
+	     :file-name "%<%Y%m%d%H%M%S>-${slug}"
+	     :head "#+title: ${title}\n#+roam_key: ${ref}\n#+roam_tags: links \n"
+	     :unnarrowed t))))
 #+end_src
 
 I used to use [[https://github.com/jrblevin/deft][Deft]] as a quick-notes tool but found that my notes
