@@ -1851,17 +1851,18 @@ I define the following keywords:
 
     ;; Agenda vim key bindings
     (evil-add-hjkl-bindings org-agenda-mode-map 'emacs
-      (kbd "L") 'org-agenda-log-mode
+      (kbd "c") 'cfw:open-org-calendar
       (kbd "C") 'org-agenda-capture
-      (kbd "d") 'org-agenda-goto-date)
+      (kbd "d") 'org-agenda-goto-date
+      (kbd "L") 'org-agenda-log-mode)
 
     ;; Save after various edits in org-mode/org-agenda
     ;(advice-add 'org-deadline :after 'org-save-all-org-buffers)
     (advice-add 'org-refile :after 'org-save-all-org-buffers))
 #+end_src
 
-[[https://github.com/alphapapa/org-super-agenda][This package]] groups agenda items together, which makes the agenda a
-heckuva lot easier to read.
+[[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] groups agenda items together, which makes the agenda
+a heckuva lot easier to read.
 
 #+begin_src emacs-lisp
   (use-package org-super-agenda
@@ -1878,6 +1879,16 @@ heckuva lot easier to read.
             (:name "Hobby" :tag "@hobby")
             (:name "Travel" :tag "@travel")
             (:auto-category t))))
+#+end_src
+
+[[https://github.com/kiwanami/emacs-calfw][calfw]] gives a nice calendar view of org-agenda items.
+
+#+begin_src emacs-lisp
+  (use-package calfw
+    :commands (cfw:open-calendar-buffer))
+
+  (use-package calfw-org
+    :commands (cfw:open-org-calendar))
 #+end_src
 
 If one wants a quick look at their agenda without having to hunt through
