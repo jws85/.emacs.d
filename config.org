@@ -1905,7 +1905,7 @@ Using [[https://www.orgroam.com/][org-roam]] for a [[https://en.wikipedia.org/wi
           org-roam-capture-ref-templates
           '(("r" "references" plain #'org-roam-capture--get-point "%?"
              :file-name "%<%Y%m%d%H%M%S>-${slug}"
-             :head "#+title: ${title}\n#+roam_key: ${ref}\n#+roam_tags: article links \n"
+             :head "#+title: ${title}\n#+roam_key: ${ref}\n#+roam_tags: links \n"
              :unnarrowed t))))
 #+end_src
 
