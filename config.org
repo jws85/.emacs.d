@@ -1892,6 +1892,19 @@ a heckuva lot easier to read.
     :commands (cfw:open-org-calendar))
 #+end_src
 
+I wanted to add =calfw= to the =org-agenda= dispatcher, but I don't
+think that's possible, so I'm making a hydra instead.
+
+#+begin_src emacs-lisp
+  (defhydra jws/org-agenda-hydra nil
+    "Org-Agenda"
+    ("a" org-agenda-list "List")
+    ("c" cfw:open-org-calendar "Calendar")
+    ("m" org-tags-view "Tags")
+    ("t" org-todo-list "TODOs")
+    ("#" org-agenda-list-stuck-projects "Stuck"))
+#+end_src
+
 If one wants a quick look at their agenda without having to hunt through
 emacs keybindings, they could run the below function from an =emacsclient=
 and be more or less off to the races.
@@ -1899,8 +1912,7 @@ and be more or less off to the races.
 #+begin_src emacs-lisp
   (defun jws/org-agenda-single-window ()
     (interactive)
-    (org-agenda)
-    (delete-other-windows))
+    (jws/org-agenda-hydra/body))
 #+end_src
 
 *** Note taking
@@ -2934,7 +2946,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("RET" treemacs-select-window "Show treemacs")
     ("k" kill-this-buffer "Kill buffer")
 
-    ("a" org-agenda "Agenda")
+    ("a" jws/org-agenda-hydra/body "Agenda")
     ("b" jws/hydra-buffer/body "Buffers")
     ("c" calc-dispatch "Calc")
     ("d" jws/hydra-development/body "Development")
