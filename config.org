@@ -1365,6 +1365,7 @@ and allows you to navigate said projects' directory trees.
       (treemacs-follow-mode t)
       (treemacs-filewatch-mode t)
       (treemacs-fringe-indicator-mode t))
+    :commands (treemacs treemacs-select-window)
     :bind
     (:map global-map
           ("M-0"       . treemacs-select-window)
@@ -2930,7 +2931,7 @@ I continue to be amazed that Emacs doesn't have this...
     ("SPC" counsel-M-x "Command list")
     ("<delete>" delete-frame "Close window")
     ("<tab>" jws/switch-to-previous-buffer "Switch buffer")
-    ("RET" treemacs "Show treemacs")
+    ("RET" treemacs-select-window "Show treemacs")
     ("k" kill-this-buffer "Kill buffer")
 
     ("a" org-agenda "Agenda")
