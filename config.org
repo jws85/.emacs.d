@@ -1885,7 +1885,7 @@ and be more or less off to the races.
 
 *** Note taking
 
-Trying to do a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]].  I ended up settling on [[https://www.orgroam.com/][org-roam]].
+Using [[https://www.orgroam.com/][org-roam]] for a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]] (tl;dr: "glorified personal wiki").
 
 #+begin_src emacs-lisp
   (use-package org-roam
@@ -1893,8 +1893,20 @@ Trying to do a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]].  I 
     :hook ((after-init . org-roam-mode))
     :commands (org-roam org-roam-find-file)
     :config
-    (setq org-roam-directory jws/org-notes-dir)
-    (require 'org-roam-protocol))
+    (require 'org-roam-protocol)
+    (setq org-roam-directory jws/org-notes-dir
+          ;; capture template from inside Emacs
+          org-roam-capture-templates
+          '(("d" "default" plain #'org-roam-capture--get-point "%?"
+             :file-name "%<%Y%m%d%H%M%S>-${slug}"
+             :head "#+title: ${title}\n#+roam_tags: \n"
+             :unnarrowed t))
+          ;; capture template from web link outside Emacs
+          org-roam-capture-ref-templates
+          '(("r" "references" plain #'org-roam-capture--get-point "%?"
+             :file-name "%<%Y%m%d%H%M%S>-${slug}"
+             :head "#+title: ${title}\n#+roam_key: ${ref}\n#+roam_tags: article links \n"
+             :unnarrowed t))))
 #+end_src
 
 I used to use [[https://github.com/jrblevin/deft][Deft]] as a quick-notes tool but found that my notes
