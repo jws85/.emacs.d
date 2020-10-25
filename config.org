@@ -627,7 +627,14 @@ Some other =evil= related packages:
   (use-package evil-collection
     :after evil
     :config
-    (setq evil-collection-mode-list '(dired eshell eww git-timemachine ibuffer image image+))
+    (setq evil-collection-mode-list '(dired
+				      doc-view
+				      eshell
+				      eww
+				      git-timemachine
+				      ibuffer
+				      image
+				      image+))
     (evil-collection-init))
 #+end_src
 
