@@ -612,18 +612,19 @@ or similar.
     (define-key evil-motion-state-map (kbd ";") 'counsel-M-x))
 #+end_src
 
-Some other =evil= related packages:
-
- - =evil-surround= is a port of [[https://github.com/tpope/vim-surround][surround.vim]]
- - =evil-collection= tries to bring vi/evil keybindings to other
-   Emacs modes
+=evil-surround= is a port of [[https://github.com/tpope/vim-surround][surround.vim]].
 
 #+begin_src emacs-lisp
   (use-package evil-surround
     :after evil
     :config
     (global-evil-surround-mode 1))
+#+end_src
 
+=evil-collection= tries to bring vi/evil keybindings to other Emacs
+modes.
+
+#+begin_src emacs-lisp
   (use-package evil-collection
     :after evil
     :config
