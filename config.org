@@ -858,19 +858,18 @@ Emacs.
     :commands (buf-move-left buf-move-down buf-move-up buf-move-right))
 #+end_src
 
-** Emacs package management
+** Search packages
 
-I like Paradox for graphical package installation.
+I used to use Paradox, but I doubt it interops well with straight.el.
+
+I'm pulling in [[https://emacsmirror.net/manual/epkg/][epkg]] instead.  You can't install from it, but I
+wouldn't think it'd be too hard to inspect the package listed on
+current line and pass that to =straight-use-package=... but that's for
+later.
 
 #+begin_src emacs-lisp
-  (use-package paradox
-    :commands (paradox-list-packages paradox-upgrade-packages)
-    :config
-    (setq paradox-github-token t) ;; disable GitHub integration
-    (with-eval-after-load 'evil
-      (add-to-list 'evil-emacs-state-modes 'paradox-menu-mode))
-    (define-key paradox-menu-mode-map (kbd "j") 'next-line)
-    (define-key paradox-menu-mode-map (kbd "k") 'previous-line))
+  (use-package epkg
+    :commands (epkg-list-packages))
 #+end_src
 
 ** File management
@@ -2636,8 +2635,9 @@ the following macro to do exactly this from [[https://github.com/abo-abo/hydra/i
     ("c" jws/open-emacs-config "Edit config")
     ("s" jws/open-emacs-site-config "Edit site config")
     ("r" jws/reload-emacs "Reload emacs")
-    ("u" straight-pull-all "Update packages")
     ("q" jws/server-shutdown "Quit emacs")
+    ("p" epkg-list-packages "List packages")
+    ("u" straight-pull-all "Update packages")
     ("k" server-start "Start server"))
 #+end_src
 

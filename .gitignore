@@ -59,6 +59,9 @@ elpa/
 # emoji installation
 emojis/
 
+# epkgs
+epkgs/
+
 # eshell installation
 eshell/
 
