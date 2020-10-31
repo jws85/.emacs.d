@@ -2122,7 +2122,9 @@ to use =lsp-ui-peek= instead.  Also, add a binding for code actions!
           dash-docs-use-workaround-for-emacs-bug nil))
 #+end_src
 
-** Config files
+** Data markup & config files
+
+But we're using Lisp -- data is code!
 
 JSON will be handled by whatever JavaScript mode I pull in.
 
@@ -2138,6 +2140,18 @@ JSON will be handled by whatever JavaScript mode I pull in.
 #+begin_src emacs-lisp
   (use-package toml-mode
     :mode "\\.toml\\'")
+#+end_src
+
+*** XML
+
+=nxml-mode= is built into Emacs; this is enough to work with XML
+itself (including its various schema/transform dialects).
+
+I like the (non-XML-based) [[https://en.wikipedia.org/wiki/RELAX_NG#Compact_syntax][RELAX NG compact syntax]]:
+
+#+begin_src emacs-lisp
+  (use-package rnc-mode
+    :mode "\\.rnc\\'")
 #+end_src
 
 ** Build files
