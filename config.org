@@ -310,6 +310,40 @@ whole plethora of =C-x= commands.
   (global-unset-key (kbd "C-x C-z"))
 #+end_src
 
+** Hydra (menus)
+
+The [[https://github.com/abo-abo/hydra][hydra]] package (by the same mad genius responsible for =ivy= et al)
+allows for easy-ish interactive menus.
+
+#+begin_src emacs-lisp
+  (use-package hydra
+    :commands (defhydra))
+#+end_src
+
+Note that =hydra= uses a "color" system where keybinds are assigned
+a color, which determines their behavior.  For our purposes:
+
+ - red (the default) runs the command and jumps right back into the
+   hydra
+ - blue runs the command and exits the hydra
+
+I use blue very extensively since most commands are going to be
+fire-and-forget.
+
+It's sometimes handy to make a hydra that can "change colors," so that
+you have one menu that only works for one operation, and one that
+works for multiple operations.  My lisp-fu is terrible and so I stole
+the following macro to do exactly this from [[https://github.com/abo-abo/hydra/issues/230][here]]:
+
+#+begin_src emacs-lisp
+  (defmacro jws/defmultihydra (names-body &optional docstring &rest heads)
+    "Taken from https://github.com/abo-abo/hydra/issues/230"
+    (cons 'progn
+          (mapcar (lambda (nb)
+                    `(defhydra ,(car nb) ,(cdr nb) ,docstring ,@heads))
+                  names-body)))
+#+end_src
+
 * Appearance/visuals
 I like a very minimal Emacs (and Vim) window since both were
 made to be driven from the keyboard.
@@ -2572,37 +2606,6 @@ Qt's resource files (=.qrc=) are XML.
 
 I defer the master menu definitions to the end just to make sure
 everything else has been done.
-
-The [[https://github.com/abo-abo/hydra][hydra]] package (by the same mad genius responsible for =ivy= et al)
-allows for easy-ish interactive menus.
-
-#+begin_src emacs-lisp
-  (use-package hydra)
-#+end_src
-
-Note that =hydra= uses a "color" system where keybinds are assigned
-a color, which determines their behavior.  For our purposes:
-
- - red (the default) runs the command and jumps right back into the
-   hydra
- - blue runs the command and exits the hydra
-
-I use blue very extensively since most commands are going to be
-fire-and-forget.
-
-It's sometimes handy to make a hydra that can "change colors," so that
-you have one menu that only works for one operation, and one that
-works for multiple operations.  My lisp-fu is terrible and so I stole
-the following macro to do exactly this from [[https://github.com/abo-abo/hydra/issues/230][here]]:
-
-#+begin_src emacs-lisp
-  (defmacro jws/defmultihydra (names-body &optional docstring &rest heads)
-    "Taken from https://github.com/abo-abo/hydra/issues/230"
-    (cons 'progn
-          (mapcar (lambda (nb)
-                    `(defhydra ,(car nb) ,(cdr nb) ,docstring ,@heads))
-                  names-body)))
-#+end_src
 
 ** Emacs menu
 #+begin_src emacs-lisp
