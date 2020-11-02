@@ -1031,7 +1031,12 @@ functionality to really easily learn!
     (setq math-additional-units
           '((bit nil "Bit")
             (byte "8 * bit" "Byte")
-            (bps "bit / s" "Bytes per second"))
+            (bps "bit / s" "Bytes per second")
+            ;; binary logical units
+            (Kibyte "1024 * byte" "Kibibytes")
+            (Mibyte "1024 * Kibyte" "Mebibytes")
+            (Gibyte "1024 * Mibyte" "Gibibytes")
+            (Tibyte "1024 * Gibyte" "Tebibytes"))
           math-units-table nil))
 #+end_src
 
