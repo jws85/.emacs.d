@@ -840,6 +840,25 @@ seemingly maintained anymore.  So... we just hack the heck out of
     :config (company-quickhelp-mode))
 #+end_src
 
+** Spell checking
+
+I enable =flyspell= in org and markdown modes.
+
+I disable the default Emacs bindings because they conflict with too
+much of my stuff.  Evil puts in the vim binds (=[s= & =]s= to move,
+=z== to correct), which work fine for my needs.
+
+#+begin_src emacs-lisp
+  (use-package flyspell
+    :commands (flyspell-goto-next-error
+               flyspell-auto-correct-word)
+    :bind (:map flyspell-mode-map
+                ; conflicts with yas-expand
+                ("C-;" . nil)
+                ; conflicts with emmet-expand
+                ("C-," . nil)))
+#+end_src
+
 ** Snippets
 
 [[https://github.com/joaotavora/yasnippet][YASnippet]] provides "snippets" like provided by Textmate, then by every
