@@ -1711,6 +1711,7 @@ Do some basic configuration of =org-mode=.
                org-store-link
                org-babel-tangle-file)
     :mode (("\\.org\\'" . org-mode))
+    :hook ((org-mode . turn-on-flyspell))
     :config
     (add-to-list 'org-modules 'org-habit)
     (setq org-src-fontify-natively t
@@ -2028,7 +2029,8 @@ Ideally I'd stay in org-mode, but I live in the real world.
 
 #+begin_src emacs-lisp
   (use-package markdown-mode
-    :mode ("\\.md\\'" "\\.markdown\\'" "\\.mdown\\'"))
+    :mode ("\\.md\\'" "\\.markdown\\'" "\\.mdown\\'")
+    :hook ((markdown-mode . turn-on-flyspell)))
 #+end_src
 
 * Coding
