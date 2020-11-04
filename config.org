@@ -1731,6 +1731,8 @@ Do some basic configuration of =org-mode=.
                org-babel-tangle-file)
     :mode (("\\.org\\'" . org-mode))
     :hook ((org-mode . turn-on-flyspell))
+    :init
+    (setq org-export-backends '(ascii html icalendar latex odt md))
     :config
     (add-to-list 'org-modules 'org-habit)
     (setq org-src-fontify-natively t
