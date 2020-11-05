@@ -925,82 +925,6 @@ later.
     :commands (epkg-list-packages))
 #+end_src
 
-** File management
-
-=dired= is the built-in Emacs file manager.
-
-#+begin_src emacs-lisp
-  (use-package dired
-    :straight nil
-    :commands dired)
-#+end_src
-
-=dired= barfs a bunch of directory buffers every time you change a
-directory.  Ticks me off.  I do this to try to control the madness.
-Due to =evil-collection= I had to specially map =^=.
-
-#+begin_src emacs-lisp
-  (use-package dired-single
-    :after dired
-    :bind (:map dired-mode-map
-           ("^" . dired-single-up-directory)
-           ("<return>" . dired-single-buffer)))
-#+end_src
-
-=dired-x= is a set of extensions to =dired=; I use =dired-omit-mode=
-to hide and toggle the view of "hidden files"
-
-#+begin_src emacs-lisp
-  (use-package dired-x
-    :straight nil
-    :after dired
-    :commands dired-jump
-    :hook ((dired-mode . dired-omit-mode))
-    :bind (:map dired-mode-map
-           ("C-c h" . dired-omit-mode))
-    :config
-    (setq dired-omit-files "^\\...+$"))
-#+end_src
-
-=dired-rainbow= colorizes files; I've set it up here to colorize
-executables.
-
-#+begin_src emacs-lisp
-  (use-package dired-rainbow
-    :after dired
-    :config
-    (dired-rainbow-define-chmod executable-unix "Green" "-[rw-]+x.*"))
-#+end_src
-
-And some other packages that I forgot the exact intent of.
-
-#+begin_src emacs-lisp
-  (use-package dired-subtree
-    :after dired
-    :bind (:map dired-mode-map
-           ("C-c s a" . dired-subtree-insert)
-           ("C-c s d" . dired-subtree-remove)))
-
-  (use-package dired-collapse
-    :after dired
-    :bind (:map dired-mode-map
-           ("C-c c" . dired-collapse-mode)))
-#+end_src
-
-Finally, a function to open the home directory in Dired.
-
-#+begin_src emacs-lisp
-  (defun jws/dired-home ()
-    "Open user's home directory in Dired"
-    (interactive)
-    (dired "~"))
-
-  (defun jws/dired-root ()
-    "Open / in Dired"
-    (interactive)
-    (dired "/"))
-#+end_src
-
 ** Diffing
 
 [[https://oremacs.com/2015/01/17/setting-up-ediff/][These settings]] beat the hell out of the defaults:
@@ -1017,296 +941,6 @@ Finally, a function to open the home directory in Dired.
   (add-hook 'ediff-mode-hook 'jws/ediff-hook)
 
   (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
-#+end_src
-
-** Image display
-
-Emacs is horribly unoptimized for this, but if we are viewing files,
-we'll necessarily bump into multimedia files from time to time.
-
-#+begin_src emacs-lisp
-  (use-package image :straight nil :commands image-mode)
-#+end_src
-
-#+begin_src emacs-lisp
-  (use-package image+
-    :after image
-    :config
-    (eval-after-load 'image '(require 'image+)))
-#+end_src
-
-** Calculator
-
-Emacs Calc looks like a toy RPN calculator at first glance, until you
-hit the manual and the "ugly" truth hits -- there's almost too much
-functionality to really easily learn!
-
-#+begin_src emacs-lisp
-  (use-package calc
-    :straight nil
-    :commands calc-dispatch
-    :config
-    ;; Logical/data size units
-    (setq math-additional-units
-          '((bit nil "Bit")
-            (byte "8 * bit" "Byte")
-            (bps "bit / s" "Bytes per second")
-            ;; binary logical units
-            (Kibyte "1024 * byte" "Kibibytes")
-            (Mibyte "1024 * Kibyte" "Mebibytes")
-            (Gibyte "1024 * Mibyte" "Gibibytes")
-            (Tibyte "1024 * Gibyte" "Tebibytes"))
-          math-units-table nil))
-#+end_src
-
-Playing around with currency conversion in Calc:
-
-#+begin_src emacs-lisp
-  (use-package currency-convert
-    :straight (currency-convert
-               :host github :repo "jws85/emacs-currency-convert"
-               :branch "emacs-calc-interop")
-    :config
-    (add-hook 'calc-start-hook 'currency-convert-calc-load))
-#+end_src
-
-** Music player
-
-[[https://github.com/pft/mingus][Unsurprisingly, Emacs can be an MPD frontend as well...]]  (Obviously,
-you need to set up =mpd= first.)
-
-#+begin_src emacs-lisp
-  (use-package mpc
-    :commands (mpc-toggle-play
-               mpc-next
-               mpc-prev))
-
-  (use-package mingus
-    :bind (:map mingus-*-map
-           ("j" . 'next-line)
-           ("k" . 'previous-line)
-           ("/" . 'search-forward)
-           ("?" . 'search-backward)
-           :map mingus-playlist-map
-           ("/" . 'search-forward)
-           ("?" . 'search-backward))
-    :commands (mingus
-               mingus-search
-               mingus-load-playlist
-               mingus-save-playlist
-               mingus-vol-up
-               mingus-vol-down)
-    :config
-    (add-to-list 'evil-emacs-state-modes 'mingus-playlist-mode)
-    (add-to-list 'evil-emacs-state-modes 'mingus-browse-mode))
-#+end_src
-
-Make a hydra to control =mpd= via mingus (idea stolen from [[https://writequit.org/eos/eos-music.html][here]]).
-
-#+begin_src emacs-lisp
-  (defun jws/currently-playing ()
-    "Get what is currently playing in mpd"
-    (car (s-split "\n" (shell-command-to-string "mpc"))))
-
-  (defhydra jws/hydra-mpd nil
-    "
-  MPD: %s(jws/currently-playing)
-  "
-    ("SPC" mpc-toggle-play "Play/Pause")
-    ("/" mingus-search "Search" :exit t)
-    ("m" mingus "Mingus" :exit t)
-    ("p" mpc-prev "Previous")
-    ("l" mingus-load-playlist "Load playlist")
-    ("s" mingus-save-playlist "Save playlist")
-    ("n" mpc-next "Next")
-    ("+" (dotimes (i 5) (mingus-vol-up)) "Louder")
-    ("-" (dotimes (i 5) (mingus-vol-down)) "Quieter")
-    ("q" nil "Quit"))
-#+end_src
-
-** Timer
-
-[[https://github.com/dxknight/chronos][chronos]] is a handy package for most timing-related purposes (e.g.
-"pomodoro" timers and the like)
-
-#+begin_src emacs-lisp
-  (use-package chronos
-    :commands (chronos-add-timer
-               chronos-add-timers-from-string)
-    :config
-    (add-to-list 'evil-emacs-state-modes 'chronos-mode)
-    (evil-add-hjkl-bindings chronos-mode-map 'emacs
-      (kbd "L") 'chronos-lap-selected-line)
-    (setq chronos-expiry-functions '(chronos-desktop-notifications-notify)))
-#+end_src
-
-** Terminal
-
-=eshell= is Emacs' built-in terminal.  It is *not* a Bash variant, but
-is instead configured entirely with Emacs Lisp and renders solely to
-an Emacs buffer (rather than a VT TTY emulator).  The result is that
-at first it looks like a toy; when in fact you have the full power of
-Emacs from =eshell= if you should want it.  The disadvantage is that
-sometimes muscle memory from old-school term/shells gets in one's way.
-
-#+begin_src emacs-lisp
-  (use-package eshell
-    :straight nil
-    :commands eshell
-    :hook (eshell-banner-load . jws/eshell-banner)
-    :config
-    (setq eshell-scroll-to-bottom-on-input 'all
-          eshell-error-if-no-glob t
-          eshell-hist-ignoredups t
-          eshell-save-history-on-exit t
-          eshell-prefer-lisp-functions nil
-          eshell-destroy-buffer-when-process-dies t)
-
-    ;; Open eshell in a split
-    (add-to-list 'display-buffer-alist '(("\\`\\*e?shell" display-buffer-pop-up-window)))
-
-    ;; Instead of ranger, why not use dired?
-    ;; Instead of tig, why not use magit?
-    ;; Still, in the off case these are used, use ansi-term
-    (setq eshell-visual-commands
-          '("htop" "iotop" "iftop" "less" "lynx" "minicom" "more" "pine" "ranger" "screen" "top" "tig" "vi"))
-
-    ;; Set eshell prompt + regex
-    (setq eshell-prompt-function #'jws/eshell-prompt
-          eshell-prompt-regexp "[#>] "))
-#+end_src
-
-The eshell prompt itself, which displays the current Git branch, the
-time the prompt was generated, etc:
-
-#+begin_src emacs-lisp
-  (defun jws/eshell-prompt ()
-    (concat
-     "\n"
-     (propertize (concat "\xf07c " (eshell/pwd))
-                 'face `(:foreground "#6c9ef8" :weight bold))
-     " "
-     (propertize (concat "\xf017 " (format-time-string "%H:%M" (current-time)))
-                 'face `(:foreground "#5699af" :weight bold))
-     " "
-     (if (magit-get-current-branch)
-         (propertize (concat "\xf020 " (magit-get-current-branch))
-                     'face `(:foreground "#bbfc20" :weight bold)))
-     "\n"
-     (propertize (if (= (user-uid) 0) "#" ">") 'face `(:foreground "#d02b61" :weight bold))
-     (propertize " " 'face `(:foreground "white" :weight bold))))
-#+end_src
-
-If you haven't figured out yet, I like pointlessly goofy displays;
-this will display every time I open the prompt:
-
-#+begin_src emacs-lisp
-  (use-package lolcat :commands (lolcat lolcat-this-buffer))
-  (use-package figlet :commands (figlet))
-
-  (defun jws/eshell-banner ()
-    "Display an 'informative' banner on eshell startup"
-    ;; First off, don't do any of this junk over TRAMP!!!!
-    (if (not (file-remote-p default-directory))
-        (with-temp-buffer
-          ;; equivalent to `hostname | figlet | lolcat` in shell
-          (if (executable-find "figlet")
-              (progn
-                (setq-local figlet-default-font "slant")
-                (figlet (system-name))
-                (lolcat-this-buffer)
-                (insert "running EmacsOS v.")
-                (insert emacs-version)
-                (insert "\n\n")))
-
-          ;; print uptime
-          (insert
-           (concat (string-trim-left (shell-command-to-string "uptime"))
-                   "\n"))
-
-          ;; print fortune if command installed
-          (if (executable-find "fortune")
-              (insert (shell-command-to-string "fortune -s")))
-
-          ;; dump to string and set banner to that
-          (setq eshell-banner-message (buffer-string)))))
-#+end_src
-
-Nice history autocompletion for eshell via company:
-
-#+begin_src emacs-lisp
-  (use-package esh-autosuggest
-    :after eshell
-    :hook (eshell-mode . esh-autosuggest-mode))
-#+end_src
-
-Ivy completion of file names and the like:
-
-#+begin_src emacs-lisp
-  (defun jws/setup-eshell-ivy-completion ()
-    (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
-    ;; only if you want to use the minibuffer for completions instead of the
-    ;; in-buffer interface
-    (setq-local ivy-display-functions-alist
-                (remq (assoc 'ivy-completion-in-region ivy-display-functions-alist)
-                      ivy-display-functions-alist)))
-
-  (add-hook 'eshell-mode-hook #'jws/setup-eshell-ivy-completion)
-#+end_src
-
-Any function or alias with a name beginning with =eshell/= becomes a
-command inside =eshell= itself.  The result being that I can do
-=open ~/.emacs.d/config.org= from inside =eshell= and it'll open up
-that file in a new buffer.
-
-#+begin_src emacs-lisp
-  (defalias 'eshell/open 'find-file)
-  (defalias 'eshell/emacs 'find-file)
-  (defalias 'eshell/edit 'find-file)
-  (defalias 'eshell/magit 'magit-status)
-  (defalias 'eshell/dired 'dired-jump)
-  (defun eshell/x ()
-    (interactive)
-    (eshell/exit)
-    (delete-window))
-#+end_src
-
-There is also =ansi-term=, which attempts to be a VT terminal emulator.
-I find it even more janky than =eshell=, and only use it as a fallback
-for =ncurses= commands like =htop= as above.
-
-** Web browser
-
-=eww= is built into emacs.  Unlike some of the other tools here, =eww=
-is kind of a tool of last resort, since probably 90% of the web now
-expects robust JavaScript/CSS support that emacs simply can't easily
-provide.
-
-#+begin_src emacs-lisp
-  (use-package eww
-    :straight nil
-    :commands (eww eww-browse-url))
-#+end_src
-
-We want to use =eww= whenever a web link is clicked.
-
-#+begin_src emacs-lisp
-  (setq browse-url-browse-function 'eww-browse-url)
-#+end_src
-
-Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to load it.
-
-#+begin_src emacs-lisp
-  (defvar jws/eww-home-page "https://duckduckgo.com/html/?kd=1")
-
-  (defun jws/eww-home ()
-    (interactive)
-    (eww jws/eww-home-page))
-#+end_src
-
-#+begin_src emacs-lisp
-  (use-package ace-link
-    :after avy)
 #+end_src
 
 ** Version control
@@ -2629,6 +2263,373 @@ Qt's resource files (=.qrc=) are XML.
 #+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.qrc$" . nxml-mode))
 #+end_src
+
+* Utilities
+** File management
+
+=dired= is the built-in Emacs file manager.
+
+#+begin_src emacs-lisp
+  (use-package dired
+    :straight nil
+    :commands dired)
+#+end_src
+
+=dired= barfs a bunch of directory buffers every time you change a
+directory.  Ticks me off.  I do this to try to control the madness.
+Due to =evil-collection= I had to specially map =^=.
+
+#+begin_src emacs-lisp
+  (use-package dired-single
+    :after dired
+    :bind (:map dired-mode-map
+           ("^" . dired-single-up-directory)
+           ("<return>" . dired-single-buffer)))
+#+end_src
+
+=dired-x= is a set of extensions to =dired=; I use =dired-omit-mode=
+to hide and toggle the view of "hidden files"
+
+#+begin_src emacs-lisp
+  (use-package dired-x
+    :straight nil
+    :after dired
+    :commands dired-jump
+    :hook ((dired-mode . dired-omit-mode))
+    :bind (:map dired-mode-map
+           ("C-c h" . dired-omit-mode))
+    :config
+    (setq dired-omit-files "^\\...+$"))
+#+end_src
+
+=dired-rainbow= colorizes files; I've set it up here to colorize
+executables.
+
+#+begin_src emacs-lisp
+  (use-package dired-rainbow
+    :after dired
+    :config
+    (dired-rainbow-define-chmod executable-unix "Green" "-[rw-]+x.*"))
+#+end_src
+
+And some other packages that I forgot the exact intent of.
+
+#+begin_src emacs-lisp
+  (use-package dired-subtree
+    :after dired
+    :bind (:map dired-mode-map
+           ("C-c s a" . dired-subtree-insert)
+           ("C-c s d" . dired-subtree-remove)))
+
+  (use-package dired-collapse
+    :after dired
+    :bind (:map dired-mode-map
+           ("C-c c" . dired-collapse-mode)))
+#+end_src
+
+Finally, a function to open the home directory in Dired.
+
+#+begin_src emacs-lisp
+  (defun jws/dired-home ()
+    "Open user's home directory in Dired"
+    (interactive)
+    (dired "~"))
+
+  (defun jws/dired-root ()
+    "Open / in Dired"
+    (interactive)
+    (dired "/"))
+#+end_src
+
+** Image display
+
+Emacs is horribly unoptimized for this, but if we are viewing files,
+we'll necessarily bump into multimedia files from time to time.
+
+#+begin_src emacs-lisp
+  (use-package image :straight nil :commands image-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package image+
+    :after image
+    :config
+    (eval-after-load 'image '(require 'image+)))
+#+end_src
+
+** Calculator
+
+Emacs Calc looks like a toy RPN calculator at first glance, until you
+hit the manual and the "ugly" truth hits -- there's almost too much
+functionality to really easily learn!
+
+#+begin_src emacs-lisp
+  (use-package calc
+    :straight nil
+    :commands calc-dispatch
+    :config
+    ;; Logical/data size units
+    (setq math-additional-units
+          '((bit nil "Bit")
+            (byte "8 * bit" "Byte")
+            (bps "bit / s" "Bytes per second")
+            ;; binary logical units
+            (Kibyte "1024 * byte" "Kibibytes")
+            (Mibyte "1024 * Kibyte" "Mebibytes")
+            (Gibyte "1024 * Mibyte" "Gibibytes")
+            (Tibyte "1024 * Gibyte" "Tebibytes"))
+          math-units-table nil))
+#+end_src
+
+Playing around with currency conversion in Calc:
+
+#+begin_src emacs-lisp
+  (use-package currency-convert
+    :straight (currency-convert
+               :host github :repo "jws85/emacs-currency-convert"
+               :branch "emacs-calc-interop")
+    :config
+    (add-hook 'calc-start-hook 'currency-convert-calc-load))
+#+end_src
+
+** Music player
+
+[[https://github.com/pft/mingus][Unsurprisingly, Emacs can be an MPD frontend as well...]]  (Obviously,
+you need to set up =mpd= first.)
+
+#+begin_src emacs-lisp
+  (use-package mpc
+    :commands (mpc-toggle-play
+               mpc-next
+               mpc-prev))
+
+  (use-package mingus
+    :bind (:map mingus-*-map
+           ("j" . 'next-line)
+           ("k" . 'previous-line)
+           ("/" . 'search-forward)
+           ("?" . 'search-backward)
+           :map mingus-playlist-map
+           ("/" . 'search-forward)
+           ("?" . 'search-backward))
+    :commands (mingus
+               mingus-search
+               mingus-load-playlist
+               mingus-save-playlist
+               mingus-vol-up
+               mingus-vol-down)
+    :config
+    (add-to-list 'evil-emacs-state-modes 'mingus-playlist-mode)
+    (add-to-list 'evil-emacs-state-modes 'mingus-browse-mode))
+#+end_src
+
+Make a hydra to control =mpd= via mingus (idea stolen from [[https://writequit.org/eos/eos-music.html][here]]).
+
+#+begin_src emacs-lisp
+  (defun jws/currently-playing ()
+    "Get what is currently playing in mpd"
+    (car (s-split "\n" (shell-command-to-string "mpc"))))
+
+  (defhydra jws/hydra-mpd nil
+    "
+  MPD: %s(jws/currently-playing)
+  "
+    ("SPC" mpc-toggle-play "Play/Pause")
+    ("/" mingus-search "Search" :exit t)
+    ("m" mingus "Mingus" :exit t)
+    ("p" mpc-prev "Previous")
+    ("l" mingus-load-playlist "Load playlist")
+    ("s" mingus-save-playlist "Save playlist")
+    ("n" mpc-next "Next")
+    ("+" (dotimes (i 5) (mingus-vol-up)) "Louder")
+    ("-" (dotimes (i 5) (mingus-vol-down)) "Quieter")
+    ("q" nil "Quit"))
+#+end_src
+
+** Timer
+
+[[https://github.com/dxknight/chronos][chronos]] is a handy package for most timing-related purposes (e.g.
+"pomodoro" timers and the like)
+
+#+begin_src emacs-lisp
+  (use-package chronos
+    :commands (chronos-add-timer
+               chronos-add-timers-from-string)
+    :config
+    (add-to-list 'evil-emacs-state-modes 'chronos-mode)
+    (evil-add-hjkl-bindings chronos-mode-map 'emacs
+      (kbd "L") 'chronos-lap-selected-line)
+    (setq chronos-expiry-functions '(chronos-desktop-notifications-notify)))
+#+end_src
+
+** Web browser
+
+=eww= is built into emacs.  Unlike some of the other tools here, =eww=
+is kind of a tool of last resort, since probably 90% of the web now
+expects robust JavaScript/CSS support that emacs simply can't easily
+provide.
+
+#+begin_src emacs-lisp
+  (use-package eww
+    :straight nil
+    :commands (eww eww-browse-url))
+#+end_src
+
+We want to use =eww= whenever a web link is clicked.
+
+#+begin_src emacs-lisp
+  (setq browse-url-browse-function 'eww-browse-url)
+#+end_src
+
+Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to load it.
+
+#+begin_src emacs-lisp
+  (defvar jws/eww-home-page "https://duckduckgo.com/html/?kd=1")
+
+  (defun jws/eww-home ()
+    (interactive)
+    (eww jws/eww-home-page))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package ace-link
+    :after avy)
+#+end_src
+
+** Terminal
+
+=eshell= is Emacs' built-in terminal.  It is *not* a Bash variant, but
+is instead configured entirely with Emacs Lisp and renders solely to
+an Emacs buffer (rather than a VT TTY emulator).  The result is that
+at first it looks like a toy; when in fact you have the full power of
+Emacs from =eshell= if you should want it.  The disadvantage is that
+sometimes muscle memory from old-school term/shells gets in one's way.
+
+#+begin_src emacs-lisp
+  (use-package eshell
+    :straight nil
+    :commands eshell
+    :hook (eshell-banner-load . jws/eshell-banner)
+    :config
+    (setq eshell-scroll-to-bottom-on-input 'all
+          eshell-error-if-no-glob t
+          eshell-hist-ignoredups t
+          eshell-save-history-on-exit t
+          eshell-prefer-lisp-functions nil
+          eshell-destroy-buffer-when-process-dies t)
+
+    ;; Open eshell in a split
+    (add-to-list 'display-buffer-alist '(("\\`\\*e?shell" display-buffer-pop-up-window)))
+
+    ;; Instead of ranger, why not use dired?
+    ;; Instead of tig, why not use magit?
+    ;; Still, in the off case these are used, use ansi-term
+    (setq eshell-visual-commands
+          '("htop" "iotop" "iftop" "less" "lynx" "minicom" "more" "pine" "ranger" "screen" "top" "tig" "vi"))
+
+    ;; Set eshell prompt + regex
+    (setq eshell-prompt-function #'jws/eshell-prompt
+          eshell-prompt-regexp "[#>] "))
+#+end_src
+
+The eshell prompt itself, which displays the current Git branch, the
+time the prompt was generated, etc:
+
+#+begin_src emacs-lisp
+  (defun jws/eshell-prompt ()
+    (concat
+     "\n"
+     (propertize (concat "\xf07c " (eshell/pwd))
+                 'face `(:foreground "#6c9ef8" :weight bold))
+     " "
+     (propertize (concat "\xf017 " (format-time-string "%H:%M" (current-time)))
+                 'face `(:foreground "#5699af" :weight bold))
+     " "
+     (if (magit-get-current-branch)
+         (propertize (concat "\xf020 " (magit-get-current-branch))
+                     'face `(:foreground "#bbfc20" :weight bold)))
+     "\n"
+     (propertize (if (= (user-uid) 0) "#" ">") 'face `(:foreground "#d02b61" :weight bold))
+     (propertize " " 'face `(:foreground "white" :weight bold))))
+#+end_src
+
+If you haven't figured out yet, I like pointlessly goofy displays;
+this will display every time I open the prompt:
+
+#+begin_src emacs-lisp
+  (use-package lolcat :commands (lolcat lolcat-this-buffer))
+  (use-package figlet :commands (figlet))
+
+  (defun jws/eshell-banner ()
+    "Display an 'informative' banner on eshell startup"
+    ;; First off, don't do any of this junk over TRAMP!!!!
+    (if (not (file-remote-p default-directory))
+        (with-temp-buffer
+          ;; equivalent to `hostname | figlet | lolcat` in shell
+          (if (executable-find "figlet")
+              (progn
+                (setq-local figlet-default-font "slant")
+                (figlet (system-name))
+                (lolcat-this-buffer)
+                (insert "running EmacsOS v.")
+                (insert emacs-version)
+                (insert "\n\n")))
+
+          ;; print uptime
+          (insert
+           (concat (string-trim-left (shell-command-to-string "uptime"))
+                   "\n"))
+
+          ;; print fortune if command installed
+          (if (executable-find "fortune")
+              (insert (shell-command-to-string "fortune -s")))
+
+          ;; dump to string and set banner to that
+          (setq eshell-banner-message (buffer-string)))))
+#+end_src
+
+Nice history autocompletion for eshell via company:
+
+#+begin_src emacs-lisp
+  (use-package esh-autosuggest
+    :after eshell
+    :hook (eshell-mode . esh-autosuggest-mode))
+#+end_src
+
+Ivy completion of file names and the like:
+
+#+begin_src emacs-lisp
+  (defun jws/setup-eshell-ivy-completion ()
+    (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
+    ;; only if you want to use the minibuffer for completions instead of the
+    ;; in-buffer interface
+    (setq-local ivy-display-functions-alist
+                (remq (assoc 'ivy-completion-in-region ivy-display-functions-alist)
+                      ivy-display-functions-alist)))
+
+  (add-hook 'eshell-mode-hook #'jws/setup-eshell-ivy-completion)
+#+end_src
+
+Any function or alias with a name beginning with =eshell/= becomes a
+command inside =eshell= itself.  The result being that I can do
+=open ~/.emacs.d/config.org= from inside =eshell= and it'll open up
+that file in a new buffer.
+
+#+begin_src emacs-lisp
+  (defalias 'eshell/open 'find-file)
+  (defalias 'eshell/emacs 'find-file)
+  (defalias 'eshell/edit 'find-file)
+  (defalias 'eshell/magit 'magit-status)
+  (defalias 'eshell/dired 'dired-jump)
+  (defun eshell/x ()
+    (interactive)
+    (eshell/exit)
+    (delete-window))
+#+end_src
+
+There is also =ansi-term=, which attempts to be a VT terminal emulator.
+I find it even more janky than =eshell=, and only use it as a fallback
+for =ncurses= commands like =htop= as above.
 
 * Master menu
 
