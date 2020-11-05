@@ -1102,6 +1102,43 @@ otherwise junk up the =*scratch*= buffer with...
     (setq open-junk-file-directory "~/.junk/%Y/%m/%d-%H%M%S."))
 #+end_src
 
+** Code synchronization
+
+I like Unison for this; it keeps code synced between local and remote
+boxes, and does it fairly promptly.
+
+Read [[https://www.cis.upenn.edu/~bcpierce/unison/][Unison]] profile configurations:
+
+#+begin_src emacs-lisp
+  (use-package unison-mode
+    :mode ("\\.prf\\'"))
+#+end_src
+
+A command to run Unison inside of a buffer:
+
+#+begin_src emacs-lisp
+  (use-package unison
+    :commands (unison))
+#+end_src
+
+And, finally, a command to look through the Unison =~/.unison=
+directory and find profiles to be run by the above command:
+
+#+begin_src emacs-lisp
+  (defun jws/unison-run ()
+    "Runs unison with the given profile."
+    (interactive)
+    (let ((unison-args
+           (list
+            (completing-read
+             "Profile: "
+             (mapcar #'f-base (f-glob "*.prf" "~/.unison"))))))
+      (unison)))
+#+end_src
+
+I tend to run Unison daemonized; to kill the daemon, it is a
+simple matter of killing the =*unison*= buffer.
+
 * Editing
 
 Supposedly some people use Emacs to edit files.  The horror!
