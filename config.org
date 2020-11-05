@@ -1369,12 +1369,6 @@ First, let's define some paths into my =org-mode= files.
 #+begin_src emacs-lisp
   (setq org-directory (expand-file-name "~/Org/"))
 
-  (defvar jws/org-links-file (expand-file-name "links.org" org-directory)
-    "File containing bookmarked links")
-
-  (defvar jws/org-snippets-file (expand-file-name "snippets.org" org-directory)
-    "File containing code snippets")
-
   (defvar jws/org-agenda-dir (concat org-directory "agenda/")
     "The directory where `org-mode' agenda files live.")
 
@@ -1417,28 +1411,11 @@ Do some basic configuration of =org-mode=.
 *** Capturing new notes
 
 =org-capture= is a really convenient way of automating the entry of
-new todo items, etc; it can also be effectively used for journaling
-and other such things.  So if I had some code I wanted to remember,
-instead of making a junk file, I'd create a code snippet entry.
+new entries in org files.
 
-I'm interested in maintaining my web bookmarks via =org-mode=; this
-fails without a convenient way of capturing via my web browser.
-This function is part of that setup; it removes square brackets from
-input so they don't break the =org-mode= parser:
-
-#+begin_src emacs-lisp
-  ;; achtung: parinfer tries to treat [] as syntactically significant (it is in elisp
-  ;; and clojure) and so will make a hash of this if you aren't careful
-  (defun transform-square-brackets-to-round-ones (string-to-transform)
-    "Transforms [ into ( and ] into ), other chars left unchanged."
-    (concat
-     (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
-#+end_src
-
-And here are the actual capture templates.  The latter two (=p= and
-=L=) are called by the browser extensions; the rest can be called
-manually.  A few of these were lifted from [[https://github.com/munen/emacs.d/blob/master/configuration.org][this config]], which I've
-been using as a basis for building my own "GTD" system.
+Here are the capture templates I use for journaling and planning; note
+that =org-roam= has its own separate templates that I use for making
+notes and bookmarking websites.
 
 #+begin_src emacs-lisp
   (use-package org-capture
@@ -1446,12 +1423,7 @@ been using as a basis for building my own "GTD" system.
     :straight nil
     :config
     (setq org-capture-templates
-          '(("d" "Daily focus" plain
-             (file+olp jws/org-todo-file "Daily")
-             (file "templates/daily.org"))
-
-            ; write a journal entry
-            ("j" "Journal" entry
+          '(("j" "Journal" entry
              (file+olp+datetree
               (lambda () (concat jws/org-journal-dir
                                  (format-time-string "%Y")
@@ -1459,22 +1431,42 @@ been using as a basis for building my own "GTD" system.
              "* %?\nEntered on %U\n%i"
              :empty-lines 1)
 
-            ; enter a reminder -- agenda entry without TODO
-            ("r" "Reminder" entry
+            ; reminders: things that are scheduled or will 'happen'
+            ("r" "Reminder")
+            ("rc" "Career" entry
+             (file+olp jws/org-reminder-file "Career")
+             "* %?\n%U\n%i\n"
+             :empty-lines 1)
+            ("re" "Events" entry
+             (file+olp jws/org-reminder-file "Events")
+             "* %?\n%U\n%i\n"
+             :empty-lines 1)
+            ("rl" "Life" entry
+             (file+olp jws/org-reminder-file "Life")
+             "* %?\n%U\n%i\n"
+             :empty-lines 1)
+            ("ru" "Uncategorized" entry
              (file+olp jws/org-reminder-file "Inbox")
              "* %?\n%U\n%i\n"
              :empty-lines 1)
 
-            ; enter a task -- agenda entry with TODO
-            ("t" "Task" entry
-             (file+olp jws/org-todo-file "Inbox")
+            ; TODO: things that I have to do
+            ("t" "TODO")
+            ("tc" "Career" entry
+             (file+olp jws/org-todo-file "Career")
              "* TODO %?\n%U\n%i\n"
              :empty-lines 1)
-
-            ; enter a code snippet
-            ("s" "Code snippet" entry
-             (file+headline jws/org-snippets-file "Uncategorized")
-             "* %?\n#+begin_src %^{language}\n%i\n#+end_src"
+            ("th" "Hobby" entry
+             (file+olp jws/org-todo-file "Hobby")
+             "* TODO %?\n%U\n%i\n"
+             :empty-lines 1)
+            ("tl" "Life" entry
+             (file+olp jws/org-todo-file "Life")
+             "* TODO %?\n%U\n%i\n"
+             :empty-lines 1)
+            ("tu" "Uncategorized" entry
+             (file+olp jws/org-todo-file "Inbox")
+             "* TODO %?\n%U\n%i\n"
              :empty-lines 1))))
 #+end_src
 
@@ -1556,8 +1548,7 @@ I define the following keywords:
     :config
     (setq org-log-done t
           org-refile-targets '((nil . (:maxlevel . 9))
-                               (org-agenda-files . (:maxlevel . 9))
-                               (jws/org-snippets-file . (:maxlevel . 1)))
+                               (org-agenda-files . (:maxlevel . 9)))
           org-refile-use-outline-path t
           org-outline-path-complete-in-steps nil
           org-icalendar-combined-agenda-file (concat jws/org-agenda-dir "combined.ics")
@@ -2882,9 +2873,7 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
   (defhydra jws/hydra-org-files (:color blue :columns 4)
     "Org files"
     ("t" (find-file jws/org-todo-file) "TODOs")
-    ("r" (find-file jws/org-reminder-file) "Reminders")
-    ("l" (find-file jws/org-links-file) "Links")
-    ("s" (find-file jws/org-snippets-file) "Snippets"))
+    ("r" (find-file jws/org-reminder-file) "Reminders"))
 #+end_src
 
 #+begin_src emacs-lisp
