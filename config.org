@@ -1695,6 +1695,7 @@ Enable Markdown conversion (the others are defaults):
 
 #+begin_src emacs-lisp
   (use-package ox
+    :straight nil
     :after org
     :init (setq org-export-backends '(ascii html icalendar latex odt md)))
 #+end_src
