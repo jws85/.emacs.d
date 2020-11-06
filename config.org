@@ -2457,6 +2457,18 @@ Playing around with currency conversion in Calc:
     (add-hook 'calc-start-hook 'currency-convert-calc-load))
 #+end_src
 
+** PDF viewer
+
+Natively render PDFs in Emacs:
+
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :config
+    (pdf-tools-install)
+    ;; automatically annotate highlights
+    (setq pdf-annot-activate-created-annotations t))
+#+end_src
+
 ** Music player
 
 [[https://github.com/pft/mingus][Unsurprisingly, Emacs can be an MPD frontend as well...]]  (Obviously,
