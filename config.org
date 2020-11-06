@@ -1719,7 +1719,18 @@ work in Org and then copy it into our work wiki.
     (setq ox-wk-org-verbatim 'monospace))
 #+end_src
 
-*** Other stuff
+*** Literate programming
+
+#+begin_src emacs-lisp
+  (use-package ob
+    :after org
+    :straight nil
+    :config
+    (org-babel-do-load-languages 'org-babel-load-languages
+        '((shell . t))))
+#+end_src
+
+*** Appearance
 
 Fancy bullets in =org-mode=!
 
