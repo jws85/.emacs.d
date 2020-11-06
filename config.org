@@ -2684,6 +2684,15 @@ There is also =ansi-term=, which attempts to be a VT terminal emulator.
 I find it even more janky than =eshell=, and only use it as a fallback
 for =ncurses= commands like =htop= as above.
 
+** Dummy text
+
+Insert [[https://en.wikipedia.org/wiki/Lorem_ipsum]["lorem ipsum" dummy text]]:
+
+#+begin_src emacs-lisp
+  (use-package lorem-ipsum
+    :commands (lorem-ipsum-insert-paragraphs))
+#+end_src
+
 * Master menu
 
 I defer the master menu definitions to the end just to make sure
