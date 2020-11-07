@@ -1411,6 +1411,7 @@ Do some basic configuration of =org-mode=.
     :config
     (add-to-list 'org-modules 'org-habit)
     (setq org-src-fontify-natively t
+          org-startup-indented t
           org-highlight-latex-and-related '(latex script entities)
           ;; easily link to various sites
           org-link-abbrev-alist '(("wikipedia"    . "https://en.wikipedia.org/wiki/%s")
@@ -1557,10 +1558,6 @@ I define the following keywords:
     :after org
     :config
     (setq org-log-done t
-          org-refile-targets '((nil . (:maxlevel . 9))
-                               (org-agenda-files . (:maxlevel . 9)))
-          org-refile-use-outline-path t
-          org-outline-path-complete-in-steps nil
           org-icalendar-combined-agenda-file (concat jws/org-agenda-dir "combined.ics")
           org-icalendar-timezone "America/New_York"
           org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
@@ -1571,7 +1568,6 @@ I define the following keywords:
           org-agenda-files (list jws/org-todo-file jws/org-reminder-file)
           org-use-fast-todo-selection t
           org-log-into-drawer t
-          org-startup-indented t
           org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")
                               (sequence "AGENDA(a)" "|" "MINUTES(m)"))
           org-tag-alist '(("@career" . ?c)
