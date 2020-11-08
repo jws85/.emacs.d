@@ -665,13 +665,14 @@ modes.
     :after evil
     :config
     (setq evil-collection-mode-list '(dired
-				      doc-view
-				      eshell
-				      eww
-				      git-timemachine
-				      ibuffer
-				      image
-				      image+))
+                                      doc-view
+                                      eshell
+                                      eww
+                                      git-timemachine
+                                      ibuffer
+                                      image
+                                      image+
+                                      (pdf pdf-view)))
     (evil-collection-init))
 #+end_src
 
