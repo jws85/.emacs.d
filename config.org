@@ -2455,13 +2455,18 @@ Playing around with currency conversion in Calc:
 
 ** PDF viewer
 
-Natively render PDFs in Emacs:
+Natively render PDFs in Emacs, using an external daemon to render the
+PDFs into image files and send them to Emacs.
+
+The below code [[https://github.com/jwiegley/use-package#magic-handlers][comes straight out of use-package docs]]; defer loading
+(and dependency installation/package building) unless a PDF is opened,
+using the documented PDF magic number.
 
 #+begin_src emacs-lisp
   (use-package pdf-tools
+    :magic ("%PDF" . pdf-view-mode)
     :config
-    (pdf-tools-install)
-    ;; automatically annotate highlights
+    (pdf-tools-install :no-query)
     (setq pdf-annot-activate-created-annotations t))
 #+end_src
 
