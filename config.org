@@ -2740,13 +2740,18 @@ everything else has been done.
     "Prompt before killing the Emacs dæmon"
     (interactive "cKill the Emacs dæmon (y/n)? ")
     (if (eq yn ?y)
-        (progn
-          (save-some-buffers)
-          (kill-emacs))))
+	(progn
+	  (save-some-buffers)
+	  (kill-emacs))))
 
-  (defun jws/reload-emacs ()
+  (defun jws/untangle-emacs-config ()
+    "Untangle config.org."
     (interactive)
-    (org-babel-tangle-file jws/config-file)
+    (org-babel-tangle-file jws/config-file))
+
+  (defun jws/reload-emacs-config ()
+    "Reload the entire Emacs configuration."
+    (interactive)
     (load-file (concat user-emacs-directory "early-init.el"))
     (load-file (concat user-emacs-directory "init.el")))
 
@@ -2754,7 +2759,8 @@ everything else has been done.
     "Buffer menu"
     ("c" jws/open-emacs-config "Edit config")
     ("s" jws/open-emacs-site-config "Edit site config")
-    ("r" jws/reload-emacs "Reload emacs")
+    ("t" jws/untangle-emacs-config "Untangle config")
+    ("r" jws/reload-emacs-config "Reload configs")
     ("q" jws/server-shutdown "Quit emacs")
     ("p" epkg-list-packages "List packages")
     ("u" straight-pull-all "Update packages")
