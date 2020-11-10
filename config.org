@@ -2561,7 +2561,9 @@ provide.
 #+begin_src emacs-lisp
 (use-package eww
   :straight nil
-  :commands (eww eww-browse-url))
+  :commands (eww eww-browse-url)
+  :config
+  (evil-define-key 'normal 'eww-mode-map (kbd "f") 'ace-link-eww))
 #+end_src
 
 We want to use =eww= whenever a web link is clicked.
@@ -2582,7 +2584,8 @@ Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to l
 
 #+begin_src emacs-lisp
 (use-package ace-link
-  :after avy)
+  :after avy
+  :commands (ace-link ace-link-eww))
 #+end_src
 
 ** Terminal
