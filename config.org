@@ -2569,7 +2569,7 @@ provide.
 We want to use =eww= whenever a web link is clicked.
 
 #+begin_src emacs-lisp
-(setq browse-url-browse-function 'eww-browse-url)
+(setq browse-url-browser-function 'eww-browse-url)
 #+end_src
 
 Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to load it.
