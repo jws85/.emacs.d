@@ -1725,7 +1725,8 @@ work in Org and then copy it into our work wiki.
     :straight nil
     :config
     (org-babel-do-load-languages 'org-babel-load-languages
-        '((shell . t))))
+                                 '((shell . t)
+                                   (ledger . t))))
 #+end_src
 
 *** Appearance
@@ -1749,6 +1750,13 @@ Ideally I'd stay in org-mode, but I live in the real world.
   (use-package markdown-mode
     :mode ("\\.md\\'" "\\.markdown\\'" "\\.mdown\\'")
     :hook ((markdown-mode . turn-on-flyspell)))
+#+end_src
+
+** Ledger
+
+#+begin_src emacs-lisp
+  (use-package ledger-mode
+    :mode ("\\.ledger\\'"))
 #+end_src
 
 * Coding
