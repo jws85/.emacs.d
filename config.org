@@ -2588,6 +2588,15 @@ Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to l
   :commands (ace-link ace-link-eww))
 #+end_src
 
+** Gopher/[[https://gemini.circumlunar.space/docs/faq.html][Gemini]] browser
+
+Hey, why not.
+
+#+begin_src emacs-lisp
+(use-package elpher
+  :commands (elpher))
+#+end_src
+
 ** Terminal
 
 =eshell= is Emacs' built-in terminal.  It is *not* a Bash variant, but
