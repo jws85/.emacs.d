@@ -1413,6 +1413,8 @@ Do some basic configuration of =org-mode=.
     :config
     (add-to-list 'org-modules 'org-habit)
     (setq org-src-fontify-natively t
+          org-src-window-setup 'current-window
+          org-src-preserve-indentation t
           org-startup-indented t
           org-highlight-latex-and-related '(latex script entities)
           ;; easily link to various sites
