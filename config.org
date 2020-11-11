@@ -2015,6 +2015,26 @@ _x_ execute action   _M-s_ describe session   _R_ references   _s_ signature    
         dash-docs-use-workaround-for-emacs-bug nil))
 #+end_src
 
+Create =jws/counsel-dash= function to
+
+ - Search current docsets without prefix argument (=C-u=)
+ - Install new docset with prefix argument
+
+#+begin_src emacs-lisp
+(defun jws/counsel-dash ()
+  "counsel-dash dispatcher function"
+  (interactive)
+  (if current-prefix-arg
+      (counsel-dash-install-docset)
+    (counsel-dash-at-point)))
+#+end_src
+
+Bind =jws/counsel-dash= to =z s=.
+
+#+begin_src emacs-lisp
+(evil-define-key 'normal 'prog-mode-map (kbd "z s") #'jws/counsel-dash)
+#+end_src
+
 ** Data markup & config files
 
 But we're using Lisp -- data is code!
@@ -2377,10 +2397,10 @@ Enable =company= in =web-mode=.
   :after (company web-mode))
 #+end_src
 
-Increasingly, in this era of LSP everywhere, I find myself wanting
-to live in the native language mode.  But I have to maintain a
-depressing amount of legacy mixed-mode code.  I define the below
-function to hop in and out of =web-mode=.
+Increasingly, in this era of LSP everywhere, I find myself wanting to
+live in the native language mode.  But I have to maintain a depressing
+amount of legacy mixed-mode PHP code.  I define the below function to
+hop in and out of =web-mode=.
 
 #+begin_src emacs-lisp
 (defun jws/toggle-web-mode ()
@@ -2388,6 +2408,12 @@ function to hop in and out of =web-mode=.
   (if (eq major-mode 'web-mode)
       (set-auto-mode)
     (web-mode)))
+#+end_src
+
+And then I make an easy binding to it:
+
+#+begin_src emacs-lisp
+(evil-define-key 'normal 'prog-mode-map (kbd "z w") #'jws/toggle-web-mode)
 #+end_src
 
 *** CSS/Sass
