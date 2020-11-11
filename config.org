@@ -1649,11 +1649,87 @@ I define the following keywords:
     (kbd "c") 'cfw:open-org-calendar
     (kbd "C") 'org-agenda-capture
     (kbd "d") 'org-agenda-goto-date
-    (kbd "L") 'org-agenda-log-mode)
+    (kbd "L") 'org-agenda-log-mode
+    (kbd "m") 'jws/hydra-org-agenda/body)
 
   ;; Save after various edits in org-mode/org-agenda
   ;(advice-add 'org-deadline :after 'org-save-all-org-buffers)
   (advice-add 'org-refile :after 'org-save-all-org-buffers))
+#+end_src
+
+Define a hydra to do things inside =org-agenda= itself.  This is taken
+[[https://github.com/abo-abo/hydra/wiki/Org-agenda][from here]] (which in turn came from [[https://www.spacemacs.org/][Spacemacs]]) and modified to my
+preferences.
+
+#+begin_src emacs-lisp
+(defhydra jws/hydra-org-agenda (:pre (setq which-key-inhibit t)
+                                     :post (setq which-key-inhibit nil)
+                                     :hint none)
+  "
+Org agenda (_q_uit)
+
+^Clock^      ^Visit entry^              ^Date^            ^Other^
+^-----^----  ^-----------^------------  ^----^----------  ^-----^---------
+_@i_ in      _SPC_ in other window      _s_ schedule      _r_ reload
+_@o_ out     _TAB_ & go to location     _d_ set deadline  _._ go to today
+_@q_ cancel  _RET_ & del other windows  _+_ do later      _g_ go to date
+_@j_ jump    _o_   link                 _-_ do earlier    _c_apture
+^^           ^^                         ^^                _C_alendar
+^^           ^^                         ^^                ^^
+^Filter^                 ^Headline^        ^Toggle mode^
+^------^---------------  ^--------^------  ^-----------^----
+_Ft_ by tag              _z_ add note      _f_ follow
+_Fr_ refine by tag       _p_ set priority  _l_ log
+_Fc_ by category         _t_ set status    _a_ archive trees
+_Fh_ by top headline     _w_ refile        _A_ archive files
+_Fx_ by regexp           _:_ set tags      _#_ clock report
+_Fd_ delete all filters  _$_ archive       _D_ diaries
+^^                       ^^                 ^^
+"
+  ;; Entry
+  ("z" org-agenda-add-note)
+  ("p" org-agenda-priority)
+  ("t" org-agenda-todo)
+  ("w" org-agenda-refile)
+  ("$" org-agenda-archive-default)
+  (":" org-agenda-set-tags)
+  ;; Visit entry
+  ("o"   link-hint-open-link :exit t)
+  ("<tab>" org-agenda-goto :exit t)
+  ("TAB" org-agenda-goto :exit t)
+  ("SPC" org-agenda-show-and-scroll-up)
+  ("RET" org-agenda-switch-to :exit t)
+  ;; Date
+  ("d" org-agenda-deadline)
+  ("s" org-agenda-schedule)
+  ("+" org-agenda-do-date-later)
+  ("-" org-agenda-do-date-earlier)
+  ;; Toggle mode
+  ("a" org-agenda-archives-mode)
+  ("A" (org-agenda-archives-mode 'files))
+  ("#" org-agenda-clockreport-mode)
+  ("f" org-agenda-follow-mode)
+  ("l" org-agenda-log-mode)
+  ("D" org-agenda-toggle-diary)
+  ;; Filter
+  ("Fc" org-agenda-filter-by-category)
+  ("Fx" org-agenda-filter-by-regexp)
+  ("Ft" org-agenda-filter-by-tag)
+  ("Fr" org-agenda-filter-by-tag-refine)
+  ("Fh" org-agenda-filter-by-top-headline)
+  ("Fd" org-agenda-filter-remove-all)
+  ;; Clock
+  ("@q" org-agenda-clock-cancel)
+  ("@j" org-agenda-clock-goto :exit t)
+  ("@i" org-agenda-clock-in :exit t)
+  ("@o" org-agenda-clock-out)
+  ;; Other
+  ("q" nil :exit t)
+  ("g" org-agenda-goto-date)
+  ("." org-agenda-goto-today)
+  ("r" org-agenda-redo)
+  ("c" org-capture)
+  ("C" cfw:open-org-calendar))
 #+end_src
 
 [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] groups agenda items together, which makes the agenda
