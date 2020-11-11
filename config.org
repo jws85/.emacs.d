@@ -1422,6 +1422,69 @@ Do some basic configuration of =org-mode=.
                                 ("rationalwiki" . "https://rationalwiki.org/wiki/%s"))))
 #+end_src
 
+Set up a hydra which lets us navigate org-mode files and change
+metadata easily:
+
+#+begin_src emacs-lisp
+(defhydra jws/hydra-org (:hint none)
+  "
+Org (_q_uit)
+
+^Movement^                 ^Structure^          ^Metadata^        ^Other^
+^--------^---------------  ^---------^--------  ^--------^------  ^-----^--
+_j_ next heading           _J_ move tree down   _d_eadline        _e_xport
+_k_ prev heading           _K_ move tree up     p_r_iority
+_n_ next heading on level  _N_ promote item     _s_cheduled
+_p_ prev heading on level  _P_ demote item      _t_odo status
+_u_p a level               _C-n_ promote tree   t_a_gs
+_g_oto heading             _C-p_ demote tree    _←_ _→_ cycle
+_TAB_ open/close heading   ^^                   _↑_ _↓_ cycle
+"
+  ("q" nil :exit t)
+
+  ("TAB" org-cycle)
+  ("j" org-next-visible-heading)
+  ("k" org-previous-visible-heading)
+  ("n" org-forward-heading-same-level)
+  ("p" org-backward-heading-same-level)
+  ("g" org-goto)
+  ("u" outline-up-heading)
+
+  ("J" org-move-subtree-down)
+  ("K" org-move-subtree-up)
+  ("N" org-do-promote)
+  ("P" org-do-demote)
+  ("C-n" org-promote-subtree)
+  ("C-p" org-demote-subtree)
+
+  ("v" org-mark-subtree)
+  ("x" org-cut-subtree)
+  ("y" org-paste-subtree)
+
+  ("d" org-deadline)
+  ("r" org-priority)
+  ("s" org-schedule)
+  ("t" org-todo)
+  ("a" org-set-tags-command)
+
+  ("=" (org-table-recalculate t))
+
+  ("<left>" org-shiftleft)
+  ("<down>" org-shiftdown)
+  ("<up>" org-shiftup)
+  ("<right>" org-shiftright)
+
+  ("e" org-export-dispatch :exit t))
+#+end_src
+
+And load it whenever an org-mode file is opened:
+
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook
+          (lambda ()
+            (evil-local-set-key 'normal (kbd "z k") #'jws/hydra-org/body)))
+#+end_src
+
 *** Capturing new notes
 
 =org-capture= is a really convenient way of automating the entry of
