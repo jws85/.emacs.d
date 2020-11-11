@@ -2976,23 +2976,6 @@ INDENTATION | Char: %s(jws/get-indent-char) | Size: %`tab-width | Electric: %`el
   ("w" whitespace-mode "Display whitespace"))
 #+end_src
 
-** Development menu
-
-#+begin_src emacs-lisp
-(defhydra jws/hydra-development (:color blue :columns 4)
-  "Development menu"
-  ("d e" lsp-treemacs-error-list "Errors")
-  ("d i" lsp-treemacs-implementations "Implementations")
-  ("d r" lsp-treemacs-references "References")
-  ("d s" lsp-treemacs-symbols "Symbols")
-
-  ("s s" counsel-dash-at-point "Search docsets")
-  ("s i" counsel-dash-install-docset "Install docset")
-
-  ("w" jws/toggle-web-mode "Toggle web-mode")
-  ("l" jws/hydra-lsp/body "Control LSP"))
-#+end_src
-
 ** Buffer menu
 
 This menu allows for manipulation of Emacs buffer objects.
@@ -3220,7 +3203,6 @@ I continue to be amazed that Emacs doesn't have this...
   ("a" jws/org-agenda-hydra/body "Agenda")
   ("b" jws/hydra-buffer/body "Buffers")
   ("c" calc-dispatch "Calc")
-  ("d" jws/hydra-development/body "Development")
   ("e" jws/hydra-emacs/body "Emacs")
   ("f" jws/hydra-files/body "Files")
   ("g" jws/hydra-git/body "Git")
