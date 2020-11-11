@@ -1688,6 +1688,19 @@ and Deft has it... so we're bringing it back on board.
         deft-new-file-format "%Y%m%d%H%M%S"))
 #+end_src
 
+Menu to access zettelkasten functionality:
+
+#+begin_src emacs-lisp
+(defhydra jws/hydra-zettel (:color blue :columns 4)
+  "Zettelkasten"
+  ("z" org-roam-find-file "Find file")
+  ("f" deft "Fulltext search (Deft)")
+  ("l" org-roam-insert "Link")
+  ("g" org-roam-graph "Graph")
+  ("i" org-roam-find-index "Index")
+  ("s" org-roam "Sidebar"))
+#+end_src
+
 *** Conversion
 
 Enable Markdown conversion (the others are defaults):
@@ -2958,50 +2971,17 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
 #+end_src
 
 #+begin_src emacs-lisp
-(defhydra jws/hydra-org-files (:color blue :columns 4)
-"Org files"
-("t" (find-file jws/org-todo-file) "TODOs")
-("r" (find-file jws/org-reminder-file) "Reminders"))
-#+end_src
-
-#+begin_src emacs-lisp
 (defhydra jws/hydra-files (:color blue :columns 4)
   "File menu"
   ("a" ff-find-other-file "Find file")
   ("d" jws/hydra-dired/body "Dired")
   ("f" counsel-find-file "Find file")
   ("j" open-junk-file "Junk file")
-  ("o" jws/hydra-org-files/body "Org files")
   ("r" counsel-recentf "Find recent file")
   ("u" counsel-bookmark "Find bookmark"))
 #+end_src
 
 ** Org-mode menu
-
-=jws/hydra-org-files= is defined under "File menu" above.
-
-#+begin_src emacs-lisp
-(defhydra jws/hydra-zettel (:color blue :columns 4)
-  "Zettelkasten"
-  ("z" org-roam-find-file "Find file")
-  ("f" deft "Fulltext search (Deft)")
-  ("l" org-roam-insert "Link")
-  ("g" org-roam-graph "Graph")
-  ("i" org-roam-find-index "Index")
-  ("s" org-roam "Sidebar"))
-#+end_src
-
-#+begin_src emacs-lisp
-(defhydra jws/hydra-org (:color blue :columns 4)
-  "Org-mode menu"
-  ("f" jws/hydra-org-files/body "Open files")
-  ("a" org-agenda "Agenda")
-  ("c" org-capture "Capture")
-  ("e" org-export-dispatch "Export")
-  ("l" org-store-link "Store link")
-  ("z" jws/hydra-zettel/body "Zettelkasten")
-  ("r" jws/load-org-settings "Reload settings"))
-#+end_src
 
 ** Project menu
 
@@ -3114,7 +3094,6 @@ I continue to be amazed that Emacs doesn't have this...
   ("f" jws/hydra-files/body "Files")
   ("g" jws/hydra-git/body "Git")
   ("h" jws/hydra-help/body "Help")
-  ("o" jws/hydra-org/body "Org")
   ("m" jws/hydra-mpd/body "MPD")
   ("n" jws/eww-home "Net")
   ("p" jws/hydra-project/body "Project")
@@ -3122,6 +3101,7 @@ I continue to be amazed that Emacs doesn't have this...
   ("S" jws/hydra-windows-sticky/body "MultiSplit")
   ("t" jws/hydra-text-editing/body "Text")
   ("v" jws/hydra-visuals/body "Visual")
+  ("q" org-capture "Capture")
   ("w" jws/hydra-frames/body "Frames")
   ("x" eshell "Shell")
   ("z" jws/hydra-zettel/body "Zettel")
