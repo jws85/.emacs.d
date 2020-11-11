@@ -2924,8 +2924,13 @@ everything else has been done.
   (org-babel-tangle-file jws/config-file))
 
 (defun jws/reload-emacs-config ()
-  "Reload the entire Emacs configuration."
+  "Reload the entire Emacs configuration.
+
+If a prefix argument is provided, untangle config.org before reloading
+the Emacs configuration."
   (interactive)
+  (if current-prefix-arg
+      (jws/untangle-emacs-config))
   (load-file (concat user-emacs-directory "early-init.el"))
   (load-file (concat user-emacs-directory "init.el")))
 
