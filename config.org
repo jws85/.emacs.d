@@ -639,9 +639,6 @@ or similar.
   (define-key evil-motion-state-map (kbd "g o") 'ace-link)
   ;; Jump to definition/references
   (define-key evil-motion-state-map (kbd "g d") nil)
-  (define-key evil-motion-state-map (kbd "g d d") 'xref-find-definitions)
-  (define-key evil-motion-state-map (kbd "g d r") 'xref-find-references)
-  (define-key evil-motion-state-map (kbd "g d p") 'xref-pop-marker-stack)
   (define-key evil-motion-state-map (kbd "g d i") 'imenu)
   (define-key evil-motion-state-map (kbd "g d e") 'flymake-show-diagnostics-buffer)
   ;; Command menu via counsel
@@ -1858,6 +1855,30 @@ like.
   (add-to-list 'evil-emacs-state-modes 'xref--xref-buffer-mode))
 #+end_src
 
+Make a hydra to handle xref.
+
+#+begin_src emacs-lisp
+(defhydra jws/hydra-xref (:exit t :hint nil)
+  "
+Xref
+-------------------
+_d_ _D_ definition
+_r_ _R_ references
+_p_ ^ ^ pop stack"
+  ("d" xref-find-definitions)
+  ("D" xref-find-definitions)
+  ("r" xref-find-references)
+  ("R" xref-find-references)
+  ("p" xref-pop-marker-stack))
+#+end_src
+
+In programming modes, set =z d= to run that hydra.  Note that
+=lsp-mode= overrides this with much more functionality.
+
+#+begin_src emacs-lisp
+(evil-define-key 'normal 'prog-mode-map (kbd "z d") #'jws/hydra-xref/body)
+#+end_src
+
 *** Flymake
 
 #+begin_src emacs-lisp
@@ -1924,10 +1945,7 @@ to use =lsp-ui-peek= instead.  Also, add a binding for code actions!
 #+begin_src emacs-lisp
 (add-hook 'lsp-mode-hook
           (lambda ()
-            (evil-local-set-key 'normal (kbd "g d l") #'jws/hydra-lsp/body)
-            (evil-local-set-key 'normal (kbd "g d a") #'lsp-execute-code-action)
-            (evil-local-set-key 'normal (kbd "g d d") #'lsp-ui-peek-find-definitions)
-            (evil-local-set-key 'normal (kbd "g d r") #'lsp-ui-peek-find-references)))
+            (evil-local-set-key 'normal (kbd "z d") #'jws/hydra-lsp/body)))
 #+end_src
 
 A hydra to control LSP (taken from [[https://github.com/abo-abo/hydra/wiki/lsp-mode][the examples on the hydra wiki]]):
@@ -1939,7 +1957,7 @@ Buffer^^             Server^^                 Symbol
 -----------------------------------------------------------------------------------------------------
 _f_ format           _M-r_ restart            _d_ declaration  _i_ implementation  _o_ documentation
 _m_ imenu            _S_   shutdown           _D_ definition   _t_ type            _r_ rename
-_x_ execute action   _M-s_ describe session   _R_ references   _s_ signature
+_x_ execute action   _M-s_ describe session   _R_ references   _s_ signature       _p_ pop stack
 ^^                   _M-d_ remove folders
 ^^                   _M-v_ restart server"
   ("d" lsp-find-declaration)
@@ -1950,6 +1968,7 @@ _x_ execute action   _M-s_ describe session   _R_ references   _s_ signature
   ("s" lsp-signature-help)
   ("o" lsp-describe-thing-at-point)
   ("r" lsp-rename)
+  ("p" xref-pop-marker-stack)
 
   ("f" lsp-format-buffer)
   ("m" lsp-ui-imenu)
