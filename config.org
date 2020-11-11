@@ -1608,10 +1608,10 @@ I define the following keywords:
  - =TODO= (as applied to something without dependencies) is a unit of
    work that, as far as I know, can be done now.
  - =WAITING= relies on something else that is out of my control
+ - =IMPLEMENTING= is something I'm actively working on
+ - =VERIFYING= is something I've finished, but am testing
  - =DONE= is something that is finished
  - =CANCELLED= is something that was aborted before finishing
- - =AGENDA= is a plan of action
- - =MINUTES= is a backup of that plan of action
 
 #+begin_src emacs-lisp
 (use-package org-agenda
@@ -1629,8 +1629,13 @@ I define the following keywords:
         org-agenda-files (list jws/org-todo-file jws/org-reminder-file)
         org-use-fast-todo-selection t
         org-log-into-drawer t
-        org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")
-                            (sequence "AGENDA(a)" "|" "MINUTES(m)"))
+        org-todo-keywords '((sequence "TODO(t)"
+                                      "WAITING(w)"
+                                      "IMPLEMENTING(i)"
+                                      "VERIFYING(v)"
+                                      "|"
+                                      "DONE(d)"
+                                      "CANCELLED(c)"))
         org-tag-alist '(("@career" . ?c)
                         ("@event" . ?e)
                         ("@gtd" . ?g)
