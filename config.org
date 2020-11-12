@@ -1631,8 +1631,8 @@ I define the following keywords:
 
   ;; Agenda vim key bindings
   (evil-add-hjkl-bindings org-agenda-mode-map 'emacs
-    (kbd "c") 'cfw:open-org-calendar
-    (kbd "C") 'org-agenda-capture
+    (kbd "C") 'cfw:open-org-calendar
+    (kbd "c") 'org-agenda-capture
     (kbd "d") 'org-agenda-goto-date
     (kbd "L") 'org-agenda-log-mode
     (kbd "m") 'jws/hydra-org-agenda/body)
