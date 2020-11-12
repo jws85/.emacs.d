@@ -1594,10 +1594,12 @@ I define the following keywords:
 
  - =TODO= (as applied to something without dependencies) is a unit of
    work that, as far as I know, can be done now.
- - =WAITING= relies on something else that is out of my control
- - =IMPLEMENTING= is something I'm actively working on
- - =VERIFYING= is something I've finished, but am testing
+ - =DOING= is something I'm actively working on
+ - =TESTING= is something I've finished, but am testing
+ - =DEPLOYING= is something that just needs to be "put in place"
+   e.g. copy the changes up to a live server
  - =DONE= is something that is finished
+ - =WAITING= relies on something else that is out of my control
  - =CANCELLED= is something that was aborted before finishing
 
 #+begin_src emacs-lisp
@@ -1616,13 +1618,9 @@ I define the following keywords:
         org-agenda-files (list jws/org-todo-file jws/org-reminder-file)
         org-use-fast-todo-selection t
         org-log-into-drawer t
-        org-todo-keywords '((sequence "TODO(t)"
-                                      "WAITING(w)"
-                                      "IMPLEMENTING(i)"
-                                      "VERIFYING(v)"
-                                      "|"
-                                      "DONE(d)"
-                                      "CANCELLED(c)"))
+        org-todo-keywords '((sequence "TODO(t)" "DOING(o)" "TESTING(e)" "DEPLOYING(y)" "|" "DONE(d)")
+                            (sequence "WAITING(w)" "|")
+                            (sequence "|" "CANCELLED(c)"))
         org-tag-alist '(("@career" . ?c)
                         ("@event" . ?e)
                         ("@gtd" . ?g)
