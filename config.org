@@ -673,6 +673,45 @@ modes.
   (evil-collection-init))
 #+end_src
 
+=general= allows one to define "leader" keymaps easily.  I had been
+using hydra for this but it's more optimized for interactive menus.
+
+#+begin_src emacs-lisp
+(use-package general
+  :config
+  (general-create-definer jws/main-leader
+    :prefix "SPC")
+  (jws/main-leader
+    :states 'normal
+    :keymaps 'override
+    "SPC" '(counsel-M-x :wk "M-x")
+    "<delete>" '(delete-frame :wk "KillFrame")
+    "<tab>" '(jws/switch-to-previous-buffer :wk "PrevBuf")
+    "RET" '(treemacs-select-window :wk "Sidebar")
+
+    "a" '(org-agenda :wk "Agenda")
+    "b" '(jws/hydra-buffer/body :wk "Buffers")
+    "c" '(calc-dispatch :wk "Calc")
+    "e" '(jws/hydra-emacs/body :wk "Emacs")
+    "f" '(jws/hydra-files/body :wk "Files")
+    "g" '(jws/hydra-git/body :wk "Git")
+    "h" '(jws/hydra-help/body :wk "Help")
+    "k" '(kill-this-buffer :wk "KillBuf")
+    "m" '(jws/hydra-mpd/body :wk "Music")
+    "n" '(jws/eww-home :wk "Net")
+    "p" '(:keymap projectile-command-map :package projectile :wk "Project")
+    "s" '(jws/hydra-windows/body :wk "Windows")
+    "S" '(jws/hydra-windows-sticky/body :wk "MultiWindows")
+    "t" '(jws/hydra-text-editing/body :wk "Text")
+    "v" '(jws/hydra-visuals/body :wk "Visuals")
+    "q" '(org-capture :wk "Capture")
+    "w" '(jws/hydra-frames/body :wk "Frames")
+    "x" '(eshell :wk "Term")
+    "z" '(jws/hydra-zettel/body :wk "Zettel")
+
+    "@" '(chronos-add-timer :wk "Timer")))
+#+end_src
+
 =which-key= is useful for all those crazy chained bindings -- if you
 stop on a prefix key, it'll show you what your options are so you know
 how what you've bound =M-x butterfly= to.
@@ -1027,17 +1066,9 @@ multiple commits that I'm about to merge into master or make live.
 
 #+begin_src emacs-lisp
 (use-package projectile
-  :commands (projectile-find-file
-             projectile-recentf
-             projectile-cache-current-file
-             projectile-remove-known-project
-             projectile-switch-to-buffer
-             projectile-invalidate-cache
-             projectile-cleanup-known-projects
-             projectile-multi-occur
-             projectile-switch-project
-             projectile-kill-buffers)
-  :config (projectile-mode 1))
+  :config
+  (projectile-mode 1)
+  (setq projectile-completion-system 'ivy))
 #+end_src
 
 =counsel-projectile= does exactly what it says on the tin.
@@ -1745,19 +1776,6 @@ a heckuva lot easier to read.
 
 (use-package calfw-org
   :commands (cfw:open-org-calendar))
-#+end_src
-
-I wanted to add =calfw= to the =org-agenda= dispatcher, but I don't
-think that's possible, so I'm making a hydra instead.
-
-#+begin_src emacs-lisp
-(defhydra jws/hydra-org-agenda-dispatcher nil
-  "Org-Agenda"
-  ("a" org-agenda-list "List")
-  ("c" cfw:open-org-calendar "Calendar")
-  ("m" org-tags-view "Tags")
-  ("t" org-todo-list "TODOs")
-  ("#" org-agenda-list-stuck-projects "Stuck"))
 #+end_src
 
 If one wants a quick look at their agenda without having to hunt through
@@ -3287,41 +3305,6 @@ I continue to be amazed that Emacs doesn't have this...
   "Switches to the previous buffer."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer))))
-#+end_src
-
-#+begin_src emacs-lisp
-(defhydra jws/hydra-master (:color blue :columns 4)
-  "Master menu"
-  ("SPC" counsel-M-x "Command list")
-  ("<delete>" delete-frame "Close window")
-  ("<tab>" jws/switch-to-previous-buffer "Switch buffer")
-  ("RET" treemacs-select-window "Show treemacs")
-  ("k" kill-this-buffer "Kill buffer")
-
-  ("a" jws/hydra-org-agenda-dispatcher/body "Agenda")
-  ("b" jws/hydra-buffer/body "Buffers")
-  ("c" calc-dispatch "Calc")
-  ("e" jws/hydra-emacs/body "Emacs")
-  ("f" jws/hydra-files/body "Files")
-  ("g" jws/hydra-git/body "Git")
-  ("h" jws/hydra-help/body "Help")
-  ("m" jws/hydra-mpd/body "MPD")
-  ("n" jws/eww-home "Net")
-  ("p" jws/hydra-project/body "Project")
-  ("s" jws/hydra-windows/body "Split")
-  ("S" jws/hydra-windows-sticky/body "MultiSplit")
-  ("t" jws/hydra-text-editing/body "Text")
-  ("v" jws/hydra-visuals/body "Visual")
-  ("q" org-capture "Capture")
-  ("w" jws/hydra-frames/body "Frames")
-  ("x" eshell "Shell")
-  ("z" jws/hydra-zettel/body "Zettel")
-
-  ("@" chronos-add-timer "Timer"))
-
-(global-set-key (kbd "<f2>") 'jws/hydra-master/body)
-(global-set-key (kbd "M-j") 'jws/hydra-master/body)
-(define-key evil-normal-state-map (kbd "SPC") 'jws/hydra-master/body)
 #+end_src
 
 * Site-specific code
