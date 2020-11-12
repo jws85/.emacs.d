@@ -2187,20 +2187,33 @@ I actually am a dabbler in Lisps, rather than actually doing anything
 productive with them.  But since knowing some Lisp is necessary for
 doing anything non-trivial with Emacs... here we are!
 
-[[http://shaunlebron.github.io/parinfer/index.html][Parinfer]] ([[https://github.com/DogLooksGood/parinfer-mode][emacs impl]]) is a revelation.  I couldn't stand Lisp
-editing beforehand.
+Let's group a bunch of Lisp mode hooks so we don't have to keep typing
+them out below.
 
 #+begin_src emacs-lisp
-(use-package parinfer
-  :hook ((emacs-lisp-mode . parinfer-mode)
-         (common-lisp-mode . parinfer-mode)
-         (clojure-mode . parinfer-mode)
-         (scheme-mode . parinfer-mode)
-         (lisp-mode . parinfer-mode)
-         (lisp-interaction-mode . parinfer-mode))
-  :config
-  (setq parinfer-extensions
-        '(defaults pretty-parens evil smart-yank)))
+(defvar jws/lisp-mode-hooks
+  '(emacs-lisp-mode-hook
+    common-lisp-mode-hook
+    scheme-mode-hook
+    clojure-mode-hook
+    lisp-interaction-mode-hook
+    lisp-mode-hook))
+#+end_src
+
+I had been using [[https://github.com/DogLooksGood/parinfer-mode][the Emacs implementation]] of [[http://shaunlebron.github.io/parinfer/index.html][Parinfer]] quite happily,
+but I've noticed some bugginess with it.  So I might as well learn one
+of these ersatz Lisp modes with their slurping and barfing and all.
+
+#+begin_src emacs-lisp
+(use-package lispy
+  :init
+  (dolist (hook jws/lisp-mode-hooks)
+    (add-hook hook #'lispy-mode)))
+
+(use-package lispyville
+  :init
+  (dolist (hook jws/lisp-mode-hooks)
+    (add-hook hook #'lispyville-mode)))
 #+end_src
 
 [[https://github.com/hchbaw/eval-sexp-fu.el][eval-sexp-fu]] flashes the region of the s-expression being evaluated.
