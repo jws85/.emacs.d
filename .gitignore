@@ -91,6 +91,9 @@ lsp-cache
 # multiple-cursors
 .mc-lists.el
 
+# nov.el (ePubs)
+/nov-places
+
 # org-agenda
 /.org-id-locations
 

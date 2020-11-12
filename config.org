@@ -2701,6 +2701,13 @@ using the documented PDF magic number.
   (setq pdf-annot-activate-created-annotations t))
 #+end_src
 
+** ePub reader
+
+#+begin_src emacs-lisp
+(use-package nov
+  :mode (".\\epub\\'" . nov-mode))
+#+end_src
+
 ** Music player
 
 [[https://github.com/pft/mingus][Unsurprisingly, Emacs can be an MPD frontend as well...]]  (Obviously,
