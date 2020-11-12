@@ -3009,11 +3009,6 @@ the Emacs configuration."
   (load-file (concat user-emacs-directory "early-init.el"))
   (load-file (concat user-emacs-directory "init.el")))
 
-(defun jws/toggle-emacs-debug ()
-  "Toggles debug-on-error."
-  (interactive)
-  (setq debug-on-error (not debug-on-error)))
-
 (defhydra jws/hydra-emacs (:exit t :hint nil)
   "
 Emacs | Debug: %`debug-on-error
@@ -3026,7 +3021,7 @@ _k_ start server  _r_eload config
 ^^                un_t_angle config
 "
   ("c" jws/open-emacs-config)
-  ("d" jws/toggle-emacs-debug :exit nil)
+  ("d" toggle-debug-on-error :exit nil)
   ("s" jws/open-emacs-site-config)
   ("t" jws/untangle-emacs-config)
   ("r" jws/reload-emacs-config)
