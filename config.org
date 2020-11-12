@@ -1968,9 +1968,19 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
 #+begin_src emacs-lisp
 (use-package lsp-mode
   :commands (lsp
+             lsp-describe-session
+             lsp-describe-thing-at-point
+             lsp-execute-code-action
+             lsp-find-declaration
+             lsp-find-type-definition
+             lsp-format-buffer
+             lsp-rename
+             lsp-restart-server
+             lsp-signature-help
              lsp-workspace-restart
              lsp-workspace-folders-remove
-             lsp-workspace-folders-add)
+             lsp-workspace-folders-add
+             lsp-workspace-shutdown)
   :config
   ;; I haven't noticed problems at ~2500 files...
   (setq lsp-file-watch-threshold 10000))
@@ -1985,6 +1995,7 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
   :hook (lsp-mode . lsp-ui-mode)
   :commands (lsp-ui-peek-find-definitions
              lsp-ui-peek-find-references
+             lsp-ui-peek-find-implementation
              lsp-ui-doc-glance
              lsp-ui-imenu)
   :config
@@ -2021,30 +2032,30 @@ A hydra to control LSP (taken from [[https://github.com/abo-abo/hydra/wiki/lsp-m
   "
 Buffer^^             Server^^                 Symbol
 -----------------------------------------------------------------------------------------------------
-_f_ format           _M-r_ restart            _d_ declaration  _i_ implementation  _o_ documentation
-_m_ imenu            _S_   shutdown           _D_ definition   _t_ type            _r_ rename
-_x_ execute action   _M-s_ describe session   _R_ references   _s_ signature       _p_ pop stack
-^^                   _M-d_ remove folders
-^^                   _M-v_ restart server"
-  ("d" lsp-find-declaration)
-  ("D" lsp-ui-peek-find-definitions)
-  ("R" lsp-ui-peek-find-references)
+_f_ format           _C-r_ restart            _d_ definition   _i_ implementation  _o_ documentation
+_m_ imenu            _S_   shutdown           _D_ declaration  _t_ type            _R_ rename
+_x_ execute action   _C-s_ describe session   _r_ references   _s_ signature       _p_ pop stack
+^^                   _C-d_ remove folders
+^^                   _C-v_ restart server"
+  ("D" lsp-find-declaration)
+  ("d" lsp-ui-peek-find-definitions)
+  ("r" lsp-ui-peek-find-references)
   ("i" lsp-ui-peek-find-implementation)
   ("t" lsp-find-type-definition)
   ("s" lsp-signature-help)
   ("o" lsp-describe-thing-at-point)
-  ("r" lsp-rename)
+  ("R" lsp-rename)
   ("p" xref-pop-marker-stack)
 
   ("f" lsp-format-buffer)
   ("m" lsp-ui-imenu)
   ("x" lsp-execute-code-action)
 
-  ("M-s" lsp-describe-session)
-  ("M-r" lsp-restart-workspace)
-  ("M-d" lsp-workspace-folders-remove)
-  ("M-v" lsp-restart-server)
-  ("S" lsp-shutdown-workspace))
+  ("C-s" lsp-describe-session)
+  ("C-r" lsp-restart-workspace)
+  ("C-d" lsp-workspace-folders-remove)
+  ("C-v" lsp-restart-server)
+  ("S" lsp-workspace-shutdown))
 #+end_src
 
 [[https://github.com/tigersoldier/company-lsp][company-lsp]] provides connectivity to Company:
