@@ -1098,19 +1098,6 @@ Treemacs integration with other modes:
   :ensure t)
 #+end_src
 
-** Junk files
-
-[[https://www.emacswiki.org/emacs/open-junk-file.el][open-junk-file]] lets you open a throwaway file, which can be
-used for small code experiments or throwaway notes that you'd
-otherwise junk up the =*scratch*= buffer with...
-
-#+begin_src emacs-lisp
-(use-package open-junk-file
-  :commands open-junk-file
-  :config
-  (setq open-junk-file-directory "~/.junk/%Y/%m/%d-%H%M%S."))
-#+end_src
-
 ** Code synchronization
 
 I like Unison for this; it keeps code synced between local and remote
@@ -3176,7 +3163,6 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
   ("a" ff-find-other-file "Find file")
   ("d" jws/hydra-dired/body "Dired")
   ("f" counsel-find-file "Find file")
-  ("j" open-junk-file "Junk file")
   ("r" counsel-recentf "Find recent file")
   ("u" counsel-bookmark "Find bookmark"))
 #+end_src
