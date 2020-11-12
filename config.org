@@ -3009,16 +3009,31 @@ the Emacs configuration."
   (load-file (concat user-emacs-directory "early-init.el"))
   (load-file (concat user-emacs-directory "init.el")))
 
-(defhydra jws/hydra-emacs (:color blue :columns 4)
-  "Buffer menu"
-  ("c" jws/open-emacs-config "Edit config")
-  ("s" jws/open-emacs-site-config "Edit site config")
-  ("t" jws/untangle-emacs-config "Untangle config")
-  ("r" jws/reload-emacs-config "Reload configs")
-  ("q" jws/server-shutdown "Quit emacs")
-  ("p" epkg-list-packages "List packages")
-  ("u" straight-pull-all "Update packages")
-  ("k" server-start "Start server"))
+(defun jws/toggle-emacs-debug ()
+  "Toggles debug-on-error."
+  (interactive)
+  (setq debug-on-error (not debug-on-error)))
+
+(defhydra jws/hydra-emacs (:exit t :hint nil)
+  "
+Emacs | Debug: %`debug-on-error
+
+^Process^         ^Config^            ^Packages^
+^-------^-------  ^------^----------  ^--------^-------
+_q_uit emacs      edit _c_onfig       list _p_ackages
+_d_ebug emacs     edit _s_ite config  _u_pdate packages
+_k_ start server  _r_eload config
+^^                un_t_angle config
+"
+  ("c" jws/open-emacs-config)
+  ("d" jws/toggle-emacs-debug :exit nil)
+  ("s" jws/open-emacs-site-config)
+  ("t" jws/untangle-emacs-config)
+  ("r" jws/reload-emacs-config)
+  ("q" jws/server-shutdown)
+  ("p" epkg-list-packages)
+  ("u" straight-pull-all)
+  ("k" server-start))
 #+end_src
 
 ** Text editing menu
