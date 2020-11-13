@@ -2215,7 +2215,13 @@ of these ersatz Lisp modes with their slurping and barfing and all.
 (use-package lispyville
   :init
   (dolist (hook jws/lisp-mode-hooks)
-    (add-hook hook #'lispyville-mode)))
+    (add-hook hook #'lispyville-mode))
+  :config
+  (lispyville-set-key-theme '(operators
+                              c-w
+                              (escape insert)
+                              (additional-movement normal visual motion)))
+  (setq lispyville-motions-put-into-special t))
 #+end_src
 
 [[https://github.com/hchbaw/eval-sexp-fu.el][eval-sexp-fu]] flashes the region of the s-expression being evaluated.
