@@ -1,4 +1,4 @@
-#+title: My emacs config
+#+title: My Emacs configuration
 #+author: Justin Smith
 #+toc: true
 #+startup: indent
