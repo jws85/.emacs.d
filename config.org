@@ -2207,12 +2207,21 @@ but I've noticed some bugginess with it.  So I might as well learn one
 of these ersatz Lisp modes with their slurping and barfing and all.
 
 #+begin_src emacs-lisp
+(defun jws/lispy-fix-delete ()
+  "for whatever reason delete doesn't work with lispy and evil, let's fix that"
+  (interactive)
+  (general-define-key :states 'insert :keymaps 'override
+                      "<delete>" 'lispy-delete-backward
+                      "C-d" 'lispy-delete))
+
 (use-package lispy
   :init
   (dolist (hook jws/lisp-mode-hooks)
     (add-hook hook #'lispy-mode))
   :config
-  (setq lispy-visit-method 'projectile))
+  (setq lispy-visit-method 'projectile)
+  (lispy-set-key-theme '(lispy special c-digits evilcp))
+  (add-hook 'lispy-mode-hook 'jws/lispy-fix-delete))
 
 (use-package lispyville
   :init
