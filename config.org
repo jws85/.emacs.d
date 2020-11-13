@@ -2210,7 +2210,9 @@ of these ersatz Lisp modes with their slurping and barfing and all.
 (use-package lispy
   :init
   (dolist (hook jws/lisp-mode-hooks)
-    (add-hook hook #'lispy-mode)))
+    (add-hook hook #'lispy-mode))
+  :config
+  (setq lispy-visit-method 'projectile))
 
 (use-package lispyville
   :init
