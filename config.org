@@ -1649,9 +1649,9 @@ I define the following keywords:
         org-agenda-files (list jws/org-todo-file jws/org-reminder-file)
         org-use-fast-todo-selection t
         org-log-into-drawer t
-        org-todo-keywords '((sequence "TODO(t)" "DOING(o)" "TESTING(e)" "DEPLOYING(y)" "|" "DONE(d)")
-                            (sequence "WAITING(w)" "|")
-                            (sequence "|" "CANCELLED(c)"))
+        org-todo-keywords '((sequence "TODO(t)" "DOING(o!)" "TESTING(e!)" "DEPLOYING(y!)" "|" "DONE(d!)")
+                            (sequence "WAITING(w@)" "|")
+                            (sequence "|" "CANCELLED(c@)"))
         org-tag-alist '(("@career" . ?c)
                         ("@event" . ?e)
                         ("@gtd" . ?g)
