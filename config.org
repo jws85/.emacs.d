@@ -3223,36 +3223,6 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
   ("u" counsel-bookmark "Find bookmark"))
 #+end_src
 
-** Org-mode menu
-
-** Project menu
-
-To control =projectile= and other associated packages.
-
-#+begin_src emacs-lisp
-(defhydra jws/hydra-project (:color teal :columns 4)
-  "Projectile"
-  ("p" counsel-projectile-find-file "Find file")
-  ("r" projectile-recentf "Recent files")
-  ("z" projectile-cache-current-file "Cache current file")
-  ("x" projectile-remove-known-project "Remove known project")
-
-  ("d" projectile-find-dir "Find directory")
-  ("b" counsel-projectile-switch-to-buffer "Switch to buffer")
-  ("c" projectile-invalidate-cache "Clear cache")
-  ("X" projectile-cleanup-known-projects "Cleanup known projects")
-
-  ;; Replace counsel-ag by a function that checks for (successively)
-  ;;  - ripgrep/rg
-  ;;  - ag
-  ;;  - ack
-  ;;  - grep
-  ("s" counsel-rg "Grep")
-  ("o" projectile-multi-occur "Multi-occur")
-  ("SPC" counsel-projectile-switch-project "Switch project")
-  ("k" projectile-kill-buffers "Kill buffers"))
-#+end_src
-
 ** Git/VC menu
 
 #+begin_src emacs-lisp
