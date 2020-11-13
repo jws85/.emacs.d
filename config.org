@@ -1066,6 +1066,8 @@ multiple commits that I'm about to merge into master or make live.
 
 #+begin_src emacs-lisp
 (use-package projectile
+  :bind (:map projectile-command-map
+              ("s" . counsel-rg))
   :config
   (projectile-mode 1)
   (setq projectile-completion-system 'ivy))
