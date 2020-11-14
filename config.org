@@ -679,11 +679,20 @@ using hydra for this but it's more optimized for interactive menus.
 #+begin_src emacs-lisp
 (use-package general
   :config
+  ;; taken from https://www.reddit.com/r/emacs/comments/des3cl/how_do_you_create_nested_menus_with_general/
+  ;; unset C-space
+  (global-unset-key (kbd "C-SPC"))
+
+  ;; set up a general definer that starts when SPC is pressed in evil normal,
+  ;; or when C-SPC is pressed in any other mode
   (general-create-definer jws/main-leader
-    :prefix "SPC")
-  (jws/main-leader
-    :states 'normal
     :keymaps 'override
+    :states '(insert emacs normal hybrid motion visual operator)
+    :prefix "SPC"
+    :non-normal-prefix "C-SPC")
+
+  ;; bind the main menu to that definer
+  (jws/main-leader
     "SPC" '(counsel-M-x :wk "M-x")
     "<delete>" '(delete-frame :wk "KillFrame")
     "<tab>" '(jws/switch-to-previous-buffer :wk "PrevBuf")
