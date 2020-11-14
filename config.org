@@ -692,6 +692,7 @@ using hydra for this but it's more optimized for interactive menus.
     "a" '(org-agenda :wk "Agenda")
     "b" '(jws/hydra-buffer/body :wk "Buffers")
     "c" '(calc-dispatch :wk "Calc")
+    "d" '(dired :wk "Dired")
     "e" '(jws/hydra-emacs/body :wk "Emacs")
     "f" '(jws/hydra-files/body :wk "Files")
     "g" '(jws/hydra-git/body :wk "Git")
@@ -3219,22 +3220,9 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
 ** File menu
 
 #+begin_src emacs-lisp
-(defhydra jws/hydra-dired (:color blue :columns 4)
-  "Dired"
-  ("d" dired-jump "Curdir")
-  ("h" jws/dired-home "Home")
-  ("r" jws/dired-root "Root")
-
-  ("." dired-jump "Curdir")
-  ("~" jws/dired-home "Home")
-  ("/" jws/dired-root "Root"))
-#+end_src
-
-#+begin_src emacs-lisp
 (defhydra jws/hydra-files (:color blue :columns 4)
   "File menu"
   ("a" ff-find-other-file "Find file")
-  ("d" jws/hydra-dired/body "Dired")
   ("f" counsel-find-file "Find file")
   ("r" counsel-recentf "Find recent file")
   ("u" counsel-bookmark "Find bookmark"))
