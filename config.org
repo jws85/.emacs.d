@@ -612,14 +612,15 @@ forgetting where they might be."
   (exec-path-from-shell-initialize))
 #+end_src
 
-** Keybindings (including Vim compatibility)
+** Keybindings
+
+This is the first thing that gets complicated, because I'm all in
+on Vim-style modal editing.
+
+*** =evil=: Vim compatibility
 
 Vim compatibility is the raison d'être of the whole guide.  This is
-done with the [[https://github.com/emacs-evil/evil][evil]] package.  =evil= is so foundational to the whole
-thing that I'd rather not take the chance of deferring its loading.
-While I can get by with =C-p= =C-n= and =C-s= I am usually cringing
-similarly like if I were forced into single-user mode on a Linux box
-or similar.
+done with the [[https://github.com/emacs-evil/evil][evil]] package.
 
 #+begin_src emacs-lisp
 (use-package evil
@@ -673,8 +674,11 @@ modes.
   (evil-collection-init))
 #+end_src
 
-=general= allows one to define "leader" keymaps easily.  I had been
-using hydra for this but it's more optimized for interactive menus.
+*** =general=: Leader keys
+
+[[https://github.com/noctuid/general.el][general]] allows one to define "leader" keymaps easily.  I had been
+using =hydra= for this but it's more optimized for interactive menus
+(which I do use in this configuration, defined elsewhere).
 
 #+begin_src emacs-lisp
 (use-package general
@@ -740,9 +744,11 @@ using hydra for this but it's more optimized for interactive menus.
     "@" '(chronos-add-timer :wk "Timer")))
 #+end_src
 
-=which-key= is useful for all those crazy chained bindings -- if you
-stop on a prefix key, it'll show you what your options are so you know
-how what you've bound =M-x butterfly= to.
+*** =which-key=: Describe what various keys do
+
+[[https://github.com/justbur/emacs-which-key][which-key]] helps with all the crazy leader bindings -- if you stop on a
+prefix key, it'll show you what your options are so you know how what
+you've bound =M-x butterfly= to.
 
 #+begin_src emacs-lisp
 (use-package which-key
