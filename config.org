@@ -748,7 +748,7 @@ how what you've bound =M-x butterfly= to.
 (use-package which-key
   :config
   (which-key-mode)
-  (setq which-key-idle-delay 0.1))
+  (setq which-key-idle-delay 0.01))
 #+end_src
 
 ** Undo system
