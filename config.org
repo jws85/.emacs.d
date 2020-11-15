@@ -636,11 +636,6 @@ done with the [[https://github.com/emacs-evil/evil][evil]] package.
   ;; Jump to character/line
   (define-key evil-motion-state-map (kbd "g c") 'avy-goto-char)
   (define-key evil-motion-state-map (kbd "g l") 'avy-goto-line)
-  ;; Jump to link and view it
-  (define-key evil-motion-state-map (kbd "z n") 'ace-link)
-  ;; Jump to definition/references
-  (define-key evil-motion-state-map (kbd "z i") 'imenu)
-  (define-key evil-motion-state-map (kbd "z e") 'flymake-show-diagnostics-buffer)
   ;; Command menu via counsel
   (define-key evil-motion-state-map (kbd ";") 'counsel-M-x))
 #+end_src
@@ -758,6 +753,26 @@ into Emacs or autoloaded via =use-package=.
   "zz" '(org-roam-find-file :wk "FindNote")
 
   "@" '(chronos-add-timer :wk "Timer"))
+#+end_src
+
+The second leader is a secondary, "mode-specific" one accessed via =,=
+in normal mode and =C-,= in all others.
+
+#+begin_src emacs-lisp
+(general-create-definer jws/secondary-leader
+  :keymaps 'override
+  :states '(insert emacs normal hybrid motion visual operator)
+  :prefix ","
+  :non-normal-prefix "C-,")
+#+end_src
+
+And some of its bindings:
+
+#+begin_src emacs-lisp
+(jws/secondary-leader
+  "e" '(flymake-show-diagnostics-buffer :wk "Errors")
+  "i" '(imenu :wk "Imenu")
+  "n" '(ace-link :wk "GotoLink"))
 #+end_src
 
 *** =which-key=: Describe what various keys do
