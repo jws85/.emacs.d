@@ -1512,10 +1512,10 @@ metadata easily:
 Org (_q_uit)
 
 ^Movement^                 ^Structure^         ^Metadata^       ^Selecting^     ^Other^
-^--------^---------------  ^---------^-------  ^--------^-----  ^---------^---  ^-----^-------
+^--------^---------------  ^---------^-------  ^--------^-----  ^---------^---  ^-----^--------
 _j_ next heading           _J_ move tree down  _d_eadline       _v_ mark tree   _e_xport
 _k_ prev heading           _K_ move tree up    p_r_iority       _x_ cut tree    re_c_alc table
-_n_ next heading on level  _N_ promote item    _s_cheduled      _y_ paste tree
+_n_ next heading on level  _N_ promote item    _s_cheduled      _y_ paste tree  toggle _i_mages
 _p_ prev heading on level  _P_ demote item     _t_odo status
 _u_p a level               _C-n_ promote tree  t_a_gs
 _g_oto heading             _C-p_ demote tree   _←_ _→_ cycle
@@ -1554,7 +1554,8 @@ _TAB_ open/close heading   ^^                  _↑_ _↓_ cycle
   ("<right>" org-shiftright)
 
   ("e" org-export-dispatch :exit t)
-  ("c" (org-table-recalculate t)))
+  ("c" (org-table-recalculate t))
+  ("i" org-toggle-inline-images))
 #+end_src
 
 And load it whenever an org-mode file is opened:
