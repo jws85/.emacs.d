@@ -1545,9 +1545,9 @@ notes and bookmarking websites.
   (setq org-capture-templates
         '(("j" "Journal" entry
            (file+olp+datetree
-            (lambda () (concat jws/org-journal-dir
-                               (format-time-string "%Y")
-                               ".org")))
+            (lambda () (expand-file-name
+                        (concat (format-time-string "%Y") ".org")
+                        jws/org-journal-dir)))
            "* %?\nEntered on %U\n%i"
            :empty-lines 1)
 
