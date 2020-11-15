@@ -1627,17 +1627,6 @@ notes and bookmarking websites.
            :empty-lines 1))))
 #+end_src
 
-Similarly to the =jws/org-agenda-single-window= function, this runs
-=org-capture= inside a single frame.
-
-#+begin_src emacs-lisp
-;; Use this to launch an emacs frame containing nothing but org-capture
-(defun jws/org-capture-single-window ()
-  (interactive)
-  (org-capture)
-  (delete-other-windows))
-#+end_src
-
 *** Capturing from external applications
 
 At the moment, this is being used by org-roam, [[https://www.orgroam.com/manual/The-roam_002dref-protocol.html][like so]].  You can also
@@ -1843,16 +1832,6 @@ a heckuva lot easier to read.
 
 (use-package calfw-org
   :commands (cfw:open-org-calendar))
-#+end_src
-
-If one wants a quick look at their agenda without having to hunt through
-emacs keybindings, they could run the below function from an =emacsclient=
-and be more or less off to the races.
-
-#+begin_src emacs-lisp
-(defun jws/org-agenda-single-window ()
-  (interactive)
-  (jws/hydra-org-agenda-dispatcher/body))
 #+end_src
 
 *** Note taking
