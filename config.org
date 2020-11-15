@@ -1560,9 +1560,9 @@ _TAB_ open/close heading   ^^                  _↑_ _↓_ cycle
 And load it whenever an org-mode file is opened:
 
 #+begin_src emacs-lisp
-(add-hook 'org-mode-hook
-          (lambda ()
-            (evil-local-set-key 'normal (kbd "z k") #'jws/hydra-org/body)))
+(jws/secondary-leader
+  :keymaps 'org-mode-map
+  "o" '(jws/hydra-org/body :wk "Org"))
 #+end_src
 
 *** Capturing new notes
@@ -1991,7 +1991,9 @@ In programming modes, set =z d= to run that hydra.  Note that
 =lsp-mode= overrides this with much more functionality.
 
 #+begin_src emacs-lisp
-(evil-define-key 'normal 'prog-mode-map (kbd "z d") #'jws/hydra-xref/body)
+(jws/secondary-leader
+  :keymaps 'prog-mode-map
+  "x" '(jws/hydra-xref/body :wk "Xref"))
 #+end_src
 
 *** Flymake
@@ -2065,15 +2067,6 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
         lsp-ui-sideline-enable nil))
 #+end_src
 
-When =lsp-mode= is loaded in a buffer, override the =xref= keybindings
-to use =lsp-ui-peek= instead.  Also, add a binding for code actions!
-
-#+begin_src emacs-lisp
-(add-hook 'lsp-mode-hook
-          (lambda ()
-            (evil-local-set-key 'normal (kbd "z d") #'jws/hydra-lsp/body)))
-#+end_src
-
 A hydra to control LSP (taken from [[https://github.com/abo-abo/hydra/wiki/lsp-mode][the examples on the hydra wiki]]):
 
 #+begin_src emacs-lisp
@@ -2105,6 +2098,16 @@ _x_ execute action   _C-s_ describe session   _r_ references   _s_ signature    
   ("C-d" lsp-workspace-folders-remove)
   ("C-v" lsp-restart-server)
   ("S" lsp-workspace-shutdown))
+#+end_src
+
+And bind it:
+
+#+begin_src emacs-lisp
+(add-hook 'lsp-mode-hook
+          (lambda ()
+            (jws/secondary-leader
+              :keymaps 'local
+              "l" '(jws/hydra-lsp/body :wk "LSP"))))
 #+end_src
 
 [[https://github.com/tigersoldier/company-lsp][company-lsp]] provides connectivity to Company:
@@ -2143,24 +2146,13 @@ _x_ execute action   _C-s_ describe session   _r_ references   _s_ signature    
         dash-docs-use-workaround-for-emacs-bug nil))
 #+end_src
 
-Create =jws/counsel-dash= function to
-
- - Search current docsets without prefix argument (=C-u=)
- - Install new docset with prefix argument
-
-#+begin_src emacs-lisp
-(defun jws/counsel-dash ()
-  "counsel-dash dispatcher function"
-  (interactive)
-  (if current-prefix-arg
-      (counsel-dash-install-docset)
-    (counsel-dash-at-point)))
-#+end_src
-
 Bind =jws/counsel-dash= to =z s=.
 
 #+begin_src emacs-lisp
-(evil-define-key 'normal 'prog-mode-map (kbd "z s") #'jws/counsel-dash)
+(jws/secondary-leader
+  :keymaps 'prog-mode-map
+  "d" '(counsel-dash-at-point :wk "Dash")
+  "D" '(counsel-dash-install-docset :wk "InstallDoc"))
 #+end_src
 
 ** Data markup & config files
@@ -2568,7 +2560,9 @@ hop in and out of =web-mode=.
 And then I make an easy binding to it:
 
 #+begin_src emacs-lisp
-(evil-define-key 'normal 'prog-mode-map (kbd "z w") #'jws/toggle-web-mode)
+(jws/secondary-leader
+  :keymaps 'prog-mode-map
+  "w" '(jws/toggle-web-mode :wk "ToggleWeb"))
 #+end_src
 
 *** CSS/Sass
