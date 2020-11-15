@@ -680,7 +680,7 @@ modes.
 using =hydra= for this but it's more optimized for interactive menus
 (which I do use in this configuration, defined elsewhere).
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :noweb yes
 (use-package general
   :config
   ;; taken from https://www.reddit.com/r/emacs/comments/des3cl/how_do_you_create_nested_menus_with_general/
@@ -695,53 +695,60 @@ using =hydra= for this but it's more optimized for interactive menus
     :prefix "SPC"
     :non-normal-prefix "C-SPC")
 
-  ;; bind the main menu to that definer
-  (jws/main-leader
-    "SPC" '(counsel-M-x :wk "M-x")
-    "<delete>" '(delete-frame :wk "KillFrame")
-    "<tab>" '(jws/switch-to-previous-buffer :wk "PrevBuf")
-    "RET" '(treemacs-select-window :wk "Sidebar")
+  ;; the main menu
+  <<general-main-leader>>)
+#+end_src
 
-    "a" '(org-agenda :wk "Agenda")
-    "b" '(jws/hydra-buffer/body :wk "Buffers")
-    "c" '(calc-dispatch :wk "Calc")
-    "d" '(dired :wk "Dired")
-    "e" '(jws/hydra-emacs/body :wk "Emacs")
+This is the main menu.  All functions here should either be built
+into Emacs or autoloaded via =use-package=.
 
-    "f" '(:ignore t :wk "Files")
-    "fa" '(ff-find-other-file :wk "Other")
-    "ff" '(counsel-find-file :wk "Open")
-    "fr" '(counsel-recentf :wk "Recent")
-    "fb" '(counsel-bookmark :wk "Bkmark")
+#+begin_src emacs-lisp :noweb-ref general-main-leader
+(jws/main-leader
+  "SPC" '(counsel-M-x :wk "M-x")
+  "<delete>" '(delete-frame :wk "KillFrame")
+  "<tab>" '(jws/switch-to-previous-buffer :wk "PrevBuf")
+  "RET" '(treemacs-select-window :wk "Sidebar")
 
-    "g" '(:ignore t :wk "Git")
-    "gg" '(magit-status :wk "Magit")
-    "gb" '(magit-branch-checkout :wk "Branch")
-    "gi" '(magit-init :wk "GitInit")
-    "gl" '(magit-log-all-branches :wk "GitLog")
-    "gt" '(git-timemachine :wk "TimeMachine")
+  "a" '(org-agenda :wk "Agenda")
+  "b" '(jws/hydra-buffer/body :wk "Buffers")
+  "c" '(calc-dispatch :wk "Calc")
+  "d" '(dired :wk "Dired")
+  "e" '(jws/hydra-emacs/body :wk "Emacs")
 
-    "h" '(:keymap help-map :wk "Help")
-    "k" '(kill-this-buffer :wk "KillBuf")
-    "m" '(jws/hydra-mpd/body :wk "Music")
-    "n" '(jws/eww-home :wk "Net")
-    "p" '(:keymap projectile-command-map :package projectile :wk "Project")
-    "s" '(jws/hydra-windows/body :wk "Windows")
-    "S" '(jws/hydra-windows-sticky/body :wk "MultiWindows")
-    "t" '(jws/hydra-text-editing/body :wk "Text")
-    "v" '(jws/hydra-visuals/body :wk "Visuals")
-    "q" '(org-capture :wk "Capture")
-    "w" '(jws/hydra-frames/body :wk "Frames")
-    "x" '(eshell :wk "Term")
+  "f" '(:ignore t :wk "Files")
+  "fa" '(ff-find-other-file :wk "Other")
+  "ff" '(counsel-find-file :wk "Open")
+  "fr" '(counsel-recentf :wk "Recent")
+  "fb" '(counsel-bookmark :wk "Bkmark")
 
-    "z" '(nil :wk "Zettel")
-    "zg" '(org-roam-graph :wk "Graph")
-    "zi" '(org-roam-find-index :wk "Index")
-    "zl" '(org-roam-insert :wk "InsertLink")
-    "zs" '(deft :wk "FindString")
-    "zz" '(org-roam-find-file :wk "FindNote")
+  "g" '(:ignore t :wk "Git")
+  "gg" '(magit-status :wk "Magit")
+  "gb" '(magit-branch-checkout :wk "Branch")
+  "gi" '(magit-init :wk "GitInit")
+  "gl" '(magit-log-all-branches :wk "GitLog")
+  "gt" '(git-timemachine :wk "TimeMachine")
 
-    "@" '(chronos-add-timer :wk "Timer")))
+  "h" '(:keymap help-map :wk "Help")
+  "k" '(kill-this-buffer :wk "KillBuf")
+  "m" '(jws/hydra-mpd/body :wk "Music")
+  "n" '(jws/eww-home :wk "Net")
+  "p" '(:keymap projectile-command-map :package projectile :wk "Project")
+  "s" '(jws/hydra-windows/body :wk "Windows")
+  "S" '(jws/hydra-windows-sticky/body :wk "MultiWindows")
+  "t" '(jws/hydra-text-editing/body :wk "Text")
+  "v" '(jws/hydra-visuals/body :wk "Visuals")
+  "q" '(org-capture :wk "Capture")
+  "w" '(jws/hydra-frames/body :wk "Frames")
+  "x" '(eshell :wk "Term")
+
+  "z" '(nil :wk "Zettel")
+  "zg" '(org-roam-graph :wk "Graph")
+  "zi" '(org-roam-find-index :wk "Index")
+  "zl" '(org-roam-insert :wk "InsertLink")
+  "zs" '(deft :wk "FindString")
+  "zz" '(org-roam-find-file :wk "FindNote")
+
+  "@" '(chronos-add-timer :wk "Timer"))
 #+end_src
 
 *** =which-key=: Describe what various keys do
