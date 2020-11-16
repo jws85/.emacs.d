@@ -661,6 +661,7 @@ modes.
           doc-view
           eshell
           eww
+          flycheck
           git-timemachine
           ibuffer
           image
@@ -770,7 +771,6 @@ And some of its bindings:
 
 #+begin_src emacs-lisp
 (jws/secondary-leader
-  "e" '(flymake-show-diagnostics-buffer :wk "Errors")
   "i" '(imenu :wk "Imenu")
   "n" '(ace-link :wk "GotoLink"))
 #+end_src
@@ -1989,8 +1989,8 @@ _p_ ^ ^ pop stack"
   ("p" xref-pop-marker-stack))
 #+end_src
 
-In programming modes, set =z d= to run that hydra.  Note that
-=lsp-mode= overrides this with much more functionality.
+In programming modes, set =, x= to run that hydra.  Note that
+=lsp-mode= (when available, on =, l=) has much more functionality.
 
 #+begin_src emacs-lisp
 (jws/secondary-leader
@@ -1998,15 +1998,36 @@ In programming modes, set =z d= to run that hydra.  Note that
   "x" '(jws/hydra-xref/body :wk "Xref"))
 #+end_src
 
-*** Flymake
+*** Flycheck
+
+I had =flycheck= and =flymake= confused for a while.  [[https://www.flycheck.org/en/latest/user/flycheck-versus-flymake.html][flycheck's
+website has a nice comparison of the two.]]
 
 #+begin_src emacs-lisp
-(use-package flymake
-  :bind (:map flymake-diagnostics-buffer-mode-map
-              ("j" . next-line)
-              ("k" . previous-line))
-  :config
-  (add-to-list 'evil-emacs-state-modes 'flymake-diagnostics-buffer-mode))
+(use-package flycheck
+  :init
+  (global-flycheck-mode))
+#+end_src
+
+Disable =flycheck= in org-babel buffers.  More than a little
+annoying having to trawl through "there's no package declaration"
+warnings.
+
+#+begin_src emacs-lisp
+(defun disable-flycheck-in-org-src-block ()
+  (setq-local flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+
+(add-hook 'org-src-mode-hook 'disable-flycheck-in-org-src-block)
+#+end_src
+
+Set up flycheck capability on =, e=.
+
+#+begin_src emacs-lisp
+(jws/secondary-leader
+  "e" '(nil :wk "Errors")
+  "ep" '(flycheck-previous-error :wk "Previous")
+  "en" '(flycheck-next-error :wk "Next")
+  "ee" '(flycheck-list-errors :wk "All"))
 #+end_src
 
 *** LSP support
@@ -2148,7 +2169,7 @@ And bind it:
         dash-docs-use-workaround-for-emacs-bug nil))
 #+end_src
 
-Bind =jws/counsel-dash= to =z s=.
+Bind =counsel-dash= functionality:
 
 #+begin_src emacs-lisp
 (jws/secondary-leader
