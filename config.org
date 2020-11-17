@@ -2873,7 +2873,8 @@ provide.
   :straight nil
   :commands (eww eww-browse-url)
   :config
-  (evil-define-key 'normal 'eww-mode-map (kbd "f") 'ace-link-eww))
+  (general-def :states 'normal :keymaps 'eww-mode-map
+    "f" 'ace-link-eww))
 #+end_src
 
 We want to use =eww= whenever a web link is clicked.
