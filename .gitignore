@@ -107,6 +107,9 @@ places
 projectile.cache
 projectile-bookmarks.eld
 
+# racket
+racket-mode/
+
 # recentf
 recentf
 

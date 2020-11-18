@@ -2245,7 +2245,8 @@ them out below.
     scheme-mode-hook
     clojure-mode-hook
     lisp-interaction-mode-hook
-    lisp-mode-hook))
+    lisp-mode-hook
+    racket-mode-hook))
 #+end_src
 
 I had been using [[https://github.com/DogLooksGood/parinfer-mode][the Emacs implementation]] of [[http://shaunlebron.github.io/parinfer/index.html][Parinfer]] quite happily,
@@ -2350,6 +2351,13 @@ SLIME install tied to your installed Common Lisp interpreter.
 
 #+begin_src emacs-lisp
 (use-package cider)
+#+end_src
+
+*** Racket
+
+#+begin_src emacs-lisp
+(use-package racket-mode
+  :mode ("\\.rkt\\'"))
 #+end_src
 
 ** Curly-brace/C-family
