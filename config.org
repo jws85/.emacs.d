@@ -2817,7 +2817,9 @@ using the documented PDF magic number.
 
 #+begin_src emacs-lisp
 (use-package nov
-  :mode (".\\epub\\'" . nov-mode))
+  :mode (".\\epub\\'" . nov-mode)
+  :config
+  (setq nov-text-width 72))
 #+end_src
 
 ** Music player
