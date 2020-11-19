@@ -1713,7 +1713,7 @@ I define the following keywords:
     (kbd "c") 'org-agenda-capture
     (kbd "d") 'org-agenda-goto-date
     (kbd "L") 'org-agenda-log-mode
-    (kbd "m") 'jws/hydra-org-agenda/body)
+    (kbd "a") 'jws/hydra-org-agenda/body)
 
   ;; Save after various edits in org-mode/org-agenda
   ;(advice-add 'org-deadline :after 'org-save-all-org-buffers)
