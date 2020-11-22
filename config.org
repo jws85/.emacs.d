@@ -2326,16 +2326,9 @@ disabled for now.
 
 *** Common Lisp
 
-I find it easier to install [[https://common-lisp.net/project/slime/][SLIME]] via [[https://www.quicklisp.org/beta/][Quicklisp]].
-
-Once you have Quicklisp loaded, run
-
-#+begin_src common-lisp :tangle no
-(ql:quickload "quicklisp-slime-helper")
+#+begin_src emacs-lisp
+(use-package sly)
 #+end_src
-
-and copy those lines into the =site-init.el= to have a site-customized
-SLIME install tied to your installed Common Lisp interpreter.
 
 *** Clojure
 
