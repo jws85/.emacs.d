@@ -1887,7 +1887,7 @@ and Deft has it... so we're bringing it back on board.
   :after org
   :init (setq org-export-backends '(ascii html icalendar latex odt md))
   :config
-  (setq org-html-doctype 'html5
+  (setq org-html-doctype "html5"
         org-html-html5-fancy t))
 #+end_src
 
