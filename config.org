@@ -1878,13 +1878,17 @@ and Deft has it... so we're bringing it back on board.
 
 *** Conversion
 
-Enable Markdown conversion (the others are defaults):
+ - Enable Markdown conversion (the others are defaults)
+ - Have HTML backend emit HTML5 instead of XHTML
 
 #+begin_src emacs-lisp
 (use-package ox
   :straight nil
   :after org
-  :init (setq org-export-backends '(ascii html icalendar latex odt md)))
+  :init (setq org-export-backends '(ascii html icalendar latex odt md))
+  :config
+  (setq org-html-doctype 'html5
+        org-html-html5-fancy t))
 #+end_src
 
 =ox-hugo= provides batch conversion to [[https://gohugo.io][Hugo]]'s Markdown format.
