@@ -126,3 +126,4 @@ transient/
 # junk files
 *~
 session.*
+/semanticdb/
