@@ -2202,7 +2202,14 @@ Bind =counsel-dash= functionality:
 
 But we're using Lisp -- data is code!
 
-JSON will be handled by whatever JavaScript mode I pull in.
+*** JSON
+
+JSON will be handled by whatever JavaScript mode I pull in, but let's
+add a mode to make it easier to mentally parse:
+
+#+begin_src emacs-lisp
+(use-package counsel-jq)
+#+end_src
 
 *** YAML
 
