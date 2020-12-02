@@ -1910,6 +1910,12 @@ work in Org and then copy it into our work wiki.
   (setq ox-wk-org-verbatim 'monospace))
 #+end_src
 
+=htmlize= lets the HTML exporter colorize your source blocks.
+
+#+begin_src emacs-lisp
+(use-package htmlize)
+#+end_src
+
 *** Literate programming
 
 #+begin_src emacs-lisp
