@@ -897,8 +897,8 @@ seemingly maintained anymore.  So... we just hack the heck out of
   ;; These are where company gets its completion data from, and their
   ;; priority
   (setq company-backends
-        '((company-files          ; files & directory
-           company-keywords       ; keywords
+        '((company-files                ; files & directory
+           company-keywords             ; keywords
            company-capf
            company-yasnippet)
           (company-abbrev company-dabbrev)))
@@ -919,22 +919,14 @@ seemingly maintained anymore.  So... we just hack the heck out of
         company-show-numbers t
         company-require-match 'never)
 
-  ;; company uses a lot of meta bindings.  I like control better
-  (define-key company-active-map [(tab)] 'company-select-next)
-  (define-key company-active-map (kbd "TAB") 'company-select-next)
-  (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
-  (define-key company-active-map (kbd "C-i") 'company-complete-common-or-cycle)
-  (define-key company-active-map (kbd "C-j") 'company-complete-selection)
+  (define-key company-active-map (kbd "C-j") 'company-select-next)
+  (define-key company-active-map (kbd "C-k") 'company-select-previous)
+  (define-key company-active-map (kbd "C-<return>") 'company-complete-common)
 
   ;; C-[number] is easier to push than M-[number]
   (dotimes (i 9)
     (define-key company-active-map (read-kbd-macro (format "C-%d" i))
       'company-complete-number))
-
-  ;; I HATE HATE HATE "complete when hit enter" when typing, Enter
-  ;; should insert a break, nothing more, nothing less!!!
-  (define-key company-active-map (kbd "<return>") nil)
-  (define-key company-active-map (kbd "RET") nil)
 
   ;; Abort company with Escape
   (define-key company-active-map (kbd "ESC") 'company-abort)
