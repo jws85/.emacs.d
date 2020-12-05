@@ -3126,9 +3126,9 @@ everything else has been done.
   "Prompt before killing the Emacs dæmon"
   (interactive "cKill the Emacs dæmon (y/n)? ")
   (if (eq yn ?y)
-(progn
-  (save-some-buffers)
-  (kill-emacs))))
+      (progn
+        (save-some-buffers)
+        (kill-emacs))))
 
 (defun jws/untangle-emacs-config ()
   "Untangle config.org."
@@ -3152,17 +3152,19 @@ Emacs | Debug: %`debug-on-error
 
 ^Process^         ^Config^            ^Packages^
 ^-------^-------  ^------^----------  ^--------^-------
-_q_uit emacs      edit _c_onfig       list _p_ackages
-_d_ebug emacs     edit _s_ite config  _u_pdate packages
+_Q_uit emacs      edit _c_onfig       list _p_ackages
+_d_ebug emacs     edit site _C_onfig  _u_pdate packages
 _k_ start server  _r_eload config
 ^^                un_t_angle config
+^^                _s_cratch buffer
 "
   ("c" jws/open-emacs-config)
+  ("C" jws/open-emacs-site-config)
   ("d" toggle-debug-on-error :exit nil)
-  ("s" jws/open-emacs-site-config)
+  ("s" jws/scratch-switch)
   ("t" jws/untangle-emacs-config)
   ("r" jws/reload-emacs-config)
-  ("q" jws/server-shutdown)
+  ("Q" jws/server-shutdown)
   ("p" epkg-list-packages)
   ("u" straight-pull-all)
   ("k" server-start))
