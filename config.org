@@ -892,7 +892,9 @@ seemingly maintained anymore.  So... we just hack the heck out of
 
 #+begin_src emacs-lisp
 (use-package company
-  :init (company-mode)
+  :init
+  (company-mode)
+  (add-hook 'after-init-hook 'company-tng-mode)
   :config
   ;; These are where company gets its completion data from, and their
   ;; priority
@@ -904,9 +906,8 @@ seemingly maintained anymore.  So... we just hack the heck out of
           (company-abbrev company-dabbrev)))
 
   ;; These are how company displays said data
-  (setq company-frontends
-        '(company-pseudo-tooltip-frontend  ; show docs in tooltip
-          company-echo-metadata-frontend)) ; echo docs in minibuf
+  ;; note that company-tng-mode adds frontends, as does company-quickhelp
+  (add-to-list 'company-frontends 'company-echo-metadata-frontend)
 
   ;; Other settings...
   (setq company-idle-delay 0.1
@@ -918,10 +919,6 @@ seemingly maintained anymore.  So... we just hack the heck out of
         company-dabbrev-ignore-case t
         company-show-numbers t
         company-require-match 'never)
-
-  (define-key company-active-map (kbd "C-j") 'company-select-next)
-  (define-key company-active-map (kbd "C-k") 'company-select-previous)
-  (define-key company-active-map (kbd "C-<return>") 'company-complete-common)
 
   ;; C-[number] is easier to push than M-[number]
   (dotimes (i 9)
