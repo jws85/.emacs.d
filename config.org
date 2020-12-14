@@ -2983,7 +2983,12 @@ sometimes muscle memory from old-school term/shells gets in one's way.
 
   ;; Set eshell prompt + regex
   (setq eshell-prompt-function #'jws/eshell-prompt
-        eshell-prompt-regexp "[#>] "))
+        eshell-prompt-regexp "[#>] ")
+
+  (add-hook 'restclient-mode-hook
+            (lambda ()
+              (make-local-variable 'company-backends)
+              (add-to-list 'company-backends 'company-pcomplete))))
 #+end_src
 
 The eshell prompt itself, which displays the current Git branch, the
@@ -3042,26 +3047,36 @@ this will display every time I open the prompt:
         (setq eshell-banner-message (buffer-string)))))
 #+end_src
 
-Nice history autocompletion for eshell via company:
+Use pcomplete and =company= to complete eshell input ([[http://xenodium.com/eshell-pcomplete-company-completion/][here]]):
 
 #+begin_src emacs-lisp
-(use-package esh-autosuggest
-  :after eshell
-  :hook (eshell-mode . esh-autosuggest-mode))
-#+end_src
+(defun company-pcomplete--overlap-tail (a b)
+  (let ((prefix a)
+        (remaining nil))
+    (while (and (not remaining) (> (length prefix) 0))
+      (when (s-starts-with? prefix b)
+        (setq remaining (substring b (length prefix))))
+      (setq prefix (substring prefix 1)))
+    remaining))
 
-Ivy completion of file names and the like:
+(defun company-pcomplete--candidates (prefix)
+  "Get candidates for PREFIX company completion using `pcomplete'."
+  ;; When prefix is: "~/Down" and completion is "Downloads\n", need
+  ;; to find common string and join into "~/Downloads/".
+  (-map (lambda (item)
+          (if (s-starts-with? prefix item)
+              item
+            (concat prefix (company-pcomplete--overlap-tail prefix item))))
+        (all-completions prefix (pcomplete-completions))))
 
-#+begin_src emacs-lisp
-(defun jws/setup-eshell-ivy-completion ()
-  (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
-  ;; only if you want to use the minibuffer for completions instead of the
-  ;; in-buffer interface
-  (setq-local ivy-display-functions-alist
-              (remq (assoc 'ivy-completion-in-region ivy-display-functions-alist)
-                    ivy-display-functions-alist)))
-
-(add-hook 'eshell-mode-hook #'jws/setup-eshell-ivy-completion)
+(defun company-pcomplete (command &optional arg &rest ignored)
+  "Complete using pcomplete. See `company''s COMMAND ARG and IGNORED for details."
+  (interactive (list 'interactive))
+  (case command
+    (interactive (company-begin-backend 'company-pcomplete))
+    (prefix (company-grab-symbol))
+    (candidates
+     (company-pcomplete--candidates arg))))
 #+end_src
 
 Any function or alias with a name beginning with =eshell/= becomes a
