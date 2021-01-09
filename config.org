@@ -3255,9 +3255,9 @@ want to manage *frames* and should be looking at the "Frame menu."
 #+begin_src emacs-lisp
 (jws/defmultihydra ((jws/hydra-windows :columns 4 :color blue)
                     (jws/hydra-windows-sticky :columns 4))
-  "Buffer splitting:"
+  "Buffer splitting"
   ("<tab>" other-window "Prev")
-  ("s" ace-window "Jump to")
+  ("RET" ace-window "Jump to")
   ("<left>" winner-undo "Undo split")
   ("<right>" winner-redo "Redo split")
 
@@ -3283,8 +3283,10 @@ want to manage *frames* and should be looking at the "Frame menu."
 
   ("w" evil-window-next "Next window")
   ("C-w" evil-window-next "Next window")
-  ("c" delete-window "Remove current")
-  ("C" delete-other-windows "Remove others"))
+  ("x" delete-window "Remove current")
+  ("X" delete-other-windows "Remove others")
+
+  ("s" jws/hydra-windows-sticky/body "Sticky"))
 #+end_src
 
 Finally, let's replace Evil's split menu with mine, because I know
