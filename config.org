@@ -2569,6 +2569,7 @@ in), as well as template languages (Blade, Mustache, Jinja2...).
          "\\.[agj]sp\\'"
          "\\.as[cp]x\\'"
          "\\.erb\\'"
+         "\\.vue\\'"
          "\\.mustache\\'"
          "\\.djhtml\\'")
   :init (require 'web-mode)
