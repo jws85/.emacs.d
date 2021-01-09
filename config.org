@@ -312,6 +312,13 @@ whole plethora of =C-x= commands.
 (global-unset-key (kbd "C-x C-z"))
 #+end_src
 
+Add the currently visited buffer in the window title, to make it
+easier to search for Emacs frames.
+
+#+begin_src emacs-lisp
+(setq frame-title-format `(,(user-login-name) "@" ,(system-name) " - %b"))
+#+end_src
+
 ** Hydra (menus)
 
 The [[https://github.com/abo-abo/hydra][hydra]] package (by the same mad genius responsible for =ivy= et al)
