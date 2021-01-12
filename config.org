@@ -319,6 +319,22 @@ easier to search for Emacs frames.
 (setq frame-title-format `(,(user-login-name) "@" ,(system-name) " - %b"))
 #+end_src
 
+Change the scratch buffer to load =org-mode= instead of elisp (to
+make it easier to put whatever text there; also change its text.
+
+#+begin_src emacs-lisp
+(setq initial-major-mode 'org-mode)
+(setq initial-scratch-message "\
+This is an =org-mode= buffer for text you do not want to save.
+
+Lisp evaluation can be done via [[https://orgmode.org/worg/org-contrib/babel/intro.html][Babel]].
+
+If you want to create a file, visit that file with =SPC f f=
+and enter the text in that file's buffer.
+
+")
+#+end_src
+
 ** Hydra (menus)
 
 The [[https://github.com/abo-abo/hydra][hydra]] package (by the same mad genius responsible for =ivy= et al)
