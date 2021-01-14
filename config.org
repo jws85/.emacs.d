@@ -2166,13 +2166,6 @@ And bind it:
               "l" '(jws/hydra-lsp/body :wk "LSP"))))
 #+end_src
 
-[[https://github.com/tigersoldier/company-lsp][company-lsp]] provides connectivity to Company:
-
-#+begin_src emacs-lisp
-(use-package company-lsp
-  :commands company-lsp)
-#+end_src
-
 [[https://github.com/emacs-lsp/lsp-treemacs][lsp-treemacs]] provides connectivity to Treemacs:
 
 #+begin_src emacs-lisp
