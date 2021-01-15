@@ -2090,7 +2090,7 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
              lsp-workspace-shutdown)
   :config
   ;; I haven't noticed problems at ~2500 files...
-  (setq lsp-file-watch-threshold 10000))
+  (setq lsp-file-watch-threshold 2000))
 #+end_src
 
 [[https://github.com/emacs-lsp/lsp-ui][lsp-ui]] adds some fancy features on top of =lsp-mode=:
