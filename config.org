@@ -2498,10 +2498,20 @@ Previously I had [[https://github.com/ananthakumaran/tide][tide]] but I hadn't c
 already going in on the LSP model for things going forwards so...
 
 #+begin_src emacs-lisp
+(defun jws/js-dash-docsets ()
+  "Use various JavaScript library docsets"
+  (setq-local counsel-dash-docsets '("JavaScript" "jQuery" "VueJS")))
+
+(defun jws/js-lsp-setup ()
+  "Ignore npm vendor folder to make lsp faster"
+  (push "[/\\\\]node_modules[/\\\\]" lsp-file-watch-ignored)
+  (lsp))
+
 (use-package js2-mode
   :mode "\\.js\\'"
   :config
-  (add-hook 'js2-mode-hook 'lsp))
+  (add-hook 'js2-mode-hook 'jws/js-dash-docsets)
+  (add-hook 'js2-mode-hook 'jws/js-lsp-setup))
 #+end_src
 
 I don't use CoffeeScript but I've had to read code using it.  I'm
