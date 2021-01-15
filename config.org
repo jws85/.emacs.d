@@ -2429,13 +2429,22 @@ Intelephense's class renaming (one of the paid features) works with
 =lsp-mode=.
 
 #+begin_src emacs-lisp
+(defun jws/php-dash-docsets ()
+  "Use PHP & Laravel docsets"
+  (setq-local counsel-dash-docsets '("PHP" "Laravel")))
+
+(defun jws/php-lsp-setup ()
+  "Try to ignore composer vendor folder to make lsp faster"
+  (push "[/\\\\]vendor[/\\\\]" lsp-file-watch-ignored)
+  (lsp))
+
 (use-package php-mode
   :commands php-mode
   :config
   (setq c-basic-offset 4)
-  (add-hook 'php-mode-hook 'lsp)
   (add-hook 'php-mode-hook 'jws/make-underscores-belong-to-words)
-  (add-hook 'php-mode-hook (lambda () (setq-local counsel-dash-docsets '("PHP" "Laravel")))))
+  (add-hook 'php-mode-hook 'jws/php-dash-docsets)
+  (add-hook 'php-mode-hook 'jws/php-lsp-setup))
 #+end_src
 
 =auto-mode-alist= loads by precedence; the first match wins.  As such,
