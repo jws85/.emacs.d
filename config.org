@@ -140,7 +140,7 @@ And finally, variables that may be changed elsewhere in the config.
 (defvar jws/default-height-rows 35
   "Default GUI frame height, in rows of characters")
 
-(defvar jws/default-font "DejaVu Sans Mono-10.5"
+(defvar jws/default-font "monospace-10.5"
   "Default GUI frame font")
 #+end_src
 
