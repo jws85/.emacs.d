@@ -3354,10 +3354,10 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
 (defhydra jws/hydra-frames (:exit t :columns 4)
   ("n" make-frame "New window")
   ("N" jws/make-maximized-frame "New maximized window")
-  ("c" delete-frame "Close window")
+  ("x" delete-frame "Close window")
 
   ("d" jws/use-default-frame-alist "Reset defaults")
-  ("x" jws/calculate-frame-size "Calculate row/cols")
+  ("c" jws/calculate-frame-size "Calculate row/cols")
   ("m" toggle-frame-maximized "Toggle maximize")
   ("f" toggle-frame-fullscreen "Toggle fullscreen"))
 #+end_src
