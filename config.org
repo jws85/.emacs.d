@@ -803,6 +803,19 @@ you've bound =M-x butterfly= to.
   (setq which-key-idle-delay 0.01))
 #+end_src
 
+** Buffer splitting
+
+Some commands (for instance, =magit=) move point into the buffer it
+creates.  Others (for instance, =flycheck='s error buffer) do not.
+This frustrates me.
+
+#+begin_src emacs-lisp
+(use-package shackle
+  :ensure t
+  :config
+  (setq shackle-default-rule '(:select t)))
+#+end_src
+
 ** Undo system
 
 #+begin_src emacs-lisp
