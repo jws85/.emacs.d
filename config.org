@@ -1100,13 +1100,6 @@ that's how good it is.
   (setq magit-last-seen-setup-instructions "1.4.0"))
 #+end_src
 
-I need it to behave more vim-like (e.g. =j= and =k= to move up and
-down).
-
-#+begin_src emacs-lisp
-(use-package evil-magit :after (evil magit))
-#+end_src
-
 I use [[https://nvie.com/posts/a-successful-git-branching-model/][git-flow]] ([[https://danielkummer.github.io/git-flow-cheatsheet/][cheatsheet]]) with some of my larger projects.  It does
 add some mental overhead, but I like the ability to separate
 development flow from a stable "live" version.
