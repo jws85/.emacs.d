@@ -123,6 +123,9 @@ tramp
 # transient
 transient/
 
+# var
+var/
+
 # junk files
 *~
 session.*
