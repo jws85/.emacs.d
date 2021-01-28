@@ -867,7 +867,11 @@ nifty utility functions powered by =completing-read=.
 
 #+begin_src emacs-lisp
 (use-package consult
-  :ensure t)
+  :ensure t
+  :commands (consult-ripgrep
+             consult-buffer
+             consult-recent-file
+             consult-bookmark))
 #+end_src
 
 [[https://github.com/minad/marginalia/][Marginalia]] adds various helpful text to various Selectrum/Consult
