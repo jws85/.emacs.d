@@ -873,6 +873,11 @@ nifty utility functions powered by =completing-read=.
              consult-outline
              consult-ripgrep
              consult-recent-file))
+
+(use-package consult-flycheck
+  :ensure t
+  :after (consult flycheck)
+  :commands consult-flycheck)
 #+end_src
 
 [[https://github.com/minad/marginalia/][Marginalia]] adds various helpful text to various Selectrum/Consult
@@ -2052,7 +2057,7 @@ Set up flycheck capability on =, e=.
   "e" '(nil :wk "Errors")
   "ep" '(flycheck-previous-error :wk "Previous")
   "en" '(flycheck-next-error :wk "Next")
-  "ee" '(flycheck-list-errors :wk "All"))
+  "ee" '(consult-flycheck :wk "All"))
 #+end_src
 
 *** LSP support
