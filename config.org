@@ -700,7 +700,7 @@ And now we start binding keys.
                     "+" 'er/expand-region
                     "g c" 'avy-goto-char
                     "g l" 'avy-goto-line
-                    ";" 'counsel-M-x)
+                    ";" 'amx)
 #+end_src
 
 =general= has the concept of a "definer," which more or less sets
@@ -724,7 +724,7 @@ into Emacs or autoloaded via =use-package=.
 
 #+begin_src emacs-lisp
 (jws/main-leader
-  "SPC" '(counsel-M-x :wk "M-x")
+  "SPC" '(amx :wk "M-x")
   "<delete>" '(delete-frame :wk "KillFrame")
   "<tab>" '(jws/switch-to-previous-buffer :wk "PrevBuf")
   "RET" '(treemacs-select-window :wk "Sidebar")
@@ -737,9 +737,9 @@ into Emacs or autoloaded via =use-package=.
 
   "f" '(:ignore t :wk "Files")
   "fa" '(ff-find-other-file :wk "Other")
-  "ff" '(counsel-find-file :wk "Open")
-  "fr" '(counsel-recentf :wk "Recent")
-  "fb" '(counsel-bookmark :wk "Bkmark")
+  "ff" '(find-file :wk "Open")
+  "fr" '(consult-recent-file :wk "Recent")
+  "fb" '(consult-bookmark :wk "Bkmark")
 
   "g" '(:ignore t :wk "Git")
   "gg" '(magit-status :wk "Magit")
@@ -827,78 +827,79 @@ This frustrates me.
                       "C-r" 'undo-fu-only-redo))
 #+end_src
 
-** Menu completion
+** Incremental narrowing
 
 i.e. speeding up menu traversal.
 
-I like [[https://github.com/abo-abo/swiper][counsel and ivy]] to do this for me.  =ivy= is the backend
-library that provides the menu structure.  I explictly init
-=ivy-mode= since that turns on ivy-style completion everywhere,
-and I got used to this inside... for instance, magit.
+(Used to call this "menu completion"; "incremental narrowing," from
+Selectrum's =README=, is a much better/descriptive term)
+
+I used [[https://github.com/abo-abo/swiper][counsel and ivy]] to do this for me for a long time.  I still
+appreciate those packages, but I've increasingly wanted to try
+things that hew closer to Emacs' architecture, thus I'm going to
+experiment with the Selectrum ecosystem.
+
+[[https://github.com/raxod502/selectrum][Selectrum]] itself provides some extensions to Emacs' own built-in
+=completing-read= mechanism, which means it cleanly slides into
+all other Emacs functions that use =completing-read=.
 
 #+begin_src emacs-lisp
-(use-package ivy
-  :commands (ivy-switch-buffer)
-  :init (ivy-mode 1)
+(use-package selectrum
+  :ensure t
   :config
-  (setq ivy-use-virtual-buffers t
-        ivy-count-format "(%d/%d)"
-        ivy-magic-tilde nil)
-
-  ;; Makes RET in counsel-find-file actually work correctly
-  ;; and not dump you in dired for whatever reason
-  (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
-
-  ;; Move ivy-restrict-to-matches from S-SPC to C-RET
-  ;; I do not like emacs bindings using Super; that's for my
-  ;; window manager only!
-  (define-key ivy-minibuffer-map (kbd "S-SPC") nil)
-  (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-restrict-to-matches))
+  (selectrum-mode +1))
 #+end_src
 
-=counsel= provides some useful functions built on top of =ivy=.
+[[https://github.com/raxod502/prescient.el][Prescient]] provides "better" sorting/filtering of candidates in
+Selectrum.
 
 #+begin_src emacs-lisp
-(use-package counsel
-  :after ivy
-  :commands (counsel-bookmark
-             counsel-descbinds
-             counsel-describe-face
-             counsel-describe-function
-             counsel-describe-variable
-             counsel-find-file
-             counsel-M-x
-             counsel-recentf
-             counsel-semantic-or-imenu)
-  :bind (:map evil-insert-state-map
-              ("C-." . 'counsel-unicode-char))
+(use-package selectrum-prescient
+  :ensure t
+  :after selectrum
   :config
-  (setq counsel-find-file-at-point t))
+  (selectrum-prescient-mode +1)
+  (prescient-persist-mode +1))
 #+end_src
 
-[[https://github.com/Yevgnen/ivy-rich][ivy-rich-mode]] makes some of the more frequently used =counsel=
-commands function slightly nicer.
+[[https://github.com/minad/consult][Consult]] is Selectrum's answer to =ivy='s =counsel=; it provides various
+nifty utility functions powered by =completing-read=.
 
 #+begin_src emacs-lisp
-(use-package ivy-rich
-  :after counsel
-  :config
-  (setq ivy-rich-parse-remote-buffer nil)
-  (ivy-rich-mode 1))
+(use-package consult
+  :ensure t)
 #+end_src
 
-[[https://github.com/lewang/flx][flx]] provides a fuzzy search algorithm, which is picked up
-automatically by =ivy= and =counsel=.
+[[https://github.com/minad/marginalia/][Marginalia]] adds various helpful text to various Selectrum/Consult
+commands:
 
 #+begin_src emacs-lisp
-(use-package flx :after ivy)
+(use-package marginalia
+  :ensure t
+  :init
+  ;; the documentation says it has to be NOT lazily loaded
+  (marginalia-mode)
+  :config
+  (setq marginalia-annotators
+        '(marginalia-annotators-light marginalia-annotators-heavy)))
+#+end_src
+
+[[https://github.com/oantolin/embark/][Embark]] enables one to perform additional actions on selected items
+much like =ivy= & =counsel= have:
+
+#+begin_src emacs-lisp
+(use-package embark
+  :ensure t
+  :after (embark consult)
+  :demand t
+  :hook (embark-collect-hook . embark-consult-preview-minor-mode))
 #+end_src
 
 [[https://github.com/DarwinAwardWinner/amx][amx]] provides an even more efficient =M-x= command, which is picked up
 automatically by =counsel-M-x=.
 
 #+begin_src emacs-lisp
-(use-package amx :after counsel)
+(use-package amx :after selectrum)
 #+end_src
 
 ** Text search
@@ -1016,14 +1017,6 @@ Install a default set of snippets.
   :after yasnippet
   :config
   (yasnippet-snippets-initialize))
-#+end_src
-
-Provide an Ivy menu with all current snippets.
-
-#+begin_src emacs-lisp
-(use-package ivy-yasnippet
-  :after (ivy yasnippet)
-  :bind ("C-:" . ivy-yasnippet))
 #+end_src
 
 ** Window management
@@ -1144,20 +1137,11 @@ multiple commits that I'm about to merge into master or make live.
 #+begin_src emacs-lisp
 (use-package projectile
   :bind (:map projectile-command-map
-              ("s" . counsel-rg))
+              ("s" . consult-ripgrep))
+  :after selectrum
   :config
   (projectile-mode 1)
-  (setq projectile-completion-system 'ivy))
-#+end_src
-
-=counsel-projectile= does exactly what it says on the tin.
-
-#+begin_src emacs-lisp
-(use-package counsel-projectile
-  :after projectile
-  :commands (counsel-projectile-find-file
-             counsel-projectile-switch-project
-             counsel-projectile-switch-to-buffer))
+  (setq projectile-completion-system 'default))
 #+end_src
 
 ** IDE-style sidebar
@@ -2191,6 +2175,9 @@ And bind it:
 [[https://github.com/dash-docs-el/counsel-dash][counsel-dash]] lets one look up documentation easily (using the
 "docsets" used in Dash for OS X and also Zeal for the other OSes).
 
+FIXME: This will pull in =counsel= and friends; in the future I'd like
+to use something that does =completing-read=.
+
 #+begin_src emacs-lisp
 (use-package counsel-dash
   :commands (counsel-dash-install-docset counsel-dash-at-point)
@@ -2217,7 +2204,10 @@ But we're using Lisp -- data is code!
 *** JSON
 
 JSON will be handled by whatever JavaScript mode I pull in, but let's
-add a mode to make it easier to mentally parse:
+add a mode to make it easier to mentally parse.
+
+FIXME: This will pull in =counsel= and friends; in the future I'd like
+to use something that does =completing-read=.
 
 #+begin_src emacs-lisp
 (use-package counsel-jq)
@@ -3266,7 +3256,7 @@ This menu allows for manipulation of Emacs buffer objects.
 (defhydra jws/hydra-buffer (:color blue :columns 4)
   "Buffer menu"
   ("SPC" jws/scratch-switch "Switch to scratch")
-  ("b" ivy-switch-buffer "Switch buffer")
+  ("b" consult-buffer "Switch buffer")
   ("c" clone-indirect-buffer-other-window "Clone buffer")
   ("i" ibuffer "Buffer list")
   ("k" kill-this-buffer "Kill buffer")
