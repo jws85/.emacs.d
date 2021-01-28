@@ -745,7 +745,8 @@ into Emacs or autoloaded via =use-package=.
   "gg" '(magit-status :wk "Magit")
   "gb" '(magit-branch-checkout :wk "Branch")
   "gi" '(magit-init :wk "GitInit")
-  "gl" '(magit-log-all-branches :wk "GitLog")
+  "gl" '(magit-log-head :wk "GitLog")
+  "gL" '(magit-log-all-branches :wk "GitLogAll")
   "gt" '(git-timemachine :wk "TimeMachine")
 
   "h" '(:keymap help-map :wk "Help")
