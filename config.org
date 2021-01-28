@@ -868,10 +868,11 @@ nifty utility functions powered by =completing-read=.
 #+begin_src emacs-lisp
 (use-package consult
   :ensure t
-  :commands (consult-ripgrep
+  :commands (consult-bookmark
              consult-buffer
-             consult-recent-file
-             consult-bookmark))
+             consult-outline
+             consult-ripgrep
+             consult-recent-file))
 #+end_src
 
 [[https://github.com/minad/marginalia/][Marginalia]] adds various helpful text to various Selectrum/Consult
@@ -1526,7 +1527,7 @@ _TAB_ open/close heading   _C-p_ demote tree   _↑_ _↓_ cycle    insert _l_in
   ("k" org-previous-visible-heading)
   ("n" org-forward-heading-same-level)
   ("p" org-backward-heading-same-level)
-  ("g" org-goto)
+  ("g" consult-outline)
   ("u" outline-up-heading)
 
   ("J" org-move-subtree-down)
