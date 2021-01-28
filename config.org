@@ -700,7 +700,7 @@ And now we start binding keys.
                     "+" 'er/expand-region
                     "g c" 'avy-goto-char
                     "g l" 'avy-goto-line
-                    ";" 'amx)
+                    ";" 'execute-extended-command)
 #+end_src
 
 =general= has the concept of a "definer," which more or less sets
@@ -724,7 +724,7 @@ into Emacs or autoloaded via =use-package=.
 
 #+begin_src emacs-lisp
 (jws/main-leader
-  "SPC" '(amx :wk "M-x")
+  "SPC" '(execute-extended-command :wk "M-x")
   "<delete>" '(delete-frame :wk "KillFrame")
   "<tab>" '(jws/switch-to-previous-buffer :wk "PrevBuf")
   "RET" '(treemacs-select-window :wk "Sidebar")
@@ -897,13 +897,6 @@ much like =ivy= & =counsel= have:
   :after (embark consult)
   :demand t
   :hook (embark-collect-hook . embark-consult-preview-minor-mode))
-#+end_src
-
-[[https://github.com/DarwinAwardWinner/amx][amx]] provides an even more efficient =M-x= command, which is picked up
-automatically by =counsel-M-x=.
-
-#+begin_src emacs-lisp
-(use-package amx :after selectrum)
 #+end_src
 
 ** Text search
