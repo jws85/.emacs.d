@@ -890,6 +890,10 @@ much like =ivy= & =counsel= have:
 #+begin_src emacs-lisp
 (use-package embark
   :ensure t
+  :bind ("C-<return>" . embark-act))
+
+(use-package embark-consult
+  :ensure t
   :after (embark consult)
   :demand t
   :hook (embark-collect-hook . embark-consult-preview-minor-mode))
