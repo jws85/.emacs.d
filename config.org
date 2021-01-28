@@ -827,7 +827,7 @@ This frustrates me.
                       "C-r" 'undo-fu-only-redo))
 #+end_src
 
-** Incremental narrowing
+** Incremental narrowing (=selectrum=, =consult=, and friends)
 
 i.e. speeding up menu traversal.
 
@@ -839,9 +839,11 @@ appreciate those packages, but I've increasingly wanted to try
 things that hew closer to Emacs' architecture, thus I'm going to
 experiment with the Selectrum ecosystem.
 
-[[https://github.com/raxod502/selectrum][Selectrum]] itself provides some extensions to Emacs' own built-in
-=completing-read= mechanism, which means it cleanly slides into
-all other Emacs functions that use =completing-read=.
+*** [[https://github.com/raxod502/selectrum][selectrum]]
+
+=selectrum= provides some extensions to Emacs' own built-in
+=completing-read= mechanism, which means it cleanly slides into all
+other Emacs functions that use =completing-read=.
 
 #+begin_src emacs-lisp
 (use-package selectrum
@@ -850,8 +852,10 @@ all other Emacs functions that use =completing-read=.
   (selectrum-mode +1))
 #+end_src
 
-[[https://github.com/raxod502/prescient.el][Prescient]] provides "better" sorting/filtering of candidates in
-Selectrum.
+*** [[https://github.com/raxod502/prescient.el][prescient]]
+
+=prescient= provides "better" sorting/filtering of candidates in
+=selectrum=.
 
 #+begin_src emacs-lisp
 (use-package selectrum-prescient
@@ -862,7 +866,9 @@ Selectrum.
   (prescient-persist-mode +1))
 #+end_src
 
-[[https://github.com/minad/consult][Consult]] is Selectrum's answer to =ivy='s =counsel=; it provides various
+*** [[https://github.com/minad/consult][consult]]
+
+=consult= is =selectrum='s answer to =ivy='s =counsel=; it provides various
 nifty utility functions powered by =completing-read=.
 
 #+begin_src emacs-lisp
@@ -880,8 +886,10 @@ nifty utility functions powered by =completing-read=.
   :commands consult-flycheck)
 #+end_src
 
-[[https://github.com/minad/marginalia/][Marginalia]] adds various helpful text to various Selectrum/Consult
-commands:
+*** [[https://github.com/minad/marginalia/][marginalia]]
+
+=marginalia= adds various helpful text to various =selectrum= &
+=consult= commands:
 
 #+begin_src emacs-lisp
 (use-package marginalia
@@ -894,8 +902,12 @@ commands:
         '(marginalia-annotators-heavy marginalia-annotators-light)))
 #+end_src
 
-[[https://github.com/oantolin/embark/][Embark]] enables one to perform additional actions on selected items
-much like =ivy= & =counsel= have:
+** Contextual menu ([[https://github.com/oantolin/embark/][embark]])
+
+=embark= enables one to perform additional actions on selected items
+much like =ivy= & =counsel= have.  Additionally, it extends this
+capability *outside of the minibuffer menus*, which means it becomes
+more like a right-click contextual menu.
 
 #+begin_src emacs-lisp
 (use-package embark
