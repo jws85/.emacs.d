@@ -900,7 +900,9 @@ much like =ivy= & =counsel= have:
 #+begin_src emacs-lisp
 (use-package embark
   :ensure t
-  :bind ("C-<return>" . embark-act))
+  :general ("C-`" 'embark-act)
+  :config
+  (setq embark-prompter #'embark-completing-read-prompter))
 
 (use-package embark-consult
   :ensure t
