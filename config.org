@@ -881,7 +881,7 @@ commands:
   (marginalia-mode)
   :config
   (setq marginalia-annotators
-        '(marginalia-annotators-light marginalia-annotators-heavy)))
+        '(marginalia-annotators-heavy marginalia-annotators-light)))
 #+end_src
 
 [[https://github.com/oantolin/embark/][Embark]] enables one to perform additional actions on selected items
