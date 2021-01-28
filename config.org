@@ -2194,31 +2194,34 @@ And bind it:
   (lsp-treemacs-sync-mode 1))
 #+end_src
 
-*** Browse Dash docsets
+*** Browse Dash docsets with Zeal
 
-[[https://github.com/dash-docs-el/counsel-dash][counsel-dash]] lets one look up documentation easily (using the
-"docsets" used in Dash for OS X and also Zeal for the other OSes).
+I used [[https://github.com/dash-docs-el/counsel-dash][counsel-dash]] for awhile but
 
-FIXME: This will pull in =counsel= and friends; in the future I'd like
-to use something that does =completing-read=.
+ - It felt like docs took forever to download/extract... not sure if it was
+   issues with the docset server, or with Emacs not being particularly
+   performant with big JSON blobs, or simply because I misconfigured it
+
+ - I'm trying to move away from the counsel-* ecosystem
+
+In lieu of that, I'm using [[http://zealdocs.org/][Zeal]] in conjunction with [[https://github.com/jinzhu/zeal-at-point][zeal-at-point]].  I'm
+not a fan of having a separate program... would much rather a local web
+server with the docsets hosted locally and the web server would literally
+exist only as a search frontend.  But until that program exists...
 
 #+begin_src emacs-lisp
-(use-package counsel-dash
-  :commands (counsel-dash-install-docset counsel-dash-at-point)
-  :config
-  (setq counsel-dash-common-docsets '("JavaScript" "HTML")
-        counsel-dash-browser-func 'eww
-        ;; https://github.com/dash-docs-el/helm-dash/issues/188
-        dash-docs-use-workaround-for-emacs-bug nil))
+(use-package zeal-at-point
+  :ensure t
+  :commands (zeal-at-point)
+  :general ("C-/" #'zeal-at-point))
 #+end_src
 
-Bind =counsel-dash= functionality:
+Bind =zeal-at-point= functionality:
 
 #+begin_src emacs-lisp
 (jws/secondary-leader
   :keymaps 'prog-mode-map
-  "d" '(counsel-dash-at-point :wk "Dash")
-  "D" '(counsel-dash-install-docset :wk "InstallDoc"))
+  "/" '(zeal-at-point :wk "Zeal"))
 #+end_src
 
 ** Data markup & config files
@@ -2227,15 +2230,7 @@ But we're using Lisp -- data is code!
 
 *** JSON
 
-JSON will be handled by whatever JavaScript mode I pull in, but let's
-add a mode to make it easier to mentally parse.
-
-FIXME: This will pull in =counsel= and friends; in the future I'd like
-to use something that does =completing-read=.
-
-#+begin_src emacs-lisp
-(use-package counsel-jq)
-#+end_src
+JSON will be handled by whatever JavaScript mode I pull in.
 
 *** YAML
 
@@ -2428,9 +2423,8 @@ For =c-mode= and =c++-mode= you'll want the =clangd= from =clang-tools-8=.
 
 #+begin_src emacs-lisp
 (add-hook 'c-mode-hook 'lsp)
-(add-hook 'c-mode-hook (lambda () (setq-local counsel-dash-docsets '("C"))))
 (add-hook 'c++-mode-hook 'lsp)
-(add-hook 'c++-mode-hook (lambda () (setq-local counsel-dash-docsets '("C" "C++"))))
+(add-hook 'c++-mode-hook (lambda () (setq-local zeal-at-point-docset '("c" "cpp"))))
 #+end_src
 
 *** PHP
@@ -2451,7 +2445,7 @@ Intelephense's class renaming (one of the paid features) works with
 #+begin_src emacs-lisp
 (defun jws/php-dash-docsets ()
   "Use PHP & Laravel docsets"
-  (setq-local counsel-dash-docsets '("PHP" "Laravel")))
+  (setq-local zeal-at-point-docset '("php" "laravel")))
 
 (defun jws/php-lsp-setup ()
   "Try to ignore composer vendor folder to make lsp faster"
@@ -2493,7 +2487,6 @@ Again here we enable =lsp-mode=, this time using [[https://github.com/golang/too
   :mode "\\.go\\'"
   :config
   (add-hook 'go-mode-hook 'lsp)
-  (add-hook 'go-mode-hook (lambda () (setq-local counsel-dash-docsets '("Go"))))
   (add-hook 'go-mode-hook
             (lambda ()
               (set (make-local-variable 'compile-command)
@@ -2506,8 +2499,7 @@ Again here we enable =lsp-mode=, this time using [[https://github.com/golang/too
 (use-package rust-mode
   :mode "\\.rs\\'"
   :config
-  (add-hook 'rust-mode-hook 'lsp)
-  (add-hook 'rust-mode-hook (lambda () (setq-local counsel-dash-docsets '("Rust")))))
+  (add-hook 'rust-mode-hook 'lsp))
 #+end_src
 
 *** JavaScript
@@ -2520,7 +2512,7 @@ already going in on the LSP model for things going forwards so...
 #+begin_src emacs-lisp
 (defun jws/js-dash-docsets ()
   "Use various JavaScript library docsets"
-  (setq-local counsel-dash-docsets '("JavaScript" "jQuery" "VueJS")))
+  (setq-local zeal-at-point-docset '("javascript" "jquery")))
 
 (defun jws/js-lsp-setup ()
   "Ignore npm vendor folder to make lsp faster"
