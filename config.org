@@ -878,7 +878,10 @@ nifty utility functions powered by =completing-read=.
              consult-buffer
              consult-outline
              consult-ripgrep
-             consult-recent-file))
+             consult-recent-file)
+  :config
+  (autoload 'projectile-project-root "projectile")
+  (setq consult-project-root-function #'projectile-project-root))
 
 (use-package consult-flycheck
   :ensure t
