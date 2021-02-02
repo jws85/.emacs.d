@@ -709,21 +709,17 @@ that enters the keymap depending on the state.
 
 I define two "leader keys" using definers.  The first is a "main menu"
 that can be accessed via =SPC= in evil normal mode and =C-SPC= in all
-others.
+others.  All functions here should either be built into Emacs or
+autoloaded via =use-package=.
 
 #+begin_src emacs-lisp
-(general-create-definer jws/main-leader
-  :keymaps 'override
-  :states '(insert emacs normal hybrid motion visual operator)
+(general-define-key
+  :keymaps '(insert emacs normal hybrid motion visual operator)
   :prefix "SPC"
-  :non-normal-prefix "C-SPC")
-#+end_src
+  :non-normal-prefix "C-SPC"
 
-This is the main menu.  All functions here should either be built
-into Emacs or autoloaded via =use-package=.
+  "" nil
 
-#+begin_src emacs-lisp
-(jws/main-leader
   "SPC" '(execute-extended-command :wk "M-x")
   "<delete>" '(delete-frame :wk "KillFrame")
   "<tab>" '(jws/switch-to-previous-buffer :wk "PrevBuf")
