@@ -756,7 +756,6 @@ autoloaded via =use-package=.
   "v" '(jws/hydra-visuals/body :wk "Visuals")
   "q" '(org-capture :wk "Capture")
   "w" '(jws/hydra-frames/body :wk "Frames")
-  "x" '(eshell :wk "Term")
 
   "z" '(nil :wk "Zettel")
   "zg" '(org-roam-graph :wk "Graph")
@@ -765,6 +764,7 @@ autoloaded via =use-package=.
   "zs" '(deft :wk "FindString")
   "zz" '(org-roam-find-file :wk "FindNote")
 
+  "!" '(eshell :wk "Term")
   "@" '(chronos-add-timer :wk "Timer"))
 #+end_src
 
