@@ -878,6 +878,7 @@ nifty utility functions powered by =completing-read=.
              consult-recent-file)
   :config
   (autoload 'projectile-project-root "projectile")
+  (setq consult-preview-key nil)
   (setq consult-project-root-function #'projectile-project-root))
 
 (use-package consult-flycheck
