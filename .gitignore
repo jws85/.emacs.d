@@ -130,3 +130,4 @@ var/
 *~
 session.*
 /semanticdb/
+/eln-cache/
