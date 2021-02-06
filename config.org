@@ -190,6 +190,10 @@ so it is loaded very early as well.
 
 #+begin_src emacs-lisp
 (straight-use-package 'use-package)
+
+;; prevents use-package from automagically appending "-hook" to the name
+;; of hooks bound by the :hook keyword
+(setq use-package-hook-name-suffix nil)
 #+end_src
 
 ** Load unpackaged libraries
@@ -431,7 +435,7 @@ replacement.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
+  :hook (after-init-hook . doom-modeline-mode)
   :config
   (column-number-mode)
   (setq doom-modeline-buffer-file-name-style 'buffer-name
@@ -921,7 +925,7 @@ more like a right-click contextual menu.
   :ensure t
   :after (embark consult)
   :demand t
-  :hook (embark-collect-hook . embark-consult-preview-minor-mode))
+  :hook (embark-collect-mode-hook . embark-consult-preview-minor-mode))
 #+end_src
 
 ** Text search
@@ -1507,7 +1511,7 @@ Do some basic configuration of =org-mode=.
              org-store-link
              org-babel-tangle-file)
   :mode (("\\.org\\'" . org-mode))
-  :hook ((org-mode . turn-on-flyspell))
+  :hook ((org-mode-hook . turn-on-flyspell))
   :config
   (add-to-list 'org-modules 'org-habit)
   (setq org-src-fontify-natively t
@@ -1866,7 +1870,7 @@ Using [[https://www.orgroam.com/][org-roam]] for a [[https://en.wikipedia.org/wi
 #+begin_src emacs-lisp
 (use-package org-roam
   :after org
-  :hook ((after-init . org-roam-mode))
+  :hook ((after-init-hook . org-roam-mode))
   :commands (org-roam org-roam-find-file)
   :config
   (require 'org-roam-protocol)
@@ -1960,7 +1964,7 @@ Fancy bullets in =org-mode=!
 #+begin_src emacs-lisp
 (use-package org-superstar
   :after org
-  :hook (org-mode . org-superstar-mode)
+  :hook (org-mode-hook . org-superstar-mode)
   :config
   ;; just in case
   (setq inhibit-compacting-font-caches t))
@@ -1973,7 +1977,7 @@ Ideally I'd stay in org-mode, but I live in the real world.
 #+begin_src emacs-lisp
 (use-package markdown-mode
   :mode ("\\.md\\'" "\\.markdown\\'" "\\.mdown\\'")
-  :hook ((markdown-mode . turn-on-flyspell)))
+  :hook ((markdown-mode-hook . turn-on-flyspell)))
 #+end_src
 
 ** Ledger
@@ -2040,7 +2044,7 @@ for free.
 
 #+begin_src emacs-lisp
 (use-package idle-highlight-mode
-  :hook prog-mode)
+  :hook prog-mode-hook)
 #+end_src
 
 *** Flycheck
@@ -2111,7 +2115,7 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
 (use-package lsp-ui
   :after lsp-mode
   :requires lsp-mode flycheck
-  :hook (lsp-mode . lsp-ui-mode)
+  :hook (lsp-mode-hook . lsp-ui-mode)
   :commands (lsp-ui-peek-find-definitions
              lsp-ui-peek-find-references
              lsp-ui-peek-find-implementation
@@ -2347,7 +2351,7 @@ of these ersatz Lisp modes with their slurping and barfing and all.
 
 #+begin_src emacs-lisp
 (use-package nameless
-  :hook (emacs-lisp-mode . nameless-mode))
+  :hook (emacs-lisp-mode-hook . nameless-mode))
 #+end_src
 
 [[https://github.com/cask/cask][Cask]] is like [[https://getcomposer.org/][Composer]] or =npm= for Emacs Lisp.  I don't use Cask much,
@@ -2556,7 +2560,7 @@ I'm using [[https://github.com/microsoft/pyright][Pyright]] for Python completio
 
 #+begin_src emacs-lisp
 (use-package lsp-pyright
-  :hook (python-mode . (lambda ()
+  :hook (python-mode-hook . (lambda ()
                           (require 'lsp-pyright)
                           (lsp-deferred))))
 #+end_src
@@ -2596,7 +2600,7 @@ You would expand the former into the latter with =C-j=.
 #+begin_src emacs-lisp
 (use-package emmet-mode
   :bind (("C-." . emmet-expand-line))
-  :hook (sgml-mode php-mode web-mode css-mode)
+  :hook (sgml-mode-hook php-mode-hook web-mode-hook css-mode-hook)
   :config
   (unbind-key "C-j" emmet-mode-keymap))
 #+end_src
@@ -2674,7 +2678,7 @@ Appropriately colorize color names in CSS (and Sass/SCSS) files.
 
 #+begin_src emacs-lisp
 (use-package rainbow-mode
-  :hook (css-mode scss-mode))
+  :hook (css-mode-hook scss-mode-hook))
 #+end_src
 
 *** REST Client
@@ -2704,7 +2708,7 @@ And this package integrates =company= with =restclient=.
 #+begin_src emacs-lisp
 (use-package company-restclient
   :after (restclient company)
-  :hook (restclient-mode . company-mode)
+  :hook (restclient-mode-hook . company-mode)
   :config
   (add-hook 'restclient-mode-hook
             (lambda ()
@@ -2763,7 +2767,7 @@ to hide and toggle the view of "hidden files"
   :straight nil
   :after dired
   :commands dired-jump
-  :hook ((dired-mode . dired-omit-mode))
+  :hook ((dired-mode-hook . dired-omit-mode))
   :bind (:map dired-mode-map
          ("C-c h" . dired-omit-mode))
   :config
@@ -3016,7 +3020,7 @@ sometimes muscle memory from old-school term/shells gets in one's way.
 (use-package eshell
   :straight nil
   :commands eshell
-  :hook (eshell-banner-load . jws/eshell-banner)
+  :hook (eshell-banner-load-hook . jws/eshell-banner)
   :config
   (setq eshell-scroll-to-bottom-on-input 'all
         eshell-error-if-no-glob t
