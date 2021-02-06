@@ -3509,10 +3509,29 @@ And we load the =Customize= stuff here as well.
 #+end_src
 
 * Cleanup
+** Setting the garbage collector threshold
 
-Set the =gc-cons-threshold= (set in =early-init.el=) back to its
-default:
+Set the =gc-cons-threshold= (set in =early-init.el=) back to a less
+drastic value.
+
+Garbage-collected programming languages maintain a "trashcan" of
+discarded data, and at some point the trash "has to be taken out."
+=gc-cons-threshold= determines how big that trashcan is.  The bigger
+the trashcan is, the less often you have to take the trash out.  But
+taking the trash out is not a free action, and the larger the can is,
+the harder actually taking it out is.
+
+So a low =gc-cons-threshold= will cause lots of very small delays;
+with enough large packages, it can feel like persistent lag.  A high
+one will remove said small delays in favor of less frequent but longer
+delays.
+
+A lot of maintainers of heavier packages, like =lsp-mode=, feel that
+the default of =800000= (800KB) is insufficient.  The emacs devs
+themselves are unenthusiastic about setting it too large.  I'm
+following [[https://www.reddit.com/r/emacs/comments/brc05y/is_lspmode_too_slow_to_use_for_anyone_else/eofulix/][this suggestion from one of the Emacs maintainers]] to try to
+bump it up by a factor of 2 until it is responsive.
 
 #+begin_src emacs-lisp
-(setq gc-cons-threshold 800000)
+(setq gc-cons-threshold 3200000)
 #+end_src
