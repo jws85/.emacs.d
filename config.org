@@ -1045,6 +1045,33 @@ Install a default set of snippets.
   (yasnippet-snippets-initialize))
 #+end_src
 
+** =ibuffer=
+
+Generally I just use the incremental narrowing menus, but [[http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html][regular 'ol
+=ibuffer= is surprisingly powerful]] with a bit of cleanup.
+
+[[https://github.com/purcell/ibuffer-vc][ibuffer-vc]] groups everything in =ibuffer= together by version control
+repositories.  This goes a *long* way towards some sanity.
+
+#+begin_src emacs-lisp
+(use-package ibuffer-vc
+  :hook (ibuffer-hook . ibuffer-vc-set-filter-groups-by-vc-root)
+  :after ibuffer)
+#+end_src
+
+=ibuffer-vc= creates a lot of filter groups; they tend to hang around, so hide
+them when they aren't being used:
+
+#+begin_src emacs-lisp
+(setq ibuffer-show-empty-filter-groups nil)
+#+end_src
+
+Don't prompt every time you delete a buffer:
+
+#+begin_src emacs-lisp
+(setq ibuffer-expert t)
+#+end_src
+
 ** Window management
 
 =winner= allows window splits to be undone and redone at will.  It comes with
