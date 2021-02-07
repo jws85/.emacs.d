@@ -2107,18 +2107,6 @@ In programming modes, set =, x= to run that hydra.  Note that
   "x" '(jws/hydra-xref/body :wk "Xref"))
 #+end_src
 
-*** Highlighting tokens
-
-[[https://github.com/nonsequitur/idle-highlight-mode/blob/master/idle-highlight-mode.el][idle-highlight-mode]] highlights everywhere a token is used.
-
-Not as necessary when =lsp-mode= is active, since you get that
-for free.
-
-#+begin_src emacs-lisp
-(use-package idle-highlight-mode
-  :hook prog-mode-hook)
-#+end_src
-
 *** Flycheck
 
 I had =flycheck= and =flymake= confused for a while.  [[https://www.flycheck.org/en/latest/user/flycheck-versus-flymake.html][flycheck's
@@ -2416,6 +2404,17 @@ of these ersatz Lisp modes with their slurping and barfing and all.
   (setq eval-sexp-fu-flash-error-face 'lazy-highlight-face
         eval-sexp-fu-flash-duration 0.25))
 #+end_src
+
+[[https://github.com/nonsequitur/idle-highlight-mode/blob/master/idle-highlight-mode.el][idle-highlight-mode]] highlights everywhere a token is used.  Enabled for
+Lisps only because =lsp-mode= includes this functionality.
+
+#+begin_src emacs-lisp
+(use-package idle-highlight-mode
+  :init
+  (dolist (hook jws/lisp-mode-hooks)
+    (add-hook hook #'idle-highlight-mode)))
+#+end_src
+
 
 *** Emacs Lisp
 
