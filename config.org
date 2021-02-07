@@ -1523,6 +1523,10 @@ First, let's define some paths into my =org-mode= files.
 Do some basic configuration of =org-mode=.
 
 #+begin_src emacs-lisp
+(defun jws/org-mode-disable-company ()
+  "Disable company-mode in org-mode buffers"
+  (company-mode -1))
+
 (use-package org
   :commands (org-agenda
              org-capture
@@ -1530,7 +1534,8 @@ Do some basic configuration of =org-mode=.
              org-store-link
              org-babel-tangle-file)
   :mode (("\\.org\\'" . org-mode))
-  :hook ((org-mode-hook . turn-on-flyspell))
+  :hook ((org-mode-hook . turn-on-flyspell)
+         (org-mode-hook . jws/org-mode-disable-company))
   :config
   (add-to-list 'org-modules 'org-habit)
   (setq org-src-fontify-natively t
