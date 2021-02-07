@@ -3577,5 +3577,5 @@ following [[https://www.reddit.com/r/emacs/comments/brc05y/is_lspmode_too_slow_t
 bump it up by a factor of 2 until it is responsive.
 
 #+begin_src emacs-lisp
-(setq gc-cons-threshold 3200000)
+(setq gc-cons-threshold 6400000)
 #+end_src
