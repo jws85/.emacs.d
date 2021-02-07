@@ -965,7 +965,7 @@ seemingly maintained anymore.  So... we just hack the heck out of
   (add-to-list 'company-frontends 'company-echo-metadata-frontend)
 
   ;; Other settings...
-  (setq company-idle-delay 0.1
+  (setq company-idle-delay 0.2
         company-minimum-prefix-length 2
         company-tooltip-limit 20
         company-tooltip-align-annotations t
