@@ -374,6 +374,7 @@ the following macro to do exactly this from [[https://github.com/abo-abo/hydra/i
 #+end_src
 
 * Appearance/visuals
+
 I like a very minimal Emacs (and Vim) window since both were
 made to be driven from the keyboard.
 
@@ -392,15 +393,6 @@ it shows as an annoying full-screen flash on most computers.
 
 #+begin_src emacs-lisp
 (setq ring-bell-function 'ignore)
-#+end_src
-
-=beacon= flashes the cursor's position when it is moved a long
-distance.
-
-#+begin_src emacs-lisp
-(use-package beacon
-  :init (beacon-mode 1)
-  :config (setq beacon-color "#dfbfff"))
 #+end_src
 
 ** Icons
