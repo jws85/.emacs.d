@@ -1916,6 +1916,54 @@ Using [[https://www.orgroam.com/][org-roam]] for a [[https://en.wikipedia.org/wi
      :unnarrowed t))))
 #+end_src
 
+I keep bookmarks in org-roam; here are some functions I use from
+external scripts to get the bookmarks *out* to somewhere more useful
+like Qutebrowser.  This is harder than it would seem; Emacs is a weird
+case of software complexity lock-in where Emacs is its own weird
+fiefdom of Lisp and does not do well with input to or from the rest of
+*nix (or any other OS).
+
+Actually, the =org-roam-db-query= part was easy, credit where credit
+is due to the org-roam folks.  The problem was with the rest of the
+immensely crappy elisp hell needed to get the data somewhere useful.
+
+I could not write a shebang script that runs =emacsclient=.  I *could*
+write a script that then runs Lisp inside a remote server, but there
+was almost no point...
+
+I could not do any stdout printing from =emacsclient --eval= that
+didn't crap up the output with needless raw printing (quotes on both
+sides, uninterpreted =\n=) and any attempts to print to =stdout=
+went straight to =*Messages*=.  Sooooooooooooooooooooo...
+
+I wrote a bash script that calls =(jws/org-roam-bookmarks-rofi)=,
+which writes to a temp file, and returns the filename.  On the bash
+script end, I take the returned filename, remove the dumbass quotes
+=emacsclient= puts around it, and then find the file and do what is
+needed with =rofi= et al.
+
+#+begin_src emacs-lisp
+(defun jws/org-roam-bookmarks ()
+  "Get all bookmarks from org-roam"
+  (org-roam-db-query
+   [:select [titles:title refs:ref]
+            :from titles
+            :left :join tags :on (= titles:file tags:file)
+            :left :join files :on (= titles:file files:file)
+            :left :join refs :on (= files:file refs:file)
+            :where (and (= refs:type "website")
+                        (like tags:tags '"%\"links\"%"))]))
+
+(defun jws/org-roam-bookmarks-rofi ()
+  "Display bookmark data in format acceptable to Rofi"
+  (let ((temp-file (make-temp-file "RoamBookmarks-")))
+    (with-temp-file temp-file
+      (dolist (bookmark (jws/org-roam-bookmarks))
+        (insert (concat (car bookmark) " -- "
+                        (cadr bookmark) "\n"))))
+    temp-file))
+#+end_src
+
 I used to use [[https://github.com/jrblevin/deft][Deft]] as a quick-notes tool but found that my notes
 became structureless.  However, =org-roam= lacks a fulltext search,
 and Deft has it... so we're bringing it back on board.
