@@ -2286,7 +2286,7 @@ Bind =zeal-at-point= functionality:
   "/" '(zeal-at-point :wk "Zeal"))
 #+end_src
 
-** Data markup & config files
+** Data markup & configuration files
 
 But we're using Lisp -- data is code!
 
@@ -2320,7 +2320,19 @@ I like the (non-XML-based) [[https://en.wikipedia.org/wiki/RELAX_NG#Compact_synt
   :mode "\\.rnc\\'")
 #+end_src
 
-** Build files
+** Configuration languages (including build scripts)
+
+*** Vimscript
+
+Yep, a little bit of heresy!
+
+Enable it for =vimrc=, =gvimrc=, and =vifmrc=, as well as all =.vim= and =.vifm= files.
+
+#+begin_src emacs-lisp
+(use-package vimrc-mode
+  :mode ("\\(g\\)?vi\\(f\\)?mrc\\'"
+         ".vi\\(f\\)?m\\'"))
+#+end_src
 
 *** Makefiles
 
