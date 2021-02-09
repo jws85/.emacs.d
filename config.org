@@ -733,13 +733,7 @@ autoloaded via =use-package=.
   "fr" '(consult-recent-file :wk "Recent")
   "fb" '(consult-bookmark :wk "Bkmark")
 
-  "g" '(:ignore t :wk "Git")
-  "gg" '(magit-status :wk "Magit")
-  "gb" '(magit-branch-checkout :wk "Branch")
-  "gi" '(magit-init :wk "GitInit")
-  "gl" '(magit-log-head :wk "GitLog")
-  "gL" '(magit-log-all-branches :wk "GitLogAll")
-  "gt" '(git-timemachine :wk "TimeMachine")
+  "g" '(jws/hydra-graphics/body :wk "Graphics")
 
   "h" '(:keymap help-map :wk "Help")
   "k" '(kill-this-buffer :wk "KillBuf")
@@ -749,9 +743,17 @@ autoloaded via =use-package=.
   "s" '(jws/hydra-windows/body :wk "Windows")
   "S" '(jws/hydra-windows-sticky/body :wk "MultiWindows")
   "t" '(jws/hydra-text-editing/body :wk "Text")
-  "v" '(jws/hydra-visuals/body :wk "Visuals")
   "q" '(org-capture :wk "Capture")
   "w" '(jws/hydra-frames/body :wk "Frames")
+
+  "v" '(:ignore t :wk "VC")
+  "vv" '(magit-status :wk "Magit")
+  "vc" '(:ignore t :wk "Generic")
+  "vcc" '(vc-dir-root :wk "Status")
+  "vch" '(vc-print-log :wk "History")
+  "vci" '(vc-next-action :wk "Check In/Out")
+  "vcp" '(vc-push :wk "Push")
+  "vcu" '(vc-update :wk "Update")
 
   "z" '(nil :wk "Zettel")
   "zg" '(org-roam-graph :wk "Graph")
@@ -1116,11 +1118,7 @@ later.
 
 ** Version control
 
-I only really use =git= at this point.  The dirty secret of =git= is
-that it is the PHP of VCs -- more of a [[https://www.jwz.org/doc/worse-is-better.html]["New Jersey approach"]] to the
-problem.  It is really performant, but is otherwise pretty goofy.
-So you need good tooling -- thankfully Emacs delivers in spades.
-Starting with...
+*** Git with Magit
 
 [[https://magit.vc/][Magit]], the rare Emacs package that can just about pull in money,
 that's how good it is.
@@ -1155,24 +1153,6 @@ that you can find in newer editors.
 
 #+begin_src emacs-lisp
 (use-package git-gutter :config (global-git-gutter-mode t))
-#+end_src
-
-=git-timemachine= gives us a handy view of a file's history.
-
-#+begin_src emacs-lisp
-(use-package git-timemachine
-  :commands (git-timemachine)
-  :config
-  (git-timemachine-mode))
-#+end_src
-
-I like [[https://gitahead.github.io/gitahead.com/][GitAhead]] as a nice GUI client; usually I use it to look over
-multiple commits that I'm about to merge into master or make live.
-
-#+begin_src emacs-lisp
-(defun jws/launch-git-ahead ()
-  (interactive)
-  (start-process "git-ahead" nil "git-ahead"))
 #+end_src
 
 ** Project management
@@ -3485,11 +3465,11 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
   ("f" toggle-frame-fullscreen "Toggle fullscreen"))
 #+end_src
 
-** Visuals menu
+** Graphics menu
 
 #+begin_src emacs-lisp
-(defhydra jws/hydra-visuals (:columns 4)
-  "Visuals"
+(defhydra jws/hydra-graphics (:columns 4)
+  "Graphics"
   ("f" focus-mode "Focus")
   ("p" prism-mode "Prism")
   ("P" prism-whitespace-mode "Prism whitespace")
