@@ -1155,6 +1155,25 @@ that you can find in newer editors.
 (use-package git-gutter :config (global-git-gutter-mode t))
 #+end_src
 
+I may start using =git svn=, in which case =magit-svn= should be
+helpful.  To enable it in a repository, go to its directory and run
+
+#+begin_src bash :tangle no
+git config --add magit.extension svn
+#+end_src
+
+I already had to hack on it some to get it to work in GCC Emacs, and
+there's still some bitrot.  Will play with it more should I need it.
+
+#+begin_src emacs-lisp
+(use-package magit-svn
+  :straight (magit-svn
+             :host github :repo "jws85/magit-svn")
+  :after magit
+  :config
+  (define-key magit-mode-map "#" 'magit-svn))
+#+end_src
+
 ** Project management
 
 [[https://github.com/bbatsov/projectile][Projectile]] is the current best-in-class for this purpose.
