@@ -1541,7 +1541,8 @@ Do some basic configuration of =org-mode=.
         org-src-window-setup 'current-window
         org-src-preserve-indentation t
         org-startup-indented t
-        org-highlight-latex-and-related '(latex script entities)
+	org-startup-with-inline-images t
+        org-highlight-latex-and-related nil
         ;; easily link to various sites
         org-link-abbrev-alist '(("wikipedia"    . "https://en.wikipedia.org/wiki/%s")
                                 ("wikivoyage"   . "https://en.wikivoyage.org/wiki/%s")
