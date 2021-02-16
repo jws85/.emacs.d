@@ -1909,18 +1909,20 @@ Using [[https://www.orgroam.com/][org-roam]] for a [[https://en.wikipedia.org/wi
   :config
   (require 'org-roam-protocol)
   (setq org-roam-directory jws/org-notes-dir
-  ;; capture template from inside Emacs
-  org-roam-capture-templates
-  '(("d" "default" plain #'org-roam-capture--get-point "\n%?\n\n"
-     :file-name "%<%Y%m%d%H%M%S>-${slug}"
-     :head "#+title: ${title}\n#+time_created: %U\n#+roam_tags: \n"
-     :unnarrowed t))
-  ;; capture template from web link outside Emacs
-  org-roam-capture-ref-templates
-  '(("r" "references" plain #'org-roam-capture--get-point "\n%?\n\n"
-     :file-name "%<%Y%m%d%H%M%S>-${slug}"
-     :head "#+title: ${title}\n#+time_created: %U\n#+roam_key: ${ref}\n#+roam_tags: links \n"
-     :unnarrowed t))))
+        ;; turn on company-mode for org-roam files, because of tag autocomplete
+        org-roam-file-setup-hook (lambda () (company-mode +1))
+        ;; capture template from inside Emacs
+        org-roam-capture-templates
+        '(("d" "default" plain #'org-roam-capture--get-point "\n%?\n\n"
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :head "#+title: ${title}\n#+time_created: %U\n#+roam_tags: \n"
+           :unnarrowed t))
+        ;; capture template from web link outside Emacs
+        org-roam-capture-ref-templates
+        '(("r" "references" plain #'org-roam-capture--get-point "\n%?\n\n"
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :head "#+title: ${title}\n#+time_created: %U\n#+roam_key: ${ref}\n#+roam_tags: links \n"
+           :unnarrowed t))))
 #+end_src
 
 I keep bookmarks in org-roam; here are some functions I use from
