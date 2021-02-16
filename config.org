@@ -1272,6 +1272,17 @@ directory and find profiles to be run by the above command:
 I tend to run Unison daemonized; to kill the daemon, it is a
 simple matter of killing the =*unison*= buffer.
 
+** Alerts
+
+See [[https://github.com/jwiegley/alert][alert]] for more.
+
+#+BEGIN_SRC emacs-lisp :results none
+(use-package alert
+  :config
+  ;; bug: will not send alerts unless this is set...
+  (setq alert-default-style 'notifications))
+#+end_src
+
 * Editing
 
 Supposedly some people use Emacs to edit files.  The horror!
