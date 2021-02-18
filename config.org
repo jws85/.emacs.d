@@ -3121,6 +3121,34 @@ function whenever a web link is clicked, etc.
 (setq browse-url-browser-function 'jws/browse-url-browser-select)
 #+end_src
 
+*** IRC
+
+I actually kinda like this for IRC purposes.  I'm currently on
+Quassel, so I'll probably need to set up a bouncer somewhere and use
+that to connect.
+
+I grabbed the settings from [[https://www.reddit.com/r/emacs/comments/8ml6na/tip_how_to_make_erc_fun_to_use/][this Reddit post]].
+
+#+begin_src emacs-lisp
+(use-package erc
+  :custom
+  (erc-autojoin-timing 'ident)
+  (erc-fill-function 'erc-fill-static)
+  (erc-fill-static-center 22)
+  (erc-hide-list '("JOIN" "PART" "QUIT"))
+  (erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
+  (erc-lurker-threshold-time 43200)
+  (erc-prompt-for-nickserv-password nil)
+  (erc-server-reconnect-attempts 5)
+  (erc-server-reconnect-timeout 3)
+  (erc-track-exclude-types '("JOIN" "MODE" "NICK" "PART" "QUIT"
+                             "324" "329" "332" "333" "353" "477"))
+  :config
+  (add-to-list 'erc-modules 'notifications)
+  (erc-services-mode 1)
+  (erc-update-modules))
+#+end_src
+
 *** =ace-link= to click links with keyboard
 
 [[https://github.com/abo-abo/ace-link][ace-link]] allows the user to select links with their keyboard.  It will
