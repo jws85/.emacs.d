@@ -2970,13 +2970,12 @@ Playing around with currency conversion in Calc:
 Natively render PDFs in Emacs, using an external daemon to render the
 PDFs into image files and send them to Emacs.
 
-The below code [[https://github.com/jwiegley/use-package#magic-handlers][comes straight out of use-package docs]]; defer loading
-(and dependency installation/package building) unless a PDF is opened,
-using the documented PDF magic number.
+Defer loading unless a PDF is opened... this should avoid having to
+build the daemon binary every time I clone a fresh copy of this code.
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
-  :magic ("%PDF" . pdf-view-mode)
+  :mode ("\\.pdf\\'" . pdf-view-mode)
   :config
   (pdf-tools-install :no-query)
   (setq pdf-annot-activate-created-annotations t))
