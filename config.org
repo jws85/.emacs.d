@@ -808,13 +808,23 @@ you've bound =M-x butterfly= to.
 
 Some commands (for instance, =magit=) move point into the buffer it
 creates.  Others (for instance, =flycheck='s error buffer) do not.
-This frustrates me.
+This frustrates me.  I've tried =popwin= and =shackle= for this
+purpose; neither was really satisfying.
+
+I grabbed the below snippet from [[https://github.com/nex3/perspective-el/tree/697d95f24e055eb9725781d179d7db63d6afd2b5#some-musings-on-emacs-window-layouts][this discussion in perspective.el's README]]
+[[https://www.reddit.com/r/emacs/comments/llvyxe/hey_emacs_dont_move_my_windows_customizing/gntoxvm/][via this Reddit thread]].  This does two things:
+
+ - Re-use existing buffers rather than creating new ones
+ - New buffers display in the current window, rather than creating
+   a new window via splitting
 
 #+begin_src emacs-lisp
-(use-package shackle
-  :ensure t
-  :config
-  (setq shackle-default-rule '(:select t)))
+(setq display-buffer-alist
+      '((".*"
+         (display-buffer-reuse-window display-buffer-same-window)
+         (reusable-frames . t))))
+
+(setq even-window-sizes nil)  ; display-buffer hint: avoid resizing
 #+end_src
 
 ** Undo system
