@@ -341,8 +341,7 @@ and enter the text in that file's buffer.
 
 ** Hydra (menus)
 
-The [[https://github.com/abo-abo/hydra][hydra]] package (by the same mad genius responsible for =ivy= et al)
-allows for easy-ish interactive menus.
+The [[https://github.com/abo-abo/hydra][hydra]] package allows for easy-ish interactive menus.
 
 #+begin_src emacs-lisp
 (use-package hydra
@@ -1053,6 +1052,18 @@ Install a default set of snippets.
   :after yasnippet
   :config
   (yasnippet-snippets-initialize))
+#+end_src
+
+** =recentf=: Recent files
+
+I use this from =consult-recent-files=
+
+#+begin_src emacs-lisp
+(use-package recentf
+  :init
+  (recentf-mode t)
+  :custom
+  (recentf-max-saved-items 50))
 #+end_src
 
 ** =ibuffer=
