@@ -3401,7 +3401,7 @@ Emacs | Debug: %`debug-on-error
 
 ^Process^         ^Config^            ^Packages^
 ^-------^-------  ^------^----------  ^--------^-------
-_Q_uit emacs      edit _c_onfig       list _p_ackages
+_q_uit emacs      edit _c_onfig       list _p_ackages
 _d_ebug emacs     edit site _C_onfig  _u_pdate packages
 _k_ start server  _r_eload config
 ^^                un_t_angle config
@@ -3413,7 +3413,7 @@ _k_ start server  _r_eload config
   ("s" jws/scratch-switch)
   ("t" jws/untangle-emacs-config)
   ("r" jws/reload-emacs-config)
-  ("Q" jws/server-shutdown)
+  ("q" jws/server-shutdown)
   ("p" epkg-list-packages)
   ("u" straight-pull-all)
   ("k" server-start))
