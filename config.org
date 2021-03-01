@@ -739,6 +739,7 @@ autoloaded via =use-package=.
   "m" '(jws/hydra-mpd/body :wk "Music")
   "n" '(jws/eww-home :wk "Net")
   "p" '(:keymap projectile-command-map :package projectile :wk "Project")
+  "r" '(elfeed :wk "RSS")
   "s" '(jws/hydra-windows/body :wk "Windows")
   "S" '(jws/hydra-windows-sticky/body :wk "MultiWindows")
   "t" '(jws/hydra-text-editing/body :wk "Text")
@@ -3192,6 +3193,27 @@ Hey, why not.
 (use-package elpher
   :commands (elpher))
 #+end_src
+
+** =elfeed=: RSS reader
+
+A pretty nice RSS reader.
+
+#+begin_src emacs-lisp
+(use-package elfeed
+  :commands (elfeed)
+  :custom
+  (elfeed-db-directory "~/Sync/.elfeed"))
+#+end_src
+
+In =~/.emacs.d/site-init.el=, put something like:
+
+#+begin_src emacs-lisp :tangle no
+(setq elfeed-feeds
+      '(("http://php.net/releases/feed.php" programming php webdev)))
+#+end_src
+
+I know about [[https://github.com/remyhonig/elfeed-org][elfeed-org]] but I was running into issues with it,
+planning on re-evaluating it later.
 
 ** Terminal
 
