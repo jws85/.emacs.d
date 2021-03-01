@@ -2483,24 +2483,6 @@ but I have used it from time to time when developing plugins.
   :mode "Cask\\'")
 #+end_src
 
-This is a block of code that I was working on to try to enable
-Flycheck for Emacs Lisp.  I only want it in certain files because my
-personal configuration is often written more "loosely" than plugins
-that others might use... but I couldn't get it to work so it's
-disabled for now.
-
-#+begin_src emacs-lisp :tangle no
-;; I am trying to do the following: If there is a Cask file somewhere in the
-;; upwards file hierarchy for this elisp file, enable flycheck-package,
-;; otherwise do not.
-(use-package flycheck-cask)
-(use-package flycheck-package :after flycheck-cask)
-(jws/after (flycheck-package)
-    (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
-    (add-hook 'flycheck-mode-hook #'flycheck-package-setup)
-    (add-hook 'emacs-lisp-mode-hook #'flycheck-mode))
-#+end_src
-
 *** Common Lisp
 
 #+begin_src emacs-lisp
