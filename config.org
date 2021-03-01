@@ -1719,7 +1719,7 @@ notes and bookmarking websites.
 
 *** Capturing from external applications
 
-At the moment, this is being used by org-roam, [[https://www.orgroam.com/manual/The-roam_002dref-protocol.html][like so]].  You can also
+At the moment, this is being used by org-roam, [[https://www.orgroam.com/manual.html#Roam-Protocol][like so]].  You can also
 use [[https://github.com/sprig/org-capture-extension][this WebExtension]] ([[https://addons.mozilla.org/en-US/firefox/addon/org-capture/][Firefox]], [[https://chrome.google.com/webstore/detail/org-capture/kkkjlfejijcjgjllecmnejhogpbcigdc][Chrome]]) to accomplish this.
 
 Either way, some pretty substantial "outside of Emacs" configuration
