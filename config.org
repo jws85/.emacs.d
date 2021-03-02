@@ -2582,20 +2582,33 @@ match]] "not =blade=".)
 
 *** Go
 
-I like Go a lot, despite some irritating parts.  It is like a
-stricter but much faster curly-brace Python.
+I like Go a lot, despite some irritating parts.  It is like a stricter
+but much faster curly-brace Python.
 
-Again here we enable =lsp-mode=, this time using [[https://github.com/golang/tools/tree/master/gopls][gopls]].
+Again here we enable =lsp-mode=, this time using [[https://github.com/golang/tools/tree/master/gopls][gopls]].  I grabbed
+some of this code from [[https://lupan.pl/dotemacs/][this Emacs config]].
 
 #+begin_src emacs-lisp
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun jws/lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+;; Set compilation command
+(defun jws/go-compilation-command ()
+  (set (make-local-variable 'compile-command)
+       "go build -v && go test -v && go vet"))
+
 (use-package go-mode
   :mode "\\.go\\'"
-  :config
-  (add-hook 'go-mode-hook 'lsp)
-  (add-hook 'go-mode-hook
-            (lambda ()
-              (set (make-local-variable 'compile-command)
-                   "go build -v && go test -v && go vet"))))
+  :hook
+  (go-mode-hook . lsp-deferred)
+  (go-mode-hook . jws/lsp-go-install-save-hooks)
+  (go-mode-hook . jws/go-compilation-command))
+
+(use-package go-guru
+  :after go-mode)
 #+end_src
 
 *** Rust
