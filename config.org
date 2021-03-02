@@ -750,7 +750,8 @@ autoloaded via =use-package=.
   "vv" '(magit-status :wk "Magit")
   "vc" '(:ignore t :wk "Generic")
   "vca" '(vc-annotate :wk "Annotate")
-  "vcc" '(vc-dir-root :wk "Curdir")
+  "vcc" '(jws/vc-dir-root :wk "RootDir") ; vc-dir-root does not exist on my emacs 27.1
+  "vcC" '(vc-dir :wk "PickDir")
   "vcd" '(vc-diff :wk "FileDiff")
   "vcD" '(vc-root-diff :wk "RepoDiff")
   "vch" '(vc-region-history :wk "RegionHistory")
@@ -1146,17 +1147,30 @@ later.
 
 ** Version control
 
-Everything that isn't =git= is handled by =vc=, see my leader bindings
-above.  Magit is launched with =SPC v v=, =vc= with =SPC v c=.
+*** Everything that isn't =git=
+
+Everything that isn't =git= is handled by =vc=, which is built in
+so all I did was set my leader bindings above.
 
 If you work for BigCorp or for a real conservative project and you
 find they won't move off =svn= (or, [deity] forbid, =cvs=), =vc= is
 actually not half bad: see [[https://www.youtube.com/watch?v=SQ3Beqn2CEc][this video]], or [[https://old.reddit.com/r/emacs/comments/9b5z79/the_built_in_version_control_is_pretty_cool/][this Reddit discussion]].
 
+Here I define a handy command that doesn't exist yet in Emacs 27.1:
+
+#+begin_src emacs-lisp
+(defun jws/vc-dir-root ()
+  "Open vc-dir in vc-root-dir."
+  (interactive)
+  (vc-dir (vc-root-dir)))
+#+end_src
+
 *** Git with Magit
 
 [[https://magit.vc/][Magit]], the rare Emacs package that can just about pull in money,
 that's how good it is.
+
+I launch Magit with =SPC v v=.
 
 #+begin_src emacs-lisp
 (use-package magit
