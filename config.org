@@ -1146,6 +1146,13 @@ later.
 
 ** Version control
 
+Everything that isn't =git= is handled by =vc=, see my leader bindings
+above.  Magit is launched with =SPC v v=, =vc= with =SPC v c=.
+
+If you work for BigCorp or for a real conservative project and you
+find they won't move off =svn= (or, [deity] forbid, =cvs=), =vc= is
+actually not half bad: see [[https://www.youtube.com/watch?v=SQ3Beqn2CEc][this video]], or [[https://old.reddit.com/r/emacs/comments/9b5z79/the_built_in_version_control_is_pretty_cool/][this Reddit discussion]].
+
 *** Git with Magit
 
 [[https://magit.vc/][Magit]], the rare Emacs package that can just about pull in money,
