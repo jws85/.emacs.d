@@ -3372,10 +3372,18 @@ that file in a new buffer.
 (defalias 'eshell/edit 'find-file)
 (defalias 'eshell/magit 'magit-status)
 (defalias 'eshell/dired 'dired-jump)
+
 (defun eshell/x ()
   (interactive)
   (eshell/exit)
   (delete-window))
+
+;; Command history using completing-read
+;; https://www.reddit.com/r/emacs/comments/lvw44q/weekly_tipstricketc_thread/gpeb8n3/
+(defun eshell/h ()
+  (interactive)
+  (insert
+   (completing-read "History: " (delete-dups (ring-elements eshell-history-ring)))))
 #+end_src
 
 There is also =ansi-term=, which attempts to be a VT terminal emulator.
