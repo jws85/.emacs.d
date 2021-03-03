@@ -2163,7 +2163,8 @@ In programming modes, set =, x= to run that hydra.  Note that
 #+begin_src emacs-lisp
 (jws/secondary-leader
   :keymaps 'prog-mode-map
-  "x" '(jws/hydra-xref/body :wk "Xref"))
+  "x" '(jws/hydra-xref/body :wk "Xref")
+  "c" '(compile :wk "Compile"))
 #+end_src
 
 *** Flycheck
