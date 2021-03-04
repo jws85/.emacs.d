@@ -3109,9 +3109,13 @@ emacs simply can't easily provide.
 (use-package eww
   :straight nil
   :commands (eww eww-browse-url)
-  :config
-  (general-def :states 'normal :keymaps 'eww-mode-map
-    "f" 'ace-link-eww))
+  :general
+  (:keymaps 'eww-mode-map :states '(override normal)
+            "f" 'ace-link-eww
+            "y" 'eww-copy-page-url
+            "J" 'evil-scroll-page-down
+            "K" 'evil-scroll-page-up
+            "SPC" nil))
 #+end_src
 
 Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to load it.
@@ -3218,6 +3222,12 @@ A pretty nice RSS reader.
 #+begin_src emacs-lisp
 (use-package elfeed
   :commands (elfeed)
+  :general
+  (:keymaps 'elfeed-show-mode-map :states '(override normal)
+            "y" 'elfeed-show-yank
+            "SPC" nil)
+  (:keymaps 'elfeed-search-mode-map :states '(override normal)
+            "SPC" nil)
   :custom
   (elfeed-db-directory "~/Sync/.elfeed"))
 #+end_src
