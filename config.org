@@ -735,9 +735,11 @@ autoloaded via =use-package=.
   "g" '(jws/hydra-graphics/body :wk "Graphics")
 
   "h" '(:keymap help-map :wk "Help")
+  "i" '(imenu :wk "Imenu")
   "k" '(kill-this-buffer :wk "KillBuf")
   "m" '(jws/hydra-mpd/body :wk "Music")
-  "n" '(jws/eww-home :wk "Net")
+  "n" '(ace-link :wk "GotoLink")
+  "N" '(jws/eww-home :wk "Net")
   "p" '(:keymap projectile-command-map :package projectile :wk "Project")
   "r" '(elfeed :wk "RSS")
   "s" '(jws/hydra-windows/body :wk "Windows")
@@ -782,14 +784,6 @@ in normal mode and =C-,= in all others.
   :states '(insert emacs normal hybrid motion visual operator)
   :prefix ","
   :non-normal-prefix "C-,")
-#+end_src
-
-And some of its bindings:
-
-#+begin_src emacs-lisp
-(jws/secondary-leader
-  "i" '(imenu :wk "Imenu")
-  "n" '(ace-link :wk "GotoLink"))
 #+end_src
 
 *** =which-key=: Describe what various keys do
