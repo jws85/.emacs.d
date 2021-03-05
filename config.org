@@ -3227,15 +3227,15 @@ A pretty nice RSS reader.
             "y" 'elfeed-show-yank
             "SPC" nil)
   (:keymaps 'elfeed-search-mode-map :states '(override normal)
-            "SPC" nil)
-  :custom
-  (elfeed-db-directory "~/Sync/.elfeed"))
+            "SPC" nil))
 #+end_src
 
-In =~/.emacs.d/site-init.el=, put something like:
+I keep my =elfeed-db-directory= and =elfeed-feeds= defined elsewhere
+and loaded in =~/.emacs.d/site-init.el= with something like below:
 
 #+begin_src emacs-lisp :tangle no
-(setq elfeed-feeds
+(setq elfeed-db-directory "~/Sync/.elfeed"
+      elfeed-feeds
       '(("http://php.net/releases/feed.php" programming php webdev)))
 #+end_src
 
