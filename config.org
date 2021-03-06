@@ -2026,15 +2026,29 @@ This function presents my =org-roam= bookmarks as a =completing-read=
 interface, allowing me to search them anywhere inside Emacs.
 
 #+begin_src emacs-lisp
+(defun jws/org-roam-check-url (url)
+  "Check to see if URL is https or http.
+
+If you store a URL as #+roam_key, org-roam strips the protocol
+information before storing it.  Which is a little frustrating if
+you are (ab)using org-roam as a bookmark tool."
+  (let ((https (concat "https:" url))
+        (http (concat "http:" url)))
+    (condition-case nil
+        (if (url-http-file-exists-p https)
+            https
+          http)
+      ((error) http))))
+
 (defun jws/org-roam-search-bookmarks ()
   "Search bookmarks and open them in a web browser."
   (interactive)
   (let ((bookmarks (jws/org-roam-bookmarks)))
     (jws/browse-url-browser-select
-     (concat "https:"
-             (cadr (assoc
-                    (completing-read "Bookmarks: " bookmarks nil t)
-                    bookmarks))))))
+     (jws/org-roam-check-url
+      (cadr (assoc
+             (completing-read "Bookmarks: " bookmarks nil t)
+             bookmarks))))))
 #+end_src
 
 And this function inter-operates with [[https://github.com/jws85/Dotfiles/blob/main/roles/desktop/files/scripts/rofi-roam-bookmarks][this script I wrote]] which uses
