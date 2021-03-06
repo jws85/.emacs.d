@@ -2030,6 +2030,16 @@ functions:
     temp-file))
 #+end_src
 
+I also want to bookmark web-related things I might read inside
+Emacs; I can use the below function to do this in various modes:
+
+#+begin_src emacs-lisp
+(defun jws/org-roam-capture-ref (title url)
+  "Capture an org-roam ref note with TITLE and URL."
+  (org-roam-protocol-open-ref
+   (list :template "r" :ref url :title title)))
+#+end_src
+
 *** Conversion
 
  - Enable Markdown conversion (the others are defaults)
@@ -3127,11 +3137,11 @@ browser.
 
 #+begin_src emacs-lisp
 (defun jws/eww-capture-in-org-roam ()
+  "Capture an org-roam ref note with current eww page."
   (interactive)
   (let ((eww-title (plist-get eww-data :title))
         (eww-url (plist-get eww-data :url)))
-    (org-roam-protocol-open-ref
-     (list :template "r" :ref eww-url :title eww-title))))
+    (jws/org-roam-capture-ref eww-title eww-url)))
 #+end_src
 
 Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to load it.
