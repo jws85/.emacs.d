@@ -3113,11 +3113,25 @@ emacs simply can't easily provide.
   :commands (eww eww-browse-url)
   :general
   (:keymaps 'eww-mode-map :states '(override normal)
+            "b" 'jws/eww-capture-in-org-roam
             "f" 'ace-link-eww
             "y" 'eww-copy-page-url
             "J" 'evil-scroll-page-down
             "K" 'evil-scroll-page-up
             "SPC" nil))
+#+end_src
+
+The below captures a =ref= org-roam entry from an eww page, similarly
+to doing the same thing via =org-protocol://= from an external web
+browser.
+
+#+begin_src emacs-lisp
+(defun jws/eww-capture-in-org-roam ()
+  (interactive)
+  (let ((eww-title (plist-get eww-data :title))
+        (eww-url (plist-get eww-data :url)))
+    (org-roam-protocol-open-ref
+     (list :template "r" :ref eww-url :title eww-title))))
 #+end_src
 
 Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to load it.
