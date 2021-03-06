@@ -765,6 +765,7 @@ autoloaded via =use-package=.
   "vcu" '(vc-update :wk "Update")
 
   "z" '(nil :wk "Zettel")
+  "zb" '(jws/org-roam-search-bookmarks :wk "Bookmarks")
   "zg" '(org-roam-graph :wk "Graph")
   "zi" '(org-roam-find-index :wk "Index")
   "zl" '(org-roam-insert :wk "InsertLink")
@@ -2004,9 +2005,9 @@ javascript:location.href =
     + encodeURIComponent(window.getSelection())
 #+end_src
 
-To open these bookmarks, I use [[https://github.com/jws85/Dotfiles/blob/main/roles/desktop/files/scripts/rofi-roam-bookmarks][this script]], which uses [[https://github.com/davatorium/rofi][rofi]] as a
-search interface.  =rofi= itself is getting its data from these
-functions:
+The following searches the =org-roam= database for all bookmarks
+(e.g. everything tagged =links=).  Its output is consumed by the
+below functions.
 
 #+begin_src emacs-lisp
 (defun jws/org-roam-bookmarks ()
@@ -2019,7 +2020,28 @@ functions:
             :left :join refs :on (= files:file refs:file)
             :where (and (= refs:type "website")
                         (like tags:tags '"%\"links\"%"))]))
+#+end_src
 
+This function presents my =org-roam= bookmarks as a =completing-read=
+interface, allowing me to search them anywhere inside Emacs.
+
+#+begin_src emacs-lisp
+(defun jws/org-roam-search-bookmarks ()
+  "Search bookmarks and open them in a web browser."
+  (interactive)
+  (let ((bookmarks (jws/org-roam-bookmarks)))
+    (jws/browse-url-browser-select
+     (concat "https:"
+             (cadr (assoc
+                    (completing-read "Bookmarks: " bookmarks nil t)
+                    bookmarks))))))
+#+end_src
+
+And this function inter-operates with [[https://github.com/jws85/Dotfiles/blob/main/roles/desktop/files/scripts/rofi-roam-bookmarks][this script I wrote]] which uses
+[[https://github.com/davatorium/rofi][rofi]] as a search interface, thus allowing me to search my bookmarks
+outside of Emacs entirely.
+
+#+begin_src emacs-lisp
 (defun jws/org-roam-bookmarks-rofi ()
   "Display bookmark data in format acceptable to Rofi"
   (let ((temp-file (make-temp-file "RoamBookmarks-")))
