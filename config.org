@@ -3331,6 +3331,7 @@ sometimes muscle memory from old-school term/shells gets in one's way.
   :straight nil
   :commands eshell
   :hook (eshell-banner-load-hook . jws/eshell-banner)
+  :hook (eshell-mode-hook . jws/eshell-keybindings)
   :config
   (setq eshell-scroll-to-bottom-on-input 'all
         eshell-error-if-no-glob t
@@ -3356,6 +3357,18 @@ sometimes muscle memory from old-school term/shells gets in one's way.
             (lambda ()
               (make-local-variable 'company-backends)
               (add-to-list 'company-backends 'company-pcomplete))))
+#+end_src
+
+Set keybindings:
+
+#+begin_src emacs-lisp
+(defun jws/eshell-keybindings ()
+  "Keybindings for eshell"
+  (general-define-key
+   :keymaps 'eshell-mode-map
+   :states '(override normal insert)
+   "C-j" 'eshell-next-input
+   "C-k" 'eshell-previous-input))
 #+end_src
 
 The eshell prompt itself, which displays the current Git branch, the
