@@ -741,7 +741,7 @@ autoloaded via =use-package=.
   "n" '(ace-link :wk "GotoLink")
   "N" '(jws/eww-home :wk "Net")
   "p" '(:keymap projectile-command-map :package projectile :wk "Project")
-  "r" '(elfeed :wk "RSS")
+  "r" '(elfeed-dashboard :wk "RSS")
   "s" '(jws/hydra-windows/body :wk "Windows")
   "S" '(jws/hydra-windows-sticky/body :wk "MultiWindows")
   "t" '(jws/hydra-text-editing/body :wk "Text")
@@ -3279,7 +3279,7 @@ Hey, why not.
 
 ** =elfeed=: RSS reader
 
-A pretty nice RSS reader.
+[[https://github.com/skeeto/elfeed][elfeed]] is a pretty nice RSS reader.
 
 #+begin_src emacs-lisp
 (use-package elfeed
@@ -3305,17 +3305,32 @@ content and makes an org-roam note:
     (jws/org-roam-capture-ref elfeed-title elfeed-url)))
 #+end_src
 
-I keep my =elfeed-db-directory= and =elfeed-feeds= defined elsewhere
-and loaded in =~/.emacs.d/site-init.el= with something like below:
+I know about [[https://github.com/remyhonig/elfeed-org][elfeed-org]] but I was running into issues with it,
+planning on re-evaluating it later.
+
+[[https://github.com/Manoj321/elfeed-dashboard][elfeed-dashboard]] provides a convenient interface to =elfeed=, so you
+don't have to keep changing the filter settings to see different tags.
+The way it handles configuration (using an org file at
+=elfeed-dashboard-file=) is very interesting as well.
+
+#+begin_src emacs-lisp
+(use-package elfeed-dashboard
+  :commands (elfeed-dashboard)
+  :config
+  (add-to-list 'evil-emacs-state-modes 'elfeed-dashboard-mode)
+  ;; update feed counts on elfeed-quit
+  (advice-add 'elfeed-search-quit-window :after #'elfeed-dashboard-update-links))
+#+end_src
+
+I keep various elfeed settings defined elsewhere and loaded in
+=~/.emacs.d/site-init.el= with something like below:
 
 #+begin_src emacs-lisp :tangle no
 (setq elfeed-db-directory "~/Sync/.elfeed"
+      elfeed-dashboard-file "~/Sync/Emacs/elfeed-dashboard.org"
       elfeed-feeds
       '(("http://php.net/releases/feed.php" programming php webdev)))
 #+end_src
-
-I know about [[https://github.com/remyhonig/elfeed-org][elfeed-org]] but I was running into issues with it,
-planning on re-evaluating it later.
 
 ** Terminal
 
