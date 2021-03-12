@@ -1227,9 +1227,12 @@ there's still some bitrot.  Will play with it more should I need it.
   :bind (:map projectile-command-map
               ("s" . consult-ripgrep))
   :after selectrum
+  :custom
+  (projectile-completion-system 'default)
+  ;; svn ls -R is *unusably* slow, find is like a rocketship in comparison
+  (projectile-svn-command "find . \\( -path '*/.svn*' -o -path '*/.git*' \\) -prune -o -type f -print0")
   :config
-  (projectile-mode 1)
-  (setq projectile-completion-system 'default))
+  (projectile-mode 1))
 #+end_src
 
 ** IDE-style sidebar
