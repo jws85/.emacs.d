@@ -1800,6 +1800,12 @@ I define the following keywords:
  - =CANCELLED= is something that was aborted before finishing
 
 #+begin_src emacs-lisp
+;; Grabbed this logic from https://stackoverflow.com/questions/62228905/org-mode-agenda-reuse-code-in-block-agenda
+(setq jws/skip-todo
+      '(org-agenda-skip-function '(org-agenda-skip-entry-if
+                                   'scheduled 'deadline 'timestamp
+                                   'todo '("BACKBURNER"))))
+
 (use-package org-agenda
   :straight nil
   :after org
@@ -1829,6 +1835,11 @@ I define the following keywords:
      ("@life" . ?l)
      ("@recurring" . ?r)
      ("@travel" . ?t)))
+  ;; Custom commands
+  (org-agenda-custom-commands
+   `(("c" "Complete view"
+      ((agenda "" ((org-agenda-overriding-header "Scheduled\n")))
+       (todo "" ((org-agenda-overriding-header "\nUnscheduled") ,jws/skip-todo))))))
    :config
    ;; Agenda vim key bindings
    (evil-add-hjkl-bindings org-agenda-mode-map 'emacs
