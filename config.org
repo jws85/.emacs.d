@@ -1803,40 +1803,44 @@ I define the following keywords:
 (use-package org-agenda
   :straight nil
   :after org
-  :config
-  (setq org-log-done t
-        org-icalendar-combined-agenda-file (concat jws/org-agenda-dir "combined.ics")
-        org-icalendar-timezone "America/New_York"
-        org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
-        org-icalendar-store-UID t
-        org-archive-location "finished.org::datetree/*"
-        org-agenda-span 'day
-        org-agenda-default-appointment-duration 60
-        org-agenda-files (list jws/org-todo-file jws/org-reminder-file)
-        org-use-fast-todo-selection t
-        org-log-into-drawer t
-        org-todo-keywords '((sequence "TODO(t)" "DOING(o!)" "TESTING(e!)" "DEPLOYING(y!)" "|" "DONE(d!)")
-                            (sequence "WAITING(w@)" "|")
-                            (sequence "|" "CANCELLED(c@)"))
-        org-tag-alist '(("@career" . ?c)
-                        ("@event" . ?e)
-                        ("@gtd" . ?g)
-                        ("@hobby" . ?h)
-                        ("@life" . ?l)
-                        ("@recurring" . ?r)
-                        ("@travel" . ?t)))
+  :custom
+  (org-log-done t)
+  (org-agenda-span 'day)
+  (org-agenda-default-appointment-duration 60)
+  (org-agenda-files (list jws/org-todo-file jws/org-reminder-file))
+  (org-use-fast-todo-selection t)
+  (org-log-into-drawer t)
+  (org-archive-location "finished.org::datetree/*")
+  ;; iCalendar export settings
+  (org-icalendar-timezone "America/New_York")
+  (org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due))
+  (org-icalendar-store-UID t)
+  ;; TODO keywords
+  (org-todo-keywords
+   '((sequence "TODO(t)" "DOING(o!)" "TESTING(e!)" "DEPLOYING(y!)" "|" "DONE(d!)")
+     (sequence "WAITING(w@)" "|")
+     (sequence "|" "CANCELLED(c@)")))
+  ;; Tags
+  (org-tag-alist
+   '(("@career" . ?c)
+     ("@event" . ?e)
+     ("@gtd" . ?g)
+     ("@hobby" . ?h)
+     ("@life" . ?l)
+     ("@recurring" . ?r)
+     ("@travel" . ?t)))
+   :config
+   ;; Agenda vim key bindings
+   (evil-add-hjkl-bindings org-agenda-mode-map 'emacs
+     (kbd "C") 'cfw:open-org-calendar
+     (kbd "c") 'org-agenda-capture
+     (kbd "d") 'org-agenda-goto-date
+     (kbd "L") 'org-agenda-log-mode
+     (kbd "a") 'jws/hydra-org-agenda/body)
 
-  ;; Agenda vim key bindings
-  (evil-add-hjkl-bindings org-agenda-mode-map 'emacs
-    (kbd "C") 'cfw:open-org-calendar
-    (kbd "c") 'org-agenda-capture
-    (kbd "d") 'org-agenda-goto-date
-    (kbd "L") 'org-agenda-log-mode
-    (kbd "a") 'jws/hydra-org-agenda/body)
-
-  ;; Save after various edits in org-mode/org-agenda
-  ;(advice-add 'org-deadline :after 'org-save-all-org-buffers)
-  (advice-add 'org-refile :after 'org-save-all-org-buffers))
+   ;; Save after various edits in org-mode/org-agenda
+   (advice-add 'org-deadline :after 'org-save-all-org-buffers)
+   (advice-add 'org-refile :after 'org-save-all-org-buffers))
 #+end_src
 
 Define a hydra to do things inside =org-agenda= itself.  This is taken
