@@ -329,12 +329,11 @@ make it easier to put whatever text there; also change its text.
 #+begin_src emacs-lisp
 (setq initial-major-mode 'org-mode)
 (setq initial-scratch-message "\
-This is an =org-mode= buffer for text you do not want to save.
+Please type =SPC= to use global commands, or =,= to use per-mode
+commands.
 
-Lisp evaluation can be done via [[https://orgmode.org/worg/org-contrib/babel/intro.html][Babel]].
-
-If you want to create a file, visit that file with =SPC f f=
-and enter the text in that file's buffer.
+This screen also acts as a scratch =org-mode= buffer for text you do
+not want to save.  Lisp evaluation can be done via [[https://orgmode.org/worg/org-contrib/babel/intro.html][Babel]].
 
 ")
 #+end_src
@@ -1592,18 +1591,19 @@ Do some basic configuration of =org-mode=.
   :mode (("\\.org\\'" . org-mode))
   :hook ((org-mode-hook . turn-on-flyspell)
          (org-mode-hook . jws/org-mode-disable-company))
+  :custom
+  (org-src-window-setup 'current-window)
+  (org-src-fontify-natively t)
+  (org-src-preserve-indentation t)
+  (org-startup-indented t)
+  (org-startup-with-inline-images t)
+  (org-highlight-latex-and-related nil)
+  ;; easily link to various sites
+  (org-link-abbrev-alist '(("wikipedia"    . "https://en.wikipedia.org/wiki/%s")
+                           ("wikivoyage"   . "https://en.wikivoyage.org/wiki/%s")
+                           ("rationalwiki" . "https://rationalwiki.org/wiki/%s")))
   :config
-  (add-to-list 'org-modules 'org-habit)
-  (setq org-src-fontify-natively t
-        org-src-window-setup 'current-window
-        org-src-preserve-indentation t
-        org-startup-indented t
-	org-startup-with-inline-images t
-        org-highlight-latex-and-related nil
-        ;; easily link to various sites
-        org-link-abbrev-alist '(("wikipedia"    . "https://en.wikipedia.org/wiki/%s")
-                                ("wikivoyage"   . "https://en.wikivoyage.org/wiki/%s")
-                                ("rationalwiki" . "https://rationalwiki.org/wiki/%s"))))
+  (add-to-list 'org-modules 'org-habit))
 #+end_src
 
 Set up a hydra which lets us navigate org-mode files and change
