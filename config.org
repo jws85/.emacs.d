@@ -736,6 +736,7 @@ autoloaded via =use-package=.
   "h" '(:keymap help-map :wk "Help")
   "i" '(imenu :wk "Imenu")
   "k" '(kill-this-buffer :wk "KillBuf")
+  "l" '(org-store-link :wk "StoreLink")
   "m" '(jws/hydra-mpd/body :wk "Music")
   "n" '(ace-link :wk "GotoLink")
   "N" '(jws/eww-home :wk "Net")
