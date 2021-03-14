@@ -1360,13 +1360,27 @@ last; =save-place-mode= accomplishes that.
   :init (save-place-mode))
 #+end_src
 
-I like highlighting the matching paren.  It's good for all languages,
-but I would be reduced to a gibbering mess without this enabled for
-Lisp.
+[[http://emacs-fu.blogspot.com/2009/01/balancing-your-parentheses.html][show-paren-mode]] (included with emacs) highlights the matching paren.
+It's good for all languages, but I would be reduced to a gibbering
+mess without this enabled for Lisp.
+
+Note that [[*Lisps][with Lisps]] I use the below
+=jws/set-paren-style-to-expression= to highlight the whole
+s-expression.
 
 #+begin_src emacs-lisp
-(use-package paren
-  :init (show-paren-mode))
+(show-paren-mode)
+
+(defun jws/set-paren-style-to-expresion ()
+  "Unconditionally turn on show-paren-mode in expression mode."
+  (setq-local show-paren-style 'expression)
+  (show-paren-mode t))
+
+;; Make the face gaudy for match mode, but not as gaudy for expression mode
+(set-face-attribute 'show-paren-match nil
+                    :weight 'bold :underline t :foreground nil :background "#aa0000")
+(set-face-attribute 'show-paren-match-expression nil
+                    :underline nil :background "#330022")
 #+end_src
 
 =focus= is a neat package that only highlights the specific chunk of
@@ -2490,13 +2504,22 @@ them out below.
     racket-mode-hook))
 #+end_src
 
+[[*Basic editing tools][Leverage our existing show-paren-mode config]] to better highlight Lisp
+s-expressions.  This turns =show-paren-mode= from just indicating the
+matching paren, to actually highlighting the whole affected region.
+
+#+begin_src emacs-lisp
+(dolist (hook jws/lisp-mode-hooks)
+  (add-hook hook #'jws/set-paren-style-to-expresion))
+#+end_src
+
 I had been using [[https://github.com/DogLooksGood/parinfer-mode][the Emacs implementation]] of [[http://shaunlebron.github.io/parinfer/index.html][Parinfer]] quite happily,
 but I've noticed some bugginess with it.  So I might as well learn one
 of these ersatz Lisp modes with their slurping and barfing and all.
 
 #+begin_src emacs-lisp
 (defun jws/lispy-fix-delete ()
-  "for whatever reason delete doesn't work with lispy and evil, let's fix that"
+  "For whatever reason delete doesn't work with lispy and evil, let's fix that."
   (interactive)
   (general-define-key :states 'insert :keymaps 'override
                       "<delete>" 'lispy-delete-backward
@@ -2522,18 +2545,6 @@ of these ersatz Lisp modes with their slurping and barfing and all.
                               (escape insert)
                               (additional-movement normal visual motion)))
   (setq lispyville-motions-put-into-special t))
-#+end_src
-
-[[https://github.com/hchbaw/eval-sexp-fu.el][eval-sexp-fu]] flashes the region of the s-expression being evaluated.
-
-#+begin_src emacs-lisp
-(use-package eval-sexp-fu
-  :init
-  (dolist (hook jws/lisp-mode-hooks)
-    (add-hook hook #'eval-sexp-fu-flash-mode))
-  :config
-  (setq eval-sexp-fu-flash-error-face 'lazy-highlight-face
-        eval-sexp-fu-flash-duration 0.25))
 #+end_src
 
 [[https://github.com/nonsequitur/idle-highlight-mode/blob/master/idle-highlight-mode.el][idle-highlight-mode]] highlights everywhere a token is used.  Enabled for
