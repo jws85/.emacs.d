@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: use Illuminate\Support\Facades
+# key: facade
+# --
+use Illuminate\Support\Facades\\${1:DB};$0

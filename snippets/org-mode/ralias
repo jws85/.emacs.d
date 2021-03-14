@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: #+roam_alias
+# key: ralias
+# --
+
+#+roam_alias: $0

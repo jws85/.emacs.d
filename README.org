@@ -1,0 +1,60 @@
+My Emacs configuration.
+
+Oriented around vim-style keybindings and PHP programming... for the
+moment.
+
+Warning: If you want a good easy Emacs starter pack, please go look at
+[[https://github.com/hlissner/doom-emacs][Doom Emacs]] or [[http://spacemacs.org/][Spacemacs]] or similar.  These are my personal files, and
+there's likely a lot of breakage.
+
+Do feel free to steal from it though.
+
+* Installation
+
+I only really use this config on Linux.  At the moment, I'm using this
+configuration with 27.1 on Pop_OS 20.04 via [[https://launchpad.net/~kelleyk/+archive/ubuntu/emacs][this PPA]].
+
+If you already have a =.emacs.d= folder, move that out of the way and
+do not throw it away in case you don't want to use my stuff.
+
+Clone the repo into your home directory.  (I hear tell there's now a
+=~/.config/emacs= option as well... but haven't looked into it.)
+Change into the emacs configuration directory and run =make=.
+
+Once that's done, start up Emacs and pray that something isn't broken.
+If it is, fix it.  Ain't the bleeding edge fun?
+
+* Keybindings
+
+The keybindings section is probably forever doomed to be super out of
+date.  A while back, I re-oriented myself to work more like Spacemacs,
+so almost everything that isn't some kind of Evil binding is hanging
+off the Space key.
+
+If you're in a mode where Space doesn't work, =M-j= or =F2= *should*
+do the same thing.
+
+Specifically, =SPC f f= should open a file switcher and =SPC b b=
+should open a buffer switcher.  But I can't even guarantee those
+staying the same, as I've already changed them once before!
+
+* Customizing
+
+I have different needs between work and home (different paths,
+different packages); so I've built in the ability to customize the
+setup.
+
+Stick any require calls or other customization in =site-init.el= -- a
+stub =site-init.el= should have been created upon first run.  If you
+want to install a package off MELPA, use =use-package=.  If you want
+some package that isn't on MELPA, stick it in =site-lisp/= and have at
+it.
+
+* Future directions
+
+ - I'm thinking about replacing =ivy= and friends with =selectrum= and
+   =ctrlf=.  I don't really have many problems with =ivy= but I like
+   the idea of something that hews closer to Emacs' own APIs.
+
+ - I may replace a lot of the ad-hoc infrastructure I have for
+   keybinding with =general= at some point.

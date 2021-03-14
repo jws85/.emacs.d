@@ -1,0 +1,133 @@
+# Automatically generated from config.org
+init.el
+early-init.el
+
+# site-specific .emacs.d customizations
+custom.el
+site-init.el
+!example/site-init.el
+site-lisp/
+
+# Where I put the source for Emacs itself; I'll often run long-term
+# support releases, but still want the latest stuff, which means self-
+# compiling
+src/*
+
+# master emacs auto-generated directory -- all of the stuff
+# below should be getting shunted into this directory instead
+#
+# I did say *should* -- as of now (2013-11-22) there is a bug of
+# some ilk in projectile that prevents caching of its data between
+# emacs restarts unless the cache file is living in ~/.emacs.d
+# toplevel.  Ugh.  I like projectile too much to change.
+.cache/
+
+# I shouldn't need to block these anymore but I have them here
+# just in case.  Probably the biggest weakness of emacs IMHO is its
+# propensity to crap files everywhere; I am anal enough about it that
+# it really sticks in my craw.
+
+# amx/smex
+amx-items
+smex-items
+
+# auto-complete
+ac-comphist.dat
+
+# auto-save-list
+auto-save-list/
+
+# bookmarks file
+bookmarks
+
+# calc.el (allow it to be user/machine-specific)
+calc.el
+
+# currency-convert
+currency-convert-rates.json
+
+# ctags/etags
+tags
+TAGS
+
+# emms installation
+emms/
+
+# elpa installation
+elpa/
+
+# emoji installation
+emojis/
+
+# epkgs
+epkgs/
+
+# eshell installation
+eshell/
+
+# games (e.g. Tetris scores)
+games/
+
+# infodocs
+info/
+
+# eww installation
+eww-bookmarks
+url/
+
+# helm adaptive sort
+helm-adaptive-history
+
+# ido cruft
+ido.last
+
+# Something to do with emacs' IME
+kkcrc
+
+# lsp-mode
+.lsp-session-v1
+lsp-cache
+
+# multiple-cursors
+.mc-lists.el
+
+# nov.el (ePubs)
+/nov-places
+
+# org-agenda
+/.org-id-locations
+
+# org-roam
+org-roam.db
+
+# places file
+places
+
+# projectile
+projectile.cache
+projectile-bookmarks.eld
+
+# racket
+racket-mode/
+
+# recentf
+recentf
+
+# straight.el
+straight/
+!straight/versions/
+
+# tramp cache
+tramp
+
+# transient
+transient/
+
+# var
+var/
+
+# junk files
+*~
+session.*
+/semanticdb/
+/eln-cache/
