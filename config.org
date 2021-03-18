@@ -1773,6 +1773,14 @@ I define the following keywords:
                                    'scheduled 'deadline 'timestamp
                                    'todo '("BACKBURNER"))))
 
+(defun jws/org-save-all-org-buffers (&rest _ignore)
+  "Apply `org-save-all-org-buffers` ignoring all arguments.
+
+This function was taken directly from https://emacs.stackexchange.com/a/52897.
+I am not the original poster of that question, so thank you 'Tobias' for your
+great explanation and 'quantum285' for asking the question in the first place."
+  (org-save-all-org-buffers))
+
 (use-package org-agenda
   :straight nil
   :after org
@@ -1807,18 +1815,18 @@ I define the following keywords:
    `(("c" "Complete view"
       ((agenda "" ((org-agenda-overriding-header "Scheduled\n")))
        (todo "" ((org-agenda-overriding-header "\nUnscheduled") ,jws/skip-todo))))))
-   :config
-   ;; Agenda vim key bindings
-   (evil-add-hjkl-bindings org-agenda-mode-map 'emacs
-     (kbd "C") 'cfw:open-org-calendar
-     (kbd "c") 'org-agenda-capture
-     (kbd "d") 'org-agenda-goto-date
-     (kbd "L") 'org-agenda-log-mode
-     (kbd "a") 'jws/hydra-org-agenda/body)
+  :config
+  ;; Agenda vim key bindings
+  (evil-add-hjkl-bindings org-agenda-mode-map 'emacs
+    (kbd "C") 'cfw:open-org-calendar
+    (kbd "c") 'org-agenda-capture
+    (kbd "d") 'org-agenda-goto-date
+    (kbd "L") 'org-agenda-log-mode
+    (kbd "a") 'jws/hydra-org-agenda/body)
 
-   ;; Save after various edits in org-mode/org-agenda
-   (advice-add 'org-deadline :after 'org-save-all-org-buffers)
-   (advice-add 'org-refile :after 'org-save-all-org-buffers))
+  ;; Save after various edits in org-mode/org-agenda
+  (advice-add 'org-deadline :after #'jws/org-save-all-org-buffers)
+  (advice-add 'org-refile :after #'jws/org-save-all-org-buffers))
 #+end_src
 
 Define a hydra to do things inside =org-agenda= itself.  This is taken
