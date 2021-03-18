@@ -717,7 +717,6 @@ autoloaded via =use-package=.
   "SPC" '(execute-extended-command :wk "M-x")
   "<delete>" '(delete-frame :wk "KillFrame")
   "<tab>" '(jws/switch-to-previous-buffer :wk "PrevBuf")
-  "RET" '(treemacs-select-window :wk "Sidebar")
 
   "a" '(org-agenda :wk "Agenda")
   "b" '(jws/hydra-buffer/body :wk "Buffers")
@@ -1233,53 +1232,6 @@ there's still some bitrot.  Will play with it more should I need it.
   (projectile-svn-command "find . \\( -path '*/.svn*' -o -path '*/.git*' \\) -prune -o -type f -print0")
   :config
   (projectile-mode 1))
-#+end_src
-
-** IDE-style sidebar
-
-[[https://github.com/Alexander-Miller/treemacs][Treemacs]] provides a sidebar that lists projects that you add to it,
-and allows you to navigate said projects' directory trees.
-
-#+begin_src emacs-lisp
-(use-package treemacs
-  :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-  :config
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-fringe-indicator-mode t)
-  :commands (treemacs treemacs-select-window)
-  :bind
-  (:map global-map
-        ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
-#+end_src
-
-Treemacs integration with other modes:
-
-#+begin_src emacs-lisp
-(use-package treemacs-evil
-  :after treemacs evil
-  :ensure t)
-
-(use-package treemacs-projectile
-  :after treemacs projectile
-  :ensure t)
-
-(use-package treemacs-magit
-  :after treemacs magit
-  :ensure t)
-
-(use-package treemacs-all-the-icons
-  :after (treemacs all-the-icons)
-  :config
-  (treemacs-load-theme "all-the-icons"))
 #+end_src
 
 ** Code synchronization
@@ -2373,20 +2325,6 @@ And bind it:
             (jws/secondary-leader
               :keymaps 'local
               "l" '(jws/hydra-lsp/body :wk "LSP"))))
-#+end_src
-
-[[https://github.com/emacs-lsp/lsp-treemacs][lsp-treemacs]] provides connectivity to Treemacs:
-
-#+begin_src emacs-lisp
-(use-package lsp-treemacs
-  :commands (lsp-treemacs-errors-list
-             lsp-treemacs-symbols
-             lsp-treemacs-references
-             lsp-treemacs-implementations
-             lsp-treemacs-call-hierarchy
-             lsp-treemacs-type-hierarchy)
-  :config
-  (lsp-treemacs-sync-mode -1))
 #+end_src
 
 *** Browse Dash docsets with Zeal
