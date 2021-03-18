@@ -3496,17 +3496,17 @@ everything else has been done.
 ** Emacs menu
 #+begin_src emacs-lisp
 (defun jws/open-emacs-config ()
-  "Open my emacs config file."
+  "Open my Emacs config file."
   (interactive)
   (find-file jws/config-file))
 
 (defun jws/open-emacs-site-config ()
-  "Open my emacs site config file."
+  "Open my Emacs site config file."
   (interactive)
   (find-file jws/site-file))
 
 (defun jws/server-shutdown (yn)
-  "Prompt before killing the Emacs dæmon"
+  "Prompt before killing the Emacs dæmon."
   (interactive "cKill the Emacs dæmon (y/n)? ")
   (if (eq yn ?y)
       (progn
@@ -3538,12 +3538,13 @@ Emacs | Debug: %`debug-on-error
 _q_uit emacs      edit _c_onfig       list _p_ackages
 _d_ebug emacs     edit site _C_onfig  _u_pdate packages
 _k_ start server  _r_eload config
-^^                un_t_angle config
-^^                _s_cratch buffer
+_i_elm            un_t_angle config
+_s_cratch
 "
   ("c" jws/open-emacs-config)
   ("C" jws/open-emacs-site-config)
   ("d" toggle-debug-on-error :exit nil)
+  ("i" ielm)
   ("s" jws/scratch-switch)
   ("t" jws/untangle-emacs-config)
   ("r" jws/reload-emacs-config)
