@@ -2386,7 +2386,7 @@ And bind it:
              lsp-treemacs-call-hierarchy
              lsp-treemacs-type-hierarchy)
   :config
-  (lsp-treemacs-sync-mode 1))
+  (lsp-treemacs-sync-mode -1))
 #+end_src
 
 *** Browse Dash docsets with Zeal
