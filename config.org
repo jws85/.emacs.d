@@ -2126,19 +2126,6 @@ work in Org and then copy it into our work wiki.
                                  (ledger . t))))
 #+end_src
 
-*** Appearance
-
-Fancy bullets in =org-mode=!
-
-#+begin_src emacs-lisp
-(use-package org-superstar
-  :after org
-  :hook (org-mode-hook . org-superstar-mode)
-  :config
-  ;; just in case
-  (setq inhibit-compacting-font-caches t))
-#+end_src
-
 ** Markdown
 
 Ideally I'd stay in org-mode, but I live in the real world.
