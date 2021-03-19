@@ -1556,6 +1556,8 @@ Do some basic configuration of =org-mode=.
   :mode (("\\.org\\'" . org-mode))
   :hook ((org-mode-hook . turn-on-flyspell)
          (org-mode-hook . jws/org-mode-disable-company))
+  :init
+  (setq org-modules nil)
   :custom
   (org-src-window-setup 'current-window)
   (org-src-fontify-natively t)
@@ -1566,9 +1568,7 @@ Do some basic configuration of =org-mode=.
   ;; easily link to various sites
   (org-link-abbrev-alist '(("wikipedia"    . "https://en.wikipedia.org/wiki/%s")
                            ("wikivoyage"   . "https://en.wikivoyage.org/wiki/%s")
-                           ("rationalwiki" . "https://rationalwiki.org/wiki/%s")))
-  :config
-  (add-to-list 'org-modules 'org-habit))
+                           ("rationalwiki" . "https://rationalwiki.org/wiki/%s"))))
 #+end_src
 
 Set up a hydra which lets us navigate org-mode files and change
