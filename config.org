@@ -2893,6 +2893,47 @@ Qt's resource files (=.qrc=) are XML.
 #+end_src
 
 * Utilities
+** Seeing which libraries are running
+
+The below is a small library I wrote to diagnose serious slowness
+in these config files.  If I want to see what I've dragged in,
+I can run =jws/features-report= to get a report of what all is
+running, and trim this configuration accordingly.
+
+Emacs calls these libraries 'features' and keeps them in the
+=features= global variable as individual symbols which can be
+queried e.g. by =locate-library=.
+
+#+begin_src emacs-lisp
+(defun jws/features-report ()
+  "Generate report of running Emacs features/libraries."
+  (interactive)
+  (message "Please give this a sec if your .emacs is huge...")
+  (let ((buffer (generate-new-buffer "*Features*")))
+    (with-current-buffer buffer
+      (insert (jws/features-report-header))
+      (insert (jws/features-report-body))
+      (goto-char 0)
+      (set-buffer-major-mode buffer)
+      (read-only-mode 1)
+      (display-buffer buffer '(display-buffer-pop-up-frame . nil)))))
+
+(defun jws/features-report-header ()
+  (format "FEATURES REPORT\n%s\nThere are %d features loaded:\n\n"
+	  "============================================================"
+	  (length features)))
+
+(defun jws/features-report-body ()
+  (setq output "")
+  (dolist (f features output)
+    (setq output
+	  (concat output
+		  (format " - %s: %s\n"
+			  (symbol-name f)
+			  (locate-library (symbol-name f))))))
+  output)
+#+end_src
+
 ** File management
 
 =dired= is the built-in Emacs file manager.
