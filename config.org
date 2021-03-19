@@ -2079,6 +2079,7 @@ Emacs; I can use the below function to do this in various modes:
 #+begin_src emacs-lisp
 (use-package ox
   :straight nil
+  :defer t
   :after org
   :init (setq org-export-backends '(ascii html icalendar latex odt md))
   :config
@@ -2090,6 +2091,7 @@ Emacs; I can use the below function to do this in various modes:
 
 #+begin_src emacs-lisp
 (use-package ox-hugo
+  :defer t
   :after ox)
 #+end_src
 
@@ -2098,6 +2100,7 @@ work in Org and then copy it into our work wiki.
 
 #+begin_src emacs-lisp
 (use-package ox-wk
+  :defer t
   :after ox
   :commands (ox-wk-export-as-wiki
              ox-wk-export-to-wiki)
@@ -2108,7 +2111,7 @@ work in Org and then copy it into our work wiki.
 =htmlize= lets the HTML exporter colorize your source blocks.
 
 #+begin_src emacs-lisp
-(use-package htmlize)
+(use-package htmlize :defer t)
 #+end_src
 
 *** Literate programming
@@ -2245,6 +2248,7 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
 
 #+begin_src emacs-lisp
 (use-package lsp-mode
+  :defer t
   :commands (lsp
              lsp-describe-session
              lsp-describe-thing-at-point
@@ -2562,6 +2566,16 @@ For curly-brace languages, I like underscores to be part of the Emacs
 
 *** C and its immediate relatives
 
+#+begin_src emacs-lisp
+(use-package c-mode
+  :straight nil
+  :mode ("\\.\\(c\\|h\\)\\'"))
+
+(use-package c++-mode
+  :straight nil
+  :mode "\\.\\(c\\|h\\)pp\\'")
+#+end_src
+
 Let's enable =lsp-mode= for these folks.
 
 For =c-mode= and =c++-mode= you'll want the =clangd= from =clang-tools-8=.
@@ -2712,13 +2726,22 @@ far as I'm concerned.
 
 *** Python
 
+#+begin_src emacs-lisp
+(use-package python-mode
+  :mode "\\.py\\'")
+#+end_src
+
 I'm using [[https://github.com/microsoft/pyright][Pyright]] for Python completions:
 
 #+begin_src emacs-lisp
+(defun jws/lsp-pyright ()
+  "Load lsp-mode and pyright when python-mode is loaded"
+  (require 'lsp-pyright)
+  (lsp-deferred))
+
 (use-package lsp-pyright
-  :hook (python-mode-hook . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp-deferred))))
+  :defer t
+  :hook (python-mode-hook . jws/lsp-pyright))
 #+end_src
 
 To install Pyright, install NodeJS v12.x or greater (on Ubuntu 20.04,
