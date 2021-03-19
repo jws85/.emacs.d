@@ -2728,6 +2728,13 @@ you'll need the [[https://github.com/nodesource/distributions/blob/master/README
 sudo npm install -g pyright
 #+end_src
 
+*** Forth
+
+#+begin_src emacs-lisp
+(use-package forth-mode
+  :mode "\\.\\(4th\\|f\\(s\\|th\\)?\\)\\'")
+#+end_src
+
 *** Fish (shell)
 
 #+begin_src emacs-lisp
