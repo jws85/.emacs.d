@@ -1550,9 +1550,7 @@ Do some basic configuration of =org-mode=.
   (company-mode -1))
 
 (use-package org
-  :commands (org-agenda
-             org-capture
-             org-export-dispatch
+  :commands (org-export-dispatch
              org-store-link
              org-babel-tangle-file)
   :mode (("\\.org\\'" . org-mode))
@@ -1655,6 +1653,8 @@ notes and bookmarking websites.
 (use-package org-capture
   :after org
   :straight nil
+  :defer t
+  :commands org-capture
   :config
   (setq org-capture-templates
         '(("j" "Journal" entry
@@ -1783,6 +1783,8 @@ great explanation and 'quantum285' for asking the question in the first place."
 
 (use-package org-agenda
   :straight nil
+  :defer t
+  :commands org-agenda
   :after org
   :custom
   (org-log-done t)
@@ -2524,7 +2526,8 @@ but I have used it from time to time when developing plugins.
 *** Common Lisp
 
 #+begin_src emacs-lisp
-(use-package sly)
+(use-package sly
+  :mode "\\.lisp\\'")
 #+end_src
 
 *** Clojure
@@ -2532,10 +2535,9 @@ but I have used it from time to time when developing plugins.
 #+begin_src emacs-lisp
 (use-package clojure-mode
   :mode "\\.clj\\'")
-#+end_src
 
-#+begin_src emacs-lisp
-(use-package cider)
+(use-package cider
+  :after clojure-mode)
 #+end_src
 
 *** Racket
@@ -2898,6 +2900,7 @@ Qt's resource files (=.qrc=) are XML.
 #+begin_src emacs-lisp
 (use-package dired
   :straight nil
+  :defer t
   :commands dired)
 #+end_src
 
@@ -2908,6 +2911,7 @@ Due to =evil-collection= I had to specially map =^=.
 #+begin_src emacs-lisp
 (use-package dired-single
   :after dired
+  :defer t
   :bind (:map dired-mode-map
          ("^" . dired-single-up-directory)
          ("<return>" . dired-single-buffer)))
@@ -2920,6 +2924,7 @@ to hide and toggle the view of "hidden files"
 (use-package dired-x
   :straight nil
   :after dired
+  :defer t
   :commands dired-jump
   :hook ((dired-mode-hook . dired-omit-mode))
   :bind (:map dired-mode-map
@@ -2933,6 +2938,7 @@ Add =all-the-icons= icons:
 #+begin_src emacs-lisp
 (use-package all-the-icons-dired
   :after (dired all-the-icons)
+  :defer t
   :hook (dired-mode-hook . all-the-icons-dired-mode))
 #+end_src
 
@@ -2942,6 +2948,7 @@ executables.
 #+begin_src emacs-lisp
 (use-package dired-rainbow
   :after dired
+  :defer t
   :config
   (dired-rainbow-define-chmod executable-unix "Green" "-[rw-]+x.*"))
 #+end_src
@@ -2951,12 +2958,14 @@ And some other packages that I forgot the exact intent of.
 #+begin_src emacs-lisp
 (use-package dired-subtree
   :after dired
+  :defer t
   :bind (:map dired-mode-map
          ("C-c s a" . dired-subtree-insert)
          ("C-c s d" . dired-subtree-remove)))
 
 (use-package dired-collapse
   :after dired
+  :defer t
   :bind (:map dired-mode-map
          ("C-c c" . dired-collapse-mode)))
 #+end_src
@@ -3215,6 +3224,7 @@ I grabbed the settings from [[https://www.reddit.com/r/emacs/comments/8ml6na/tip
 
 #+begin_src emacs-lisp
 (use-package erc
+  :defer t
   :custom
   (erc-autojoin-timing 'ident)
   (erc-fill-function 'erc-fill-static)
