@@ -2120,10 +2120,34 @@ work in Org and then copy it into our work wiki.
 (use-package ob
   :after org
   :straight nil
-  :config
-  (org-babel-do-load-languages 'org-babel-load-languages
-                               '((shell . t)
-                                 (ledger . t))))
+  :custom
+  (org-babel-confirm-evaluate nil))
+#+end_src
+
+We want to avoid =org-babel-do-load-languages= because it eagerly
+loads all modules associated with that language ([[https://blog.d46.us/advanced-emacs-startup/][see here]]) instead of
+adding languages to that variable, expose the module's equivalent
+=org-babel-execute= and =org-babel-expand-body= functions.
+
+#+begin_src emacs-lisp
+(use-package ob-shell
+  :defer t
+  :straight nil
+  :commands (org-babel-execute:sh
+             org-babel-expand-body:sh
+             org-babel-execute:bash
+             org-babel-expand-body:bash))
+
+(use-package ob-ledger
+  :defer t
+  :straight nil
+  :commands (org-babel-execute:ledger
+             org-babel-expand-body:ledger))
+
+(use-package ob-python
+  :defer t
+  :straight nil
+  :commands (org-babel-execute:python))
 #+end_src
 
 ** Markdown
@@ -2869,11 +2893,8 @@ This package integrates =restclient= with =org-babel=.
 
 #+begin_src emacs-lisp
 (use-package ob-restclient
-  :after (restclient)
-  :config
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((restclient . t))))
+  :defer t
+  :commands (org-babel-execute:restclient))
 #+end_src
 
 And this package integrates =company= with =restclient=.
