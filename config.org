@@ -2963,14 +2963,13 @@ queried e.g. by =locate-library=.
 (defun jws/features-report ()
   "Generate report of running Emacs features/libraries."
   (interactive)
-  (message "Please give this a sec if your .emacs is huge...")
+  (message "Please wait a moment if you have a large .emacs...")
   (let ((buffer (generate-new-buffer "*Features*")))
     (with-current-buffer buffer
       (insert (jws/features-report-header))
       (insert (jws/features-report-body))
-      (goto-char 0)
-      (set-buffer-major-mode buffer)
-      (read-only-mode 1)
+      (goto-char (point-min))
+      (view-mode 1)
       (display-buffer buffer '(display-buffer-pop-up-frame . nil)))))
 
 (defun jws/features-report-header ()
