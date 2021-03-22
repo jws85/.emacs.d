@@ -833,49 +833,73 @@ I grabbed the below snippet from [[https://github.com/nex3/perspective-el/tree/6
                       "C-r" 'undo-fu-only-redo))
 #+end_src
 
-** Incremental narrowing (=selectrum=, =consult=, and friends)
+** Incremental narrowing (=icomplete=, =consult=, and friends)
 
 i.e. speeding up menu traversal.
 
 (Used to call this "menu completion"; "incremental narrowing," from
 Selectrum's =README=, is a much better/descriptive term)
 
-I used [[https://github.com/abo-abo/swiper][counsel and ivy]] to do this for me for a long time.  I still
-appreciate those packages, but I've increasingly wanted to try
-things that hew closer to Emacs' architecture, thus I'm going to
-experiment with the Selectrum ecosystem.
+I had used [[https://github.com/abo-abo/swiper][counsel and ivy]] for a long time, then moved briefly to
+[[https://github.com/raxod502/selectrum][selectrum]] before trying plain ol' =icomplete= and finding it (with
+some changes) very nice.
 
-*** [[https://github.com/raxod502/selectrum][selectrum]]
+*** =icomplete=
 
-=selectrum= provides some extensions to Emacs' own built-in
-=completing-read= mechanism, which means it cleanly slides into all
-other Emacs functions that use =completing-read=.
+Define some keys to move up/down the list, and make =TAB= complete
+the first thing in the list.  Also make completion case-insensitive.
+
+The only downside vs. =selectrum= and the like is that you must
+complete fully before committing to a choice with =RET=, or else it'll
+leave partial input.
 
 #+begin_src emacs-lisp
-(use-package selectrum
-  :ensure t
+(use-package icomplete
+  :straight nil
+  :demand t
+  :general
+  (:keymaps 'icomplete-minibuffer-map
+            "<tab>" 'icomplete-force-complete
+            "<down>" 'icomplete-forward-completions
+            "<up>" 'icomplete-backward-completions
+            "C-j" 'icomplete-forward-completions
+            "C-k" 'icomplete-backward-completions)
+  :custom
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (completion-ignore-case t)
   :config
-  (selectrum-mode +1))
+  (icomplete-mode +1))
 #+end_src
 
-*** [[https://github.com/raxod502/prescient.el][prescient]]
-
-=prescient= provides "better" sorting/filtering of candidates in
-=selectrum=.
+=icomplete= displays horizontally by default; [[https://github.com/oantolin/icomplete-vertical][icomplete-vertical]]
+causes it to display vertically instead.
 
 #+begin_src emacs-lisp
-(use-package selectrum-prescient
-  :ensure t
-  :after selectrum
+(use-package icomplete-vertical
+  :after icomplete
+  :custom
+  (icomplete-vertical-prospects-height 15)
   :config
-  (selectrum-prescient-mode +1)
-  (prescient-persist-mode +1))
+  (icomplete-vertical-mode +1))
+#+end_src
+
+*** [[https://github.com/oantolin/orderless][orderless]]
+
+=orderless= provides "fuzzy" searching to =icomplete=:
+
+#+begin_src emacs-lisp
+(use-package orderless
+  :after icomplete
+  :custom
+  (completion-styles '(orderless)))
 #+end_src
 
 *** [[https://github.com/minad/consult][consult]]
 
-=consult= is =selectrum='s answer to =ivy='s =counsel=; it provides various
-nifty utility functions powered by =completing-read=.
+=consult= is like =ivy='s =counsel=; it provides various nifty utility
+functions powered by =completing-read= and thus usable by =icomplete=
+and =selectrum=.
 
 #+begin_src emacs-lisp
 (use-package consult
@@ -898,8 +922,7 @@ nifty utility functions powered by =completing-read=.
 
 *** [[https://github.com/minad/marginalia/][marginalia]]
 
-=marginalia= adds various helpful text to various =selectrum= &
-=consult= commands:
+=marginalia= adds various helpful text to various =consult= commands:
 
 #+begin_src emacs-lisp
 (use-package marginalia
@@ -1242,7 +1265,6 @@ there's still some bitrot.  Will play with it more should I need it.
 (use-package projectile
   :bind (:map projectile-command-map
               ("s" . consult-ripgrep))
-  :after selectrum
   :custom
   (projectile-completion-system 'default)
   ;; svn ls -R is *unusably* slow, find is like a rocketship in comparison
