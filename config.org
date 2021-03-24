@@ -945,7 +945,8 @@ more like a right-click contextual menu.
 #+begin_src emacs-lisp
 (use-package embark
   :ensure t
-  :general ("C-`" 'embark-act)
+  :general
+  (:keymaps 'override "C-'" 'embark-act)
   :config
   (setq embark-prompter #'embark-completing-read-prompter))
 
