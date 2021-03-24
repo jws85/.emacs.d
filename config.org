@@ -2880,6 +2880,17 @@ Enable =company= in =web-mode=.
   :after (company web-mode))
 #+end_src
 
+Open web-mode files in a web browser:
+
+#+begin_src emacs-lisp
+(defun jws/open-this-file-in-browser ()
+  "Open this file in a web browser."
+  (interactive)
+  (if (buffer-file-name)
+      (jws/browse-url-browser-select
+       (concat "file://" (buffer-file-name)))))
+#+end_src
+
 Increasingly, in this era of LSP everywhere, I find myself wanting to
 live in the native language mode.  But I have to maintain a depressing
 amount of legacy mixed-mode PHP code.  I define the below function to
@@ -2893,12 +2904,13 @@ hop in and out of =web-mode=.
     (web-mode)))
 #+end_src
 
-And then I make an easy binding to it:
+Easy bindings to our above functions:
 
 #+begin_src emacs-lisp
 (jws/secondary-leader
   :keymaps 'prog-mode-map
-  "w" '(jws/toggle-web-mode :wk "ToggleWeb"))
+  "w" '(jws/toggle-web-mode :wk "ToggleWeb")
+  "n" '(jws/open-this-file-in-browser :wk "OpenInBrowser"))
 #+end_src
 
 *** CSS/Sass
