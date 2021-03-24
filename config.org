@@ -859,6 +859,7 @@ leave partial input.
   :demand t
   :general
   (:keymaps 'icomplete-minibuffer-map
+            "SPC" 'self-insert-command
             "RET" 'icomplete-force-complete-and-exit
             "<tab>" 'icomplete-force-complete
             "<down>" 'icomplete-forward-completions
