@@ -946,12 +946,18 @@ capability *outside of the minibuffer menus*, which means it becomes
 more like a right-click contextual menu.
 
 #+begin_src emacs-lisp
+(defun jws/embark-action-which-key (map _target)
+  (which-key--show-keymap "Embark" map nil nil 'no-paging)
+  #'which-key--hide-popup-ignore-command)
+
 (use-package embark
   :ensure t
   :general
   (:keymaps 'override "C-'" 'embark-act)
-  :config
-  (setq embark-prompter #'embark-completing-read-prompter))
+  :custom
+  (embark-prompter 'embark-keymap-prompter)
+  (embark-action-indicator 'jws/embark-action-which-key)
+  (embark-become-indicator embark-action-indicator))
 
 (use-package embark-consult
   :ensure t
