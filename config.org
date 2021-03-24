@@ -2581,8 +2581,15 @@ but I have used it from time to time when developing plugins.
 *** Common Lisp
 
 #+begin_src emacs-lisp
-(use-package sly
+(use-package common-lisp-mode
+  :straight nil
   :mode "\\.lisp\\'")
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package sly
+  :after common-lisp-mode
+  :commands (sly))
 #+end_src
 
 *** Clojure
