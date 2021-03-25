@@ -3193,14 +3193,18 @@ Playing around with currency conversion in Calc:
 Natively render PDFs in Emacs, using an external daemon to render the
 PDFs into image files and send them to Emacs.
 
-Defer loading unless a PDF is opened... this should avoid having to
-build the daemon binary every time I clone a fresh copy of this code.
+If you haven't yet, you *must* run =pdf-tools-install= prior to
+opening a PDF with this viewer.  =pdf-tools= can build automatically
+on install, but it requires human intervention (installing
+=libpoppler= via package manager) and thus interferes with server
+startup...
 
 #+begin_src emacs-lisp
 (use-package pdf-tools
+  :straight (pdf-tools :flavor melpa :build nil)
   :mode ("\\.pdf\\'" . pdf-view-mode)
+  :commands (pdf-tools-install)
   :config
-  (pdf-tools-install :no-query)
   (setq pdf-annot-activate-created-annotations t))
 #+end_src
 
