@@ -254,6 +254,19 @@ to save my files on my own and do not need this.
 (setq auto-save-default nil)
 #+end_src
 
+** Clean up old buffers
+
+#+begin_src emacs-lisp
+(use-package midnight
+  :straight nil
+  :demand t
+  :init (midnight-mode t)
+  :custom
+  (midnight-delay-set "5:30am")
+  (clean-buffer-list-kill-buffer-names
+   '("*Flymake log*" "*compilation*" "*elfeed-log*" "*elfeed-search*" "*lsp-log*" "*straight-process*")))
+#+end_src
+
 ** Usability
 
 Here are some settings to make Emacs more usable in general.
