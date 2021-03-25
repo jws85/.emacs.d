@@ -2628,24 +2628,27 @@ For curly-brace languages, I like underscores to be part of the Emacs
 
 *** C and its immediate relatives
 
-#+begin_src emacs-lisp
-(use-package c-mode
-  :straight nil
-  :mode ("\\.\\(c\\|h\\)\\'"))
-
-(use-package c++-mode
-  :straight nil
-  :mode "\\.\\(c\\|h\\)pp\\'")
-#+end_src
-
 Let's enable =lsp-mode= for these folks.
 
 For =c-mode= and =c++-mode= you'll want the =clangd= from =clang-tools-8=.
 
 #+begin_src emacs-lisp
-(add-hook 'c-mode-hook 'lsp)
-(add-hook 'c++-mode-hook 'lsp)
-(add-hook 'c++-mode-hook (lambda () (setq-local zeal-at-point-docset '("c" "cpp"))))
+(defun jws/cpp-dash-docsets ()
+  "Use C & C++ docsets"
+  (setq-local zeal-at-point-docset '("c" "cpp")))
+
+(use-package c-mode
+  :straight nil
+  :hook
+  (c-mode-hook . lsp)
+  :mode ("\\.\\(c\\|h\\)\\'"))
+
+(use-package c++-mode
+  :straight nil
+  :hook
+  (c++-mode-hook . lsp)
+  (c++-mode-hook . jws/cpp-dash-docsets)
+  :mode "\\.\\(c\\|h\\)pp\\'")
 #+end_src
 
 *** PHP
