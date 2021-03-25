@@ -3130,7 +3130,20 @@ Emacs is horribly unoptimized for this, but if we are viewing files,
 we'll necessarily bump into multimedia files from time to time.
 
 #+begin_src emacs-lisp
-(use-package image :straight nil :commands image-mode)
+(defun jws/file-extension-regex (extension-list)
+  "Create regex to match EXTENSION-LIST."
+  (concat "\\." (regexp-opt extension-list) "\\'"))
+
+(defun jws/image-type-regex ()
+  "Regex matching image types supported by Emacs."
+  (jws/file-extension-regex
+   (map 'list #'symbol-name
+        (--filter #'image-type-available-p image-types))))
+
+(use-package image
+  :straight nil
+  ;; FIXME: I want to dynamically populate this with jws/image-type-regex
+  :mode ("\\.\\(?:gif\\|jpeg\\|p\\(?:bm\\|ng\\)\\|svg\\|tiff\\|x\\(?:[bp]m\\)\\)\\'" . image-mode))
 #+end_src
 
 #+begin_src emacs-lisp
