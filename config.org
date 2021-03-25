@@ -910,6 +910,7 @@ and =selectrum=.
   :ensure t
   :commands (consult-bookmark
              consult-buffer
+             consult-flymake
              consult-outline
              consult-ripgrep
              consult-recent-file)
@@ -917,11 +918,6 @@ and =selectrum=.
   (autoload 'projectile-project-root "projectile")
   (setq consult-preview-key nil)
   (setq consult-project-root-function #'projectile-project-root))
-
-(use-package consult-flycheck
-  :ensure t
-  :after (consult flycheck)
-  :commands consult-flycheck)
 #+end_src
 
 *** [[https://github.com/minad/marginalia/][marginalia]]
@@ -2254,36 +2250,28 @@ In programming modes, set =, x= to run that hydra.  Note that
   "c" '(compile :wk "Compile"))
 #+end_src
 
-*** Flycheck
+*** Flymake
 
-I had =flycheck= and =flymake= confused for a while.  [[https://www.flycheck.org/en/latest/user/flycheck-versus-flymake.html][flycheck's
-website has a nice comparison of the two.]]
+I had =flycheck= and =flymake= confused for a while.  =flymake= comes
+with Emacs, and =flycheck= looks a little nicer.  =flymake= was
+historically not great, but was significantly improved at some point.
 
-#+begin_src emacs-lisp
-(use-package flycheck
-  :init
-  (global-flycheck-mode))
-#+end_src
+I'm trying =flymake= for a bit in part of an effort to go a little
+closer to basics.
 
-Disable =flycheck= in org-babel buffers.  More than a little
-annoying having to trawl through "there's no package declaration"
-warnings.
+=flymake= is automatically enabled whenever =lsp-mode= is turned on,
+otherwise it has to be enabled in a given mode.
 
-#+begin_src emacs-lisp
-(defun disable-flycheck-in-org-src-block ()
-  (setq-local flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-
-(add-hook 'org-src-mode-hook 'disable-flycheck-in-org-src-block)
-#+end_src
-
-Set up flycheck capability on =, e=.
+Set up =flymake= keybindings on =, e=.
 
 #+begin_src emacs-lisp
+(general-define-key
+ :states 'normal
+ "[ g" 'flymake-goto-prev-error
+ "] g" 'flymake-goto-next-error)
+
 (jws/secondary-leader
-  "e" '(nil :wk "Errors")
-  "ep" '(flycheck-previous-error :wk "Previous")
-  "en" '(flycheck-next-error :wk "Next")
-  "ee" '(consult-flycheck :wk "All"))
+  "e" '(consult-flymake :wk "Errors"))
 #+end_src
 
 *** LSP support
@@ -2322,7 +2310,7 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
 #+begin_src emacs-lisp
 (use-package lsp-ui
   :after lsp-mode
-  :requires lsp-mode flycheck
+  :requires lsp-mode
   :hook (lsp-mode-hook . lsp-ui-mode)
   :commands (lsp-ui-peek-find-definitions
              lsp-ui-peek-find-references
@@ -2338,9 +2326,6 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
         lsp-ui-doc-include-signature t
         lsp-ui-doc-delay 0.8
         lsp-ui-sideline-enable nil
-        lsp-ui-flycheck-enable t
-        lsp-ui-flycheck-list-position 'at-point
-        lsp-ui-flycheck-live-reporting t
         lsp-ui-peek-enable t
         lsp-ui-peek-list-width 60
         lsp-ui-peek-peek-height 25
@@ -2504,6 +2489,14 @@ them out below.
     lisp-mode-hook
     racket-mode-hook))
 #+end_src
+
+Let's start by turning on [[*Flymake][flymake]].
+
+#+begin_src emacs-lisp
+(dolist (hook jws/lisp-mode-hooks)
+  (add-hook hook #'flymake-mode))
+#+end_src
+
 
 [[*Basic editing tools][Leverage our existing show-paren-mode config]] to better highlight Lisp
 s-expressions.  This turns =show-paren-mode= from just indicating the
