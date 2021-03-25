@@ -1490,18 +1490,6 @@ decided this has worms in their brains.  Why.
 (setq backward-delete-char-untabify-method nil)
 #+end_src
 
-For all other projects, I'll probably start requiring the use of
-[[https://editorconfig.org/][EditorConfig]] ([[https://github.com/editorconfig/editorconfig-emacs][Emacs implementation]]).  This should solve the
-consistency issue (in theory...) with an =.editorconfig= file per
-project; put the project settings in there and hope everyone else uses
-an editor set up with EditorConfig.
-
-#+begin_src emacs-lisp
-(use-package editorconfig
-  :config
-  (editorconfig-mode 1))
-#+end_src
-
 ** Character encoding
 
 I want to force UTF-8 everywhere, even on Windows; ultimately most of
