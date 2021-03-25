@@ -1990,8 +1990,7 @@ Using [[https://www.orgroam.com/][org-roam]] for a [[https://en.wikipedia.org/wi
 #+begin_src emacs-lisp
 (use-package org-roam
   :after org
-  :hook ((after-init-hook . org-roam-mode))
-  :commands (org-roam org-roam-find-file)
+  :commands (org-roam org-roam-find-file org-roam-db-query org-roam-protocol-open-ref)
   :config
   (require 'org-roam-protocol)
   (setq org-roam-directory jws/org-notes-dir
@@ -2020,6 +2019,7 @@ and Deft has it... so we're bringing it back on board.
 #+begin_src emacs-lisp
 (use-package deft
   :after org
+  :defer t
   :commands deft
   :config
   (setq deft-directory jws/org-notes-dir
