@@ -3378,7 +3378,6 @@ I grabbed the settings from [[https://www.reddit.com/r/emacs/comments/8ml6na/tip
   (erc-track-exclude-types '("JOIN" "MODE" "NICK" "PART" "QUIT"
                              "324" "329" "332" "333" "353" "477"))
   :config
-  (add-to-list 'erc-modules 'notifications)
   (erc-services-mode 1)
   (erc-update-modules))
 #+end_src
