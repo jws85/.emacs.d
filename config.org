@@ -2671,18 +2671,15 @@ Intelephense's class renaming (one of the paid features) works with
   "Use PHP & Laravel docsets"
   (setq-local zeal-at-point-docset '("php" "laravel")))
 
-(defun jws/php-lsp-setup ()
-  "Try to ignore composer vendor folder to make lsp faster"
-  (push "[/\\\\]vendor[/\\\\]" lsp-file-watch-ignored)
-  (lsp))
-
 (use-package php-mode
   :commands php-mode
-  :config
-  (setq c-basic-offset 4)
-  (add-hook 'php-mode-hook 'jws/make-underscores-belong-to-words)
-  (add-hook 'php-mode-hook 'jws/php-dash-docsets)
-  (add-hook 'php-mode-hook 'jws/php-lsp-setup))
+  :mode "\\.php\\'"
+  :hook
+  (php-mode-hook . jws/make-underscores-belong-to-words)
+  (php-mode-hook . jws/php-dash-docsets)
+  (php-mode-hook . lsp)
+  :custom
+  (c-basic-offset 4))
 #+end_src
 
 =auto-mode-alist= loads by precedence; the first match wins.  As such,
@@ -2694,7 +2691,6 @@ rest to =php-mode=.  =add-to-list= appends, so we want to put the Blade
 match]] "not =blade=".)
 
 #+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.blade\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\.php\\'" . web-mode))
 #+end_src
