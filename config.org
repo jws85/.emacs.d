@@ -929,16 +929,24 @@ and =selectrum=.
   :ensure t
   :general
   (jws/primary-leader
-    "bb" '(consult-buffer :wk "Switch buffer")
+    "bb" '(consult-buffer :wk "Switch")
     "fr" '(consult-recent-file :wk "Recent")
-    "fb" '(consult-bookmark :wk "Bkmark"))
+    "fb" '(consult-bookmark :wk "Bkmark")
+    "r" '(consult-register-load :wk "LoadRegister")
+    "R" '(consult-register-store :wk "SaveRegister"))
   :commands (consult-flymake
              consult-outline
              consult-ripgrep)
-:config
-  (autoload 'projectile-project-root "projectile")
-  (setq consult-preview-key nil)
-  (setq consult-project-root-function #'projectile-project-root))
+  :init
+  (setq register-preview-delay 0.8
+        register-preview-function #'consult-register-format
+        xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+  :custom
+  (consult-preview-key nil)
+  (consult-project-root-function #'projectile-project-root)
+  :config
+  (autoload 'projectile-project-root "projectile"))
 #+end_src
 
 *** [[https://github.com/DarwinAwardWinner/amx][amx]]
