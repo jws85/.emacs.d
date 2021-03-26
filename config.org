@@ -944,10 +944,10 @@ and =selectrum=.
     "fr" '(consult-recent-file :wk "Recent")
     "fb" '(consult-bookmark :wk "Bkmark")
     "r" '(consult-register-load :wk "LoadRegister")
-    "R" '(consult-register-store :wk "SaveRegister"))
+    "R" '(consult-register-store :wk "SaveRegister")
+    "/" '(consult-ripgrep :wk "Search"))
   :commands (consult-flymake
-             consult-outline
-             consult-ripgrep)
+             consult-outline)
   :init
   (setq register-preview-delay 0.8
         register-preview-function #'consult-register-format
@@ -1335,9 +1335,7 @@ there's still some bitrot.  Will play with it more should I need it.
 (use-package projectile
   :general
   (jws/primary-leader
-    "p" '(:keymap projectile-command-map :project projectile :wk "Project"))
-  (:map projectile-command-map
-        "s" 'consult-ripgrep)
+    "p" '(:keymap projectile-command-map :package projectile :wk "Project"))
   :custom
   (projectile-completion-system 'default)
   ;; svn ls -R is *unusably* slow, find is like a rocketship in comparison
