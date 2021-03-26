@@ -720,22 +720,20 @@ others.  All functions here should either be built into Emacs or
 autoloaded via =use-package=.
 
 #+begin_src emacs-lisp
-(general-define-key
-  :keymaps '(insert emacs normal hybrid motion visual operator)
+(general-create-definer jws/primary-leader
+  :keymaps 'override
+  :states '(insert emacs normal hybrid motion visual operator)
   :prefix "SPC"
-  :non-normal-prefix "C-SPC"
+  :non-normal-prefix "C-SPC")
+#+end_src
 
+#+begin_src emacs-lisp
+(jws/primary-leader
   "" nil
 
   "SPC" '(execute-extended-command :wk "M-x")
   "<delete>" '(delete-frame :wk "KillFrame")
   "<tab>" '(jws/switch-to-previous-buffer :wk "PrevBuf")
-
-  "a" '(org-agenda :wk "Agenda")
-  "b" '(jws/hydra-buffer/body :wk "Buffers")
-  "c" '(calc-dispatch :wk "Calc")
-  "d" '(dired :wk "Dired")
-  "e" '(jws/hydra-emacs/body :wk "Emacs")
 
   "f" '(:ignore t :wk "Files")
   "fa" '(ff-find-other-file :wk "Other")
@@ -743,49 +741,10 @@ autoloaded via =use-package=.
   "fr" '(consult-recent-file :wk "Recent")
   "fb" '(consult-bookmark :wk "Bkmark")
 
-  "g" '(jws/hydra-graphics/body :wk "Graphics")
-
   "h" '(:keymap help-map :wk "Help")
   "i" '(imenu :wk "Imenu")
   "k" '(kill-this-buffer :wk "KillBuf")
-  "l" '(org-store-link :wk "StoreLink")
-  "m" '(jws/hydra-mpd/body :wk "Music")
-  "n" '(ace-link :wk "GotoLink")
-  "N" '(jws/eww-home :wk "Net")
-  "p" '(:keymap projectile-command-map :package projectile :wk "Project")
-  "r" '(elfeed-dashboard :wk "RSS")
-  "s" '(jws/hydra-windows/body :wk "Windows")
-  "S" '(jws/hydra-windows-sticky/body :wk "MultiWindows")
-  "t" '(jws/hydra-text-editing/body :wk "Text")
-  "q" '(org-capture :wk "Capture")
-  "w" '(jws/hydra-frames/body :wk "Frames")
-
-  "v" '(:ignore t :wk "VC")
-  "vv" '(magit-status :wk "Magit")
-  "vc" '(:ignore t :wk "Generic")
-  "vca" '(vc-annotate :wk "Annotate")
-  "vcc" '(jws/vc-dir-root :wk "RootDir") ; vc-dir-root does not exist on my emacs 27.1
-  "vcC" '(vc-dir :wk "PickDir")
-  "vcd" '(vc-diff :wk "FileDiff")
-  "vcD" '(vc-root-diff :wk "RepoDiff")
-  "vch" '(vc-region-history :wk "RegionHistory")
-  "vcl" '(vc-print-log :wk "Log")
-  "vcm" '(vc-merge :wk "Merge")
-  "vcn" '(vc-next-action :wk "Next")
-  "vcr" '(vc-revert :wk "Revert")
-  "vcp" '(vc-push :wk "Push")
-  "vcu" '(vc-update :wk "Update")
-
-  "z" '(nil :wk "Zettel")
-  "zb" '(jws/org-roam-search-bookmarks :wk "Bookmarks")
-  "zg" '(org-roam-graph :wk "Graph")
-  "zi" '(org-roam-find-index :wk "Index")
-  "zl" '(org-roam-insert :wk "InsertLink")
-  "zs" '(deft :wk "FindString")
-  "zz" '(org-roam-find-file :wk "FindNote")
-
-  "!" '(eshell :wk "Term")
-  "@" '(chronos-add-timer :wk "Timer"))
+  "N" '(jws/eww-home :wk "Net"))
 #+end_src
 
 The second leader is a secondary, "mode-specific" one accessed via =,=
@@ -1195,18 +1154,24 @@ bad: see [[https://www.youtube.com/watch?v=SQ3Beqn2CEc][this video]], or [[https
 (use-package vc
   :defer t
   :straight nil
-  :commands (vc-annotate
-             vc-dir
-             vc-diff
-             vc-merge
-             vc-next-action
-             vc-print-log
-             vc-push
-             vc-region-history
-             vc-root-diff
-             vc-root-dir
-             vc-revert
-             vc-update))
+  :general
+  (jws/primary-leader
+    "v" '(:ignore t :wk "VC")
+    "vv" '(magit-status :wk "Magit")
+    "vc" '(:ignore t :wk "Generic")
+    "vca" '(vc-annotate :wk "Annotate")
+    "vcc" '(jws/vc-dir-root :wk "RootDir") ; vc-dir-root does not exist on my emacs 27.1
+    "vcC" '(vc-dir :wk "PickDir")
+    "vcd" '(vc-diff :wk "FileDiff")
+    "vcD" '(vc-root-diff :wk "RepoDiff")
+    "vch" '(vc-region-history :wk "RegionHistory")
+    "vcl" '(vc-print-log :wk "Log")
+    "vcm" '(vc-merge :wk "Merge")
+    "vcn" '(vc-next-action :wk "Next")
+    "vcr" '(vc-revert :wk "Revert")
+    "vcp" '(vc-push :wk "Push")
+    "vcu" '(vc-update :wk "Update"))
+  :commands (vc-dir vc-root-dir))
 #+end_src
 
 Here I define a handy command that doesn't exist yet in Emacs 27.1:
@@ -1283,8 +1248,11 @@ there's still some bitrot.  Will play with it more should I need it.
 
 #+begin_src emacs-lisp
 (use-package projectile
-  :bind (:map projectile-command-map
-              ("s" . consult-ripgrep))
+  :general
+  (jws/primary-leader
+    "p" '(:keymap projectile-command-map :project projectile :wk "Project"))
+  (:map projectile-command-map
+        "s" 'consult-ripgrep)
   :custom
   (projectile-completion-system 'default)
   ;; svn ls -R is *unusably* slow, find is like a rocketship in comparison
@@ -1598,8 +1566,10 @@ Do some basic configuration of =org-mode=.
 
 (use-package org
   :commands (org-export-dispatch
-             org-store-link
              org-babel-tangle-file)
+  :general
+  (jws/primary-leader
+    "l" '(org-store-link :wk "StoreLink"))
   :mode (("\\.org\\'" . org-mode))
   :hook ((org-mode-hook . turn-on-flyspell)
          (org-mode-hook . jws/org-mode-disable-company))
@@ -1701,7 +1671,9 @@ notes and bookmarking websites.
   :after org
   :straight nil
   :defer t
-  :commands org-capture
+  :general
+  (jws/primary-leader
+    "q" '(org-capture :wk "Capture"))
   :config
   (setq org-capture-templates
         '(("j" "Journal" entry
@@ -1712,7 +1684,7 @@ notes and bookmarking websites.
            "* %?\nEntered on %U\n%i"
            :empty-lines 1)
 
-          ; reminders: things that are scheduled or will 'happen'
+          ;; reminders: things that are scheduled or will 'happen'
           ("r" "Reminder")
           ("rc" "Career" entry
            (file+olp jws/org-reminder-file "Career")
@@ -1731,7 +1703,7 @@ notes and bookmarking websites.
            "* %?\n%U\n%i\n"
            :empty-lines 1)
 
-          ; TODO: things that I have to do
+          ;; TODO: things that I have to do
           ("t" "TODO")
           ("tc" "Career" entry
            (file+olp jws/org-todo-file "Career")
@@ -1831,7 +1803,9 @@ great explanation and 'quantum285' for asking the question in the first place."
 (use-package org-agenda
   :straight nil
   :defer t
-  :commands org-agenda
+  :general
+  (jws/primary-leader
+    "a" '(org-agenda :wk "Agenda"))
   :after org
   :custom
   (org-log-done t)
@@ -1990,6 +1964,15 @@ Using [[https://www.orgroam.com/][org-roam]] for a [[https://en.wikipedia.org/wi
 #+begin_src emacs-lisp
 (use-package org-roam
   :after org
+  :general
+  (jws/primary-leader
+   "z" '(nil :wk "Zettel")
+   "zb" '(jws/org-roam-search-bookmarks :wk "Bookmarks")
+   "zg" '(org-roam-graph :wk "Graph")
+   "zi" '(org-roam-find-index :wk "Index")
+   "zl" '(org-roam-insert :wk "InsertLink")
+   "zs" '(deft :wk "FindString")
+   "zz" '(org-roam-find-file :wk "FindNote"))
   :commands (org-roam org-roam-find-file org-roam-db-query org-roam-protocol-open-ref)
   :config
   (require 'org-roam-protocol)
@@ -3041,7 +3024,9 @@ queried e.g. by =locate-library=.
 (use-package dired
   :straight nil
   :defer t
-  :commands dired)
+  :general
+  (jws/primary-leader
+    "d" '(dired :wk "Dired")))
 #+end_src
 
 =dired= barfs a bunch of directory buffers every time you change a
@@ -3162,7 +3147,9 @@ functionality to really easily learn!
 #+begin_src emacs-lisp
 (use-package calc
   :straight nil
-  :commands calc-dispatch
+  :general
+  (jws/primary-leader
+    "c" '(calc-dispatch :wk "Calc"))
   :config
   ;; Logical/data size units
   (setq math-additional-units
@@ -3269,6 +3256,9 @@ MPD: %s(jws/currently-playing)
   ("+" (dotimes (i 5) (mingus-vol-up)) "Louder")
   ("-" (dotimes (i 5) (mingus-vol-down)) "Quieter")
   ("q" nil "Quit"))
+
+(jws/primary-leader
+  "m" '(jws/hydra-mpd/body :wk "Music"))
 #+end_src
 
 ** Timer
@@ -3278,8 +3268,9 @@ MPD: %s(jws/currently-playing)
 
 #+begin_src emacs-lisp
 (use-package chronos
-  :commands (chronos-add-timer
-             chronos-add-timers-from-string)
+  :general
+  (jws/primary-leader
+    "@" '(chronos-add-timer :wk "Timer"))
   :config
   (add-to-list 'evil-emacs-state-modes 'chronos-mode)
   (evil-add-hjkl-bindings chronos-mode-map 'emacs
@@ -3407,7 +3398,10 @@ use =browse-url-browser-function= as above.
 #+begin_src emacs-lisp
 (use-package ace-link
   :after avy
-  :commands (ace-link ace-link-eww))
+  :general
+  (jws/primary-leader
+    "n" '(ace-link :wk "GotoLink"))
+  :commands (ace-link-eww))
 #+end_src
 
 ** Gopher/[[https://gemini.circumlunar.space/docs/faq.html][Gemini]] browser
@@ -3425,7 +3419,6 @@ Hey, why not.
 
 #+begin_src emacs-lisp
 (use-package elfeed
-  :commands (elfeed)
   :general
   (:keymaps 'elfeed-show-mode-map :states '(override normal)
             "b" 'jws/elfeed-show-capture-in-org-roam
@@ -3457,7 +3450,10 @@ The way it handles configuration (using an org file at
 
 #+begin_src emacs-lisp
 (use-package elfeed-dashboard
-  :commands (elfeed-dashboard)
+  :after elfeed
+  :general
+  (jws/primary-leader
+    "r" '(elfeed-dashboard :wk "RSS"))
   :config
   (add-to-list 'evil-emacs-state-modes 'elfeed-dashboard-mode)
   ;; update feed counts on elfeed-quit
@@ -3486,7 +3482,9 @@ sometimes muscle memory from old-school term/shells gets in one's way.
 #+begin_src emacs-lisp
 (use-package eshell
   :straight nil
-  :commands eshell
+  :general
+  (jws/primary-leader
+    "!" '(eshell :wk "Term"))
   :hook (eshell-banner-load-hook . jws/eshell-banner)
   :hook (eshell-mode-hook . jws/eshell-keybindings)
   :config
@@ -3718,6 +3716,9 @@ _s_cratch
   ("p" epkg-list-packages)
   ("u" straight-pull-all)
   ("k" server-start))
+
+(jws/primary-leader
+  "e" '(jws/hydra-emacs/body :wk "Emacs"))
 #+end_src
 
 ** Text editing menu
@@ -3753,6 +3754,9 @@ INDENTATION | Char: %s(jws/get-indent-char) | Size: %`tab-width | Electric: %`el
   ("TAB" tabify "Tabify the selection")
   ("SPC" untabify "Spacify the selection")
   ("w" whitespace-mode "Display whitespace"))
+
+(jws/primary-leader
+  "t" '(jws/hydra-text-editing/body :wk "Text"))
 #+end_src
 
 ** Buffer menu
@@ -3770,6 +3774,9 @@ This menu allows for manipulation of Emacs buffer objects.
   ("s" save-buffer "Save buffer")
   ("S" write-file "Save buffer elsewhere")
   ("u" bury-buffer "Bury buffer"))
+
+(jws/primary-leader
+  "b" '(jws/hydra-buffer/body :wk "Buffers"))
 #+end_src
 
 A simple function to jump back to the =*scratch*= buffer, which I'll
@@ -3826,6 +3833,10 @@ want to manage *frames* and should be looking at the "Frame menu."
   ("X" delete-other-windows "Remove others")
 
   ("s" jws/hydra-windows-sticky/body "Sticky"))
+
+(jws/primary-leader
+  "s" '(jws/hydra-windows/body :wk "Windows")
+  "S" '(jws/hydra-windows-sticky/body :wk "MultiWindows"))
 #+end_src
 
 Finally, let's replace Evil's split menu with mine, because I know
@@ -3850,6 +3861,9 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
   ("c" jws/calculate-frame-size "Calculate row/cols")
   ("m" toggle-frame-maximized "Toggle maximize")
   ("f" toggle-frame-fullscreen "Toggle fullscreen"))
+
+(jws/primary-leader
+  "w" '(jws/hydra-frames/body :wk "Frames"))
 #+end_src
 
 ** Graphics menu
@@ -3874,6 +3888,9 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
   ("o" jws/reset-transparency "Completely opaque")
   ("i" jws/increase-transparency "More transparent")
   ("d" jws/decrease-transparency "Less transparent"))
+
+(jws/primary-leader
+  "g" '(jws/hydra-graphics/body :wk "Gfx"))
 #+end_src
 
 ** Master menu
