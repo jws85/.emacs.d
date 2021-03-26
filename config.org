@@ -725,9 +725,7 @@ autoloaded via =use-package=.
   :states '(insert emacs normal hybrid motion visual operator)
   :prefix "SPC"
   :non-normal-prefix "C-SPC")
-#+end_src
 
-#+begin_src emacs-lisp
 (jws/primary-leader
   "" nil
 
@@ -735,16 +733,22 @@ autoloaded via =use-package=.
   "<delete>" '(delete-frame :wk "KillFrame")
   "<tab>" '(jws/switch-to-previous-buffer :wk "PrevBuf")
 
+  "b" '(:ignore t :wk "Buffers")
+  "b SPC" '(jws/scratch-switch :wk "Switch to scratch")
+  "b c" '(clone-indirect-buffer-other-window :wk "Clone buffer")
+  "b i" '(ibuffer :wk "Buffer list")
+  "b k" '(kill-this-buffer :wk "Kill buffer")
+  "b s" '(save-buffer :wk "Save buffer")
+  "b S" '(write-file :wk "Save buffer elsewhere")
+  "b u" '(bury-buffer :wk "Bury buffer")
+
   "f" '(:ignore t :wk "Files")
   "fa" '(ff-find-other-file :wk "Other")
   "ff" '(find-file :wk "Open")
-  "fr" '(consult-recent-file :wk "Recent")
-  "fb" '(consult-bookmark :wk "Bkmark")
 
   "h" '(:keymap help-map :wk "Help")
   "i" '(imenu :wk "Imenu")
-  "k" '(kill-this-buffer :wk "KillBuf")
-  "N" '(jws/eww-home :wk "Net"))
+  "k" '(kill-this-buffer :wk "KillBuf"))
 #+end_src
 
 The second leader is a secondary, "mode-specific" one accessed via =,=
@@ -880,13 +884,15 @@ and =selectrum=.
 #+begin_src emacs-lisp
 (use-package consult
   :ensure t
-  :commands (consult-bookmark
-             consult-buffer
-             consult-flymake
+  :general
+  (jws/primary-leader
+    "bb" '(consult-buffer :wk "Switch buffer")
+    "fr" '(consult-recent-file :wk "Recent")
+    "fb" '(consult-bookmark :wk "Bkmark"))
+  :commands (consult-flymake
              consult-outline
-             consult-ripgrep
-             consult-recent-file)
-  :config
+             consult-ripgrep)
+:config
   (autoload 'projectile-project-root "projectile")
   (setq consult-preview-key nil)
   (setq consult-project-root-function #'projectile-project-root))
@@ -3321,6 +3327,9 @@ Define a home page ([[https://duckduckgo.com][DuckDuckGo]]), and a function to l
 (defun jws/eww-home ()
   (interactive)
   (eww jws/eww-home-page))
+
+(jws/primary-leader
+  "N" '(jws/eww-home :wk "Net"))
 #+end_src
 
 *** Other web browsers
@@ -3760,24 +3769,6 @@ INDENTATION | Char: %s(jws/get-indent-char) | Size: %`tab-width | Electric: %`el
 #+end_src
 
 ** Buffer menu
-
-This menu allows for manipulation of Emacs buffer objects.
-
-#+begin_src emacs-lisp
-(defhydra jws/hydra-buffer (:color blue :columns 4)
-  "Buffer menu"
-  ("SPC" jws/scratch-switch "Switch to scratch")
-  ("b" consult-buffer "Switch buffer")
-  ("c" clone-indirect-buffer-other-window "Clone buffer")
-  ("i" ibuffer "Buffer list")
-  ("k" kill-this-buffer "Kill buffer")
-  ("s" save-buffer "Save buffer")
-  ("S" write-file "Save buffer elsewhere")
-  ("u" bury-buffer "Bury buffer"))
-
-(jws/primary-leader
-  "b" '(jws/hydra-buffer/body :wk "Buffers"))
-#+end_src
 
 A simple function to jump back to the =*scratch*= buffer, which I'll
 sometimes use to prototype elisp and sometimes to slice and dice
