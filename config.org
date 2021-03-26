@@ -706,8 +706,7 @@ And now we start binding keys.
 (general-define-key :keymaps '(normal)
                     "+" 'er/expand-region
                     "g c" 'avy-goto-char
-                    "g l" 'avy-goto-line
-                    ";" 'execute-extended-command)
+                    "g l" 'avy-goto-line)
 #+end_src
 
 =general= has the concept of a "definer," which more or less sets
@@ -729,7 +728,6 @@ autoloaded via =use-package=.
 (jws/primary-leader
   "" nil
 
-  "SPC" '(execute-extended-command :wk "M-x")
   "<delete>" '(delete-frame :wk "KillFrame")
   "<tab>" '(jws/switch-to-previous-buffer :wk "PrevBuf")
 
@@ -896,6 +894,20 @@ and =selectrum=.
   (autoload 'projectile-project-root "projectile")
   (setq consult-preview-key nil)
   (setq consult-project-root-function #'projectile-project-root))
+#+end_src
+
+*** [[https://github.com/DarwinAwardWinner/amx][amx]]
+
+=consult= does not provide an =M-x= that remembers your past commands,
+so pull in =amx=:
+
+#+begin_src emacs-lisp
+(use-package amx
+  :general
+  (:keymaps 'override "M-x" 'amx)
+  (:keymaps 'normal ";" 'amx)
+  (jws/primary-leader
+    "SPC" '(amx :wk "M-x")))
 #+end_src
 
 *** [[https://github.com/minad/marginalia/][marginalia]]
