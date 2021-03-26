@@ -775,25 +775,70 @@ you've bound =M-x butterfly= to.
 
 ** Buffer splitting
 
-Some commands (for instance, =magit=) move point into the buffer it
-creates.  Others (for instance, =flycheck='s error buffer) do not.
-This frustrates me.  I've tried =popwin= and =shackle= for this
-purpose; neither was really satisfying.
+=display-buffer-alist= is infamously gnarly.
 
-I grabbed the below snippet from [[https://github.com/nex3/perspective-el/tree/697d95f24e055eb9725781d179d7db63d6afd2b5#some-musings-on-emacs-window-layouts][this discussion in perspective.el's README]]
-[[https://www.reddit.com/r/emacs/comments/llvyxe/hey_emacs_dont_move_my_windows_customizing/gntoxvm/][via this Reddit thread]].  This does two things:
+I've tried [[https://github.com/nex3/perspective-el/tree/697d95f24e055eb9725781d179d7db63d6afd2b5#some-musings-on-emacs-window-layouts][this rather extreme setting in perspective.el's README]] ([[https://www.reddit.com/r/emacs/comments/llvyxe/hey_emacs_dont_move_my_windows_customizing/gntoxvm/][via
+this Reddit thread]]) that force all new buffers to display, full-size,
+in the current window.  It works, but for things like =*compilation*=
+I found it annoying, and it seems to have straight-up broke =*Register
+Preview*=.
 
- - Re-use existing buffers rather than creating new ones
- - New buffers display in the current window, rather than creating
-   a new window via splitting
+[[https://protesilaos.com/dotemacs/#h:3d8ebbb1-f749-412e-9c72-5d65f48d5957][Prot's .emacs has a easy-to-work-with display-buffer-alist]] that I used
+as inspiration.  None of the existing functions did exactly what I
+wanted, but =display-buffer-below-selected= came closest.  But for
+some kinds of buffers (e.g. compilation) I wanted unconditional switching
+to that buffer regardless of Emacs defaults, so I hacked it in.
 
 #+begin_src emacs-lisp
-(setq display-buffer-alist
-      '((".*"
-         (display-buffer-reuse-window display-buffer-same-window)
-         (reusable-frames . t))))
+;; The original inspiration for this was here:
+;; https://emacs.stackexchange.com/questions/55210/using-display-frame-alist-to-force-switch-to-buffer
+(defun jws/display-buffer-below-selected-and-switch (buffer alist)
+  "Split selected buffer and display BUFFER in it, while switching to it."
+  (select-window (display-buffer-below-selected buffer alist)))
 
-(setq even-window-sizes nil)  ; display-buffer hint: avoid resizing
+(setq display-buffer-alist
+      '(;; bottom side window
+        ("\\*Messages.*"
+         (jws/display-buffer-below-selected-and-switch)
+         (window-height . 0.16)
+         (side . bottom))
+        ("\\*\\(Flymake\\|Package-Lint\\|vc-git :\\).*"
+         (jws/display-buffer-below-selected-and-switch)
+         (window-height . 0.16)
+         (side . bottom))
+        ("\\*compilation.*"
+         (display-buffer-reuse-window jws/display-buffer-below-selected-and-switch)
+         (window-height . 0.16)
+         (side . bottom))
+        ("\\*\\(Backtrace\\|Warnings\\|Compile-Log\\)\\*"
+         (jws/display-buffer-below-selected-and-switch)
+         (window-height . 0.16)
+         (side . bottom))
+        ("\\*Help.*"
+         (display-buffer-reuse-window jws/display-buffer-below-selected-and-switch)
+         (window-height . 0.35)
+         (side . bottom))
+        ("\\*Faces\\*"
+         (jws/display-buffer-below-selected-and-switch)
+         (window-height . 0.35)
+         (side . bottom))
+        ("\\*Custom.*"
+         (jws/display-buffer-below-selected-and-switch)
+         (window-height . 0.35)
+         (side . bottom))
+        ("\\*\\vc-.*"
+         (jws/display-buffer-below-selected-and-switch)
+         (window-height . 0.35)
+         (side . bottom))
+        ("\\*.*\\([^E]eshell\\|shell\\|v?term\\).*"
+         (display-buffer-reuse-window jws/display-buffer-below-selected-and-switch)
+         (window-height . 0.35)
+         (side . bottom))
+        ("\\*\\(Output\\|Register Preview\\).*"
+         (display-buffer-below-selected))))
+
+(setq even-window-sizes nil ; display-buffer hint: avoid resizing
+      switch-to-buffer-in-dedicated-window 'pop)
 #+end_src
 
 ** Undo system
