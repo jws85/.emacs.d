@@ -1026,7 +1026,9 @@ seemingly maintained anymore.  So... we just hack the heck out of
 
 ** Spell checking
 
-I enable =flyspell= in org and markdown modes.
+I no longer automatically enable =flyspell= in any modes; it has a
+pretty significant performance penalty.  =flyspell-buffer= works well
+though.
 
 I disable the default Emacs bindings because they conflict with too
 much of my stuff.  Evil puts in the vim binds (=[s= & =]s= to move,
@@ -1034,7 +1036,8 @@ much of my stuff.  Evil puts in the vim binds (=[s= & =]s= to move,
 
 #+begin_src emacs-lisp
 (use-package flyspell
-  :commands (flyspell-goto-next-error
+  :commands (flyspell-buffer
+             flyspell-goto-next-error
              flyspell-auto-correct-word)
   :bind (:map flyspell-mode-map
               ; conflicts with yas-expand
@@ -1589,8 +1592,7 @@ Do some basic configuration of =org-mode=.
   (jws/primary-leader
     "l" '(org-store-link :wk "StoreLink"))
   :mode (("\\.org\\'" . org-mode))
-  :hook ((org-mode-hook . turn-on-flyspell)
-         (org-mode-hook . jws/org-mode-disable-company))
+  :hook ((org-mode-hook . jws/org-mode-disable-company))
   :init
   (setq org-modules nil)
   :custom
@@ -2204,8 +2206,7 @@ Ideally I'd stay in org-mode, but I live in the real world.
 
 #+begin_src emacs-lisp
 (use-package markdown-mode
-  :mode ("\\.md\\'" "\\.markdown\\'" "\\.mdown\\'")
-  :hook ((markdown-mode-hook . turn-on-flyspell)))
+  :mode ("\\.md\\'" "\\.markdown\\'" "\\.mdown\\'"))
 #+end_src
 
 ** Ledger
