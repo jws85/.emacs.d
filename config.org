@@ -740,9 +740,20 @@ autoloaded via =use-package=.
   "b S" '(write-file :wk "Save buffer elsewhere")
   "b u" '(bury-buffer :wk "Bury buffer")
 
+  "e" '(:ignore t :wk "Emacs")
+  "e c" '(jws/open-emacs-config :wk "Config")
+  "e s" '(jws/open-emacs-site-config :wk "SiteConfig")
+  "e SPC" '(jws/scratch-switch :wk "Scratch")
+  "e r" '(jws/reload-emacs-config :wk "Reload")
+  "e t" '(jws/untangle-emacs-config :wk "Untangle")
+  "e d" '(toggle-debug-on-error :wk "Debug")
+  "e q" '(jws/server-shutdown :wk "KillServer")
+  "e k" '(server-start :wk "StartServer")
+  "e u" '(straight-pull-all :wk "Update")
+
   "f" '(:ignore t :wk "Files")
-  "fa" '(ff-find-other-file :wk "Other")
-  "ff" '(find-file :wk "Open")
+  "f a" '(ff-find-other-file :wk "Other")
+  "f f" '(find-file :wk "Open")
 
   "h" '(:keymap help-map :wk "Help")
   "i" '(imenu :wk "Imenu")
@@ -3767,33 +3778,6 @@ the Emacs configuration."
       (jws/untangle-emacs-config))
   (load-file (concat user-emacs-directory "early-init.el"))
   (load-file (concat user-emacs-directory "init.el")))
-
-(defhydra jws/hydra-emacs (:exit t :hint nil)
-  "
-Emacs | Debug: %`debug-on-error
-
-^Process^         ^Config^            ^Packages^
-^-------^-------  ^------^----------  ^--------^-------
-_q_uit emacs      edit _c_onfig       list _p_ackages
-_d_ebug emacs     edit site _C_onfig  _u_pdate packages
-_k_ start server  _r_eload config
-_i_elm            un_t_angle config
-_s_cratch
-"
-  ("c" jws/open-emacs-config)
-  ("C" jws/open-emacs-site-config)
-  ("d" toggle-debug-on-error :exit nil)
-  ("i" ielm)
-  ("s" jws/scratch-switch)
-  ("t" jws/untangle-emacs-config)
-  ("r" jws/reload-emacs-config)
-  ("q" jws/server-shutdown)
-  ("p" epkg-list-packages)
-  ("u" straight-pull-all)
-  ("k" server-start))
-
-(jws/primary-leader
-  "e" '(jws/hydra-emacs/body :wk "Emacs"))
 #+end_src
 
 ** Text editing menu
