@@ -82,16 +82,16 @@ here.
 
 #+begin_src emacs-lisp
 (defvar jws/emacs-backup-dir
-  (expand-file-name (concat user-emacs-directory ".cache/backups"))
+  (expand-file-name ".cache/backups" user-emacs-directory)
   "Where to put Emacs backup files")
 (defvar jws/emacs-desktop-dir
-  (expand-file-name (concat user-emacs-directory ".cache/desktop"))
+  (expand-file-name ".cache/desktop" user-emacs-directory)
   "Where to put Emacs .desktop files")
 (defvar jws/emacs-library-dir
-  (expand-file-name (concat user-emacs-directory "lisp"))
+  (expand-file-name "lisp" user-emacs-directory)
   "Contains all unpackaged libraries required by this configuration")
 (defvar jws/emacs-site-library-dir
-  (expand-file-name (concat user-emacs-directory "site-lisp"))
+  (expand-file-name "site-lisp" user-emacs-directory)
   "Contains unpackaged libraries specific to this machine")
 #+end_src
 
@@ -99,13 +99,13 @@ And here are a number of important file paths.
 
 #+begin_src emacs-lisp
 (defvar jws/config-file
-  (expand-file-name (concat user-emacs-directory "config.org"))
+  (expand-file-name "config.org" user-emacs-directory)
   "This file")
 (defvar jws/site-file
-  (expand-file-name (concat user-emacs-directory "site-init.el"))
+  (expand-file-name "site-init.el" user-emacs-directory)
   "The site-specific configuration")
 (defvar jws/custom-file
-  (expand-file-name (concat user-emacs-directory "custom.el"))
+  (expand-file-name "custom.el" user-emacs-directory)
   "Where Emacs Customize writes data")
 #+end_src
 
