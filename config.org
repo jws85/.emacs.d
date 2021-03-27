@@ -295,6 +295,8 @@ Enable some disabled functions that confuse some new (l)users:
 #+begin_src emacs-lisp
 (put 'narrow-to-region 'disabled nil) ;; C-x n n
 (put 'narrow-to-defun 'disabled nil) ;; C-x n d
+(put 'upcase-region 'disabled nil) ;; C-x C-u, or via embark
+(put 'downcase-region 'disabled nil) ;; C-x C-l, or via embark
 (put 'dired-find-alternate-file 'disabled nil)
 #+end_src
 
