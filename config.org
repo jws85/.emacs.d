@@ -739,6 +739,8 @@ autoloaded via =use-package=.
   "i" '(imenu :wk "Imenu")
   "k" '(kill-this-buffer :wk "KillBuf")
 
+  "v" '(:ignore t :wk "VC")
+
   "w" '(:ignore t :wk "Frames")
   "w n" '(make-frame :wk "New window")
   "w N" '(jws/make-maximized-frame :wk "New maximized window")
@@ -1230,8 +1232,6 @@ bad: see [[https://www.youtube.com/watch?v=SQ3Beqn2CEc][this video]], or [[https
   :straight nil
   :general
   (jws/primary-leader
-    "v" '(:ignore t :wk "VC")
-    "vv" '(magit-status :wk "Magit")
     "vc" '(:ignore t :wk "Generic")
     "vca" '(vc-annotate :wk "Annotate")
     "vcc" '(jws/vc-dir-root :wk "RootDir") ; vc-dir-root does not exist on my emacs 27.1
@@ -1267,12 +1267,11 @@ I launch Magit with =SPC v v=.
 #+begin_src emacs-lisp
 (use-package magit
   :defer t
+  :general
+  (jws/primary-leader
+    "vv" '(magit-status :wk "Magit"))
   :commands (magit-status
-             magit-branch-checkout
-             magit-blame
-             magit-get-current-branch
-             magit-init
-             magit-log-all-branches)
+             magit-get-current-branch)
   :config
   ;; Otherwise it'll bother you about something or another on first run
   (setq magit-last-seen-setup-instructions "1.4.0"))
