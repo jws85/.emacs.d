@@ -926,7 +926,6 @@ and =selectrum=.
 
 #+begin_src emacs-lisp
 (use-package consult
-  :ensure t
   :general
   (jws/primary-leader
     "b b" '(consult-buffer :wk "Switch")
@@ -970,7 +969,6 @@ so pull in =amx=:
 
 #+begin_src emacs-lisp
 (use-package marginalia
-  :ensure t
   :init
   ;; the documentation says it has to be NOT lazily loaded
   (marginalia-mode)
@@ -992,7 +990,6 @@ more like a right-click contextual menu.
   #'which-key--hide-popup-ignore-command)
 
 (use-package embark
-  :ensure t
   :general
   (:keymaps 'override "C-'" 'embark-act)
   (:keymaps 'embark-region-map
@@ -1004,7 +1001,6 @@ more like a right-click contextual menu.
   (embark-become-indicator embark-action-indicator))
 
 (use-package embark-consult
-  :ensure t
   :after (embark consult)
   :demand t
   :hook (embark-collect-mode-hook . embark-consult-preview-minor-mode))
@@ -2460,7 +2456,6 @@ exist only as a search frontend.  But until that program exists...
 
 #+begin_src emacs-lisp
 (use-package zeal-at-point
-  :ensure t
   :commands (zeal-at-point)
   :general ("C-/" #'zeal-at-point))
 #+end_src

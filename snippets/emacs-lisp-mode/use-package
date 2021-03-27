@@ -1,8 +1,6 @@
 # -*- mode: snippet -*-
 # name: use-package
-# key: _use
+# key: up
 # --
-
-(use-package ${1:new-super-cool-package}
-  :config
-  $0)
+(use-package ${1:package-name}
+:defer t$0)
