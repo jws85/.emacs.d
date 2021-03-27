@@ -424,17 +424,26 @@ command
 
 ** Themes
 
-Install doom-themes, which are a nice set of themes that work with a
-lot of libraries and look nice:
+Installing the following theme packs:
+
+ - [[https://github.com/hlissner/emacs-doom-themes][doom-themes]]
+ - [[https://protesilaos.com/modus-themes/][modus-themes]]
 
 #+begin_src emacs-lisp
 (use-package doom-themes)
 #+end_src
 
-** Modeline
+#+begin_src emacs-lisp
+(use-package modus-themes
+  :init
+  (setq modus-themes-mode-line 'moody
+        modus-themes-fringes 'subtle
+        modus-themes-org-blocks 'rainbow
+        modus-themes-completions nil)
+  :commands (modus-themes-load-themes
+             modus-themes-load-vivendi))
+#+end_src
 
-[[https://github.com/seagle0128/doom-modeline][doom-modeline]] is an attractive, featureful, and performant modeline
-replacement.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
