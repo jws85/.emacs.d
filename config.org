@@ -722,13 +722,6 @@ using =hydra= for this but it's more optimized for interactive menus
 
 And now we start binding keys.
 
-#+begin_src emacs-lisp
-(general-define-key :keymaps '(normal)
-                    "+" 'er/expand-region
-                    "g c" 'avy-goto-char
-                    "g l" 'avy-goto-line)
-#+end_src
-
 =general= has the concept of a "definer," which more or less sets
 up a "keymap" that can override other keymaps and change the key
 that enters the keymap depending on the state.
@@ -890,10 +883,10 @@ to that buffer regardless of Emacs defaults, so I hacked it in.
 #+begin_src emacs-lisp
 (use-package undo-fu
   :after evil
-  :config
-  (general-define-key :keymaps '(normal)
-                      "u" 'undo-fu-only-undo
-                      "C-r" 'undo-fu-only-redo))
+  :general
+  (:keymaps '(normal)
+            "u" 'undo-fu-only-undo
+            "C-r" 'undo-fu-only-redo))
 #+end_src
 
 ** Incremental narrowing (=icomplete=, =consult=, and friends)
@@ -1522,7 +1515,7 @@ repeatedly (with Evil normal mode =+=).
 
 #+begin_src emacs-lisp
 (use-package expand-region
-  :commands er/expand-region)
+  :general (:keymaps '(normal) "+" 'er/expand-region))
 #+end_src
 
 =avy= jumps to any character on screen (Evil normal =g c=) and any
@@ -1530,7 +1523,10 @@ line on screen (Evil normal =g l=).
 
 #+begin_src emacs-lisp
 (use-package avy
-  :commands (avy-goto-char avy-goto-line))
+  :general
+  (:keymaps '(normal)
+            "g c" 'avy-goto-char
+            "g l" 'avy-goto-line))
 #+end_src
 
 =ace-window= jumps between windows.
@@ -2372,10 +2368,12 @@ otherwise it has to be enabled in a given mode.
 Set up =flymake= keybindings on =, e=.
 
 #+begin_src emacs-lisp
-(general-define-key
- :states 'normal
- "[ g" 'flymake-goto-prev-error
- "] g" 'flymake-goto-next-error)
+(use-package flymake
+  :straight nil
+  :general
+  (:keymaps '(normal)
+            "[ g" 'flymake-goto-prev-error
+            "] g" 'flymake-goto-next-error))
 
 (jws/secondary-leader
   "e" '(consult-flymake :wk "Errors"))
