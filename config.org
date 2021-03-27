@@ -1037,6 +1037,9 @@ more like a right-click contextual menu.
   :ensure t
   :general
   (:keymaps 'override "C-'" 'embark-act)
+  (:keymaps 'embark-region-map
+            "TAB" 'tabify
+            "SPC" 'untabify)
   :custom
   (embark-prompter 'embark-keymap-prompter)
   (embark-action-indicator 'jws/embark-action-which-key)
