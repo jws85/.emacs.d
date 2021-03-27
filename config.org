@@ -597,6 +597,15 @@ For some reason there are functions to change the text scale, but
 none to actually reset it!
 
 #+begin_src emacs-lisp
+(defun jws/text-scale-get ()
+  "Get text scale."
+  (interactive)
+  ;; if (text-scale-set) has not been run yet, the text-scale-mode-* vars
+  ;; are undefined...
+  (condition-case nil
+      (* 100 (expt text-scale-mode-step text-scale-mode-amount))
+    (error 100)))
+
 (defun jws/text-scale-reset ()
   "Reset text scale."
   (interactive)
@@ -763,6 +772,10 @@ autoloaded via =use-package=.
   "f" '(:ignore t :wk "Files")
   "f a" '(ff-find-other-file :wk "Other")
   "f f" '(find-file :wk "Open")
+
+  "g" '(:ignore t :wk "GFX")
+  "g s" '(jws/hydra-font-scaling/body :wk "Font Scaling")
+  "g t" '(jws/hydra-transparency/body :wk "Transparency")
 
   "h" '(:keymap help-map :wk "Help")
   "i" '(imenu :wk "Imenu")
@@ -1459,7 +1472,10 @@ s-expression.
 code that your cursor is on.
 
 #+begin_src emacs-lisp
-(use-package focus :commands (focus-mode))
+(use-package focus
+  :general
+  (jws/primary-leader
+    "g f" '(focus-mode :wk "Focus")))
 #+end_src
 
 =prism=, on the other hand, colorizes *everything* according to the
@@ -1467,7 +1483,10 @@ code's nesting depth -- which can be handy for Lisp/JS callback hell!
 
 #+begin_src emacs-lisp
 (use-package prism
-  :commands (prism-mode prism-whitespace-mode)
+  :general
+  (jws/primary-leader
+    "g p" '(prism-mode :wk "Prism")
+    "g w" '(prism-whitespace-mode :wk "Prism Whitespace"))
   :config
   (prism-set-colors :num 16
     :desaturations (cl-loop for i from 0 below 16
@@ -1475,12 +1494,10 @@ code's nesting depth -- which can be handy for Lisp/JS callback hell!
     :lightens (cl-loop for i from 0 below 16
                        collect (* i 2.5))
     :colors (list "dodgerblue" "medium sea green" "sandy brown")
-
     :comments-fn
     (lambda (color)
       (prism-blend color
                    (face-attribute 'font-lock-comment-face :foreground) 0.25))
-
     :strings-fn
     (lambda (color)
       (prism-blend color "white" 0.5))))
@@ -3918,28 +3935,33 @@ If you want to manage Emacs GUI windows, you want to manage *frames*.
 ** Graphics menu
 
 #+begin_src emacs-lisp
-(defhydra jws/hydra-graphics (:columns 4)
-  "Graphics"
-  ("f" focus-mode "Focus")
-  ("p" prism-mode "Prism")
-  ("P" prism-whitespace-mode "Prism whitespace")
-  ("t" load-theme "Load theme")
-
+(defhydra jws/hydra-font-scaling (:columns 4)
+  "
+Font Scaling: %s(format \"%d%%%%\" (jws/text-scale-get))
+"
   ("=" jws/text-scale-reset "Reset font size")
-  ("r" jws/text-scale-reset "Reset font size")
 
   ("+" text-scale-increase "Larger font")
-  ("l" text-scale-increase "Larger font")
+  ("j" text-scale-increase "Larger font")
+  ("n" text-scale-increase "Larger font")
 
   ("-" text-scale-decrease "Smaller font")
-  ("s" text-scale-decrease "Smaller font")
+  ("k" text-scale-decrease "Smaller font")
+  ("p" text-scale-decrease "Smaller font"))
 
-  ("o" jws/reset-transparency "Completely opaque")
-  ("i" jws/increase-transparency "More transparent")
-  ("d" jws/decrease-transparency "Less transparent"))
+(defhydra jws/hydra-transparency (:columns 4)
+  "
+Transparency: %s(format \"%d%%%%\" (jws/get-frame-transparency))
+"
+  ("=" jws/reset-transparency "Completely opaque")
 
-(jws/primary-leader
-  "g" '(jws/hydra-graphics/body :wk "Gfx"))
+  ("+" jws/increase-transparency "More transparent")
+  ("j" jws/increase-transparency "More transparent")
+  ("n" jws/increase-transparency "More transparent")
+
+  ("-" jws/decrease-transparency "Less transparent")
+  ("k" jws/decrease-transparency "Less transparent")
+  ("p" jws/decrease-transparency "Less transparent"))
 #+end_src
 
 ** Master menu
