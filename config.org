@@ -3306,7 +3306,7 @@ Make a hydra to control =mpd= via mingus (idea stolen from [[https://writequit.o
 #+begin_src emacs-lisp
 (defun jws/currently-playing ()
   "Get what is currently playing in mpd"
-  (car (s-split "\n" (shell-command-to-string "mpc"))))
+  (car (split-string (shell-command-to-string "mpc") "[\n]")))
 
 (defhydra jws/hydra-mpd nil
   "
