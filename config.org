@@ -3270,10 +3270,12 @@ startup...
   (setq nov-text-width 72))
 #+end_src
 
-** Music player
+** MPD client/music player
 
-[[https://github.com/pft/mingus][Unsurprisingly, Emacs can be an MPD frontend as well...]]  (Obviously,
-you need to set up =mpd= first.)
+Had [[https://github.com/pft/mingus][mingus]] here, but the code is already starting to bitrot a little
+("=cl is deprecated=" notices) and honestly it's not too hard to parse
+=mpc= output and act on it with =completing-read=.  I should make a
+little library out of the below.
 
 #+begin_src emacs-lisp
 (use-package mpc
@@ -3281,46 +3283,100 @@ you need to set up =mpd= first.)
              mpc-next
              mpc-prev))
 
-(use-package mingus
-  :bind (:map mingus-*-map
-         ("j" . 'next-line)
-         ("k" . 'previous-line)
-         ("/" . 'search-forward)
-         ("?" . 'search-backward)
-         :map mingus-playlist-map
-         ("/" . 'search-forward)
-         ("?" . 'search-backward))
-  :commands (mingus
-             mingus-search
-             mingus-load-playlist
-             mingus-save-playlist
-             mingus-vol-up
-             mingus-vol-down)
-  :config
-  (add-to-list 'evil-emacs-state-modes 'mingus-playlist-mode)
-  (add-to-list 'evil-emacs-state-modes 'mingus-browse-mode))
-#+end_src
-
-Make a hydra to control =mpd= via mingus (idea stolen from [[https://writequit.org/eos/eos-music.html][here]]).
-
-#+begin_src emacs-lisp
-(defun jws/currently-playing ()
+(defun jws/mpd-currently-playing ()
   "Get what is currently playing in mpd"
   (car (split-string (shell-command-to-string "mpc") "[\n]")))
 
+(defun jws/mpd-process-list (arg)
+  "Run `mpc ARG` and return its results as a list."
+  (seq-filter
+   (lambda (elem) (not (string= elem "")))
+   (split-string
+    (shell-command-to-string (concat "mpc " arg)) "[\n]")))
+
+(defun jws/mpd-list-queue ()
+  "Run `mpc playlist` and return its results as a list."
+  (jws/mpd-process-list "playlist"))
+
+(defun jws/mpd-list-database ()
+  "Run `mpc listall` and return its results as a list."
+  (jws/mpd-process-list "listall"))
+
+(defun jws/mpd-list-playlists ()
+  "Run `mpc lsplaylists` and return its results as a list."
+  (jws/mpd-process-list "lsplaylists"))
+
+(defun jws/mpd-completing-read-queue ()
+  (let ((playlist (jws/mpd-list-queue)))
+    (1+ (cl-position
+         (completing-read "Playlist: " playlist nil t)
+         playlist :test 'string=))))
+
+(defun jws/mpd-play-song-in-queue ()
+  "Pick song from `mpc playlist` and play it."
+  (interactive)
+  (shell-command
+   (format "mpc play %d" (jws/mpd-completing-read-queue))))
+
+(defun jws/mpd-delete-song-in-queue ()
+  "Pick song from `mpc playlist` and remove it from the queue."
+  (interactive)
+  (shell-command
+   (format "mpc del %d" (jws/mpd-completing-read-queue))))
+
+(defun jws/mpd-add-song-to-queue ()
+  "Pick song from `mpc listall` and add it to the current queue."
+  (interactive)
+  (shell-command
+   (concat "mpc add "
+           (shell-quote-argument
+            (let ((songs (jws/mpd-list-database)))
+              (completing-read "Database: " songs nil t))))))
+
+(defun jws/mpd-load-playlist ()
+  "Pick playlist from `mpc lsplaylists` and load it."
+  (interactive)
+  (let* ((playlists (jws/mpd-list-playlists))
+         (playlist (completing-read "Playlists: " playlists nil t)))
+    (shell-command "mpc clear")
+    (shell-command
+     (concat "mpc load " (shell-quote-argument playlist)))
+    (shell-command "mpc play")))
+
+(defun jws/mpd-save-playlist (playlist-name)
+  "Save current queue as playlist PLAYLIST-NAME."
+  (interactive "sName of new playlist: ")
+  (shell-command
+   (concat "mpc save "
+           (shell-quote-argument playlist-name))))
+
+(defun jws/mpd-volume-up ()
+  "Raise volume of mpd."
+  (interactive)
+  (shell-command "mpc vol +1"))
+
+(defun jws/mpd-volume-down ()
+  "Lower volume of mpd."
+  (interactive)
+  (shell-command "mpc vol -1"))
+#+end_src
+
+Make a hydra to control all of this (idea stolen from [[https://writequit.org/eos/eos-music.html][here]]):
+
+#+begin_src emacs-lisp
 (defhydra jws/hydra-mpd nil
   "
-MPD: %s(jws/currently-playing)
+MPD: %s(jws/mpd-currently-playing)
 "
   ("SPC" mpc-toggle-play "Play/Pause")
-  ("/" mingus-search "Search" :exit t)
-  ("m" mingus "Mingus" :exit t)
+  ("/" jws/mpd-play-song-in-queue "Play song" :exit t)
+  ("a" jws/mpd-add-song-to-queue "Add song" :exit t)
   ("p" mpc-prev "Previous")
-  ("l" mingus-load-playlist "Load playlist")
-  ("s" mingus-save-playlist "Save playlist")
+  ("l" jws/mpd-load-playlist "Load playlist")
+  ("s" jws/mpd-save-playlist "Save playlist")
   ("n" mpc-next "Next")
-  ("+" (dotimes (i 5) (mingus-vol-up)) "Louder")
-  ("-" (dotimes (i 5) (mingus-vol-down)) "Quieter")
+  ("+" (dotimes (i 5) (jws/mpd-volume-up)) "Louder")
+  ("-" (dotimes (i 5) (jws/mpd-volume-down)) "Quieter")
   ("q" nil "Quit"))
 
 (jws/primary-leader
