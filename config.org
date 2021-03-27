@@ -2328,6 +2328,13 @@ like.
 #+begin_src emacs-lisp
 (use-package xref
   :straight nil
+  :general
+  (jws/secondary-leader
+    :keymaps 'prog-mode-map
+    "x" '(:ignore t :wk "Xref")
+    "x d" '(xref-find-definitions :wk "Definitions")
+    "x r" '(xref-find-references :wk "References")
+    "x p" '(xref-pop-marker-stack :wk "PopStack"))
   :bind (:map xref--xref-buffer-mode-map
               ("j" . xref-next-line)
               ("k" . xref-prev-line))
@@ -2339,30 +2346,12 @@ like.
   (add-to-list 'evil-emacs-state-modes 'xref--xref-buffer-mode))
 #+end_src
 
-Make a hydra to handle xref.
-
-#+begin_src emacs-lisp
-(defhydra jws/hydra-xref (:exit t :hint nil)
-  "
-Xref
--------------------
-_d_ _D_ definition
-_r_ _R_ references
-_p_ ^ ^ pop stack"
-  ("d" xref-find-definitions)
-  ("D" xref-find-definitions)
-  ("r" xref-find-references)
-  ("R" xref-find-references)
-  ("p" xref-pop-marker-stack))
-#+end_src
-
 In programming modes, set =, x= to run that hydra.  Note that
 =lsp-mode= (when available, on =, l=) has much more functionality.
 
 #+begin_src emacs-lisp
 (jws/secondary-leader
   :keymaps 'prog-mode-map
-  "x" '(jws/hydra-xref/body :wk "Xref")
   "c" '(compile :wk "Compile"))
 #+end_src
 
