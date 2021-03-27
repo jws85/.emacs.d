@@ -779,7 +779,16 @@ autoloaded via =use-package=.
 
   "h" '(:keymap help-map :wk "Help")
   "i" '(imenu :wk "Imenu")
-  "k" '(kill-this-buffer :wk "KillBuf"))
+  "k" '(kill-this-buffer :wk "KillBuf")
+
+  "w" '(:ignore t :wk "Frames")
+  "w n" '(make-frame :wk "New window")
+  "w N" '(jws/make-maximized-frame :wk "New maximized window")
+  "w x" '(delete-frame :wk "Close window")
+  "w d" '(jws/use-default-frame-alist :wk "Reset defaults")
+  "w c" '(jws/calculate-frame-size :wk "Calculate row/cols")
+  "w m" '(toggle-frame-maximized :wk "Toggle maximize")
+  "w f" '(toggle-frame-fullscreen :wk "Toggle fullscreen"))
 #+end_src
 
 The second leader is a secondary, "mode-specific" one accessed via =,=
@@ -3911,25 +3920,6 @@ my keybindings better...
 #+begin_src emacs-lisp
 (general-define-key :keymaps '(normal)
                     "C-w" 'jws/hydra-windows/body)
-#+end_src
-
-** Frame/"window" menu
-
-If you want to manage Emacs GUI windows, you want to manage *frames*.
-
-#+begin_src emacs-lisp
-(defhydra jws/hydra-frames (:exit t :columns 4)
-  ("n" make-frame "New window")
-  ("N" jws/make-maximized-frame "New maximized window")
-  ("x" delete-frame "Close window")
-
-  ("d" jws/use-default-frame-alist "Reset defaults")
-  ("c" jws/calculate-frame-size "Calculate row/cols")
-  ("m" toggle-frame-maximized "Toggle maximize")
-  ("f" toggle-frame-fullscreen "Toggle fullscreen"))
-
-(jws/primary-leader
-  "w" '(jws/hydra-frames/body :wk "Frames"))
 #+end_src
 
 ** Graphics menu
