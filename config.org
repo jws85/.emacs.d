@@ -2363,9 +2363,9 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
              lsp-workspace-folders-remove
              lsp-workspace-folders-add
              lsp-workspace-shutdown)
-  :config
-  ;; I haven't noticed problems at ~2500 files...
-  (setq lsp-file-watch-threshold 2000))
+  :custom
+  (lsp-file-watch-threshold 2000)
+  (lsp-intelephense-multi-root nil "Prevent intelephense multi-root"))
 #+end_src
 
 [[https://github.com/emacs-lsp/lsp-ui][lsp-ui]] adds some fancy features on top of =lsp-mode=:
