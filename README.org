@@ -31,8 +31,8 @@ date.  A while back, I re-oriented myself to work more like Spacemacs,
 so almost everything that isn't some kind of Evil binding is hanging
 off the Space key.
 
-If you're in a mode where Space doesn't work, =M-j= or =F2= *should*
-do the same thing.
+If you're in a mode where Space doesn't work, =C-SPC= *should* do the
+same thing.
 
 Specifically, =SPC f f= should open a file switcher and =SPC b b=
 should open a buffer switcher.  But I can't even guarantee those
@@ -52,9 +52,6 @@ it.
 
 * Future directions
 
- - I'm thinking about replacing =ivy= and friends with =selectrum= and
-   =ctrlf=.  I don't really have many problems with =ivy= but I like
-   the idea of something that hews closer to Emacs' own APIs.
-
- - I may replace a lot of the ad-hoc infrastructure I have for
-   keybinding with =general= at some point.
+ - I've been moving back to basics with a lot of packages; the next
+   thing for me to play with will be moving from projectile to
+   project.el.
