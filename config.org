@@ -949,9 +949,10 @@ and =selectrum=.
   :ensure t
   :general
   (jws/primary-leader
-    "bb" '(consult-buffer :wk "Switch")
-    "fr" '(consult-recent-file :wk "Recent")
-    "fb" '(consult-bookmark :wk "Bkmark")
+    "b b" '(consult-buffer :wk "Switch")
+    "f r" '(consult-recent-file :wk "Recent")
+    "f b" '(consult-bookmark :wk "Bkmark")
+    "o" '(consult-outline :wk "Outline")
     "r" '(consult-register-load :wk "LoadRegister")
     "R" '(consult-register-store :wk "SaveRegister")
     "/" '(consult-ripgrep :wk "Search"))
