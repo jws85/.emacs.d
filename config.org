@@ -2349,93 +2349,31 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
 #+begin_src emacs-lisp
 (use-package lsp-mode
   :defer t
-  :commands (lsp
-             lsp-describe-session
-             lsp-describe-thing-at-point
-             lsp-execute-code-action
-             lsp-find-declaration
-             lsp-find-type-definition
-             lsp-format-buffer
-             lsp-rename
-             lsp-restart-server
-             lsp-signature-help
-             lsp-workspace-restart
-             lsp-workspace-folders-remove
-             lsp-workspace-folders-add
-             lsp-workspace-shutdown)
+  :general
+  (jws/secondary-leader
+    :keymaps 'prog-mode-map
+    "l" '(:ignore t :wk "LSP")
+    "l h" '(lsp-describe-thing-at-point :wk "Help")
+    "l d" '(lsp-find-definition :wk "Definitions")
+    "l r" '(lsp-find-references :wk "References")
+    "l p" '(xref-pop-marker-stack :wk "PopStack")
+    "l l" '(lsp-find-declaration :wk "Declaration")
+    "l f" '(lsp-format-buffer :wk "FormatBuf")
+    "l n" '(lsp-rename :wk "Rename")
+    "l x" '(lsp-execute-code-action :wk "Action")
+
+    "l R" '(lsp-restart-server :wk "RestartServer")
+    "l S" '(lsp-describe-session :wk "DescSession")
+    "l w" '(:ignore t :wk "Workspace")
+    "l w r" '(lsp-workspace-restart :wk "Restart")
+    "l w x" '(lsp-workspace-folders-remove :wk "RemoveFolder")
+    "l w a" '(lsp-workspace-folders-add :wk "AddFolder")
+    "l w s" '(lsp-workspace-shutdown :wk "Shutdown"))
+  :commands (lsp lsp-deferred)
   :custom
-  (lsp-file-watch-threshold 2000)
+  (lsp-file-watch-threshold 5000)
+  (lsp-keep-workspace-alive nil)
   (lsp-intelephense-multi-root nil "Prevent intelephense multi-root"))
-#+end_src
-
-[[https://github.com/emacs-lsp/lsp-ui][lsp-ui]] adds some fancy features on top of =lsp-mode=:
-
-#+begin_src emacs-lisp
-(use-package lsp-ui
-  :after lsp-mode
-  :requires lsp-mode
-  :hook (lsp-mode-hook . lsp-ui-mode)
-  :commands (lsp-ui-peek-find-definitions
-             lsp-ui-peek-find-references
-             lsp-ui-peek-find-implementation
-             lsp-ui-doc-glance
-             lsp-ui-imenu)
-  :config
-  (setq lsp-ui-doc-enable t
-        lsp-ui-doc-use-childframe t
-        lsp-ui-doc-position 'at-point
-        lsp-ui-doc-max-height 25
-        lsp-ui-doc-max-width 60
-        lsp-ui-doc-include-signature t
-        lsp-ui-doc-delay 0.8
-        lsp-ui-sideline-enable nil
-        lsp-ui-peek-enable t
-        lsp-ui-peek-list-width 60
-        lsp-ui-peek-peek-height 25
-        lsp-ui-sideline-enable nil))
-#+end_src
-
-A hydra to control LSP (taken from [[https://github.com/abo-abo/hydra/wiki/lsp-mode][the examples on the hydra wiki]]):
-
-#+begin_src emacs-lisp
-(defhydra jws/hydra-lsp (:exit t :hint nil)
-  "
-Buffer^^             Server^^                 Symbol
------------------------------------------------------------------------------------------------------
-_f_ format           _C-r_ restart            _d_ definition   _i_ implementation  _o_ documentation
-_m_ imenu            _S_   shutdown           _D_ declaration  _t_ type            _R_ rename
-_x_ execute action   _C-s_ describe session   _r_ references   _s_ signature       _p_ pop stack
-^^                   _C-d_ remove folders
-^^                   _C-v_ restart server"
-  ("D" lsp-find-declaration)
-  ("d" lsp-ui-peek-find-definitions)
-  ("r" lsp-ui-peek-find-references)
-  ("i" lsp-ui-peek-find-implementation)
-  ("t" lsp-find-type-definition)
-  ("s" lsp-signature-help)
-  ("o" lsp-describe-thing-at-point)
-  ("R" lsp-rename)
-  ("p" xref-pop-marker-stack)
-
-  ("f" lsp-format-buffer)
-  ("m" lsp-ui-imenu)
-  ("x" lsp-execute-code-action)
-
-  ("C-s" lsp-describe-session)
-  ("C-r" lsp-restart-workspace)
-  ("C-d" lsp-workspace-folders-remove)
-  ("C-v" lsp-restart-server)
-  ("S" lsp-workspace-shutdown))
-#+end_src
-
-And bind it:
-
-#+begin_src emacs-lisp
-(add-hook 'lsp-mode-hook
-          (lambda ()
-            (jws/secondary-leader
-              :keymaps 'local
-              "l" '(jws/hydra-lsp/body :wk "LSP"))))
 #+end_src
 
 *** Browse Dash docsets with Zeal
