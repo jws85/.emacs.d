@@ -335,22 +335,6 @@ The [[https://github.com/abo-abo/hydra][hydra]] package allows for easy-ish inte
   :commands (defhydra))
 #+end_src
 
-The below allows for defining multiple hydras at once, each with different
-hydra-wide settings.  I use it to make a hydra that can "change colors" so
-the same menu can be used in blue one-shot mode and in red sticky mode.
-
-My lisp-fu is terrible and so I stole the following macro to do
-exactly this from [[https://github.com/abo-abo/hydra/issues/230][here]]:
-
-#+begin_src emacs-lisp
-(defmacro jws/defmultihydra (names-body &optional docstring &rest heads)
-  "Taken from https://github.com/abo-abo/hydra/issues/230"
-  (cons 'progn
-        (mapcar (lambda (nb)
-                  `(defhydra ,(car nb) ,(cdr nb) ,docstring ,@heads))
-                names-body)))
-#+end_src
-
 * Appearance/visuals
 
 I like a very minimal Emacs (and Vim) window since both were
@@ -736,6 +720,7 @@ autoloaded via =use-package=.
   "i" '(imenu :wk "Imenu")
   "k" '(kill-this-buffer :wk "KillBuf")
 
+  "s" '(:keymap evil-window-map t :wk "Windows")
   "v" '(:ignore t :wk "VC")
 
   "w" '(:ignore t :wk "Frames")
@@ -3804,64 +3789,6 @@ clipboard text:
 (defun jws/scratch-switch ()
   (interactive)
   (switch-to-buffer "*scratch*"))
-#+end_src
-
-** Window menu
-
-This menu manages editor splits, which Emacs calls *windows* because
-Emacs was written well before the Macintosh/Windows-era language we
-use to talk about GUIs.
-
-If you want to manage the actual GUI windows themselves, you actually
-want to manage *frames* and should be looking at the "Frame menu."
-
-#+begin_src emacs-lisp
-(jws/defmultihydra ((jws/hydra-windows :columns 4 :color blue)
-                    (jws/hydra-windows-sticky :columns 4))
-  "Buffer splitting"
-  ("<tab>" other-window "Prev")
-  ("RET" ace-window "Jump to")
-  ("<left>" winner-undo "Undo split")
-  ("<right>" winner-redo "Redo split")
-
-  ("h" evil-window-left "Left")
-  ("j" evil-window-down "Down")
-  ("k" evil-window-up "Up")
-  ("l" evil-window-right "Right")
-
-  ("H" buf-move-left "Move left")
-  ("J" buf-move-down "Move down")
-  ("K" buf-move-up "Move up")
-  ("L" buf-move-right "Move right")
-
-  ("C-h" shrink-window-horizontally "Shrink width")
-  ("C-l" enlarge-window-horizontally "Enlarge width")
-  ("C-k" shrink-window "Shrink height")
-  ("C-j" enlarge-window "Enlarge height")
-
-  ("-" split-window-below "Horiz split")
-  ("\\" split-window-right "Vert split")
-  ("|" split-window-right "Vert split")
-  ("=" balance-windows "Balance splits")
-
-  ("w" evil-window-next "Next window")
-  ("C-w" evil-window-next "Next window")
-  ("x" delete-window "Remove current")
-  ("X" delete-other-windows "Remove others")
-
-  ("s" jws/hydra-windows-sticky/body "Sticky"))
-
-(jws/primary-leader
-  "s" '(jws/hydra-windows/body :wk "Windows")
-  "S" '(jws/hydra-windows-sticky/body :wk "MultiWindows"))
-#+end_src
-
-Finally, let's replace Evil's split menu with mine, because I know
-my keybindings better...
-
-#+begin_src emacs-lisp
-(general-define-key :keymaps '(normal)
-                    "C-w" 'jws/hydra-windows/body)
 #+end_src
 
 ** Graphics menu
