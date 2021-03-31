@@ -248,6 +248,12 @@ these changes are from [[https://github.com/technomancy/better-defaults][better-
 turning off "security" settings, so I'd recommend understanding
 reading the documentation to each of these settings.
 
+Display the column number in the modeline.
+
+#+begin_src emacs-lisp
+(column-number-mode t)
+#+end_src
+
 Use the X clipboard rather than whatever skanky "selection" Emacs
 uses.
 
