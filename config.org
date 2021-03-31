@@ -1026,13 +1026,11 @@ mostly pretty simple.
   (global-anzu-mode +1))
 #+end_src
 
-** Text completion
+** =company=: Text completion
 
 [[http://company-mode.github.io/][company-mode]] is currently the go-to for providing text completion in
-Emacs.  I had previously gotten somewhat used to [[https://github.com/auto-complete/auto-complete][auto-complete]] and in
-many ways preferred that package to =company= -- but it's not
-seemingly maintained anymore.  So... we just hack the heck out of
-=company=.
+Emacs.  There's a lot of hacks here because I used to use
+[[https://github.com/auto-complete/auto-complete][auto-complete]] and prefer its defaults to =company='s.
 
 #+begin_src emacs-lisp
 (use-package company
