@@ -820,6 +820,10 @@ to that buffer regardless of Emacs defaults, so I hacked it in.
          (display-buffer-reuse-window jws/display-buffer-below-selected-and-switch)
          (window-height . 0.35)
          (side . bottom))
+        ("\\*lsp-help.*"
+         (display-buffer-reuse-window jws/display-buffer-below-selected-and-switch)
+         (window-height . 0.35)
+         (side . bottom))
         ("\\*Faces\\*"
          (jws/display-buffer-below-selected-and-switch)
          (window-height . 0.35)
