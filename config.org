@@ -2370,8 +2370,8 @@ To get Emacs to speak LSP, install [[https://github.com/emacs-lsp/lsp-mode][lsp-
     "l w s" '(lsp-workspace-shutdown :wk "Shutdown"))
   :commands (lsp lsp-deferred)
   :custom
-  (lsp-file-watch-threshold 5000)
-  (lsp-keep-workspace-alive nil)
+  (lsp-file-watch-threshold 5000 "Set file watch threshold higher")
+  (lsp-keep-workspace-alive nil "Kill workspace after last buffer closed")
   (lsp-intelephense-multi-root nil "Prevent intelephense multi-root"))
 #+end_src
 
