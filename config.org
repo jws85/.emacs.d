@@ -2017,11 +2017,13 @@ a heckuva lot easier to read.
 [[https://github.com/kiwanami/emacs-calfw][calfw]] gives a nice calendar view of org-agenda items.
 
 #+begin_src emacs-lisp
-(use-package calfw
-  :commands (cfw:open-calendar-buffer))
+(use-package calfw)
 
 (use-package calfw-org
-  :commands (cfw:open-org-calendar))
+  :after org-agenda calfw
+  :general
+  (jws/primary-leader
+    "C" '(cfw:open-org-calendar :wk "Calendar")))
 #+end_src
 
 *** Note taking
