@@ -986,6 +986,8 @@ more like a right-click contextual menu.
 (use-package embark
   :general
   (:keymaps 'override "C-'" 'embark-act)
+  (:keymaps 'embark-symbol-map
+            "-" 'jws/hydra-string-inflection/body)
   (:keymaps 'embark-region-map
             "TAB" 'tabify
             "SPC" 'untabify)
@@ -1500,6 +1502,14 @@ Evil command =g~=
 
 (use-package evil-string-inflection
   :after (string-inflection evil))
+
+(defhydra jws/hydra-string-inflection ()
+  "String inflection:"
+  ("c" #'string-inflection-camelcase "camelCase")
+  ("k" #'string-inflection-kebab-case "kebab-case")
+  ("-" #'string-inflection-kebab-case "kebab-case")
+  ("s" #'string-inflection-underscore "underscore_case")
+  ("u" #'string-inflection-upcase "UP_CASE"))
 #+end_src
 
 ** Whitespace settings
